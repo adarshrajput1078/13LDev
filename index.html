@@ -128,8 +128,8 @@
         <div id="pending-box">
             <div id="pending-status-text">CONNECTING TO SERVER...</div>
             <div id="reject-reason" style="color:var(--theme-red); font-size:10px; margin-top:6px; display:none;"></div>
-            <!-- 🔥 NEW TRY AGAIN BUTTON FOR REJECTED USERS -->
-            <button id="retry-btn" class="auth-btn" style="display:none; margin-top:10px; background:transparent; border:1px solid var(--theme-red); color:var(--theme-red); padding: 8px;" onclick="resetLogin()">TRY AGAIN</button>
+            <!-- 🔥 FIX: RE-TRY BUTTON ALWAYS SHOWS ON REJECT/EXPIRE -->
+            <button id="retry-btn" class="auth-btn" style="display:none; margin-top:10px; background:transparent; border:1px solid var(--theme-red); color:var(--theme-red); padding: 8px;" onclick="resetLogin()">TRY AGAIN / CHANGE ID</button>
         </div>
     </div>
 
@@ -138,7 +138,7 @@
         <div class="tut-title">💎 ABOUT DREAM DEVELOPER 💎</div>
         <div class="tut-step">
             <strong>🚫 STOP AT PROFIT:</strong><br>
-            Game server unko track karta hai jo lalach karke pura din khelte hain. Daily profit target set karo aur game band karo. Over-trading = 100% loss.
+            Game server tracks players who get greedy. Set a daily profit target and stop immediately once achieved. Over-trading guarantees 100% loss.
         </div>
         <div class="tut-step">
             <strong>1. PREV RESULT:</strong><br>
@@ -146,7 +146,7 @@
         </div>
         <div class="tut-step">
             <strong>2. OFFSET [-]:</strong><br>
-            Normally keep this <strong>"0"</strong>. Use 1 or 2 only if server manipulating.
+            Keep this <strong>"0"</strong> normally. Use 1 or 2 only if the server is manipulating trends.
         </div>
         <button class="close-tut-btn" onclick="closeTutorial()">I UNDERSTAND</button>
     </div>
@@ -239,9 +239,18 @@
 
         window.openTutorial = () => { playClick(); document.getElementById('overlay').classList.add('active'); document.getElementById('tutorial-modal').classList.add('active'); }
         window.closeTutorial = () => { playClick(); document.getElementById('tutorial-modal').classList.remove('active'); if(!document.getElementById('uid-gateway').classList.contains('active')) { document.getElementById('overlay').classList.remove('active'); } }
-        window.closeAllModals = () => { document.getElementById('uid-gateway').classList.remove('active'); document.getElementById('tutorial-modal').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); }
+        
+        // 🔥 FIX: Modal close hone par icon wapas visible hona chahiye agar hack band hai
+        window.closeAllModals = () => { 
+            document.getElementById('uid-gateway').classList.remove('active'); 
+            document.getElementById('tutorial-modal').classList.remove('active'); 
+            document.getElementById('overlay').classList.remove('active'); 
+            if(!document.getElementById('main-app').classList.contains('active-menu')) {
+                document.getElementById('floating-icon').style.display = 'flex';
+            }
+        }
 
-        // 🔥 FIX 1: RESUBMIT LOGIN FUNCTION
+        // 🔥 FIX: Reset Login function properly reset karega
         window.resetLogin = function() {
             playClick();
             localStorage.removeItem('kevin_tool_uid');
@@ -250,16 +259,13 @@
             showInputBox();
         };
 
-        // ADMIN SETTINGS LISTENER (Added Maintenance Check)
         onValue(ref(db, 'admin_settings'), (snapshot) => {
             const data = snapshot.val();
             if(data) {
-                // MAINTENANCE MODE CHECK
                 if(data.maintenance === true) {
                     document.body.innerHTML = "<div style='display:flex; height:100vh; width:100vw; background:#000; color:var(--theme-gold); align-items:center; justify-content:center; flex-direction:column; font-family:var(--font-display); font-weight:800;'><div style='font-size:40px; margin-bottom:10px;'>🛠️</div><div>SYSTEM MAINTENANCE</div><div style='font-size:12px; color:#aaa; margin-top:5px; font-weight:400;'>Please check back later.</div></div>";
                     return;
                 }
-
                 if(data.gameUrl) document.getElementById('game-frame').src = data.gameUrl;
                 isServerOnline = data.serverOnline; forcedResult = data.forceResult || "AUTO";
                 activePattern = data.activePattern || "Dragon-Breaker";
@@ -280,17 +286,24 @@
             }
         });
 
+        // 🔥 FIX: Gateway Logic
         function listenUIDStatus() {
             if(!savedUID) return;
             onValue(ref(db, 'users/' + savedUID), (snapshot) => {
                 const userData = snapshot.val();
-                if (!userData) { currentStatus = null; localStorage.removeItem('kevin_tool_uid'); savedUID = null; document.getElementById('floating-icon').style.display = 'none'; return; }
+                if (!userData) { currentStatus = null; localStorage.removeItem('kevin_tool_uid'); savedUID = null; return; }
                 
                 if(userData.personalAlert && userData.personalAlert.ts > window.lastPersonalAlertTs) { window.lastPersonalAlertTs = userData.personalAlert.ts; if(window.isFirstLoadDone) { showToast("📩 MESSAGE:\n" + userData.personalAlert.msg, "var(--theme-gold)"); if(audioUnlocked) document.getElementById('sfx-success').play().catch(e=>{}); } }
                 
                 if(userData.status === 'approved') {
                     if(userData.deviceID === "UNBOUND") { update(ref(db, 'users/' + savedUID), { deviceID: myDeviceID }); } 
-                    else if(userData.deviceID && userData.deviceID !== myDeviceID) { currentStatus = 'mismatch'; showToast("Device Authorization Failed", "var(--theme-red)"); document.getElementById('floating-icon').style.display = 'none'; closeHack(); return; }
+                    else if(userData.deviceID && userData.deviceID !== myDeviceID) { 
+                        currentStatus = 'mismatch'; 
+                        closeHack(); 
+                        forceOpenGateway();
+                        showStatusBox("DEVICE BLOCKED", "var(--theme-red)", true);
+                        return; 
+                    }
                 }
                 
                 currentStatus = userData.status;
@@ -299,21 +312,38 @@
                 
                 if(currentStatus === 'approved') {
                     if(!document.getElementById('main-app').classList.contains('active-menu')) document.getElementById('floating-icon').style.display = 'flex';
-                    document.getElementById('user-uid-display').innerText = `ID: ${savedUID}`;
-                    if(document.getElementById('uid-gateway').classList.contains('active')) { showStatusBox("ACCESS GRANTED", "var(--theme-gold)", false); setTimeout(() => { closeAllModals(); document.getElementById('floating-icon').style.display = 'none'; document.getElementById('main-app').classList.add('active-menu'); }, 1000); }
-                } else { document.getElementById('floating-icon').style.display = 'none'; closeHack(); }
+                    if(document.getElementById('uid-gateway').classList.contains('active')) { 
+                        showStatusBox("ACCESS GRANTED", "var(--theme-gold)", false); 
+                        setTimeout(() => { closeAllModals(); document.getElementById('floating-icon').style.display = 'none'; document.getElementById('main-app').classList.add('active-menu'); }, 1000); 
+                    }
+                } else { 
+                    // 🔥 FIX: Agar Approved nahi hai (Reject/Pending) toh menu band karke direct Gateway Pop-up kholo
+                    closeHack(); 
+                    forceOpenGateway();
+                    
+                    if(currentStatus === 'rejected') showStatusBox("ACCESS DENIED", "var(--theme-red)", true);
+                    else if(currentStatus === 'expired') showStatusBox("PLAN EXPIRED", "var(--theme-red)", true);
+                    else if(currentStatus === 'pending') showStatusBox("AWAITING APPROVAL...", "var(--theme-gold)", false);
+                }
                 window.isFirstLoadDone = true;
             });
         }
         if (savedUID) listenUIDStatus();
 
+        // Gateway helper function
+        function forceOpenGateway() {
+            document.getElementById('floating-icon').style.display = 'none'; // hide icon when gateway is open
+            document.getElementById('uid-gateway').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+        }
+
         window.handleIconClick = function() {
             if(isDragIcon) return; playClick();
-            if(!savedUID || currentStatus === null) { document.getElementById('uid-gateway').classList.add('active'); document.getElementById('overlay').classList.add('active'); showInputBox(); } 
-            else if (currentStatus === 'mismatch') { document.getElementById('uid-gateway').classList.add('active'); document.getElementById('overlay').classList.add('active'); showStatusBox("DEVICE BLOCKED", "var(--theme-red)", false); } 
-            else if (currentStatus === 'expired') { document.getElementById('uid-gateway').classList.add('active'); document.getElementById('overlay').classList.add('active'); showStatusBox("PLAN EXPIRED", "var(--theme-red)", false); } 
-            else if (currentStatus === 'rejected') { document.getElementById('uid-gateway').classList.add('active'); document.getElementById('overlay').classList.add('active'); showStatusBox("ACCESS DENIED", "var(--theme-red)", true); } 
-            else if (currentStatus === 'pending') { document.getElementById('uid-gateway').classList.add('active'); document.getElementById('overlay').classList.add('active'); showStatusBox("AWAITING APPROVAL...", "var(--theme-gold)", false); } 
+            if(!savedUID || currentStatus === null) { forceOpenGateway(); showInputBox(); } 
+            else if (currentStatus === 'mismatch') { forceOpenGateway(); showStatusBox("DEVICE BLOCKED", "var(--theme-red)", true); } 
+            else if (currentStatus === 'expired') { forceOpenGateway(); showStatusBox("PLAN EXPIRED", "var(--theme-red)", true); } 
+            else if (currentStatus === 'rejected') { forceOpenGateway(); showStatusBox("ACCESS DENIED", "var(--theme-red)", true); document.getElementById('reject-reason').style.display = "block"; } 
+            else if (currentStatus === 'pending') { forceOpenGateway(); showStatusBox("AWAITING APPROVAL...", "var(--theme-gold)", false); } 
             else if (currentStatus === 'approved') { document.getElementById('floating-icon').style.display = 'none'; document.getElementById('main-app').classList.add('active-menu'); }
         }
 
@@ -325,18 +355,18 @@
             const btn = document.getElementById('submit-btn'); 
             btn.innerText = "VERIFY ACCOUNT"; 
             btn.disabled = false; 
-            document.getElementById('uid-input').value = ""; // Clear input for resubmit
+            document.getElementById('uid-input').value = ""; 
         }
         
-        function showStatusBox(title, color, isRejected) { 
+        function showStatusBox(title, color, showRetry) { 
             document.getElementById('input-section').style.display = 'none'; 
             let pBox = document.getElementById('pending-box'); 
             pBox.style.display = 'block'; 
             pBox.style.borderColor = color; 
             pBox.style.color = color; 
             document.getElementById('pending-status-text').innerText = title; 
-            document.getElementById('reject-reason').style.display = isRejected ? "block" : "none"; 
-            document.getElementById('retry-btn').style.display = isRejected ? "block" : "none"; 
+            document.getElementById('reject-reason').style.display = showRetry ? "block" : "none"; 
+            document.getElementById('retry-btn').style.display = showRetry ? "block" : "none"; 
         }
 
         window.submitUID = function() {
@@ -405,7 +435,6 @@
             isProcessing = false;
         }
 
-        // 🔥 FIX 2: ICON DRAG VS CLICK SENSITIVITY
         const mainApp = document.getElementById('main-app'); const dragHandle = document.getElementById('drag-handle');
         let isDraggingMenu = false, offsetX, offsetY;
         dragHandle.addEventListener('touchstart', (e) => { isDraggingMenu = true; offsetX = e.touches[0].clientX - mainApp.getBoundingClientRect().left; offsetY = e.touches[0].clientY - mainApp.getBoundingClientRect().top; }, {passive: true});
@@ -418,7 +447,6 @@
         document.addEventListener('touchmove', (e) => { 
             if (!isDraggingIcon) return; 
             let moveX = e.touches[0].clientX; let moveY = e.touches[0].clientY; 
-            // SENSITIVITY INCREASED TO 20px (Ab galti se drag nahi hoga)
             if(Math.abs(moveX - startX) > 20 || Math.abs(moveY - startY) > 20) { 
                 isDragIcon = true; e.preventDefault(); 
                 let newX = moveX - offsetX; let newY = moveY - offsetY; 

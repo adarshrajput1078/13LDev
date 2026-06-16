@@ -3,25 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>13L VIP Engine | Compact</title>
+    <title>Dream Developer | VIP Engine</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Share+Tech+Mono&display=swap');
         
-        /* 13L.GAME COLOR PALETTE */
-        :root { 
-            --theme-bg: #1c1c1e; 
-            --theme-panel: rgba(28, 28, 30, 0.95);
-            --theme-red: #e52b2b;
-            --theme-dark-red: #9e1414;
-            --theme-gold: #ffd700;
-            --theme-gold-dark: #b8860b;
-            --tc-green: #17b15e; 
-            --tc-red: #ff2742; 
-            --tc-violet: #9c27b0; 
-            --font-display: 'Poppins', sans-serif; 
-            --font-mono: 'Share Tech Mono', monospace; 
-        }
-
+        :root { --theme-bg: #1c1c1e; --theme-panel: rgba(28, 28, 30, 0.95); --theme-red: #e52b2b; --theme-dark-red: #9e1414; --theme-gold: #ffd700; --theme-gold-dark: #b8860b; --tc-green: #17b15e; --tc-red: #ff2742; --tc-violet: #9c27b0; --font-display: 'Poppins', sans-serif; --font-mono: 'Share Tech Mono', monospace; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; margin: 0; padding: 0; }
         body { overflow: hidden; background-color: #000; font-family: var(--font-display); color: #fff; touch-action: none; }
 
@@ -29,15 +15,15 @@
         
         /* MINI FLOATING ICON */
         #floating-icon { 
-            position: fixed; top: 50%; left: 10px; width: 40px; height: 40px; 
+            position: fixed; top: 50%; left: 10px; width: 45px; height: 45px; 
             background: linear-gradient(135deg, var(--theme-dark-red), #000); 
             border: 2px solid var(--theme-gold); 
-            border-radius: 10px; display: flex; align-items: center; justify-content: center; 
+            border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-direction: column;
             z-index: 9999; box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3); cursor: pointer; 
             backdrop-filter: blur(10px); will-change: left, top, transform; transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         #floating-icon:active { transform: scale(0.9); box-shadow: 0 2px 8px rgba(255, 215, 0, 0.2); }
-        .custom-logo { width: 100%; height: 100%; border-radius: 8px; object-fit: cover; pointer-events: none;}
+        .logo-text { font-size: 8px; font-weight: 800; color: var(--theme-gold); text-align: center; line-height: 1.1; font-family: var(--font-display);}
 
         .overlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.8); backdrop-filter: blur(5px); z-index: 10000; opacity: 0; pointer-events: none; transition: 0.3s ease; }
         .overlay.active { opacity: 1; pointer-events: auto; }
@@ -58,14 +44,14 @@
         #pending-box { display: none; padding: 10px; background: rgba(255, 215, 0, 0.1); border: 1px solid rgba(255, 215, 0, 0.4); border-radius: 6px; color: var(--theme-gold); font-size: 10px; font-weight: 600; animation: pulseSoft 2s infinite;}
         @keyframes pulseSoft { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
-        /* 🔥 COMPACT MOD PANEL */
+        /* COMPACT MOD PANEL */
         .mod-panel {
             position: fixed; top: 12%; left: 5vw; 
-            width: 200px; /* Reduced Width */
+            width: 220px; 
             background: var(--theme-panel); 
             backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
             border: 1px solid var(--theme-gold-dark); border-radius: 12px;
-            display: flex; flex-direction: column; align-items: center; padding: 12px; /* Reduced Padding */
+            display: flex; flex-direction: column; align-items: center; padding: 12px; 
             z-index: 100000; box-shadow: 0 10px 30px rgba(0,0,0,0.9), inset 0 0 15px rgba(255,215,0,0.05);
             opacity: 0; pointer-events: none; transform: scale(0.95) translateY(20px); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             will-change: transform, opacity, left, top; 
@@ -74,17 +60,17 @@
 
         .panel-header { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; position: relative; z-index: 10;}
         .drag-zone { position: absolute; top: -10px; left: 0; width: 75%; height: 150%; z-index: 10; cursor: grab;}
-        .panel-title { font-size: 12px; font-weight: 800; color: #fff; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px; background: linear-gradient(to right, #fff, #ffd700); -webkit-background-clip: text; -webkit-text-fill-color: transparent;}
+        .panel-title { font-size: 13px; font-weight: 800; color: #fff; letter-spacing: 0.5px; display: flex; align-items: center; gap: 4px; background: linear-gradient(to right, #fff, #ffd700); -webkit-background-clip: text; -webkit-text-fill-color: transparent;}
         .btn-hide { background: #222; border: 1px solid #444; color: #aaa; font-family: var(--font-display); font-size: 8px; font-weight: 600; padding: 3px 8px; border-radius: 4px; cursor: pointer; z-index: 15;}
 
-        .info-row { width: 100%; display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; position: relative; z-index: 5;}
-        .uid-badge { font-family: var(--font-mono); font-size: 9px; color: var(--theme-gold); background: rgba(255,215,0,0.1); border: 1px solid rgba(255,215,0,0.3); padding: 2px 6px; border-radius: 4px; font-weight: bold;}
-        .timer-val { font-family: var(--font-mono); font-size: 14px; font-weight: bold; color: #fff; }
-        
+        .action-row { display: flex; width: 100%; gap: 5px; margin-bottom: 8px; position: relative; z-index: 5;}
+        .btn-mini { flex: 1; padding: 6px; background: #111; border: 1px solid #333; color: var(--theme-gold); font-size: 8px; font-weight: 800; border-radius: 4px; cursor: pointer; transition: 0.2s;}
+        .btn-mini:active { background: #222; }
+
         .full-period-box { width: 100%; background: #121212; border: 1px solid #333; border-radius: 4px; padding: 4px; text-align: center; margin-bottom: 8px; position: relative; z-index: 5;}
         .period-text { font-family: var(--font-mono); font-size: 10px; color: var(--theme-gold); letter-spacing: 0.5px;}
         
-        /* MINI RESULT UI */
+        /* RESULT UI */
         .result-box { position: relative; width: 100%; height: 65px; background: #0a0a0a; border: 1px solid #333; border-radius: 8px; display: flex; flex-direction: column; align-items: center; justify-content: center; margin-bottom: 8px; transition: all 0.3s ease; z-index: 5; box-shadow: inset 0 0 10px rgba(0,0,0,0.8);}
         .loader-ring { position: absolute; width: 25px; height: 25px; border: 2px solid rgba(255, 215, 0, 0.1); border-top: 2px solid var(--theme-gold); border-radius: 50%; animation: spinLight 1s linear infinite; opacity: 0; transition: 0.3s;}
         .result-box.injecting .loader-ring { opacity: 1; }
@@ -97,16 +83,12 @@
         .size-text { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;}
         .color-text { font-size: 8px; font-weight: 600; color: #888; letter-spacing: 0.5px; font-family: var(--font-mono);}
 
-        /* COMPACT INPUTS */
         .terminal-input-wrap { display: flex; align-items: center; width: 100%; background: #121212; border: 1px solid #333; border-radius: 4px; padding: 0 8px; margin-bottom: 8px; position: relative; z-index: 5;}
         .terminal-label { color: #aaa; font-family: var(--font-display); font-size: 9px; font-weight: 600; margin-right: 5px;}
         .algo-input { background: transparent; border: none; color: var(--theme-gold); width: 100%; text-align: right; font-family: var(--font-mono); font-size: 11px; outline: none; padding: 6px 0; font-weight: bold;}
 
-        /* COMPACT BUTTON */
         .circ-btn { width: 100%; background: linear-gradient(to bottom, var(--theme-red), var(--theme-dark-red)); border: 1px solid #ff4d4d; color: #fff; font-family: var(--font-display); font-weight: 800; font-size: 11px; padding: 10px; border-radius: 6px; cursor: pointer; transition: 0.3s; position: relative; z-index: 5; letter-spacing: 0.5px; box-shadow: 0 4px 10px rgba(229, 43, 43, 0.3); text-transform: uppercase;}
         .circ-btn:active { transform: scale(0.97); }
-
-        .btn-how-to { margin-top: 8px; background: transparent; border: none; color: var(--theme-gold); font-family: var(--font-display); font-size: 9px; font-weight: 800; cursor: pointer; text-decoration: underline; letter-spacing: 0.5px;}
 
         /* TUTORIAL POPUP */
         #tutorial-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.95); background: var(--theme-panel); border: 2px solid var(--theme-gold-dark); padding: 15px; border-radius: 10px; box-shadow: 0 15px 40px rgba(0,0,0,0.9); width: 85vw; max-width: 280px; z-index: 100005; opacity: 0; pointer-events: none; transition: 0.3s ease; backdrop-filter: blur(15px); }
@@ -130,8 +112,7 @@
     <iframe id="game-frame" src="https://13l.game" title="Live Game"></iframe>
     
     <div id="floating-icon">
-        <img src="logo.png" alt="VIP" class="custom-logo" onerror="this.style.display='none'">
-        <span style="color:var(--theme-gold); font-size: 12px; font-weight: 900; position: absolute;" id="icon-text">13L</span>
+        <div class="logo-text">DREAM<br>DEV</div>
     </div>
 
     <div class="overlay" id="overlay" onclick="closeAllModals()"></div>
@@ -139,7 +120,7 @@
     <!-- LOGIN GATEWAY -->
     <div id="uid-gateway">
         <div class="close-gateway" onclick="closeAllModals()">✖</div>
-        <div class="auth-title">13L VIP ACCESS</div>
+        <div class="auth-title">DREAM VIP ACCESS</div>
         <div id="input-section">
             <input type="number" id="uid-input" class="auth-input" placeholder="ENTER GAME UID">
             <button class="auth-btn" id="submit-btn" onclick="submitUID()">VERIFY ACCOUNT</button>
@@ -147,23 +128,25 @@
         <div id="pending-box">
             <div id="pending-status-text">CONNECTING TO SERVER...</div>
             <div id="reject-reason" style="color:var(--theme-red); font-size:10px; margin-top:6px; display:none;"></div>
+            <!-- 🔥 NEW TRY AGAIN BUTTON FOR REJECTED USERS -->
+            <button id="retry-btn" class="auth-btn" style="display:none; margin-top:10px; background:transparent; border:1px solid var(--theme-red); color:var(--theme-red); padding: 8px;" onclick="resetLogin()">TRY AGAIN</button>
         </div>
     </div>
 
     <!-- HOW TO WORK TUTORIAL -->
     <div id="tutorial-modal">
-        <div class="tut-title">🎯 HOW TO USE TOOL</div>
+        <div class="tut-title">💎 ABOUT DREAM DEVELOPER 💎</div>
         <div class="tut-step">
-            <strong>1. PREV RESULT Box:</strong><br>
-            Check the live game chart. Look at the last generated number. Type that exact Number (0-9) inside this box.
+            <strong>🚫 STOP AT PROFIT:</strong><br>
+            Game server unko track karta hai jo lalach karke pura din khelte hain. Daily profit target set karo aur game band karo. Over-trading = 100% loss.
         </div>
         <div class="tut-step">
-            <strong>2. OFFSET [-] Box:</strong><br>
-            Keep this at <strong>"0"</strong> normally. Change to 1 or 2 only if results are shifting by 1 step.
+            <strong>1. PREV RESULT:</strong><br>
+            Check the live game chart. Enter the exact last Final Number (0-9).
         </div>
         <div class="tut-step">
-            <strong>3. GET PREDICTION:</strong><br>
-            Click the main button. The AI will scan the Period ID + Previous Result to calculate the safest bet.
+            <strong>2. OFFSET [-]:</strong><br>
+            Normally keep this <strong>"0"</strong>. Use 1 or 2 only if server manipulating.
         </div>
         <button class="close-tut-btn" onclick="closeTutorial()">I UNDERSTAND</button>
     </div>
@@ -172,14 +155,15 @@
     <div class="mod-panel" id="main-app">
         <div class="panel-header">
             <div class="drag-zone" id="drag-handle"></div>
-            <div class="panel-title">13L <span>PREMIUM</span></div>
+            <div class="panel-title">DREAM <span>DEVELOPER</span></div>
             <button class="btn-hide" onclick="hideHack()">HIDE</button>
         </div>
 
         <div id="active-session-ui" style="display: flex; flex-direction: column; width:100%; align-items:center;">
-            <div class="info-row">
-                <div class="uid-badge" id="user-uid-display">ID: -----</div>
-                <div class="timer-val" id="display-timer">00:00</div>
+            
+            <div class="action-row">
+                <button class="btn-mini" onclick="openTutorial()">[?] ABOUT</button>
+                <div class="btn-mini" style="text-align: center; border-color: var(--theme-red); pointer-events: none;" id="display-timer">00:00</div>
             </div>
             
             <div class="full-period-box"><div class="period-text" id="display-period">ID: CONNECTING...</div></div>
@@ -188,7 +172,7 @@
                 <div class="loader-ring"></div>
                 <div class="trading-result" id="trading-result">
                     <div class="ball-container">
-                        <div class="color-ball bg-gray" id="res-ball">13</div>
+                        <div class="color-ball bg-gray" id="res-ball">V5</div>
                     </div>
                     <div class="result-text-block">
                         <div class="size-text" id="res-size" style="color:#666;">STANDBY</div>
@@ -210,8 +194,6 @@
             
             <button class="circ-btn" id="hack-btn" onclick="startAnalysisExecution()">GET VIP PREDICTION</button>
 
-            <!-- TUTORIAL BUTTON -->
-            <button class="btn-how-to" onclick="openTutorial()">[?] HOW TO WORK</button>
         </div>
 
         <div id="locked-session-ui" class="lock-container">
@@ -221,7 +203,7 @@
         </div>
     </div>
 
-    <!-- SCRIPT REMAINS THE SAME -->
+    <!-- SCRIPT FIREBASE LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getDatabase, ref, onValue, set, get, update } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
@@ -259,9 +241,25 @@
         window.closeTutorial = () => { playClick(); document.getElementById('tutorial-modal').classList.remove('active'); if(!document.getElementById('uid-gateway').classList.contains('active')) { document.getElementById('overlay').classList.remove('active'); } }
         window.closeAllModals = () => { document.getElementById('uid-gateway').classList.remove('active'); document.getElementById('tutorial-modal').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); }
 
+        // 🔥 FIX 1: RESUBMIT LOGIN FUNCTION
+        window.resetLogin = function() {
+            playClick();
+            localStorage.removeItem('kevin_tool_uid');
+            savedUID = null;
+            currentStatus = null;
+            showInputBox();
+        };
+
+        // ADMIN SETTINGS LISTENER (Added Maintenance Check)
         onValue(ref(db, 'admin_settings'), (snapshot) => {
             const data = snapshot.val();
             if(data) {
+                // MAINTENANCE MODE CHECK
+                if(data.maintenance === true) {
+                    document.body.innerHTML = "<div style='display:flex; height:100vh; width:100vw; background:#000; color:var(--theme-gold); align-items:center; justify-content:center; flex-direction:column; font-family:var(--font-display); font-weight:800;'><div style='font-size:40px; margin-bottom:10px;'>🛠️</div><div>SYSTEM MAINTENANCE</div><div style='font-size:12px; color:#aaa; margin-top:5px; font-weight:400;'>Please check back later.</div></div>";
+                    return;
+                }
+
                 if(data.gameUrl) document.getElementById('game-frame').src = data.gameUrl;
                 isServerOnline = data.serverOnline; forcedResult = data.forceResult || "AUTO";
                 activePattern = data.activePattern || "Dragon-Breaker";
@@ -296,13 +294,13 @@
                 }
                 
                 currentStatus = userData.status;
-                if(currentStatus === 'rejected') document.getElementById('reject-reason').innerText = userData.reason || "Access Denied.";
+                if(currentStatus === 'rejected') document.getElementById('reject-reason').innerText = userData.reason || "Access Denied by Admin.";
                 if(currentStatus === 'approved' && userData.expiry && Date.now() > userData.expiry) currentStatus = 'expired';
                 
                 if(currentStatus === 'approved') {
                     if(!document.getElementById('main-app').classList.contains('active-menu')) document.getElementById('floating-icon').style.display = 'flex';
                     document.getElementById('user-uid-display').innerText = `ID: ${savedUID}`;
-                    if(document.getElementById('uid-gateway').classList.contains('active')) { showStatusBox("ACCESS GRANTED", "var(--theme-gold)"); setTimeout(() => { closeAllModals(); document.getElementById('floating-icon').style.display = 'none'; document.getElementById('main-app').classList.add('active-menu'); }, 1000); }
+                    if(document.getElementById('uid-gateway').classList.contains('active')) { showStatusBox("ACCESS GRANTED", "var(--theme-gold)", false); setTimeout(() => { closeAllModals(); document.getElementById('floating-icon').style.display = 'none'; document.getElementById('main-app').classList.add('active-menu'); }, 1000); }
                 } else { document.getElementById('floating-icon').style.display = 'none'; closeHack(); }
                 window.isFirstLoadDone = true;
             });
@@ -312,16 +310,34 @@
         window.handleIconClick = function() {
             if(isDragIcon) return; playClick();
             if(!savedUID || currentStatus === null) { document.getElementById('uid-gateway').classList.add('active'); document.getElementById('overlay').classList.add('active'); showInputBox(); } 
-            else if (currentStatus === 'mismatch') { document.getElementById('uid-gateway').classList.add('active'); document.getElementById('overlay').classList.add('active'); showStatusBox("DEVICE BLOCKED", "var(--theme-red)"); } 
-            else if (currentStatus === 'expired') { document.getElementById('uid-gateway').classList.add('active'); document.getElementById('overlay').classList.add('active'); showStatusBox("PLAN EXPIRED", "var(--theme-red)"); } 
-            else if (currentStatus === 'rejected') { document.getElementById('uid-gateway').classList.add('active'); document.getElementById('overlay').classList.add('active'); showStatusBox("ACCESS DENIED", "var(--theme-red)"); document.getElementById('reject-reason').style.display = "block"; } 
-            else if (currentStatus === 'pending') { document.getElementById('uid-gateway').classList.add('active'); document.getElementById('overlay').classList.add('active'); showStatusBox("AWAITING APPROVAL...", "var(--theme-gold)"); } 
+            else if (currentStatus === 'mismatch') { document.getElementById('uid-gateway').classList.add('active'); document.getElementById('overlay').classList.add('active'); showStatusBox("DEVICE BLOCKED", "var(--theme-red)", false); } 
+            else if (currentStatus === 'expired') { document.getElementById('uid-gateway').classList.add('active'); document.getElementById('overlay').classList.add('active'); showStatusBox("PLAN EXPIRED", "var(--theme-red)", false); } 
+            else if (currentStatus === 'rejected') { document.getElementById('uid-gateway').classList.add('active'); document.getElementById('overlay').classList.add('active'); showStatusBox("ACCESS DENIED", "var(--theme-red)", true); } 
+            else if (currentStatus === 'pending') { document.getElementById('uid-gateway').classList.add('active'); document.getElementById('overlay').classList.add('active'); showStatusBox("AWAITING APPROVAL...", "var(--theme-gold)", false); } 
             else if (currentStatus === 'approved') { document.getElementById('floating-icon').style.display = 'none'; document.getElementById('main-app').classList.add('active-menu'); }
         }
 
         window.hideHack = function() { playClick(); document.getElementById('main-app').classList.remove('active-menu'); document.getElementById('floating-icon').style.display = 'flex'; }
-        function showInputBox() { document.getElementById('input-section').style.display = 'block'; document.getElementById('pending-box').style.display = 'none'; const btn = document.getElementById('submit-btn'); btn.innerText = "VERIFY ACCOUNT"; btn.disabled = false; }
-        function showStatusBox(title, color) { document.getElementById('input-section').style.display = 'none'; let pBox = document.getElementById('pending-box'); pBox.style.display = 'block'; pBox.style.borderColor = color; pBox.style.color = color; document.getElementById('pending-status-text').innerText = title; document.getElementById('reject-reason').style.display = "none"; }
+        
+        function showInputBox() { 
+            document.getElementById('input-section').style.display = 'block'; 
+            document.getElementById('pending-box').style.display = 'none'; 
+            const btn = document.getElementById('submit-btn'); 
+            btn.innerText = "VERIFY ACCOUNT"; 
+            btn.disabled = false; 
+            document.getElementById('uid-input').value = ""; // Clear input for resubmit
+        }
+        
+        function showStatusBox(title, color, isRejected) { 
+            document.getElementById('input-section').style.display = 'none'; 
+            let pBox = document.getElementById('pending-box'); 
+            pBox.style.display = 'block'; 
+            pBox.style.borderColor = color; 
+            pBox.style.color = color; 
+            document.getElementById('pending-status-text').innerText = title; 
+            document.getElementById('reject-reason').style.display = isRejected ? "block" : "none"; 
+            document.getElementById('retry-btn').style.display = isRejected ? "block" : "none"; 
+        }
 
         window.submitUID = function() {
             playClick(); const uidInput = document.getElementById('uid-input').value; const btn = document.getElementById('submit-btn');
@@ -330,17 +346,17 @@
             get(ref(db, 'users/' + uidInput)).then((snapshot) => {
                 if(snapshot.exists()) {
                     if(snapshot.val().deviceID && snapshot.val().deviceID !== myDeviceID && snapshot.val().deviceID !== "UNBOUND") { showToast("UID bound to another device!", "var(--theme-red)"); btn.innerText = "VERIFY ACCOUNT"; btn.disabled = false; return; }
-                    localStorage.setItem('kevin_tool_uid', uidInput); savedUID = uidInput; showStatusBox("DATA FOUND, VERIFYING...", "var(--theme-gold)"); setTimeout(() => { listenUIDStatus(); }, 600);
-                } else { set(ref(db, 'users/' + uidInput), { status: 'pending', timestamp: Date.now(), deviceID: myDeviceID }).then(() => { localStorage.setItem('kevin_tool_uid', uidInput); savedUID = uidInput; showStatusBox("REQUEST SENT...", "var(--theme-gold)"); setTimeout(() => { listenUIDStatus(); showStatusBox("AWAITING APPROVAL...", "var(--theme-gold)"); }, 800); }); }
+                    localStorage.setItem('kevin_tool_uid', uidInput); savedUID = uidInput; showStatusBox("DATA FOUND, VERIFYING...", "var(--theme-gold)", false); setTimeout(() => { listenUIDStatus(); }, 600);
+                } else { set(ref(db, 'users/' + uidInput), { status: 'pending', timestamp: Date.now(), deviceID: myDeviceID }).then(() => { localStorage.setItem('kevin_tool_uid', uidInput); savedUID = uidInput; showStatusBox("REQUEST SENT...", "var(--theme-gold)", false); setTimeout(() => { listenUIDStatus(); showStatusBox("AWAITING APPROVAL...", "var(--theme-gold)", false); }, 800); }); }
             }).catch(err => { btn.innerText = "VERIFY ACCOUNT"; btn.disabled = false; showToast("Network Error!", "var(--theme-red)"); });
         }
 
-        function resetToStandby() { document.getElementById('res-ball').className = "color-ball bg-gray"; document.getElementById('res-ball').innerText = "13L"; document.getElementById('res-size').innerText = "STANDBY"; document.getElementById('res-size').style.color = "#666"; document.getElementById('res-color-name').innerText = "WAITING"; document.getElementById('mirror-alert').style.display = "none"; document.getElementById('result-box').style.borderColor = "#333"; document.getElementById('result-box').style.boxShadow = "inset 0 0 10px rgba(0,0,0,0.8)"; }
+        function resetToStandby() { document.getElementById('res-ball').className = "color-ball bg-gray"; document.getElementById('res-ball').innerText = "V5"; document.getElementById('res-size').innerText = "STANDBY"; document.getElementById('res-size').style.color = "#666"; document.getElementById('res-color-name').innerText = "WAITING"; document.getElementById('mirror-alert').style.display = "none"; document.getElementById('result-box').style.borderColor = "#333"; document.getElementById('result-box').style.boxShadow = "inset 0 0 10px rgba(0,0,0,0.8)"; }
 
         function updateLiveTimer() {
             const now = new Date(); let remainingSeconds = 60 - now.getUTCSeconds(); const totalMinutes = now.getUTCHours() * 60 + now.getUTCMinutes();
             currentLivePeriod = `${now.getUTCFullYear()}${String(now.getUTCMonth() + 1).padStart(2, '0')}${String(now.getUTCDate()).padStart(2, '0')}1000${10001 + totalMinutes}`;
-            document.getElementById('display-timer').innerText = `00:${remainingSeconds < 10 ? '0'+remainingSeconds : remainingSeconds}`;
+            document.getElementById('display-timer').innerText = `UPDATE: ${remainingSeconds < 10 ? '0'+remainingSeconds : remainingSeconds}s`;
             document.getElementById('display-period').innerText = `ID: ${currentLivePeriod}`; 
             if (remainingSeconds === 60 || remainingSeconds === 1) { let resBox = document.getElementById('result-box'); resBox.className = "result-box"; resetToStandby(); }
         }
@@ -389,6 +405,7 @@
             isProcessing = false;
         }
 
+        // 🔥 FIX 2: ICON DRAG VS CLICK SENSITIVITY
         const mainApp = document.getElementById('main-app'); const dragHandle = document.getElementById('drag-handle');
         let isDraggingMenu = false, offsetX, offsetY;
         dragHandle.addEventListener('touchstart', (e) => { isDraggingMenu = true; offsetX = e.touches[0].clientX - mainApp.getBoundingClientRect().left; offsetY = e.touches[0].clientY - mainApp.getBoundingClientRect().top; }, {passive: true});
@@ -397,7 +414,19 @@
 
         const floatingIcon = document.getElementById('floating-icon'); let isDraggingIcon = false, isDragIcon = false, startX, startY;
         floatingIcon.addEventListener('touchstart', (e) => { isDraggingIcon = true; isDragIcon = false; startX = e.touches[0].clientX; startY = e.touches[0].clientY; offsetX = startX - floatingIcon.getBoundingClientRect().left; offsetY = startY - floatingIcon.getBoundingClientRect().top; }, {passive: true});
-        document.addEventListener('touchmove', (e) => { if (!isDraggingIcon) return; let moveX = e.touches[0].clientX; let moveY = e.touches[0].clientY; if(Math.abs(moveX - startX) > 15 || Math.abs(moveY - startY) > 15) { isDragIcon = true; e.preventDefault(); let newX = moveX - offsetX; let newY = moveY - offsetY; let maxX = window.innerWidth - floatingIcon.offsetWidth; let maxY = window.innerHeight - floatingIcon.offsetHeight; floatingIcon.style.left = `${Math.max(0, Math.min(newX, maxX))}px`; floatingIcon.style.top = `${Math.max(0, Math.min(newY, maxY))}px`; } }, {passive: false});
+        
+        document.addEventListener('touchmove', (e) => { 
+            if (!isDraggingIcon) return; 
+            let moveX = e.touches[0].clientX; let moveY = e.touches[0].clientY; 
+            // SENSITIVITY INCREASED TO 20px (Ab galti se drag nahi hoga)
+            if(Math.abs(moveX - startX) > 20 || Math.abs(moveY - startY) > 20) { 
+                isDragIcon = true; e.preventDefault(); 
+                let newX = moveX - offsetX; let newY = moveY - offsetY; 
+                let maxX = window.innerWidth - floatingIcon.offsetWidth; let maxY = window.innerHeight - floatingIcon.offsetHeight; 
+                floatingIcon.style.left = `${Math.max(0, Math.min(newX, maxX))}px`; floatingIcon.style.top = `${Math.max(0, Math.min(newY, maxY))}px`; 
+            } 
+        }, {passive: false});
+        
         floatingIcon.addEventListener('touchend', (e) => { isDraggingIcon = false; if(!isDragIcon) { handleIconClick(); }});
     </script>
 </body>

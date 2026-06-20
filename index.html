@@ -4,16 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>DEV ARMY MOD • PREDICTOR V6</title>
-  
-  <!-- ==========================================
-       EXTERNAL FONTS IMPORT
-       ========================================== -->
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700;800&family=Share+Tech+Mono&display=swap');
 
-    /* ==========================================
-       GLOBAL CSS VARIABLES
-       ========================================== */
     :root { 
       --bg-dark: #090909; 
       --neon-orange: #ff8800;
@@ -24,526 +17,160 @@
       --text-main: #e2e8f0; 
     }
 
-    /* ==========================================
-       CSS RESET & BASE STYLES
-       ========================================== */
-    * { 
-      margin: 0; 
-      padding: 0; 
-      box-sizing: border-box; 
-      user-select: none; 
-      -webkit-user-select: none; 
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; }
+    body { background-color: var(--bg-dark); font-family: 'Rajdhani', sans-serif; color: var(--text-main); overflow: hidden; }
 
-    body { 
-      background-color: var(--bg-dark); 
-      font-family: 'Rajdhani', sans-serif; 
-      color: var(--text-main); 
-      overflow: hidden; 
-    }
-
-    /* ==========================================
-       CYBER BACKGROUND EFFECTS
-       ========================================== */
     .cyber-grid { 
-      position: fixed; 
-      top: 0; 
-      left: 0; 
-      width: 100vw; 
-      height: 100vh; 
-      background-image: 
-        linear-gradient(rgba(255, 136, 0, 0.05) 1px, transparent 1px), 
-        linear-gradient(90deg, rgba(255, 136, 0, 0.05) 1px, transparent 1px); 
-      background-size: 35px 35px; 
-      z-index: -2; 
-      pointer-events: none; 
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+      background-image: linear-gradient(rgba(255, 136, 0, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 136, 0, 0.05) 1px, transparent 1px); 
+      background-size: 35px 35px; z-index: -2; pointer-events: none; 
     }
 
-    /* ==========================================
-       VIEW ROUTING CLASSES
-       ========================================== */
-    .view-section { 
-      display: none; 
-      flex-direction: column; 
-      width: 100%; 
-      height: 100vh; 
-      position: relative; 
-    }
+    .view-section { display: none; flex-direction: column; width: 100%; height: 100vh; position: relative; }
+    .view-section.active { display: flex; animation: viewWarp 0.3s ease forwards; }
+    @keyframes viewWarp { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
 
-    .view-section.active { 
-      display: flex; 
-      animation: viewWarp 0.3s ease forwards; 
+    /* =========================================
+       LIVE WIN & JACKPOT POPUP CSS (NEW)
+       ========================================= */
+    /* Small Top Win Toast */
+    .win-toast {
+      position: fixed;
+      top: -60px; /* Hidden above screen */
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 255, 51, 0.15);
+      border: 1px solid var(--neon-green);
+      color: var(--neon-green);
+      font-family: 'Orbitron';
+      font-weight: 900;
+      font-size: 1rem;
+      padding: 10px 25px;
+      border-radius: 50px;
+      box-shadow: 0 5px 20px rgba(0,255,51,0.4);
+      z-index: 10001;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      backdrop-filter: blur(10px);
     }
+    .win-toast.show { top: 20px; opacity: 1; }
 
-    @keyframes viewWarp { 
-      from { opacity: 0; transform: scale(0.98); } 
-      to { opacity: 1; transform: scale(1); } 
+    /* Full Screen Jackpot Overlay */
+    .jackpot-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: radial-gradient(circle, rgba(255, 207, 0, 0.2), rgba(0,0,0,0.9));
+      backdrop-filter: blur(5px);
+      z-index: 10002;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease;
     }
-
-    /* ==========================================
-       LOGIN & AUTHENTICATION SCREENS
-       ========================================== */
-    #view-verify { 
-      align-items: center; 
-      justify-content: center; 
-      padding: 20px; 
-    }
-
-    .logo-skull { 
-      width: 90px; 
-      height: 90px; 
-      background: #000; 
-      border: 2px solid var(--neon-orange); 
-      border-radius: 50%; 
-      display: flex; 
-      justify-content: center; 
-      align-items: center; 
-      font-size: 45px; 
-      box-shadow: 0 0 20px rgba(255,136,0,0.3); 
-      margin-bottom: 15px; 
-    }
-
-    .title-main { 
-      font-family: 'Orbitron'; 
-      font-size: 2.5rem; 
-      font-weight: 900; 
-      color: #fff; 
-      text-shadow: 0 0 15px var(--neon-orange); 
-      line-height: 1;
-    }
-
-    .title-sub { 
-      font-family: 'Orbitron'; 
-      font-size: 3rem; 
-      font-weight: 900; 
-      color: var(--neon-red); 
-      margin-bottom: 20px; 
-      letter-spacing: 5px; 
-    }
+    .jackpot-overlay.show { opacity: 1; }
     
-    .hacker-box-input { 
-      width: 100%; 
-      max-width: 320px; 
-      background: rgba(0,0,0,0.7); 
-      border: 2px solid var(--neon-orange); 
-      color: var(--neon-orange); 
-      padding: 16px; 
-      font-family: 'Orbitron'; 
-      text-align: center; 
-      outline: none; 
-      text-transform: uppercase; 
-      font-size: 1.2rem; 
-      margin-bottom: 20px; 
-      border-radius: 8px; 
+    .jackpot-text {
+      font-family: 'Orbitron';
+      font-size: 4rem;
+      font-weight: 900;
+      color: var(--gold);
+      text-shadow: 0 0 30px var(--gold), 0 0 10px #fff;
+      margin-bottom: 5px;
+      transform: scale(0.5);
+      transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.5);
     }
-
-    .btn-cyber-solid { 
-      width: 100%; 
-      max-width: 320px; 
-      background: var(--neon-orange); 
-      border: none; 
-      color: #000; 
-      font-family: 'Orbitron'; 
-      font-size: 1.1rem; 
-      font-weight: 900; 
-      padding: 16px; 
-      cursor: pointer; 
-      border-radius: 8px; 
-      margin-bottom: 15px; 
-    }
-
-    .btn-cyber-outline { 
-      width: 100%; 
-      max-width: 320px; 
-      background: rgba(0,0,0,0.5); 
-      border: 2px solid #555; 
-      color: #aaa; 
-      font-family: 'Orbitron'; 
-      font-weight: 900; 
-      padding: 15px; 
-      cursor: pointer; 
-      border-radius: 8px; 
-      margin-bottom: 10px;
-    }
-
-    /* ==========================================
-       SYSTEM MODALS (DENIED, MAINT, UPDATE)
-       ========================================== */
-    .modal-screen-mask { 
-      display: none; 
-      position: fixed; 
-      top: 0; 
-      left: 0; 
-      width: 100vw; 
-      height: 100vh; 
-      background: rgba(0,0,0,0.95); 
-      z-index: 10000; 
-      justify-content: center; 
-      align-items: center; 
-      padding: 20px; 
-    }
-
-    .modal-panel-box { 
-      width: 100%; 
-      max-width: 320px; 
-      background: #050505; 
-      border: 2px solid; 
-      border-radius: 12px; 
-      padding: 25px; 
-      text-align: center; 
-    }
-
-    .modal-panel-box.red-border { 
-      border-color: var(--neon-red); 
-      box-shadow: 0 0 30px rgba(255,0,51,0.3); 
-    }
-
-    .modal-panel-box.cyan-border { 
-      border-color: var(--neon-cyan); 
-      box-shadow: 0 0 30px rgba(0,243,255,0.3); 
-    }
-
-    /* ==========================================
-       MAIN APP DASHBOARD & TOP HEADER
-       ========================================== */
-    .app-bar-top { 
-      width: 100%; 
-      background: #111; 
-      padding: 10px 15px; 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: center; 
-      border-bottom: 1px solid #333; 
-    }
-
-    .bar-logo { 
-      display: flex; 
-      align-items: center; 
-      gap: 10px; 
-    }
-
-    .bar-icon { 
-      width: 40px; 
-      height: 40px; 
-      border-radius: 50%; 
-      border: 2px solid var(--neon-orange); 
-      display: flex; 
-      justify-content: center; 
-      align-items: center; 
-      font-size: 20px; 
-      background: radial-gradient(circle, #331100, #000); 
-      box-shadow: 0 0 10px rgba(255,136,0,0.5);
-    }
-
-    .bar-text { 
-      display: flex; 
-      flex-direction: column; 
-    }
-
-    .bar-title { 
-      font-family: 'Orbitron'; 
-      font-size: 1.1rem; 
-      font-weight: 900; 
-      color: #fff; 
-      letter-spacing: 1px;
-    }
-
-    .bar-sub { 
-      font-family: 'Orbitron'; 
-      font-size: 0.7rem; 
-      color: var(--neon-orange); 
-      font-weight: bold; 
-    }
-
-    .bar-live { 
-      font-family: 'Orbitron'; 
-      font-size: 0.75rem; 
-      color: #fff; 
-      margin-right: 10px;
-    }
-
-    .btn-bar-exit { 
-      background: transparent; 
-      border: 1px solid var(--neon-red); 
-      color: var(--neon-red); 
-      font-family: 'Orbitron'; 
-      font-size: 0.8rem; 
-      padding: 5px 12px; 
-      border-radius: 6px; 
-      cursor: pointer; 
-    }
-
-    /* ==========================================
-       BOTTOM DOCK NAVIGATION
-       ========================================== */
-    .dock-nav-bottom { 
-      position: fixed; 
-      bottom: 0; 
-      left: 0; 
-      width: 100%; 
-      background: #0a0a0a; 
-      border-top: 1px solid var(--neon-orange); 
-      display: flex; 
-      justify-content: space-around; 
-      padding: 8px 5px 15px; 
-      z-index: 100; 
-    }
-
-    .dock-nav-item { 
-      display: flex; 
-      flex-direction: column; 
-      align-items: center; 
-      color: #555; 
-      font-family: 'Orbitron'; 
-      font-size: 0.75rem; 
-      font-weight: 900; 
-      cursor: pointer; 
-      gap: 4px;
-    }
-
-    .dock-nav-item.dock-active { 
-      color: var(--neon-orange); 
-      text-shadow: 0 0 10px var(--neon-orange); 
-    }
-
-    .dock-icon { 
-      width: 40px; 
-      height: 40px; 
-      border-radius: 50%; 
-      display: flex; 
-      justify-content: center; 
-      align-items: center; 
-      font-size: 1.5rem; 
-      transition: 0.3s;
-    }
-
-    .dock-nav-item.dock-active .dock-icon { 
-      background: radial-gradient(circle, rgba(255,136,0,0.3), transparent); 
-      box-shadow: 0 0 15px rgba(255,136,0,0.2);
-    }
-
-    /* ==========================================
-       MAIN VIEWPORT TABS
-       ========================================== */
-    .main-tabs-viewport { 
-      flex: 1; 
-      width: 100%; 
-      position: relative; 
-    }
-
-    .tab-view-panel { 
-      display: none; 
-      width: 100%; 
-      height: calc(100vh - 120px); 
-      overflow-y: auto; 
-      padding: 20px 15px 90px; 
-    }
-
-    .tab-view-panel.active-panel { 
-      display: block; 
-    }
+    .jackpot-overlay.show .jackpot-text { transform: scale(1); }
     
-    /* ==========================================
-       PREDICTION UI MODULES
-       ========================================== */
-    .header-row { 
-      display: flex; 
-      justify-content: space-between; 
-      align-items: flex-end; 
-      margin-bottom: 20px; 
-      width: 100%; 
-      max-width: 450px; 
-      margin-left: auto; 
-      margin-right: auto;
+    .jackpot-sub {
+      font-family: 'Orbitron';
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 5px;
+      text-shadow: 0 0 15px #fff;
     }
 
-    .target-block { 
-      display: flex; 
-      flex-direction: column; 
-    }
-
-    .target-title { 
-      font-family: 'Orbitron'; 
-      font-size: 0.8rem; 
-      color: #aaa; 
-      letter-spacing: 1px;
-    }
-
-    .target-issue { 
-      font-family: 'Share Tech Mono'; 
-      font-size: 1.4rem; 
-      font-weight: bold; 
-      color: var(--gold); 
-    }
+    /* =========================================
+       LOGIN & AUTH SCREENS
+       ========================================= */
+    #view-verify { align-items: center; justify-content: center; padding: 20px; }
+    .logo-skull { width: 90px; height: 90px; background: #000; border: 2px solid var(--neon-orange); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 45px; box-shadow: 0 0 20px rgba(255,136,0,0.3); margin-bottom: 15px; }
+    .title-main { font-family: 'Orbitron'; font-size: 2.5rem; font-weight: 900; color: #fff; text-shadow: 0 0 15px var(--neon-orange); line-height: 1;}
+    .title-sub { font-family: 'Orbitron'; font-size: 3rem; font-weight: 900; color: var(--neon-red); margin-bottom: 20px; letter-spacing: 5px; }
     
-    .timer-boxes { 
-      display: flex; 
-      gap: 8px; 
-    }
+    .hacker-box-input { width: 100%; max-width: 320px; background: rgba(0,0,0,0.7); border: 2px solid var(--neon-orange); color: var(--neon-orange); padding: 16px; font-family: 'Orbitron'; text-align: center; outline: none; text-transform: uppercase; font-size: 1.2rem; margin-bottom: 20px; border-radius: 8px; }
+    .btn-cyber-solid { width: 100%; max-width: 320px; background: var(--neon-orange); border: none; color: #000; font-family: 'Orbitron'; font-size: 1.1rem; font-weight: 900; padding: 16px; cursor: pointer; border-radius: 8px; margin-bottom: 15px; }
+    .btn-cyber-outline { width: 100%; max-width: 320px; background: rgba(0,0,0,0.5); border: 2px solid #555; color: #aaa; font-family: 'Orbitron'; font-weight: 900; padding: 15px; cursor: pointer; border-radius: 8px; margin-bottom: 10px;}
 
-    .t-box { 
-      width: 40px; 
-      height: 50px; 
-      border: 2px solid var(--neon-orange); 
-      border-radius: 8px; 
-      display: flex; 
-      justify-content: center; 
-      align-items: center; 
-      font-family: 'Orbitron'; 
-      font-size: 1.6rem; 
-      font-weight: 900; 
-      color: var(--neon-orange); 
-      background: rgba(255,136,0,0.05); 
-    }
+    /* SYSTEM MODALS */
+    .modal-screen-mask { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.95); z-index: 10000; justify-content: center; align-items: center; padding: 20px; }
+    .modal-panel-box { width: 100%; max-width: 320px; background: #050505; border: 2px solid; border-radius: 12px; padding: 25px; text-align: center; }
+    .modal-panel-box.red-border { border-color: var(--neon-red); box-shadow: 0 0 30px rgba(255,0,51,0.3); }
+    .modal-panel-box.cyan-border { border-color: var(--neon-cyan); box-shadow: 0 0 30px rgba(0,243,255,0.3); }
 
-    /* Big Prediction Result Box */
-    .prediction-panel { 
-      width: 100%; 
-      max-width: 450px; 
-      margin: 0 auto 25px; 
-      border: 2px solid var(--neon-orange); 
-      border-radius: 16px; 
-      padding: 30px 15px 25px; 
-      text-align: center; 
-      background: rgba(0,0,0,0.5); 
-      box-shadow: 0 0 20px rgba(255,136,0,0.1), inset 0 0 15px rgba(255,136,0,0.05); 
-      position: relative; 
-    }
+    /* =========================================
+       MAIN APP DASHBOARD
+       ========================================= */
+    .app-bar-top { width: 100%; background: #111; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; }
+    .bar-logo { display:flex; align-items:center; gap:10px; }
+    .bar-icon { width: 40px; height: 40px; border-radius: 50%; border: 2px solid var(--neon-orange); display:flex; justify-content:center; align-items:center; font-size: 20px; background: radial-gradient(circle, #331100, #000); box-shadow: 0 0 10px rgba(255,136,0,0.5);}
+    .bar-text { display:flex; flex-direction:column; }
+    .bar-title { font-family: 'Orbitron'; font-size: 1.1rem; font-weight: 900; color: #fff; letter-spacing: 1px;}
+    .bar-sub { font-family: 'Orbitron'; font-size: 0.7rem; color: var(--neon-orange); font-weight:bold; }
+    .bar-live { font-family: 'Orbitron'; font-size: 0.75rem; color: #fff; margin-right: 10px;}
+    .btn-bar-exit { background: transparent; border: 1px solid var(--neon-red); color: var(--neon-red); font-family: 'Orbitron'; font-size: 0.8rem; padding: 5px 12px; border-radius: 6px; cursor: pointer; }
 
-    .prediction-panel.loss-mode { 
-      border-color: var(--neon-red); 
-      box-shadow: 0 0 20px rgba(255,51,51,0.2); 
-    }
+    /* Bottom Navigation */
+    .dock-nav-bottom { position: fixed; bottom: 0; left: 0; width: 100%; background: #0a0a0a; border-top: 1px solid var(--neon-orange); display: flex; justify-content: space-around; padding: 8px 5px 15px; z-index: 100; }
+    .dock-nav-item { display: flex; flex-direction: column; align-items: center; color: #555; font-family: 'Orbitron'; font-size: 0.75rem; font-weight: 900; cursor: pointer; gap: 4px;}
+    .dock-nav-item.dock-active { color: var(--neon-orange); text-shadow: 0 0 10px var(--neon-orange); }
+    .dock-icon { width: 40px; height: 40px; border-radius: 50%; display:flex; justify-content:center; align-items:center; font-size: 1.5rem; transition: 0.3s;}
+    .dock-nav-item.dock-active .dock-icon { background: radial-gradient(circle, rgba(255,136,0,0.3), transparent); box-shadow: 0 0 15px rgba(255,136,0,0.2);}
+
+    .main-tabs-viewport { flex: 1; width: 100%; position: relative; }
+    .tab-view-panel { display: none; width: 100%; height: calc(100vh - 120px); overflow-y: auto; padding: 20px 15px 90px; }
+    .tab-view-panel.active-panel { display: block; }
     
-    .pred-top-text { 
-      font-family: 'Orbitron'; 
-      font-size: 0.85rem; 
-      color: #666; 
-      letter-spacing: 2px; 
-      margin-bottom: 10px; 
-      font-weight: bold;
-    }
-
-    .pred-main-result { 
-      font-family: 'Orbitron'; 
-      font-size: 4rem; 
-      font-weight: 900; 
-      color: #888; 
-      letter-spacing: 2px; 
-      line-height: 1; 
-      transition: 0.3s; 
-    }
+    /* PREDICTION UI */
+    .header-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; width: 100%; max-width: 450px; margin-left: auto; margin-right: auto;}
+    .target-block { display: flex; flex-direction: column; }
+    .target-title { font-family: 'Orbitron'; font-size: 0.8rem; color: #aaa; letter-spacing: 1px;}
+    .target-issue { font-family: 'Share Tech Mono'; font-size: 1.4rem; font-weight: bold; color: var(--gold); }
     
-    .prediction-panel.active-big .pred-main-result { 
-      color: var(--neon-red); 
-      text-shadow: 0 0 20px var(--neon-red); 
-    }
+    .timer-boxes { display: flex; gap: 8px; }
+    .t-box { width: 40px; height: 50px; border: 2px solid var(--neon-orange); border-radius: 8px; display: flex; justify-content: center; align-items: center; font-family: 'Orbitron'; font-size: 1.6rem; font-weight: 900; color: var(--neon-orange); background: rgba(255,136,0,0.05); }
 
-    .prediction-panel.active-small .pred-main-result { 
-      color: var(--neon-orange); 
-      text-shadow: 0 0 20px var(--neon-orange); 
-    }
-
-    .target-badge { 
-      font-family: 'Orbitron'; 
-      font-size: 1.1rem; 
-      font-weight: 700; 
-      color: #aaa; 
-      margin-top: 20px; 
-      display: inline-block; 
-      padding: 6px 20px; 
-      border-radius: 50px; 
-      border: 1px solid #333; 
-      background: #111; 
-      letter-spacing: 2px; 
-    }
-
-    .target-locked { 
-      font-family: 'Orbitron'; 
-      font-size: 0.9rem; 
-      font-weight: 900; 
-      color: #fff; 
-      margin-top: 20px; 
-      display: inline-flex; 
-      align-items: center; 
-      gap: 8px; 
-      padding: 8px 25px; 
-      border-radius: 50px; 
-      border: 1px solid var(--neon-orange); 
-      background: rgba(255,136,0,0.1); 
-      letter-spacing: 1px; 
-    }
-
-    /* ==========================================
-       HISTORY TABLE CSS
-       ========================================== */
-    .history-section { 
-      width: 100%; 
-      max-width: 450px; 
-      margin: 0 auto; 
-    }
-
-    .history-title { 
-      font-family: 'Orbitron'; 
-      font-size: 1rem; 
-      color: var(--neon-orange); 
-      margin-bottom: 10px; 
-      border-left: 4px solid var(--neon-orange); 
-      padding-left: 10px; 
-      font-weight: bold; 
-    }
+    .prediction-panel { width: 100%; max-width: 450px; margin: 0 auto 25px; border: 2px solid var(--neon-orange); border-radius: 16px; padding: 30px 15px 25px; text-align: center; background: rgba(0,0,0,0.5); box-shadow: 0 0 20px rgba(255,136,0,0.1), inset 0 0 15px rgba(255,136,0,0.05); position: relative; }
+    .prediction-panel.loss-mode { border-color: var(--neon-red); box-shadow: 0 0 20px rgba(255,51,51,0.2); }
     
-    .table-container { 
-      width: 100%; 
-      border-radius: 12px; 
-      border: 1px solid #333; 
-      background: #000; 
-      overflow: hidden; 
-    }
+    .pred-top-text { font-family: 'Orbitron'; font-size: 0.85rem; color: #666; letter-spacing: 2px; margin-bottom: 10px; font-weight:bold;}
+    .pred-main-result { font-family: 'Orbitron'; font-size: 4rem; font-weight: 900; color: #888; letter-spacing: 2px; line-height: 1; transition: 0.3s; }
+    
+    .prediction-panel.active-big .pred-main-result { color: var(--neon-red); text-shadow: 0 0 20px var(--neon-red); }
+    .prediction-panel.active-small .pred-main-result { color: var(--neon-orange); text-shadow: 0 0 20px var(--neon-orange); }
 
-    .table-scroll { 
-      max-height: 200px; 
-      overflow-y: auto; 
-      display: block; 
-    }
+    .target-badge { font-family: 'Orbitron'; font-size: 1.1rem; font-weight: 700; color: #aaa; margin-top: 20px; display: inline-block; padding: 6px 20px; border-radius: 50px; border: 1px solid #333; background: #111; letter-spacing: 2px; }
+    .target-locked { font-family: 'Orbitron'; font-size: 0.9rem; font-weight: 900; color: #fff; margin-top: 20px; display: inline-flex; align-items: center; gap: 8px; padding: 8px 25px; border-radius: 50px; border: 1px solid var(--neon-orange); background: rgba(255,136,0,0.1); letter-spacing: 1px; }
 
+    /* HISTORY TABLE */
+    .history-section { width: 100%; max-width: 450px; margin: 0 auto; }
+    .history-title { font-family: 'Orbitron'; font-size: 1rem; color: var(--neon-orange); margin-bottom: 10px; border-left: 4px solid var(--neon-orange); padding-left: 10px; font-weight:bold; }
+    
+    .table-container { width: 100%; border-radius: 12px; border: 1px solid #333; background: #000; overflow: hidden; }
+    .table-scroll { max-height: 200px; overflow-y: auto; display: block; }
     .table-scroll::-webkit-scrollbar { width: 4px; }
     .table-scroll::-webkit-scrollbar-thumb { background: var(--neon-orange); border-radius: 10px; }
     
-    table { 
-      width: 100%; 
-      border-collapse: collapse; 
-      text-align: center; 
-    }
-
-    thead { 
-      display: table; 
-      width: 100%; 
-      table-layout: fixed; 
-      background: #111; 
-    }
-
-    tbody { 
-      display: table; 
-      width: 100%; 
-      table-layout: fixed; 
-    }
-
-    th { 
-      padding: 12px 5px; 
-      color: var(--neon-orange); 
-      font-family: 'Orbitron'; 
-      font-size: 0.75rem; 
-      border-bottom: 1px solid #333; 
-    }
-
-    td { 
-      padding: 12px 5px; 
-      border-bottom: 1px solid #1a1a1a; 
-      font-family: 'Orbitron'; 
-      font-weight: 700; 
-      font-size: 0.9rem;
-    }
+    table { width: 100%; border-collapse: collapse; text-align: center; }
+    thead { display: table; width: 100%; table-layout: fixed; background: #111; }
+    tbody { display: table; width: 100%; table-layout: fixed; }
+    th { padding: 12px 5px; color: var(--neon-orange); font-family: 'Orbitron'; font-size: 0.75rem; border-bottom: 1px solid #333; }
+    td { padding: 12px 5px; border-bottom: 1px solid #1a1a1a; font-family: 'Orbitron'; font-weight: 700; font-size: 0.9rem;}
     
     .t-issue { font-family: 'Share Tech Mono'; color: #fff; }
     .t-target { font-size: 1rem; font-weight: 900;}
@@ -553,23 +180,22 @@
     .win { color: var(--neon-green); text-shadow: 0 0 8px rgba(0,255,51,0.5); } 
     .loss { color: var(--text-main); } 
 
-    /* GAME TAB (IFRAME) */
-    .fullscreen-game-frame { 
-      width: 100%; 
-      height: 100%; 
-      border: none; 
-      background: #000; 
-    }
+    /* GAME TAB */
+    .fullscreen-game-frame { width: 100%; height: 100%; border: none; background: #000; display: block; }
+
   </style>
 </head>
 <body>
 
   <div class="cyber-grid"></div>
 
-  <!-- =========================================
-       MODALS: SYSTEM OVERRIDES & SECURITY
-       ========================================= -->
-  <!-- Auth Denied Modal -->
+  <div id="winToast" class="win-toast">✅ WIN CONFIRMED</div>
+  
+  <div id="jackpotOverlay" class="jackpot-overlay">
+    <div class="jackpot-text">JACKPOT</div>
+    <div class="jackpot-sub">BY DEV ARMY</div>
+  </div>
+
   <div class="modal-screen-mask" id="modalDenied" style="z-index:10005;">
     <div class="modal-panel-box red-border">
       <h2 style="font-family:'Orbitron'; color:var(--neon-red); margin-bottom:10px;">ACCESS DENIED</h2>
@@ -579,7 +205,6 @@
     </div>
   </div>
 
-  <!-- Maintenance Modal -->
   <div class="modal-screen-mask" id="modalMaintenance" style="z-index:10004;">
     <div class="modal-panel-box red-border">
       <div style="font-size:3rem; margin-bottom:10px;">⚠️</div>
@@ -588,7 +213,6 @@
     </div>
   </div>
 
-  <!-- App Update Modal -->
   <div class="modal-screen-mask" id="modalUpdate" style="z-index:10003;">
     <div class="modal-panel-box red-border">
       <div style="font-size:3rem; margin-bottom:10px;">🚀</div>
@@ -598,7 +222,6 @@
     </div>
   </div>
 
-  <!-- Notice/Welcome Popup Modal -->
   <div class="modal-screen-mask" id="modalNotice" style="z-index:10002;">
     <div class="modal-panel-box cyan-border">
       <div style="font-size:3rem; margin-bottom:10px;">📢</div>
@@ -608,9 +231,6 @@
     </div>
   </div>
 
-  <!-- =========================================
-       VIEW: LOGIN & VERIFICATION SCREEN
-       ========================================= -->
   <div id="view-verify" class="view-section active">
     <div class="logo-skull">💀</div>
     <div class="title-main">DEV ARMY</div>
@@ -620,12 +240,8 @@
     <button class="btn-cyber-outline tgBtn">CONTACT SUPPORT</button>
   </div>
 
-  <!-- =========================================
-       VIEW: MAIN DASHBOARD & TABS
-       ========================================= -->
   <div id="view-app" class="view-section" style="padding:0; justify-content:flex-start;">
     
-    <!-- Top Bar -->
     <div class="app-bar-top">
       <div class="bar-logo">
         <div class="bar-icon">💀</div>
@@ -640,13 +256,9 @@
       </div>
     </div>
 
-    <!-- Main Viewport for Tabs -->
     <div class="main-tabs-viewport">
       
-      <!-- TAB 1: PREDICTION PANEL -->
       <div id="tab-predict" class="tab-view-panel active-panel">
-        
-        <!-- Timer Row -->
         <div class="header-row">
           <div class="target-block">
             <span class="target-title">TARGET ISSUE:</span>
@@ -658,7 +270,6 @@
           </div>
         </div>
         
-        <!-- Big Prediction UI -->
         <div class="prediction-panel" id="resultDisplay">
           <div class="pred-top-text">AI NEURAL PREDICTION</div>
           <div class="pred-main-result" id="predMain">---</div>
@@ -667,7 +278,6 @@
           <div class="target-locked" id="liveStatus">🎯 AWAITING DATA...</div>
         </div>
         
-        <!-- History Table -->
         <div class="history-section">
           <div class="history-title">SERVER HISTORY</div>
           <div class="table-container table-scroll">
@@ -684,17 +294,14 @@
             </table>
           </div>
         </div>
-
       </div>
 
-      <!-- TAB 2: GAME IFRAME -->
       <div id="tab-game-panel" class="tab-view-panel" style="padding:0;">
         <iframe class="fullscreen-game-frame" id="gameIframe" src="about:blank"></iframe>
       </div>
 
     </div>
 
-    <!-- DUAL TABS NAVIGATION MENU -->
     <div class="dock-nav-bottom">
       <div class="dock-nav-item dock-active" onclick="switchTab('tab-predict', this)">
         <div class="dock-icon">🔮</div>PREDICTION
@@ -705,37 +312,22 @@
     </div>
   </div>
 
-  <!-- =========================================
-       FIREBASE INTEGRATION & CORE JAVASCRIPT
-       ========================================= -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getDatabase, ref, get, child, update, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-    // 1. FIREBASE CONFIGURATION
     const firebaseConfig = {
       apiKey: "AIzaSyBNj71akpefcfEtn-SQfAcx-Pgwi8sUosg",
       authDomain: "teamdev-88676.firebaseapp.com",
       databaseURL: "https://teamdev-88676-default-rtdb.asia-southeast1.firebasedatabase.app",
       projectId: "teamdev-88676"
     };
-    
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
 
-    // =========================================
-    // 2. EXTREME ANTI-INSPECT SECURITY
-    // =========================================
-    // Clear console to hide output
-    const cleanFunc = () => {}; 
-    window.console.log = cleanFunc; 
-    window.console.error = cleanFunc;
-    
-    setInterval(() => { 
-      try { window.console.clear(); } catch(e){} 
-    }, 400);
-
-    // Trap loop to crash debugger
+    // Security Setup
+    const cleanFunc = () => {}; window.console.log = cleanFunc; window.console.error = cleanFunc;
+    setInterval(() => { try { window.console.clear(); } catch(e){} }, 400);
     (function secureEnv() {
       function trapLoop(i) {
         if ((window.outerHeight - window.innerHeight) > 120 || (window.outerWidth - window.innerWidth) > 120) {
@@ -746,18 +338,10 @@
       }
       try { trapLoop(0); } catch(e){}
     })();
-
-    // Disable Right Click and Developer Hotkeys
     document.addEventListener('contextmenu', e => e.preventDefault());
-    document.addEventListener('keydown', e => { 
-      if(e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
-        e.preventDefault(); 
-      }
-    });
+    document.addEventListener('keydown', e => { if(e.key==='F12' || (e.ctrlKey && e.shiftKey && e.key==='I')) e.preventDefault(); });
 
-    // =========================================
-    // 3. SYSTEM OVERRIDES & DYNAMIC CONFIGS
-    // =========================================
+    // Modals & Links
     window.dismissNotice = function() {
       document.getElementById('modalNotice').style.display = 'none';
       sessionStorage.setItem('notice_seen', 'true');
@@ -767,7 +351,6 @@
       if(snapshot.exists()) {
         const config = snapshot.val();
         
-        // Dynamic Links Sync
         if(config.links) {
           if(config.links.gameUrl) document.getElementById('gameIframe').src = config.links.gameUrl;
           if(config.links.telegramUrl) {
@@ -777,7 +360,6 @@
           }
         }
 
-        // System Modals (Maintenance, Updates, Notices)
         if(config.maintenance && config.maintenance.active) {
           document.getElementById('maintText').textContent = config.maintenance.message;
           document.getElementById('modalMaintenance').style.display = 'flex';
@@ -802,29 +384,11 @@
       }
     });
 
-    // =========================================
-    // 4. UI NAVIGATION HELPERS
-    // =========================================
-    window.loadScreenView = (id) => { 
-      document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active')); 
-      document.getElementById(id).classList.add('active'); 
-    };
+    window.loadScreenView = (id) => { document.querySelectorAll('.view-section').forEach(el=>el.classList.remove('active')); document.getElementById(id).classList.add('active'); };
+    window.switchTab = (id, el) => { document.querySelectorAll('.tab-view-panel').forEach(p=>p.classList.remove('active-panel')); document.getElementById(id).classList.add('active-panel'); document.querySelectorAll('.dock-nav-item').forEach(i=>i.classList.remove('dock-active')); el.classList.add('dock-active'); };
+    function showDenied(msg) { document.querySelector('.denied-msg-sub').textContent = msg; document.getElementById('modalDenied').style.display = 'flex'; }
 
-    window.switchTab = (id, el) => { 
-      document.querySelectorAll('.tab-view-panel').forEach(p => p.classList.remove('active-panel')); 
-      document.getElementById(id).classList.add('active-panel'); 
-      document.querySelectorAll('.dock-nav-item').forEach(i => i.classList.remove('dock-active')); 
-      el.classList.add('dock-active'); 
-    };
-
-    function showDenied(msg) { 
-      document.querySelector('.denied-msg-sub').textContent = msg; 
-      document.getElementById('modalDenied').style.display = 'flex'; 
-    }
-
-    // =========================================
-    // 5. CLIENT AUTHENTICATION
-    // =========================================
+    // Auth
     let myDeviceId = localStorage.getItem('predict_device_id') || ('DEV-' + Math.random().toString(36).substr(2, 9).toUpperCase());
     localStorage.setItem('predict_device_id', myDeviceId);
 
@@ -833,58 +397,49 @@
 
     document.getElementById('activateBtn').addEventListener('click', async () => {
       const key = document.getElementById('loginKey').value.trim().toUpperCase();
-      
       if(!key) return showDenied("ENTER KEY");
       
       document.getElementById('activateBtn').innerText = "VERIFYING...";
-      
       try {
         const snap = await get(child(ref(database), `keys/${key}`));
-        
         if(snap.exists()) {
           const kData = snap.val();
+          if(kData.status !== "ACTIVE" || new Date() > new Date(kData.expiresAt)) return showDenied("KEY EXPIRED OR BANNED");
+          if(kData.deviceId && kData.deviceId !== myDeviceId) return showDenied("KEY BOUND TO ANOTHER DEVICE");
           
-          if(kData.status !== "ACTIVE" || new Date() > new Date(kData.expiresAt)) {
-            return showDenied("KEY EXPIRED OR BANNED");
-          }
-          if(kData.deviceId && kData.deviceId !== myDeviceId) {
-            return showDenied("KEY BOUND TO ANOTHER DEVICE");
-          }
-          
-          if(!kData.deviceId) {
-            await update(ref(database, `keys/${key}`), { deviceId: myDeviceId });
-          }
-          
+          if(!kData.deviceId) await update(ref(database, `keys/${key}`), { deviceId: myDeviceId });
           localStorage.setItem('predict_saved_key', key);
           
           document.getElementById('view-verify').classList.remove('active');
           document.getElementById('view-app').classList.add('active');
-          
           if(!pollInterval) init();
-        } else {
-          showDenied("INVALID KEY");
-        }
-      } catch(e) { 
-        showDenied("NETWORK ERROR"); 
-      }
-      
+        } else showDenied("INVALID KEY");
+      } catch(e) { showDenied("NETWORK ERROR"); }
       document.getElementById('activateBtn').innerText = "VALIDATE KEY";
     });
 
     // =========================================
-    // 6. ADVANCED PREDICTION ENGINE CORE
+    // POPUP ANIMATION FUNCTIONS (NEW)
     // =========================================
-    let lastSeenIssue = null, 
-        activePrediction = null, 
-        fullHistory = [], 
-        fetchingLock = false, 
-        pollInterval = null, 
-        forceData = { size: "AUTO" };
-        
+    function showWinToast() {
+      const toast = document.getElementById('winToast');
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    function showJackpotOverlay() {
+      const overlay = document.getElementById('jackpotOverlay');
+      overlay.classList.add('show');
+      setTimeout(() => overlay.classList.remove('show'), 3000);
+    }
+
+    // =========================================
+    // PREDICTOR ENGINE
+    // =========================================
+    let lastSeenIssue = null, activePrediction = null, fullHistory = [], fetchingLock = false, pollInterval = null, forceData = { size: "AUTO" };
     const historyBody = document.getElementById('historyTbody');
     const resultDisplay = document.getElementById('resultDisplay');
 
-    // UI Box Timer Sync
     setInterval(() => {
       const sec = 60 - new Date().getSeconds();
       let secStr = sec < 10 ? '0'+sec : sec.toString();
@@ -892,18 +447,15 @@
       document.getElementById('tSec2').textContent = secStr.charAt(1);
     }, 1000);
 
-    // Sync Override Mode
     onValue(ref(database, 'server/adminOverride'), (snap) => {
       forceData = snap.val() || { size: "AUTO" };
       if(activePrediction) renderUI(activePrediction);
     });
 
-    // Populate History Table
     function addHistory(pred, num, issue, size) {
       if(!pred) return;
       const isJackpot = pred.sureNumbers.includes(num);
       const isWin = size === pred.predictionSize;
-      
       const status = isJackpot ? "JACKPOT" : (isWin ? "WIN" : "LOSS");
       const cls = isWin || isJackpot ? "win" : "loss"; 
       
@@ -915,56 +467,35 @@
         <td class="${cls}">${status}</td>
       `;
       historyBody.insertBefore(tr, historyBody.firstChild);
-      
-      // Limit to 20 Rows
-      while(historyBody.children.length > 20) {
-        historyBody.removeChild(historyBody.lastChild);
-      }
+      while(historyBody.children.length > 20) historyBody.removeChild(historyBody.lastChild);
     }
 
-    // Mathematical Predictor AI Logic Restored
     function generateAIPrediction(historyArray) {
       let predictedSize = "BIG", sure1 = 5, sure2 = 8;
-      
       const validDraws = (historyArray || []).filter(d => d !== undefined && d.number !== undefined && !isNaN(d.number)).slice(0, 20);
-      
-      if (validDraws.length === 0) {
-        return { predictionSize: predictedSize, sureNumbers: [sure1, sure2] };
-      }
-      
+      if (validDraws.length === 0) return { predictionSize: predictedSize, sureNumbers: [sure1, sure2] };
       const recentSizes = validDraws.slice(0, 12).map(r => r.size).filter(s => s !== null);
       
-      // Advanced Streak Detection
       if (recentSizes.length >= 3) {
         let streak = 1; 
-        for (let i = 1; i < recentSizes.length; i++) { 
-          if (recentSizes[i] === recentSizes[0]) streak++; else break; 
-        }
-        
-        if (streak >= 3) { 
-          predictedSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG"; 
-        } else {
+        for (let i = 1; i < recentSizes.length; i++) { if (recentSizes[i] === recentSizes[0]) streak++; else break; }
+        if (streak >= 3) { predictedSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG"; } 
+        else {
           const bigCount = recentSizes.slice(0,7).filter(s => s === "BIG").length;
           const smallCount = recentSizes.slice(0,7).filter(s => s === "SMALL").length;
-          
           if (bigCount > smallCount + 1) predictedSize = "SMALL"; 
           else if (smallCount > bigCount + 1) predictedSize = "BIG"; 
           else predictedSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG";
         }
-      } else {
-        predictedSize = validDraws[0].size === "BIG" ? "SMALL" : "BIG";
-      }
+      } else { predictedSize = validDraws[0].size === "BIG" ? "SMALL" : "BIG"; }
       
       const pool = predictedSize === "BIG" ? [5,6,7,8,9] : [0,1,2,3,4]; 
       sure1 = pool[Math.floor(Math.random() * 5)]; 
       sure2 = pool[Math.floor(Math.random() * 5)]; 
-      
       while(sure1 === sure2) sure2 = pool[Math.floor(Math.random() * 5)];
-      
       return { predictionSize: predictedSize, sureNumbers: [sure1, sure2] };
     }
 
-    // Render Logic to UI
     function renderUI(pred) {
       let fSize = forceData.size === "AUTO" ? pred.predictionSize : forceData.size;
       pred.predictionSize = fSize;
@@ -981,68 +512,60 @@
         statusEl.innerHTML = `⚠️ OVERRIDE ACTIVE`;
         statusEl.style.color = "var(--neon-red)";
         statusEl.style.borderColor = "var(--neon-red)";
+        statusEl.style.background = "rgba(255,51,51,0.1)";
       } else {
         statusEl.innerHTML = `🎯 TARGET LOCKED`;
         statusEl.style.color = "#fff";
         statusEl.style.borderColor = "var(--neon-orange)";
+        statusEl.style.background = "rgba(255,136,0,0.1)";
       }
     }
 
-    // Fetch API Node Loop
     async function fetchAndProcess() {
-      if(fetchingLock) return; 
-      fetchingLock = true;
-      
+      if(fetchingLock) return; fetchingLock = true;
       try {
-        const c = new AbortController(); 
-        setTimeout(()=>c.abort(), 5000);
-        
-        const res = await fetch("https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json", {
-          signal: c.signal, 
-          headers: {'Accept':'application/json'}
-        });
-        
+        const c = new AbortController(); setTimeout(()=>c.abort(), 5000);
+        const res = await fetch("https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json", {signal:c.signal, headers:{'Accept':'application/json'}});
         const json = await res.json();
-        const draws = json.data.list.map(i => ({
-          issue: String(i.issueNumber), 
-          number: parseInt(i.number), 
-          size: parseInt(i.number) >= 5 ? "BIG" : "SMALL"
-        })).filter(d => !isNaN(d.number));
+        const draws = json.data.list.map(i => ({issue: String(i.issueNumber), number: parseInt(i.number), size: parseInt(i.number)>=5?"BIG":"SMALL"})).filter(d=>!isNaN(d.number));
+        const latest = draws[0]; fullHistory = draws.slice(0, 25);
         
-        const latest = draws[0]; 
-        fullHistory = draws.slice(0, 25);
-        
-        // Initial Seed
         if(lastSeenIssue === null) {
           historyBody.innerHTML = '';
           [...fullHistory].reverse().forEach((d, i) => { 
-            if(i > 0) {
-              const histArray = [...fullHistory].reverse().slice(0, i);
-              addHistory(generateAIPrediction(histArray), d.number, d.issue.slice(-6), d.size); 
-            }
+            if(i > 0) addHistory(generateAIPrediction([...fullHistory].reverse().slice(0, i)), d.number, d.issue.slice(-6), d.size); 
           });
         } else if(lastSeenIssue !== latest.issue && activePrediction) {
+          
+          // Add to History Table
           addHistory(activePrediction, latest.number, latest.issue.slice(-6), latest.size);
+          
+          // =======================================
+          // TRIGGER ANIMATION ON LIVE NEW DRAW
+          // =======================================
+          const isJackpot = activePrediction.sureNumbers.includes(latest.number);
+          const isWin = latest.size === activePrediction.predictionSize;
+
+          if(isJackpot) {
+            showJackpotOverlay();
+          } else if(isWin) {
+            showWinToast();
+          }
+
         }
         
-        // Compute Next Target
         if(lastSeenIssue !== latest.issue) {
           activePrediction = generateAIPrediction(fullHistory);
           document.getElementById('periodLabel').textContent = (BigInt(latest.issue) + 1n).toString().slice(-8);
           renderUI(activePrediction);
         }
-        
         lastSeenIssue = latest.issue;
-      } catch(e) {
-        console.error("API Sync Failed");
-      } finally { 
-        fetchingLock = false; 
-      }
+      } catch(e) {} finally { fetchingLock = false; }
     }
 
     async function init() { 
       await fetchAndProcess(); 
-      pollInterval = setInterval(() => fetchAndProcess(), 5000); 
+      pollInterval = setInterval(()=>fetchAndProcess(), 5000); 
     }
   </script>
 </body>

@@ -1,387 +1,1049 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Dream Developer | Admin Command</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&family=Share+Tech+Mono&display=swap');
-        
-        :root { 
-            --bg-main: #0a0a0c; 
-            --bg-card: #16161a; 
-            --theme-red: #e52b2b; 
-            --theme-dark-red: #9e1414; 
-            --theme-gold: #ffd700; 
-            --text-main: #ffffff; 
-            --text-muted: #888899; 
-            --border-color: #2a2a35;
-            --success: #00e676;
-            --warning: #ffcc00;
-            --font-display: 'Poppins', sans-serif; 
-            --font-mono: 'Share Tech Mono', monospace; 
-        }
-        
-        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent;}
-        body { background-color: var(--bg-main); color: var(--text-main); font-family: var(--font-display); min-height: 100vh; overflow-x: hidden; padding-bottom: 50px;}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>DEV ARMY MOD • PREDICTOR V6</title>
+  
+  <!-- ==========================================
+       EXTERNAL FONTS IMPORT
+       ========================================== -->
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700;800&family=Share+Tech+Mono&display=swap');
 
-        /* AUTH SCREEN */
-        #admin-auth { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 100000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px;}
-        .auth-box { background: var(--bg-card); border: 2px solid var(--theme-gold); padding: 40px 20px; border-radius: 16px; box-shadow: 0 10px 40px rgba(255, 215, 0, 0.1); text-align: center; width: 100%; max-width: 400px; }
-        .auth-title { font-size: 24px; font-weight: 800; color: var(--theme-gold); margin-bottom: 5px; text-transform: uppercase; letter-spacing: 1px;}
-        .auth-sub { font-size: 11px; color: var(--text-muted); margin-bottom: 25px; font-weight: 600;}
+    /* ==========================================
+       GLOBAL CSS VARIABLES
+       ========================================== */
+    :root { 
+      --bg-dark: #090909; 
+      --neon-orange: #ff8800;
+      --neon-red: #ff3333; 
+      --neon-green: #00ff33; 
+      --neon-cyan: #00f3ff;
+      --gold: #ffcf00; 
+      --text-main: #e2e8f0; 
+    }
 
-        /* DASHBOARD LAYOUT */
-        #dashboard-wrapper { display: none; padding: 15px; max-width: 1200px; margin: 0 auto; }
-        
-        .header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 15px; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;}
-        .header h1 { font-size: 18px; font-weight: 800; color: #fff; display: flex; align-items: center; gap: 8px;}
-        .header h1 span { color: var(--theme-gold); }
-        .live-indicator { font-family: var(--font-mono); font-size: 11px; color: var(--success); display: flex; align-items: center; gap: 6px; background: rgba(0, 230, 118, 0.1); padding: 6px 12px; border-radius: 20px; border: 1px solid rgba(0, 230, 118, 0.3); font-weight: bold;}
-        .live-dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; animation: blink 1s infinite; }
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    /* ==========================================
+       CSS RESET & BASE STYLES
+       ========================================== */
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+      user-select: none; 
+      -webkit-user-select: none; 
+    }
 
-        /* GRID SYSTEM FOR MOBILE FRIENDLINESS */
-        .grid-container { display: grid; grid-template-columns: 1fr; gap: 15px; margin-bottom: 20px; }
-        @media(min-width: 768px) { .grid-container { grid-template-columns: repeat(2, 1fr); } }
+    body { 
+      background-color: var(--bg-dark); 
+      font-family: 'Rajdhani', sans-serif; 
+      color: var(--text-main); 
+      overflow: hidden; 
+    }
 
-        .panel { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 18px; position: relative; overflow: hidden; box-shadow: 0 8px 20px rgba(0,0,0,0.4); }
-        .panel-top-bar { position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: linear-gradient(90deg, var(--theme-red), var(--theme-gold)); }
-        .panel-title { font-size: 14px; font-weight: 800; color: var(--theme-gold); margin-bottom: 15px; text-transform: uppercase; letter-spacing: 0.5px;}
-        
-        /* STATS */
-        .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .stat-box { background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); padding: 15px 5px; text-align: center; border-radius: 8px; }
-        .stat-val { font-size: 24px; font-weight: 800; margin-bottom: 4px; line-height: 1; }
-        .stat-label { font-size: 9px; color: var(--text-muted); font-weight: 600; text-transform: uppercase;}
+    /* ==========================================
+       CYBER BACKGROUND EFFECTS
+       ========================================== */
+    .cyber-grid { 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      width: 100vw; 
+      height: 100vh; 
+      background-image: 
+        linear-gradient(rgba(255, 136, 0, 0.05) 1px, transparent 1px), 
+        linear-gradient(90deg, rgba(255, 136, 0, 0.05) 1px, transparent 1px); 
+      background-size: 35px 35px; 
+      z-index: -2; 
+      pointer-events: none; 
+    }
 
-        /* INPUTS & BUTTONS */
-        .input-group { margin-bottom: 12px; width: 100%;}
-        .input-label { display: block; font-size: 10px; color: #aaa; margin-bottom: 6px; font-weight: 600; text-transform: uppercase;}
-        .input-box { width: 100%; background: #0a0a0c; border: 1px solid #333; color: var(--theme-gold); padding: 12px; font-family: var(--font-mono); font-size: 13px; border-radius: 8px; outline: none; transition: 0.3s; font-weight: bold;}
-        .input-box:focus { border-color: var(--theme-gold); }
-        
-        .btn { width: 100%; padding: 12px; border: none; border-radius: 8px; font-family: var(--font-display); font-size: 12px; font-weight: 800; cursor: pointer; transition: 0.2s; text-transform: uppercase; letter-spacing: 0.5px;}
-        .btn:active { transform: scale(0.97); }
-        .btn-row { display: flex; gap: 8px; width: 100%;}
-        
-        .btn-outline { background: transparent; border: 1px solid #555; color: #fff; }
-        .btn-gold { background: rgba(255, 215, 0, 0.1); border: 1px solid var(--theme-gold); color: var(--theme-gold); }
-        .btn-red { background: linear-gradient(to bottom, var(--theme-red), var(--theme-dark-red)); border: 1px solid #ff4d4d; color: #fff; }
-        .btn-green { background: rgba(0, 230, 118, 0.1); border: 1px solid var(--success); color: var(--success); }
+    /* ==========================================
+       VIEW ROUTING CLASSES
+       ========================================== */
+    .view-section { 
+      display: none; 
+      flex-direction: column; 
+      width: 100%; 
+      height: 100vh; 
+      position: relative; 
+    }
 
-        .active-state { background: var(--theme-gold) !important; color: #000 !important; border-color: var(--theme-gold) !important; box-shadow: 0 0 15px rgba(255,215,0,0.3); }
+    .view-section.active { 
+      display: flex; 
+      animation: viewWarp 0.3s ease forwards; 
+    }
 
-        /* MOBILE FRIENDLY USER CARDS (REPLACED TABLE) */
-        .user-grid { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; max-height: 600px; overflow-y: auto; padding-right: 5px;}
-        .user-card { background: rgba(0,0,0,0.4); border: 1px solid var(--border-color); border-radius: 10px; padding: 15px; display: flex; flex-direction: column; gap: 10px;}
-        .uc-top { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed #333; padding-bottom: 8px;}
-        .uc-uid { font-family: var(--font-mono); font-size: 16px; font-weight: bold; color: #fff; }
-        .uc-badge { font-size: 9px; font-weight: 800; padding: 4px 8px; border-radius: 4px; text-transform: uppercase;}
-        
-        .uc-mid { display: flex; justify-content: space-between; font-size: 11px; color: #aaa; font-family: var(--font-mono);}
-        
-        .uc-bot { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 5px;}
-        .uc-btn { flex: 1; min-width: 60px; padding: 8px 4px; border: none; border-radius: 6px; font-size: 9px; font-weight: 800; cursor: pointer; font-family: var(--font-display); background: #222; color: #fff;}
-        
-        /* Badges */
-        .b-pending { background: rgba(255, 204, 0, 0.1); color: var(--warning); border: 1px solid var(--warning); }
-        .b-active { background: rgba(0, 230, 118, 0.1); color: var(--success); border: 1px solid var(--success); }
-        .b-expired { background: rgba(229, 43, 43, 0.1); color: var(--theme-red); border: 1px solid var(--theme-red); }
+    @keyframes viewWarp { 
+      from { opacity: 0; transform: scale(0.98); } 
+      to { opacity: 1; transform: scale(1); } 
+    }
 
-        /* TOASTS */
-        #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 99999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; width: 90%; max-width: 350px;}
-        .toast { background: var(--bg-card); border-left: 4px solid; padding: 12px 15px; border-radius: 8px; font-size: 11px; font-weight: 600; box-shadow: 0 10px 30px rgba(0,0,0,0.8); animation: slideDown 0.3s ease forwards; opacity: 0; display: flex; align-items: center; gap: 10px;}
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-20px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
+    /* ==========================================
+       LOGIN & AUTHENTICATION SCREENS
+       ========================================== */
+    #view-verify { 
+      align-items: center; 
+      justify-content: center; 
+      padding: 20px; 
+    }
+
+    .logo-skull { 
+      width: 90px; 
+      height: 90px; 
+      background: #000; 
+      border: 2px solid var(--neon-orange); 
+      border-radius: 50%; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      font-size: 45px; 
+      box-shadow: 0 0 20px rgba(255,136,0,0.3); 
+      margin-bottom: 15px; 
+    }
+
+    .title-main { 
+      font-family: 'Orbitron'; 
+      font-size: 2.5rem; 
+      font-weight: 900; 
+      color: #fff; 
+      text-shadow: 0 0 15px var(--neon-orange); 
+      line-height: 1;
+    }
+
+    .title-sub { 
+      font-family: 'Orbitron'; 
+      font-size: 3rem; 
+      font-weight: 900; 
+      color: var(--neon-red); 
+      margin-bottom: 20px; 
+      letter-spacing: 5px; 
+    }
+    
+    .hacker-box-input { 
+      width: 100%; 
+      max-width: 320px; 
+      background: rgba(0,0,0,0.7); 
+      border: 2px solid var(--neon-orange); 
+      color: var(--neon-orange); 
+      padding: 16px; 
+      font-family: 'Orbitron'; 
+      text-align: center; 
+      outline: none; 
+      text-transform: uppercase; 
+      font-size: 1.2rem; 
+      margin-bottom: 20px; 
+      border-radius: 8px; 
+    }
+
+    .btn-cyber-solid { 
+      width: 100%; 
+      max-width: 320px; 
+      background: var(--neon-orange); 
+      border: none; 
+      color: #000; 
+      font-family: 'Orbitron'; 
+      font-size: 1.1rem; 
+      font-weight: 900; 
+      padding: 16px; 
+      cursor: pointer; 
+      border-radius: 8px; 
+      margin-bottom: 15px; 
+    }
+
+    .btn-cyber-outline { 
+      width: 100%; 
+      max-width: 320px; 
+      background: rgba(0,0,0,0.5); 
+      border: 2px solid #555; 
+      color: #aaa; 
+      font-family: 'Orbitron'; 
+      font-weight: 900; 
+      padding: 15px; 
+      cursor: pointer; 
+      border-radius: 8px; 
+      margin-bottom: 10px;
+    }
+
+    /* ==========================================
+       SYSTEM MODALS (DENIED, MAINT, UPDATE)
+       ========================================== */
+    .modal-screen-mask { 
+      display: none; 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      width: 100vw; 
+      height: 100vh; 
+      background: rgba(0,0,0,0.95); 
+      z-index: 10000; 
+      justify-content: center; 
+      align-items: center; 
+      padding: 20px; 
+    }
+
+    .modal-panel-box { 
+      width: 100%; 
+      max-width: 320px; 
+      background: #050505; 
+      border: 2px solid; 
+      border-radius: 12px; 
+      padding: 25px; 
+      text-align: center; 
+    }
+
+    .modal-panel-box.red-border { 
+      border-color: var(--neon-red); 
+      box-shadow: 0 0 30px rgba(255,0,51,0.3); 
+    }
+
+    .modal-panel-box.cyan-border { 
+      border-color: var(--neon-cyan); 
+      box-shadow: 0 0 30px rgba(0,243,255,0.3); 
+    }
+
+    /* ==========================================
+       MAIN APP DASHBOARD & TOP HEADER
+       ========================================== */
+    .app-bar-top { 
+      width: 100%; 
+      background: #111; 
+      padding: 10px 15px; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      border-bottom: 1px solid #333; 
+    }
+
+    .bar-logo { 
+      display: flex; 
+      align-items: center; 
+      gap: 10px; 
+    }
+
+    .bar-icon { 
+      width: 40px; 
+      height: 40px; 
+      border-radius: 50%; 
+      border: 2px solid var(--neon-orange); 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      font-size: 20px; 
+      background: radial-gradient(circle, #331100, #000); 
+      box-shadow: 0 0 10px rgba(255,136,0,0.5);
+    }
+
+    .bar-text { 
+      display: flex; 
+      flex-direction: column; 
+    }
+
+    .bar-title { 
+      font-family: 'Orbitron'; 
+      font-size: 1.1rem; 
+      font-weight: 900; 
+      color: #fff; 
+      letter-spacing: 1px;
+    }
+
+    .bar-sub { 
+      font-family: 'Orbitron'; 
+      font-size: 0.7rem; 
+      color: var(--neon-orange); 
+      font-weight: bold; 
+    }
+
+    .bar-live { 
+      font-family: 'Orbitron'; 
+      font-size: 0.75rem; 
+      color: #fff; 
+      margin-right: 10px;
+    }
+
+    .btn-bar-exit { 
+      background: transparent; 
+      border: 1px solid var(--neon-red); 
+      color: var(--neon-red); 
+      font-family: 'Orbitron'; 
+      font-size: 0.8rem; 
+      padding: 5px 12px; 
+      border-radius: 6px; 
+      cursor: pointer; 
+    }
+
+    /* ==========================================
+       BOTTOM DOCK NAVIGATION
+       ========================================== */
+    .dock-nav-bottom { 
+      position: fixed; 
+      bottom: 0; 
+      left: 0; 
+      width: 100%; 
+      background: #0a0a0a; 
+      border-top: 1px solid var(--neon-orange); 
+      display: flex; 
+      justify-content: space-around; 
+      padding: 8px 5px 15px; 
+      z-index: 100; 
+    }
+
+    .dock-nav-item { 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      color: #555; 
+      font-family: 'Orbitron'; 
+      font-size: 0.75rem; 
+      font-weight: 900; 
+      cursor: pointer; 
+      gap: 4px;
+    }
+
+    .dock-nav-item.dock-active { 
+      color: var(--neon-orange); 
+      text-shadow: 0 0 10px var(--neon-orange); 
+    }
+
+    .dock-icon { 
+      width: 40px; 
+      height: 40px; 
+      border-radius: 50%; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      font-size: 1.5rem; 
+      transition: 0.3s;
+    }
+
+    .dock-nav-item.dock-active .dock-icon { 
+      background: radial-gradient(circle, rgba(255,136,0,0.3), transparent); 
+      box-shadow: 0 0 15px rgba(255,136,0,0.2);
+    }
+
+    /* ==========================================
+       MAIN VIEWPORT TABS
+       ========================================== */
+    .main-tabs-viewport { 
+      flex: 1; 
+      width: 100%; 
+      position: relative; 
+    }
+
+    .tab-view-panel { 
+      display: none; 
+      width: 100%; 
+      height: calc(100vh - 120px); 
+      overflow-y: auto; 
+      padding: 20px 15px 90px; 
+    }
+
+    .tab-view-panel.active-panel { 
+      display: block; 
+    }
+    
+    /* ==========================================
+       PREDICTION UI MODULES
+       ========================================== */
+    .header-row { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: flex-end; 
+      margin-bottom: 20px; 
+      width: 100%; 
+      max-width: 450px; 
+      margin-left: auto; 
+      margin-right: auto;
+    }
+
+    .target-block { 
+      display: flex; 
+      flex-direction: column; 
+    }
+
+    .target-title { 
+      font-family: 'Orbitron'; 
+      font-size: 0.8rem; 
+      color: #aaa; 
+      letter-spacing: 1px;
+    }
+
+    .target-issue { 
+      font-family: 'Share Tech Mono'; 
+      font-size: 1.4rem; 
+      font-weight: bold; 
+      color: var(--gold); 
+    }
+    
+    .timer-boxes { 
+      display: flex; 
+      gap: 8px; 
+    }
+
+    .t-box { 
+      width: 40px; 
+      height: 50px; 
+      border: 2px solid var(--neon-orange); 
+      border-radius: 8px; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      font-family: 'Orbitron'; 
+      font-size: 1.6rem; 
+      font-weight: 900; 
+      color: var(--neon-orange); 
+      background: rgba(255,136,0,0.05); 
+    }
+
+    /* Big Prediction Result Box */
+    .prediction-panel { 
+      width: 100%; 
+      max-width: 450px; 
+      margin: 0 auto 25px; 
+      border: 2px solid var(--neon-orange); 
+      border-radius: 16px; 
+      padding: 30px 15px 25px; 
+      text-align: center; 
+      background: rgba(0,0,0,0.5); 
+      box-shadow: 0 0 20px rgba(255,136,0,0.1), inset 0 0 15px rgba(255,136,0,0.05); 
+      position: relative; 
+    }
+
+    .prediction-panel.loss-mode { 
+      border-color: var(--neon-red); 
+      box-shadow: 0 0 20px rgba(255,51,51,0.2); 
+    }
+    
+    .pred-top-text { 
+      font-family: 'Orbitron'; 
+      font-size: 0.85rem; 
+      color: #666; 
+      letter-spacing: 2px; 
+      margin-bottom: 10px; 
+      font-weight: bold;
+    }
+
+    .pred-main-result { 
+      font-family: 'Orbitron'; 
+      font-size: 4rem; 
+      font-weight: 900; 
+      color: #888; 
+      letter-spacing: 2px; 
+      line-height: 1; 
+      transition: 0.3s; 
+    }
+    
+    .prediction-panel.active-big .pred-main-result { 
+      color: var(--neon-red); 
+      text-shadow: 0 0 20px var(--neon-red); 
+    }
+
+    .prediction-panel.active-small .pred-main-result { 
+      color: var(--neon-orange); 
+      text-shadow: 0 0 20px var(--neon-orange); 
+    }
+
+    .target-badge { 
+      font-family: 'Orbitron'; 
+      font-size: 1.1rem; 
+      font-weight: 700; 
+      color: #aaa; 
+      margin-top: 20px; 
+      display: inline-block; 
+      padding: 6px 20px; 
+      border-radius: 50px; 
+      border: 1px solid #333; 
+      background: #111; 
+      letter-spacing: 2px; 
+    }
+
+    .target-locked { 
+      font-family: 'Orbitron'; 
+      font-size: 0.9rem; 
+      font-weight: 900; 
+      color: #fff; 
+      margin-top: 20px; 
+      display: inline-flex; 
+      align-items: center; 
+      gap: 8px; 
+      padding: 8px 25px; 
+      border-radius: 50px; 
+      border: 1px solid var(--neon-orange); 
+      background: rgba(255,136,0,0.1); 
+      letter-spacing: 1px; 
+    }
+
+    /* ==========================================
+       HISTORY TABLE CSS
+       ========================================== */
+    .history-section { 
+      width: 100%; 
+      max-width: 450px; 
+      margin: 0 auto; 
+    }
+
+    .history-title { 
+      font-family: 'Orbitron'; 
+      font-size: 1rem; 
+      color: var(--neon-orange); 
+      margin-bottom: 10px; 
+      border-left: 4px solid var(--neon-orange); 
+      padding-left: 10px; 
+      font-weight: bold; 
+    }
+    
+    .table-container { 
+      width: 100%; 
+      border-radius: 12px; 
+      border: 1px solid #333; 
+      background: #000; 
+      overflow: hidden; 
+    }
+
+    .table-scroll { 
+      max-height: 200px; 
+      overflow-y: auto; 
+      display: block; 
+    }
+
+    .table-scroll::-webkit-scrollbar { width: 4px; }
+    .table-scroll::-webkit-scrollbar-thumb { background: var(--neon-orange); border-radius: 10px; }
+    
+    table { 
+      width: 100%; 
+      border-collapse: collapse; 
+      text-align: center; 
+    }
+
+    thead { 
+      display: table; 
+      width: 100%; 
+      table-layout: fixed; 
+      background: #111; 
+    }
+
+    tbody { 
+      display: table; 
+      width: 100%; 
+      table-layout: fixed; 
+    }
+
+    th { 
+      padding: 12px 5px; 
+      color: var(--neon-orange); 
+      font-family: 'Orbitron'; 
+      font-size: 0.75rem; 
+      border-bottom: 1px solid #333; 
+    }
+
+    td { 
+      padding: 12px 5px; 
+      border-bottom: 1px solid #1a1a1a; 
+      font-family: 'Orbitron'; 
+      font-weight: 700; 
+      font-size: 0.9rem;
+    }
+    
+    .t-issue { font-family: 'Share Tech Mono'; color: #fff; }
+    .t-target { font-size: 1rem; font-weight: 900;}
+    .t-target span { font-size: 0.65rem; color: #777; display: block; margin-top: 2px;}
+    .t-hit { font-size: 1.3rem; color: #fff; }
+    
+    .win { color: var(--neon-green); text-shadow: 0 0 8px rgba(0,255,51,0.5); } 
+    .loss { color: var(--text-main); } 
+
+    /* GAME TAB (IFRAME) */
+    .fullscreen-game-frame { 
+      width: 100%; 
+      height: 100%; 
+      border: none; 
+      background: #000; 
+    }
+  </style>
 </head>
 <body>
 
-    <div id="toast-container"></div>
+  <div class="cyber-grid"></div>
 
-    <!-- LOCK SCREEN -->
-    <div id="admin-auth">
-        <div class="auth-box">
-            <div class="auth-title">ADMIN PORTAL</div>
-            <div class="auth-sub">DREAM DEVELOPER SECURE LOGIN</div>
-            <input type="password" id="master-pass" class="input-box" style="text-align: center; letter-spacing: 5px; margin-bottom: 20px;" placeholder="•••••••">
-            <button class="btn btn-red" onclick="checkAuth()">UNLOCK DASHBOARD</button>
+  <!-- =========================================
+       MODALS: SYSTEM OVERRIDES & SECURITY
+       ========================================= -->
+  <!-- Auth Denied Modal -->
+  <div class="modal-screen-mask" id="modalDenied" style="z-index:10005;">
+    <div class="modal-panel-box red-border">
+      <h2 style="font-family:'Orbitron'; color:var(--neon-red); margin-bottom:10px;">ACCESS DENIED</h2>
+      <p class="denied-msg-sub" style="color:#888; font-family:'Rajdhani'; margin-bottom:20px;">INVALID OR EXPIRED KEY</p>
+      <button class="btn-cyber-solid" style="background:var(--neon-red); margin-bottom:10px;" onclick="document.getElementById('modalDenied').style.display='none'">RETRY</button>
+      <button class="btn-cyber-outline tgBtn">SUPPORT</button>
+    </div>
+  </div>
+
+  <!-- Maintenance Modal -->
+  <div class="modal-screen-mask" id="modalMaintenance" style="z-index:10004;">
+    <div class="modal-panel-box red-border">
+      <div style="font-size:3rem; margin-bottom:10px;">⚠️</div>
+      <h2 style="font-family:'Orbitron'; color:var(--neon-red); margin-bottom:10px;">MAINTENANCE</h2>
+      <p id="maintText" style="color:#888; font-family:'Rajdhani'; margin-bottom:20px;">Server is currently down for upgrades.</p>
+    </div>
+  </div>
+
+  <!-- App Update Modal -->
+  <div class="modal-screen-mask" id="modalUpdate" style="z-index:10003;">
+    <div class="modal-panel-box red-border">
+      <div style="font-size:3rem; margin-bottom:10px;">🚀</div>
+      <h2 style="font-family:'Orbitron'; color:var(--neon-red); margin-bottom:10px;">UPDATE REQUIRED</h2>
+      <p id="updText" style="color:#888; font-family:'Rajdhani'; margin-bottom:20px;">A new version is available!</p>
+      <button class="btn-cyber-solid" id="updBtn" style="background:var(--neon-red);">DOWNLOAD NOW</button>
+    </div>
+  </div>
+
+  <!-- Notice/Welcome Popup Modal -->
+  <div class="modal-screen-mask" id="modalNotice" style="z-index:10002;">
+    <div class="modal-panel-box cyan-border">
+      <div style="font-size:3rem; margin-bottom:10px;">📢</div>
+      <h2 style="font-family:'Orbitron'; color:var(--neon-cyan); margin-bottom:10px;">NOTICE</h2>
+      <p id="noticeText" style="color:#888; font-family:'Rajdhani'; margin-bottom:20px;">Welcome to Dev Army</p>
+      <button class="btn-cyber-solid" style="background:var(--neon-cyan);" onclick="dismissNotice()">ACKNOWLEDGE</button>
+    </div>
+  </div>
+
+  <!-- =========================================
+       VIEW: LOGIN & VERIFICATION SCREEN
+       ========================================= -->
+  <div id="view-verify" class="view-section active">
+    <div class="logo-skull">💀</div>
+    <div class="title-main">DEV ARMY</div>
+    <div class="title-sub">MOD V6</div>
+    <input type="text" id="loginKey" class="hacker-box-input" placeholder="ENTER ACCESS KEY">
+    <button class="btn-cyber-solid" id="activateBtn">VALIDATE KEY</button>
+    <button class="btn-cyber-outline tgBtn">CONTACT SUPPORT</button>
+  </div>
+
+  <!-- =========================================
+       VIEW: MAIN DASHBOARD & TABS
+       ========================================= -->
+  <div id="view-app" class="view-section" style="padding:0; justify-content:flex-start;">
+    
+    <!-- Top Bar -->
+    <div class="app-bar-top">
+      <div class="bar-logo">
+        <div class="bar-icon">💀</div>
+        <div class="bar-text">
+          <span class="bar-title">DEV ARMY MOD</span>
+          <span class="bar-sub">PREDICTOR V6</span>
         </div>
+      </div>
+      <div>
+        <span class="bar-live">LIVE</span>
+        <button class="btn-bar-exit" onclick="location.reload()">EXIT</button>
+      </div>
     </div>
 
-    <!-- MAIN DASHBOARD -->
-    <div id="dashboard-wrapper">
-        <div class="header">
-            <h1>DREAM <span>DEVELOPER</span></h1>
-            <div class="live-indicator"><div class="live-dot"></div> SYNCED</div>
+    <!-- Main Viewport for Tabs -->
+    <div class="main-tabs-viewport">
+      
+      <!-- TAB 1: PREDICTION PANEL -->
+      <div id="tab-predict" class="tab-view-panel active-panel">
+        
+        <!-- Timer Row -->
+        <div class="header-row">
+          <div class="target-block">
+            <span class="target-title">TARGET ISSUE:</span>
+            <span class="target-issue" id="periodLabel">SYNCING...</span>
+          </div>
+          <div class="timer-boxes">
+            <div class="t-box" id="tSec1">0</div>
+            <div class="t-box" id="tSec2">0</div>
+          </div>
+        </div>
+        
+        <!-- Big Prediction UI -->
+        <div class="prediction-panel" id="resultDisplay">
+          <div class="pred-top-text">AI NEURAL PREDICTION</div>
+          <div class="pred-main-result" id="predMain">---</div>
+          <div class="target-badge" id="predSure">TARGET: - • -</div>
+          <br>
+          <div class="target-locked" id="liveStatus">🎯 AWAITING DATA...</div>
+        </div>
+        
+        <!-- History Table -->
+        <div class="history-section">
+          <div class="history-title">SERVER HISTORY</div>
+          <div class="table-container table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>ISSUE ID</th>
+                  <th>TARGET</th>
+                  <th>HIT</th>
+                  <th>STATUS</th>
+                </tr>
+              </thead>
+              <tbody id="historyTbody"></tbody>
+            </table>
+          </div>
         </div>
 
-        <div class="grid-container">
-            
-            <!-- STATS PANEL -->
-            <div class="panel">
-                <div class="panel-top-bar"></div>
-                <div class="panel-title">SYSTEM OVERVIEW</div>
-                <div class="stat-grid">
-                    <div class="stat-box"><div class="stat-val" id="stat-total" style="color: #fff;">0</div><div class="stat-label">USERS</div></div>
-                    <div class="stat-box"><div class="stat-val" id="stat-active" style="color: var(--success);">0</div><div class="stat-label">ACTIVE</div></div>
-                    <div class="stat-box"><div class="stat-val" id="stat-pending" style="color: var(--warning);">0</div><div class="stat-label">PENDING</div></div>
-                </div>
-                <button class="btn btn-outline" style="margin-top: 15px; border-color:var(--warning); color:var(--warning);" onclick="toggleMaintenance()">🛠️ TOGGLE MAINTENANCE</button>
-            </div>
+      </div>
 
-            <!-- MASTER CONTROL -->
-            <div class="panel">
-                <div class="panel-top-bar"></div>
-                <div class="panel-title">GAME CONTROLS</div>
-                
-                <div class="input-group">
-                    <span class="input-label">APP SESSION STATUS</span>
-                    <div class="btn-row">
-                        <button id="btn-session-on" class="btn btn-outline" onclick="setSessionActive(true)">🟢 LIVE</button>
-                        <button id="btn-session-off" class="btn btn-red" onclick="setSessionActive(false)">🔒 LOCKED</button>
-                    </div>
-                </div>
-                
-                <div class="input-group" style="margin-top: 15px; background: rgba(255,215,0,0.05); padding: 10px; border-radius: 8px; border: 1px solid rgba(255,215,0,0.2);">
-                    <span class="input-label" style="color: var(--theme-gold);">🔄 MIRROR MODE (INVERT)</span>
-                    <input type="text" id="reverse-period" class="input-box" style="margin-bottom: 8px; padding: 8px; font-size: 11px;" placeholder="Target Period ID...">
-                    <div class="btn-row">
-                        <button id="btn-rev-on" class="btn btn-outline" style="border-color:var(--theme-gold); color:var(--theme-gold);" onclick="setMirrorMode(true)">START</button>
-                        <button id="btn-rev-off" class="btn btn-red" onclick="setMirrorMode(false)">STOP</button>
-                    </div>
-                </div>
-            </div>
+      <!-- TAB 2: GAME IFRAME -->
+      <div id="tab-game-panel" class="tab-view-panel" style="padding:0;">
+        <iframe class="fullscreen-game-frame" id="gameIframe" src="about:blank"></iframe>
+      </div>
 
-            <!-- ALGORITHM ENGINE -->
-            <div class="panel">
-                <div class="panel-top-bar"></div>
-                <div class="panel-title">AI ALGORITHM ENGINE</div>
-
-                <div class="input-group">
-                    <span class="input-label">Active Formula</span>
-                    <select id="pattern-injector" class="input-box" style="padding: 10px;" onchange="injectActivePattern()">
-                        <option value="AUTO">🤖 AUTO SMART ENGINE</option>
-                        <option value="Jalwa-D4-D5-Prev">🔥 D4 + D5 + PREV RESULT</option>
-                    </select>
-                </div>
-                
-                <div class="input-group" style="margin-bottom:0;">
-                    <span class="input-label">Force Result (Override)</span>
-                    <div class="btn-row">
-                        <button id="btn-f-big" class="btn btn-outline" style="color:var(--success); border-color:var(--success);" onclick="setForce('BIG')">BIG</button>
-                        <button id="btn-f-auto" class="btn active-state" onclick="setForce('AUTO')">AUTO</button>
-                        <button id="btn-f-small" class="btn btn-outline" style="color:var(--theme-red); border-color:var(--theme-red);" onclick="setForce('SMALL')">SMALL</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- BROADCAST -->
-            <div class="panel">
-                <div class="panel-top-bar"></div>
-                <div class="panel-title">BROADCAST & SYNC</div>
-                
-                <div class="input-group">
-                    <span class="input-label">Game URL Sync</span>
-                    <div style="display:flex; gap:8px;">
-                        <input type="text" id="game-url" class="input-box" style="padding:8px;" placeholder="https://13l.game">
-                        <button class="btn btn-outline" style="width:70px; padding:8px;" onclick="updateGameUrl()">SET</button>
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <span class="input-label" style="color:var(--success);">Flash Win Blast</span>
-                    <div style="display:flex; gap:8px;">
-                        <input type="text" id="mass-win-text" class="input-box" style="padding:8px;" placeholder="Target fixed message...">
-                        <button class="btn btn-green" style="width:70px; padding:8px;" onclick="triggerMassWinBlast()">FIRE</button>
-                    </div>
-                </div>
-
-                <div class="input-group" style="margin-bottom: 0;">
-                    <span class="input-label">Global Notification</span>
-                    <div style="display:flex; gap:8px;">
-                        <input type="text" id="global-notice" class="input-box" style="padding:8px;" placeholder="Maintenance notice...">
-                        <button class="btn btn-outline" style="width:70px; padding:8px; color:var(--theme-gold); border-color:var(--theme-gold);" onclick="sendBroadcast()">SEND</button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- MOBILE FRIENDLY USER MANAGEMENT -->
-        <div class="panel" style="padding: 15px;">
-            <div class="panel-top-bar"></div>
-            <div class="panel-title" style="margin-bottom: 10px;">USER REGISTRY</div>
-            
-            <div style="display:flex; gap:10px; margin-bottom: 10px;">
-                <input type="text" id="search-bar" class="input-box" style="padding: 10px;" placeholder="Search UID..." onkeyup="filterUsers()">
-                <button class="btn btn-red" style="width: auto; white-space: nowrap; padding: 10px;" onclick="clearExpired()">PURGE</button>
-            </div>
-            
-            <!-- Cards will be injected here -->
-            <div class="user-grid" id="user-list-container"></div>
-        </div>
     </div>
 
-    <!-- FIREBASE & LOGIC -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getDatabase, ref, update, onValue, remove } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+    <!-- DUAL TABS NAVIGATION MENU -->
+    <div class="dock-nav-bottom">
+      <div class="dock-nav-item dock-active" onclick="switchTab('tab-predict', this)">
+        <div class="dock-icon">🔮</div>PREDICTION
+      </div>
+      <div class="dock-nav-item" onclick="switchTab('tab-game-panel', this)">
+        <div class="dock-icon">🎮</div>GAME
+      </div>
+    </div>
+  </div>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyAJk3E5Itcz7DU-op_bqwgqSobmD8rfNq8", authDomain: "sikkimaitool.firebaseapp.com",
-            databaseURL: "https://sikkimaitool-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "sikkimaitool",
-            storageBucket: "sikkimaitool.firebasestorage.app", messagingSenderId: "897487739765", appId: "1:897487739765:web:34f9df57ee8372aa6b913c"
-        };
-        const app = initializeApp(firebaseConfig); const db = getDatabase(app);
-        const settingsRef = ref(db, 'admin_settings'); const usersRef = ref(db, 'users');
+  <!-- =========================================
+       FIREBASE INTEGRATION & CORE JAVASCRIPT
+       ========================================= -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getDatabase, ref, get, child, update, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-        let globalUsersData = {}; let isMaintenance = false;
+    // 1. FIREBASE CONFIGURATION
+    const firebaseConfig = {
+      apiKey: "AIzaSyBNj71akpefcfEtn-SQfAcx-Pgwi8sUosg",
+      authDomain: "teamdev-88676.firebaseapp.com",
+      databaseURL: "https://teamdev-88676-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "teamdev-88676"
+    };
+    
+    const app = initializeApp(firebaseConfig);
+    const database = getDatabase(app);
 
-        window.checkAuth = () => {
-            if(document.getElementById('master-pass').value === "BOSS888") {
-                document.getElementById('admin-auth').style.display = 'none';
-                document.getElementById('dashboard-wrapper').style.display = 'block';
-                showToast("Welcome to Dream Developer Dashboard", "var(--success)");
-                initDatabaseListeners(); 
-            } else { showToast("Security Alert: Invalid Key", "var(--theme-red)"); }
-        };
+    // =========================================
+    // 2. EXTREME ANTI-INSPECT SECURITY
+    // =========================================
+    // Clear console to hide output
+    const cleanFunc = () => {}; 
+    window.console.log = cleanFunc; 
+    window.console.error = cleanFunc;
+    
+    setInterval(() => { 
+      try { window.console.clear(); } catch(e){} 
+    }, 400);
 
-        window.showToast = (msg, color) => {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div'); toast.className = 'toast'; 
-            toast.style.borderColor = color; toast.innerHTML = `<span style="color:${color}; font-size:14px;">➜</span> ${msg}`; 
-            container.appendChild(toast);
-            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, 3000);
-        };
+    // Trap loop to crash debugger
+    (function secureEnv() {
+      function trapLoop(i) {
+        if ((window.outerHeight - window.innerHeight) > 120 || (window.outerWidth - window.innerWidth) > 120) {
+          document.body.innerHTML = "<div style='color:#0f3; font-family:monospace; font-size:1.5rem; text-align:center; margin-top:40vh;'>SECURITY EXCEPTION:<br>SYSTEM TERMINATED</div>";
+          while(true) debugger;
+        }
+        setTimeout(() => trapLoop(++i), 150);
+      }
+      try { trapLoop(0); } catch(e){}
+    })();
 
-        function initDatabaseListeners() {
-            onValue(settingsRef, (snapshot) => {
-                const data = snapshot.val();
-                if(data) {
-                    if(data.gameUrl) document.getElementById('game-url').value = data.gameUrl;
-                    if(data.notice) document.getElementById('global-notice').value = data.notice;
-                    if(data.activePattern) document.getElementById('pattern-injector').value = data.activePattern;
-                    if(data.maintenance !== undefined) isMaintenance = data.maintenance;
-                    
-                    // Force Result UI
-                    document.getElementById('btn-f-big').className = 'btn btn-outline'; document.getElementById('btn-f-big').style.color = 'var(--success)';
-                    document.getElementById('btn-f-auto').className = 'btn btn-outline'; document.getElementById('btn-f-auto').style.color = '#fff';
-                    document.getElementById('btn-f-small').className = 'btn btn-outline'; document.getElementById('btn-f-small').style.color = 'var(--theme-red)';
-                    
-                    if(data.forceResult === 'BIG') { document.getElementById('btn-f-big').className = 'btn active-state'; document.getElementById('btn-f-big').style.color = '#000'; } 
-                    else if(data.forceResult === 'SMALL') { document.getElementById('btn-f-small').className = 'btn active-state'; document.getElementById('btn-f-small').style.color = '#000';} 
-                    else { document.getElementById('btn-f-auto').className = 'btn active-state'; document.getElementById('btn-f-auto').style.color = '#000';}
+    // Disable Right Click and Developer Hotkeys
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => { 
+      if(e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I')) {
+        e.preventDefault(); 
+      }
+    });
 
-                    // Session UI
-                    if(data.hackActive) { document.getElementById('btn-session-on').className = 'btn active-state'; document.getElementById('btn-session-off').className = 'btn btn-outline'; } 
-                    else { document.getElementById('btn-session-off').className = 'btn btn-red'; document.getElementById('btn-session-on').className = 'btn btn-outline'; }
+    // =========================================
+    // 3. SYSTEM OVERRIDES & DYNAMIC CONFIGS
+    // =========================================
+    window.dismissNotice = function() {
+      document.getElementById('modalNotice').style.display = 'none';
+      sessionStorage.setItem('notice_seen', 'true');
+    };
 
-                    // Mirror Mode UI
-                    if(data.mirrorMode && data.mirrorMode.active) {
-                        document.getElementById('btn-rev-on').className = 'btn active-state';
-                        document.getElementById('btn-rev-off').className = 'btn btn-outline';
-                        document.getElementById('reverse-period').value = data.mirrorMode.untilPeriod;
-                    } else {
-                        document.getElementById('btn-rev-off').className = 'btn btn-red';
-                        document.getElementById('btn-rev-on').className = 'btn btn-outline';
-                    }
-                }
+    onValue(ref(database, 'systemConfig'), (snapshot) => {
+      if(snapshot.exists()) {
+        const config = snapshot.val();
+        
+        // Dynamic Links Sync
+        if(config.links) {
+          if(config.links.gameUrl) document.getElementById('gameIframe').src = config.links.gameUrl;
+          if(config.links.telegramUrl) {
+            document.querySelectorAll('.tgBtn').forEach(btn => {
+              btn.onclick = () => window.open(config.links.telegramUrl, '_blank');
             });
-            onValue(usersRef, (snapshot) => { globalUsersData = snapshot.val() || {}; renderUsers(); });
+          }
         }
 
-        function formatDate(ms) { if(!ms) return "---"; let d = new Date(ms); return `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()} ${d.getHours()}:${(d.getMinutes()<10?'0':'')+d.getMinutes()}`; }
+        // System Modals (Maintenance, Updates, Notices)
+        if(config.maintenance && config.maintenance.active) {
+          document.getElementById('maintText').textContent = config.maintenance.message;
+          document.getElementById('modalMaintenance').style.display = 'flex';
+        } else {
+          document.getElementById('modalMaintenance').style.display = 'none';
+        }
 
-        function renderUsers() {
-            const container = document.getElementById('user-list-container'); container.innerHTML = '';
-            const searchQuery = document.getElementById('search-bar').value.toLowerCase();
-            let pCount = 0, aCount = 0, tCount = 0;
+        if(config.update && config.update.active) {
+          document.getElementById('updText').textContent = config.update.message;
+          document.getElementById('updBtn').onclick = () => window.open(config.update.link, '_blank');
+          document.getElementById('modalUpdate').style.display = 'flex';
+        } else {
+          document.getElementById('modalUpdate').style.display = 'none';
+        }
 
-            for(let uid in globalUsersData) {
-                tCount++; let user = globalUsersData[uid]; let devID = user.deviceID || "UNBOUND";
-                if(user.status === 'pending') pCount++;
-                if(user.status === 'approved' && Date.now() < user.expiry) aCount++;
+        if(config.popup && config.popup.active && !sessionStorage.getItem('notice_seen')) {
+          document.getElementById('noticeText').textContent = config.popup.text;
+          document.getElementById('modalNotice').style.display = 'flex';
+        } else {
+          document.getElementById('modalNotice').style.display = 'none';
+        }
+      }
+    });
 
-                if(uid.toLowerCase().includes(searchQuery)) {
-                    let html = '';
-                    
-                    // MOBILE FRIENDLY CARD LAYOUT
-                    if(user.status === 'pending') {
-                        html = `
-                        <div class="user-card" style="border-left: 3px solid var(--warning);">
-                            <div class="uc-top">
-                                <span class="uc-uid">${uid}</span>
-                                <span class="uc-badge b-pending">PENDING</span>
-                            </div>
-                            <div class="uc-mid">
-                                <span>📱 ${devID}</span>
-                                <span>⏳ Awaiting Auth</span>
-                            </div>
-                            <div class="uc-bot">
-                                <button class="uc-btn" style="background:var(--success); color:#000;" onclick="approveUID('${uid}', 1)">1 DAY</button>
-                                <button class="uc-btn" style="background:var(--theme-gold); color:#000;" onclick="approveUID('${uid}', 7)">7 DAYS</button>
-                                <button class="uc-btn" style="border:1px solid #aaa; color:#fff;" onclick="approveCustom('${uid}')">CUSTOM</button>
-                                <button class="uc-btn" style="background:var(--theme-red); color:#fff;" onclick="rejectUID('${uid}')">REJECT</button>
-                            </div>
-                        </div>`;
-                    } else if (user.status === 'approved') {
-                        let isExpired = Date.now() > user.expiry; 
-                        let bClass = isExpired ? 'b-expired' : 'b-active'; let bText = isExpired ? 'EXPIRED' : 'ACTIVE';
-                        let borderColor = isExpired ? 'var(--theme-red)' : 'var(--success)';
-                        
-                        html = `
-                        <div class="user-card" style="border-left: 3px solid ${borderColor};">
-                            <div class="uc-top">
-                                <span class="uc-uid">${uid}</span>
-                                <span class="uc-badge ${bClass}">${bText}</span>
-                            </div>
-                            <div class="uc-mid">
-                                <span>📱 ${devID}</span>
-                                <span>⏳ ${formatDate(user.expiry)}</span>
-                            </div>
-                            <div class="uc-bot">
-                                <button class="uc-btn" style="border:1px solid var(--theme-gold); color:var(--theme-gold);" onclick="sendPersonalMsg('${uid}')">MSG</button>
-                                <button class="uc-btn" style="border:1px solid #aaa; color:#aaa;" onclick="unbindDevice('${uid}')">UNBIND</button>
-                                <button class="uc-btn" style="border:1px solid var(--success); color:var(--success);" onclick="approveCustom('${uid}')">+ADD TIME</button>
-                                <button class="uc-btn" style="background:rgba(229,43,43,0.1); color:var(--theme-red);" onclick="deleteUID('${uid}')">DEL</button>
-                            </div>
-                        </div>`;
-                    }
-                    container.innerHTML += html;
-                }
+    // =========================================
+    // 4. UI NAVIGATION HELPERS
+    // =========================================
+    window.loadScreenView = (id) => { 
+      document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active')); 
+      document.getElementById(id).classList.add('active'); 
+    };
+
+    window.switchTab = (id, el) => { 
+      document.querySelectorAll('.tab-view-panel').forEach(p => p.classList.remove('active-panel')); 
+      document.getElementById(id).classList.add('active-panel'); 
+      document.querySelectorAll('.dock-nav-item').forEach(i => i.classList.remove('dock-active')); 
+      el.classList.add('dock-active'); 
+    };
+
+    function showDenied(msg) { 
+      document.querySelector('.denied-msg-sub').textContent = msg; 
+      document.getElementById('modalDenied').style.display = 'flex'; 
+    }
+
+    // =========================================
+    // 5. CLIENT AUTHENTICATION
+    // =========================================
+    let myDeviceId = localStorage.getItem('predict_device_id') || ('DEV-' + Math.random().toString(36).substr(2, 9).toUpperCase());
+    localStorage.setItem('predict_device_id', myDeviceId);
+
+    const savedKey = localStorage.getItem('predict_saved_key'); 
+    if(savedKey) document.getElementById('loginKey').value = savedKey;
+
+    document.getElementById('activateBtn').addEventListener('click', async () => {
+      const key = document.getElementById('loginKey').value.trim().toUpperCase();
+      
+      if(!key) return showDenied("ENTER KEY");
+      
+      document.getElementById('activateBtn').innerText = "VERIFYING...";
+      
+      try {
+        const snap = await get(child(ref(database), `keys/${key}`));
+        
+        if(snap.exists()) {
+          const kData = snap.val();
+          
+          if(kData.status !== "ACTIVE" || new Date() > new Date(kData.expiresAt)) {
+            return showDenied("KEY EXPIRED OR BANNED");
+          }
+          if(kData.deviceId && kData.deviceId !== myDeviceId) {
+            return showDenied("KEY BOUND TO ANOTHER DEVICE");
+          }
+          
+          if(!kData.deviceId) {
+            await update(ref(database, `keys/${key}`), { deviceId: myDeviceId });
+          }
+          
+          localStorage.setItem('predict_saved_key', key);
+          
+          document.getElementById('view-verify').classList.remove('active');
+          document.getElementById('view-app').classList.add('active');
+          
+          if(!pollInterval) init();
+        } else {
+          showDenied("INVALID KEY");
+        }
+      } catch(e) { 
+        showDenied("NETWORK ERROR"); 
+      }
+      
+      document.getElementById('activateBtn').innerText = "VALIDATE KEY";
+    });
+
+    // =========================================
+    // 6. ADVANCED PREDICTION ENGINE CORE
+    // =========================================
+    let lastSeenIssue = null, 
+        activePrediction = null, 
+        fullHistory = [], 
+        fetchingLock = false, 
+        pollInterval = null, 
+        forceData = { size: "AUTO" };
+        
+    const historyBody = document.getElementById('historyTbody');
+    const resultDisplay = document.getElementById('resultDisplay');
+
+    // UI Box Timer Sync
+    setInterval(() => {
+      const sec = 60 - new Date().getSeconds();
+      let secStr = sec < 10 ? '0'+sec : sec.toString();
+      document.getElementById('tSec1').textContent = secStr.charAt(0);
+      document.getElementById('tSec2').textContent = secStr.charAt(1);
+    }, 1000);
+
+    // Sync Override Mode
+    onValue(ref(database, 'server/adminOverride'), (snap) => {
+      forceData = snap.val() || { size: "AUTO" };
+      if(activePrediction) renderUI(activePrediction);
+    });
+
+    // Populate History Table
+    function addHistory(pred, num, issue, size) {
+      if(!pred) return;
+      const isJackpot = pred.sureNumbers.includes(num);
+      const isWin = size === pred.predictionSize;
+      
+      const status = isJackpot ? "JACKPOT" : (isWin ? "WIN" : "LOSS");
+      const cls = isWin || isJackpot ? "win" : "loss"; 
+      
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td class="t-issue">${issue}</td>
+        <td class="t-target">${pred.predictionSize}<span>[${pred.sureNumbers.join(' • ')}]</span></td>
+        <td class="t-hit">${num}</td>
+        <td class="${cls}">${status}</td>
+      `;
+      historyBody.insertBefore(tr, historyBody.firstChild);
+      
+      // Limit to 20 Rows
+      while(historyBody.children.length > 20) {
+        historyBody.removeChild(historyBody.lastChild);
+      }
+    }
+
+    // Mathematical Predictor AI Logic Restored
+    function generateAIPrediction(historyArray) {
+      let predictedSize = "BIG", sure1 = 5, sure2 = 8;
+      
+      const validDraws = (historyArray || []).filter(d => d !== undefined && d.number !== undefined && !isNaN(d.number)).slice(0, 20);
+      
+      if (validDraws.length === 0) {
+        return { predictionSize: predictedSize, sureNumbers: [sure1, sure2] };
+      }
+      
+      const recentSizes = validDraws.slice(0, 12).map(r => r.size).filter(s => s !== null);
+      
+      // Advanced Streak Detection
+      if (recentSizes.length >= 3) {
+        let streak = 1; 
+        for (let i = 1; i < recentSizes.length; i++) { 
+          if (recentSizes[i] === recentSizes[0]) streak++; else break; 
+        }
+        
+        if (streak >= 3) { 
+          predictedSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG"; 
+        } else {
+          const bigCount = recentSizes.slice(0,7).filter(s => s === "BIG").length;
+          const smallCount = recentSizes.slice(0,7).filter(s => s === "SMALL").length;
+          
+          if (bigCount > smallCount + 1) predictedSize = "SMALL"; 
+          else if (smallCount > bigCount + 1) predictedSize = "BIG"; 
+          else predictedSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG";
+        }
+      } else {
+        predictedSize = validDraws[0].size === "BIG" ? "SMALL" : "BIG";
+      }
+      
+      const pool = predictedSize === "BIG" ? [5,6,7,8,9] : [0,1,2,3,4]; 
+      sure1 = pool[Math.floor(Math.random() * 5)]; 
+      sure2 = pool[Math.floor(Math.random() * 5)]; 
+      
+      while(sure1 === sure2) sure2 = pool[Math.floor(Math.random() * 5)];
+      
+      return { predictionSize: predictedSize, sureNumbers: [sure1, sure2] };
+    }
+
+    // Render Logic to UI
+    function renderUI(pred) {
+      let fSize = forceData.size === "AUTO" ? pred.predictionSize : forceData.size;
+      pred.predictionSize = fSize;
+      
+      resultDisplay.className = "prediction-panel";
+      if(fSize === 'BIG') resultDisplay.classList.add('active-big');
+      else if(fSize === 'SMALL') resultDisplay.classList.add('active-small');
+      
+      document.getElementById('predMain').textContent = fSize;
+      document.getElementById('predSure').textContent = `TARGET: ${pred.sureNumbers.join(' • ')}`;
+      
+      const statusEl = document.getElementById('liveStatus');
+      if(forceData.size !== "AUTO") {
+        statusEl.innerHTML = `⚠️ OVERRIDE ACTIVE`;
+        statusEl.style.color = "var(--neon-red)";
+        statusEl.style.borderColor = "var(--neon-red)";
+      } else {
+        statusEl.innerHTML = `🎯 TARGET LOCKED`;
+        statusEl.style.color = "#fff";
+        statusEl.style.borderColor = "var(--neon-orange)";
+      }
+    }
+
+    // Fetch API Node Loop
+    async function fetchAndProcess() {
+      if(fetchingLock) return; 
+      fetchingLock = true;
+      
+      try {
+        const c = new AbortController(); 
+        setTimeout(()=>c.abort(), 5000);
+        
+        const res = await fetch("https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json", {
+          signal: c.signal, 
+          headers: {'Accept':'application/json'}
+        });
+        
+        const json = await res.json();
+        const draws = json.data.list.map(i => ({
+          issue: String(i.issueNumber), 
+          number: parseInt(i.number), 
+          size: parseInt(i.number) >= 5 ? "BIG" : "SMALL"
+        })).filter(d => !isNaN(d.number));
+        
+        const latest = draws[0]; 
+        fullHistory = draws.slice(0, 25);
+        
+        // Initial Seed
+        if(lastSeenIssue === null) {
+          historyBody.innerHTML = '';
+          [...fullHistory].reverse().forEach((d, i) => { 
+            if(i > 0) {
+              const histArray = [...fullHistory].reverse().slice(0, i);
+              addHistory(generateAIPrediction(histArray), d.number, d.issue.slice(-6), d.size); 
             }
-            
-            document.getElementById('stat-total').innerText = tCount; 
-            document.getElementById('stat-active').innerText = aCount; 
-            document.getElementById('stat-pending').innerText = pCount;
-            
-            if(container.innerHTML === '') container.innerHTML = '<div style="text-align:center; padding: 20px; color:#555; font-size:12px;">No matching records found.</div>';
+          });
+        } else if(lastSeenIssue !== latest.issue && activePrediction) {
+          addHistory(activePrediction, latest.number, latest.issue.slice(-6), latest.size);
         }
+        
+        // Compute Next Target
+        if(lastSeenIssue !== latest.issue) {
+          activePrediction = generateAIPrediction(fullHistory);
+          document.getElementById('periodLabel').textContent = (BigInt(latest.issue) + 1n).toString().slice(-8);
+          renderUI(activePrediction);
+        }
+        
+        lastSeenIssue = latest.issue;
+      } catch(e) {
+        console.error("API Sync Failed");
+      } finally { 
+        fetchingLock = false; 
+      }
+    }
 
-        window.setMirrorMode = (state) => {
-            let period = document.getElementById('reverse-period').value;
-            if(state && period.length < 5) { showToast("Enter Target Period ID!", "var(--theme-red)"); return; }
-            update(settingsRef, { mirrorMode: { active: state, untilPeriod: period } });
-            showToast(state ? "MIRROR MODE ON (Results Inverted)" : "MIRROR MODE OFF", "var(--theme-gold)");
-        };
-
-        window.sendPersonalMsg = (uid) => { let msg = prompt(`Send DM to UID ${uid}:`, "Alert: Stop playing after profit."); if(msg) { update(ref(db, 'users/' + uid), { personalAlert: { msg: msg, ts: Date.now() } }); showToast(`Message sent to ${uid}`, "var(--success)"); } };
-        window.filterUsers = () => { renderUsers(); };
-        window.updateGameUrl = () => { update(settingsRef, { gameUrl: document.getElementById('game-url').value }); showToast("Game link synced to all users!", "var(--success)"); };
-        window.setSessionActive = (state) => { update(settingsRef, { hackActive: state }); showToast(state ? "App Session Live" : "App Session Locked", state ? "var(--success)" : "var(--theme-red)"); };
-        window.injectActivePattern = () => { update(settingsRef, { activePattern: document.getElementById('pattern-injector').value }); showToast("Algorithm Mode Updated.", "var(--theme-gold)"); };
-        window.toggleMaintenance = () => { let newState = !isMaintenance; update(settingsRef, { maintenance: newState }); showToast(newState ? "Maintenance ON (App Down)" : "Maintenance OFF (App Live)", "var(--warning)"); };
-        window.setForce = (res) => { update(settingsRef, { forceResult: res }); showToast(`Result forced to: ${res}`, "var(--theme-gold)"); };
-        window.sendBroadcast = () => { update(settingsRef, { notice: document.getElementById('global-notice').value, nextRunTime: document.getElementById('global-notice').value }); showToast("Broadcast transmitted.", "var(--success)"); };
-        window.triggerMassWinBlast = () => { update(settingsRef, { massWinBlast: { msg: document.getElementById('mass-win-text').value || "🎯 TARGET FIXED! PLAY NOW!", timestamp: Date.now() } }); showToast("Win Shockwave Deployed!", "var(--success)"); };
-
-        window.approveUID = (uid, days) => { update(ref(db, 'users/' + uid), { status: 'approved', expiry: Date.now() + (days*24*60*60*1000), reason: "" }); showToast(`${uid} Approved for ${days} days.`, "var(--success)"); };
-        window.approveCustom = (uid) => { let days = prompt("Enter access duration (days):", "30"); if(days && !isNaN(days)) approveUID(uid, parseInt(days)); };
-        window.rejectUID = (uid) => { let reason = prompt("Enter rejection reason:", "Admin Rejected"); if(reason) { update(ref(db, 'users/' + uid), { status: 'rejected', reason: reason }); showToast("Request denied.", "var(--theme-red)"); } };
-        window.unbindDevice = (uid) => { update(ref(db, 'users/' + uid), { deviceID: "UNBOUND" }); showToast("Device un-bound successfully.", "var(--warning)"); };
-        window.deleteUID = (uid) => { remove(ref(db, 'users/' + uid)); showToast("User deleted from DB.", "var(--theme-red)"); };
-        window.clearExpired = () => { let c = 0; for(let uid in globalUsersData) { if(globalUsersData[uid].status==='approved' && Date.now() > globalUsersData[uid].expiry) { remove(ref(db,'users/'+uid)); c++; } } showToast(`Cleared ${c} expired records.`, "var(--success)"); };
-    </script>
+    async function init() { 
+      await fetchAndProcess(); 
+      pollInterval = setInterval(() => fetchAndProcess(), 5000); 
+    }
+  </script>
 </body>
 </html>

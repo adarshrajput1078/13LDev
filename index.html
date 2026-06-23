@@ -9,6 +9,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
   <style>
+    /* =========================================
+       VARIABLES
+       ========================================= */
     :root { 
       --neon-orange: #00ffea;
       --neon-red: #ff3333; 
@@ -18,162 +21,623 @@
       --gold: #ffcf00; 
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; }
-    body { background-color: #050505; font-family: 'Outfit', sans-serif; overflow: hidden; }
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+      user-select: none; 
+      -webkit-user-select: none; 
+    }
+
+    body { 
+      background-color: #050505; 
+      font-family: 'Outfit', sans-serif; 
+      overflow: hidden; 
+    }
 
     /* =========================================
        TELEGRAM VERIFICATION OVERLAY
        ========================================= */
     #telegram-overlay {
-      position: fixed; inset: 0; background: rgba(0,0,0,0.97); backdrop-filter: blur(20px);
-      z-index: 20000; display: flex; align-items: center; justify-content: center; padding: 20px;
+      position: fixed; 
+      inset: 0; 
+      background: rgba(0,0,0,0.97); 
+      backdrop-filter: blur(20px);
+      z-index: 20000; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      padding: 20px;
     }
+
     .tg-verify-card {
-      background: #111; border: 2px solid #00ffea; border-radius: 20px; padding: 32px 24px; max-width: 400px; width: 100%;
-      text-align: center; box-shadow: 0 0 40px rgba(0, 255, 234, 0.2), 0 24px 60px rgba(0,0,0,0.7);
-      animation: tgPopIn 0.4s ease; position: relative; overflow: hidden;
+      background: #111; 
+      border: 2px solid #00ffea; 
+      border-radius: 20px; 
+      padding: 32px 24px; 
+      max-width: 400px; 
+      width: 100%;
+      text-align: center; 
+      box-shadow: 0 0 40px rgba(0, 255, 234, 0.2), 0 24px 60px rgba(0,0,0,0.7);
+      animation: tgPopIn 0.4s ease; 
+      position: relative; 
+      overflow: hidden;
     }
+
     .tg-verify-card::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-      background: linear-gradient(90deg, #00ffea, #0088cc, #00ffea); box-shadow: 0 0 15px #00ffea;
+      content: ''; 
+      position: absolute; 
+      top: 0; 
+      left: 0; 
+      right: 0; 
+      height: 3px;
+      background: linear-gradient(90deg, #00ffea, #0088cc, #00ffea); 
+      box-shadow: 0 0 15px #00ffea;
     }
-    @keyframes tgPopIn { from { opacity:0; transform:scale(0.85); } to { opacity:1; transform:scale(1); } }
+
+    @keyframes tgPopIn { 
+      from { opacity:0; transform:scale(0.85); } 
+      to { opacity:1; transform:scale(1); } 
+    }
     
     .tg-verify-icon {
-      width: 70px; height: 70px; background: linear-gradient(135deg, #00ffea, #0088cc); border-radius: 18px;
-      margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 34px; color: #000; box-shadow: 0 0 35px rgba(0, 255, 234, 0.5);
+      width: 70px; 
+      height: 70px; 
+      background: linear-gradient(135deg, #00ffea, #0088cc); 
+      border-radius: 18px;
+      margin: 0 auto 16px; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      font-size: 34px; 
+      color: #000; 
+      box-shadow: 0 0 35px rgba(0, 255, 234, 0.5);
     }
-    .tg-verify-title { font-size: 22px; font-weight: 700; color: #00ffea; text-shadow: 0 0 10px rgba(0, 255, 234, 0.3); margin-bottom: 6px; letter-spacing: 2px; }
-    .tg-verify-subtitle { font-size: 12px; color: #aaa; margin-bottom: 22px; line-height: 1.5; }
+
+    .tg-verify-title { 
+      font-size: 22px; 
+      font-weight: 700; 
+      color: #00ffea; 
+      text-shadow: 0 0 10px rgba(0, 255, 234, 0.3); 
+      margin-bottom: 6px; 
+      letter-spacing: 2px; 
+    }
+
+    .tg-verify-subtitle { 
+      font-size: 12px; 
+      color: #aaa; 
+      margin-bottom: 22px; 
+      line-height: 1.5; 
+    }
     
-    .tg-channel-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 22px; }
+    .tg-channel-list { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 10px; 
+      margin-bottom: 22px; 
+    }
+
     .tg-channel-item {
-      display: flex; align-items: center; justify-content: space-between; background: #1a1a1a;
-      border: 1.5px solid #333; padding: 12px 14px; border-radius: 14px; text-decoration: none; transition: 0.3s; cursor: pointer;
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between; 
+      background: #1a1a1a;
+      border: 1.5px solid #333; 
+      padding: 12px 14px; 
+      border-radius: 14px; 
+      text-decoration: none; 
+      transition: 0.3s; 
+      cursor: pointer;
     }
-    .tg-channel-item.joined { border-color: #00ff88; background: rgba(0, 255, 136, 0.06); box-shadow: 0 0 15px rgba(0, 255, 136, 0.2); }
+
+    .tg-channel-item.joined { 
+      border-color: #00ff88; 
+      background: rgba(0, 255, 136, 0.06); 
+      box-shadow: 0 0 15px rgba(0, 255, 136, 0.2); 
+    }
     
-    .tg-channel-info { display: flex; align-items: center; gap: 12px; }
-    .tg-channel-avatar { width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, #00ffea, #0088cc); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 18px; color: #000; }
-    .tg-channel-name { font-weight: 700; font-size: 13px; color: #fff; text-align: left; }
-    .tg-channel-desc { font-size: 10px; color: #aaa; text-align: left; }
+    .tg-channel-info { 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+    }
+
+    .tg-channel-avatar { 
+      width: 38px; 
+      height: 38px; 
+      border-radius: 10px; 
+      background: linear-gradient(135deg, #00ffea, #0088cc); 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      font-weight: 700; 
+      font-size: 18px; 
+      color: #000; 
+    }
+
+    .tg-channel-name { 
+      font-weight: 700; 
+      font-size: 13px; 
+      color: #fff; 
+      text-align: left; 
+    }
+
+    .tg-channel-desc { 
+      font-size: 10px; 
+      color: #aaa; 
+      text-align: left; 
+    }
     
-    .tg-join-btn { background: #00ffea; color: #000; padding: 7px 14px; border-radius: 20px; font-size: 10px; font-weight: 700; letter-spacing: 1px; transition: 0.3s; box-shadow: 0 0 8px rgba(0, 255, 234, 0.4); }
-    .tg-join-btn.joined { background: #00ff88; color: #000; }
+    .tg-join-btn { 
+      background: #00ffea; 
+      color: #000; 
+      padding: 7px 14px; 
+      border-radius: 20px; 
+      font-size: 10px; 
+      font-weight: 700; 
+      letter-spacing: 1px; 
+      transition: 0.3s; 
+      box-shadow: 0 0 8px rgba(0, 255, 234, 0.4); 
+    }
+
+    .tg-join-btn.joined { 
+      background: #00ff88; 
+      color: #000; 
+    }
     
-    .tg-verify-btn { width: 100%; padding: 15px; border: none; border-radius: 14px; font-weight: 700; font-size: 12px; letter-spacing: 2px; cursor: pointer; background: #1a1a1a; color: #aaa; border: 1px solid #333; transition: 0.3s; margin-bottom: 14px; text-transform: uppercase; }
-    .tg-verify-btn.active { background: linear-gradient(135deg, #00ffea, #0088cc); color: #000; box-shadow: 0 0 25px rgba(0, 255, 234, 0.5); border: none; }
-    .tg-verify-btn:disabled { cursor: not-allowed; opacity: 0.5; }
-    .tg-verify-footer { font-size: 10px; color: #aaa; line-height: 1.6; }
-    .tg-verify-footer span { color: #00ff88; font-weight: 700; }
+    .tg-verify-btn { 
+      width: 100%; 
+      padding: 15px; 
+      border: none; 
+      border-radius: 14px; 
+      font-weight: 700; 
+      font-size: 12px; 
+      letter-spacing: 2px; 
+      cursor: pointer; 
+      background: #1a1a1a; 
+      color: #aaa; 
+      border: 1px solid #333; 
+      transition: 0.3s; 
+      margin-bottom: 14px; 
+      text-transform: uppercase; 
+    }
+
+    .tg-verify-btn.active { 
+      background: linear-gradient(135deg, #00ffea, #0088cc); 
+      color: #000; 
+      box-shadow: 0 0 25px rgba(0, 255, 234, 0.5); 
+      border: none; 
+    }
+
+    .tg-verify-btn:disabled { 
+      cursor: not-allowed; 
+      opacity: 0.5; 
+    }
+
+    .tg-verify-footer { 
+      font-size: 10px; 
+      color: #aaa; 
+      line-height: 1.6; 
+    }
+
+    .tg-verify-footer span { 
+      color: #00ff88; 
+      font-weight: 700; 
+    }
 
     /* =========================================
        SYSTEM MODALS
        ========================================= */
-    .modal-screen-mask { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.95); z-index: 15000; justify-content: center; align-items: center; padding: 20px; }
-    .modal-panel-box { width: 100%; max-width: 320px; background: #050505; border: 2px solid; border-radius: 12px; padding: 25px; text-align: center; }
-    .modal-panel-box.red-border { border-color: var(--neon-red); box-shadow: 0 0 30px rgba(255,0,51,0.3); }
-    .modal-panel-box.cyan-border { border-color: var(--neon-cyan); box-shadow: 0 0 30px rgba(0,243,255,0.3); }
+    .modal-screen-mask { 
+      display: none; 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      width: 100vw; 
+      height: 100vh; 
+      background: rgba(0,0,0,0.95); 
+      z-index: 15000; 
+      justify-content: center; 
+      align-items: center; 
+      padding: 20px; 
+    }
+
+    .modal-panel-box { 
+      width: 100%; 
+      max-width: 320px; 
+      background: #050505; 
+      border: 2px solid; 
+      border-radius: 12px; 
+      padding: 25px; 
+      text-align: center; 
+    }
+
+    .modal-panel-box.red-border { 
+      border-color: var(--neon-red); 
+      box-shadow: 0 0 30px rgba(255,0,51,0.3); 
+    }
+
+    .modal-panel-box.cyan-border { 
+      border-color: var(--neon-cyan); 
+      box-shadow: 0 0 30px rgba(0,243,255,0.3); 
+    }
 
     /* =========================================
        LOGIN SCREEN
        ========================================= */
     #loginScreen {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      width: 100vw; 
+      height: 100vh;
       background: radial-gradient(circle at center, #0a111a 0%, #000 100%);
-      z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px;
+      z-index: 10000; 
+      display: flex; 
+      flex-direction: column; 
+      align-items: center; 
+      justify-content: center; 
+      padding: 20px;
     }
-    .logo-skull { width: 90px; height: 90px; background: #000; border: 2px solid var(--neon-cyan); border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 45px; box-shadow: 0 0 20px rgba(0,243,255,0.3); margin-bottom: 15px; }
-    .title-main { font-family: 'Outfit'; font-size: 2.2rem; font-weight: 900; color: #fff; text-shadow: 0 0 15px var(--neon-cyan); line-height: 1;}
-    .title-sub { font-family: 'Outfit'; font-size: 1.5rem; font-weight: 900; color: #888; margin-bottom: 30px; letter-spacing: 5px; }
-    .hacker-box-input { width: 100%; max-width: 320px; background: rgba(0,0,0,0.7); border: 2px solid var(--neon-cyan); color: var(--neon-cyan); padding: 16px; font-family: 'Share Tech Mono'; text-align: center; outline: none; text-transform: uppercase; font-size: 1.2rem; margin-bottom: 20px; border-radius: 8px; }
-    .btn-cyber-solid { width: 100%; max-width: 320px; background: linear-gradient(135deg, #00f3ff, #0088cc); border: none; color: #000; font-family: 'Outfit'; font-size: 1.1rem; font-weight: 900; padding: 16px; cursor: pointer; border-radius: 8px; box-shadow: 0 0 20px rgba(0,243,255,0.3); }
-    #errorPopup { display: none; color: var(--neon-red); font-family: 'Outfit'; font-weight: bold; margin-bottom: 15px; text-shadow: 0 0 5px var(--neon-red); }
+
+    .logo-skull { 
+      width: 90px; 
+      height: 90px; 
+      background: #000; 
+      border: 2px solid var(--neon-cyan); 
+      border-radius: 50%; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      font-size: 45px; 
+      box-shadow: 0 0 20px rgba(0,243,255,0.3); 
+      margin-bottom: 15px; 
+    }
+
+    .title-main { 
+      font-family: 'Outfit'; 
+      font-size: 2.2rem; 
+      font-weight: 900; 
+      color: #fff; 
+      text-shadow: 0 0 15px var(--neon-cyan); 
+      line-height: 1;
+    }
+
+    .title-sub { 
+      font-family: 'Outfit'; 
+      font-size: 1.5rem; 
+      font-weight: 900; 
+      color: #888; 
+      margin-bottom: 30px; 
+      letter-spacing: 5px; 
+    }
+
+    .hacker-box-input { 
+      width: 100%; 
+      max-width: 320px; 
+      background: rgba(0,0,0,0.7); 
+      border: 2px solid var(--neon-cyan); 
+      color: var(--neon-cyan); 
+      padding: 16px; 
+      font-family: 'Share Tech Mono'; 
+      text-align: center; 
+      outline: none; 
+      text-transform: uppercase; 
+      font-size: 1.2rem; 
+      margin-bottom: 20px; 
+      border-radius: 8px; 
+    }
+
+    .btn-cyber-solid { 
+      width: 100%; 
+      max-width: 320px; 
+      background: linear-gradient(135deg, #00f3ff, #0088cc); 
+      border: none; 
+      color: #000; 
+      font-family: 'Outfit'; 
+      font-size: 1.1rem; 
+      font-weight: 900; 
+      padding: 16px; 
+      cursor: pointer; 
+      border-radius: 8px; 
+      box-shadow: 0 0 20px rgba(0,243,255,0.3); 
+    }
+
+    #errorPopup { 
+      display: none; 
+      color: var(--neon-red); 
+      font-family: 'Outfit'; 
+      font-weight: bold; 
+      margin-bottom: 15px; 
+      text-shadow: 0 0 5px var(--neon-red); 
+    }
 
     /* =========================================
        MAIN APP & IFRAME
        ========================================= */
-    #mainApp { display: none; width: 100vw; height: 100vh; position: relative; }
-    .bg-game { width: 100%; height: 100%; border: none; background: #000; display: block; position: absolute; top: 0; left: 0; z-index: 1;}
+    #mainApp { 
+      display: none; 
+      width: 100vw; 
+      height: 100vh; 
+      position: relative; 
+    }
+
+    .bg-game { 
+      width: 100%; 
+      height: 100%; 
+      border: none; 
+      background: #000; 
+      display: block; 
+      position: absolute; 
+      top: 0; 
+      left: 0; 
+      z-index: 1;
+    }
 
     /* =========================================
        FLOATING DRAGGABLE OVERLAY WIDGET
        ========================================= */
     .draggable-container {
-      position: absolute; top: 20%; left: 50%; transform: translateX(-50%);
-      z-index: 9999; touch-action: none; display: flex; justify-content: center; align-items: center;
+      position: absolute; 
+      top: 20%; 
+      left: 50%; 
+      transform: translateX(-50%);
+      z-index: 9999; 
+      touch-action: none; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center;
     }
 
     .mod-icon {
-      width: 55px; height: 55px; background: linear-gradient(135deg, #00f3ff, #ff00b3);
-      border-radius: 50%; box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
-      display: flex; justify-content: center; align-items: center; font-size: 28px; cursor: pointer; transition: transform 0.2s;
+      width: 55px; 
+      height: 55px; 
+      background: linear-gradient(135deg, #00f3ff, #ff00b3);
+      border-radius: 50%; 
+      box-shadow: 0 0 20px rgba(0, 243, 255, 0.5);
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      font-size: 28px; 
+      cursor: pointer; 
+      transition: transform 0.2s;
     }
-    .mod-icon:active { transform: scale(0.9); }
-    .mod-icon.hidden { display: none; }
+
+    .mod-icon:active { 
+      transform: scale(0.9); 
+    }
+
+    .mod-icon.hidden { 
+      display: none; 
+    }
 
     /* EXPANDED HUD MODULE */
     .mod-expanded {
-      display: none; width: 220px; height: 145px; 
-      background: #111111; border-radius: 25px; position: relative; cursor: grab;
+      display: none; 
+      width: 220px; 
+      height: 145px; 
+      background: #111111; 
+      border-radius: 25px; 
+      position: relative; 
+      cursor: grab;
     }
-    .mod-expanded.active { display: flex; flex-direction: column; justify-content: center; align-items: center; animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-    .mod-expanded:active { cursor: grabbing; }
 
-    @keyframes popIn { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+    .mod-expanded.active { 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: center; 
+      align-items: center; 
+      animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    }
+
+    .mod-expanded:active { 
+      cursor: grabbing; 
+    }
+
+    @keyframes popIn { 
+      from { opacity: 0; transform: scale(0.8); } 
+      to { opacity: 1; transform: scale(1); } 
+    }
 
     /* THEMES */
-    .theme-small .mod-expanded { border: 2px solid rgba(255, 0, 179, 0.6); box-shadow: 0 0 35px rgba(255, 0, 179, 0.6); }
-    .theme-small .widget-pred { color: var(--neon-pink); text-shadow: 0 0 15px var(--neon-pink); }
-    .theme-big .mod-expanded { border: 2px solid rgba(0, 243, 255, 0.6); box-shadow: 0 0 35px rgba(0, 243, 255, 0.6); }
-    .theme-big .widget-pred { color: var(--neon-cyan); text-shadow: 0 0 15px var(--neon-cyan); }
+    .theme-small .mod-expanded { 
+      border: 2px solid rgba(255, 0, 179, 0.6); 
+      box-shadow: 0 0 35px rgba(255, 0, 179, 0.6); 
+    }
+    .theme-small .widget-pred { 
+      color: var(--neon-pink); 
+      text-shadow: 0 0 15px var(--neon-pink); 
+    }
+    
+    .theme-big .mod-expanded { 
+      border: 2px solid rgba(0, 243, 255, 0.6); 
+      box-shadow: 0 0 35px rgba(0, 243, 255, 0.6); 
+    }
+    .theme-big .widget-pred { 
+      color: var(--neon-cyan); 
+      text-shadow: 0 0 15px var(--neon-cyan); 
+    }
     
     /* WIN / LOSS MATCH THEMES */
-    .theme-win .mod-expanded { border: 2px solid var(--neon-green); box-shadow: 0 0 35px rgba(0, 255, 51, 0.6); }
-    .theme-win .widget-pred { color: var(--neon-green); text-shadow: 0 0 15px var(--neon-green); }
-    .theme-loss .mod-expanded { border: 2px solid var(--neon-red); box-shadow: 0 0 35px rgba(255, 51, 51, 0.6); }
-    .theme-loss .widget-pred { color: var(--neon-red); text-shadow: 0 0 15px var(--neon-red); }
+    .theme-win .mod-expanded { 
+      border: 2px solid var(--neon-green); 
+      box-shadow: 0 0 35px rgba(0, 255, 51, 0.6); 
+    }
+    .theme-win .widget-pred { 
+      color: var(--neon-green); 
+      text-shadow: 0 0 15px var(--neon-green); 
+      font-size: 28px; 
+    }
+    
+    .theme-loss .mod-expanded { 
+      border: 2px solid var(--neon-red); 
+      box-shadow: 0 0 35px rgba(255, 51, 51, 0.6); 
+    }
+    .theme-loss .widget-pred { 
+      color: var(--neon-red); 
+      text-shadow: 0 0 15px var(--neon-red); 
+      font-size: 28px; 
+    }
 
     /* TIMER CAPSULE */
     .drag-handle {
-      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
-      background: #000; border: 2px solid var(--neon-cyan); color: #fff;
-      font-family: 'Share Tech Mono', monospace; font-size: 13px; padding: 3px 18px;
-      border-radius: 20px; font-weight: bold; z-index: 10; white-space: nowrap;
+      position: absolute; 
+      top: -14px; 
+      left: 50%; 
+      transform: translateX(-50%);
+      background: #000; 
+      border: 2px solid var(--neon-cyan); 
+      color: #fff;
+      font-family: 'Share Tech Mono', monospace; 
+      font-size: 13px; 
+      padding: 3px 18px;
+      border-radius: 20px; 
+      font-weight: bold; 
+      z-index: 10; 
+      white-space: nowrap;
     }
+
     .theme-small .drag-handle { border-color: var(--neon-pink); }
     .theme-big .drag-handle { border-color: var(--neon-cyan); }
     .theme-win .drag-handle { border-color: var(--neon-green); }
     .theme-loss .drag-handle { border-color: var(--neon-red); }
 
     /* INFO TEXTS */
-    .widget-period { font-family: 'Share Tech Mono'; font-size: 10px; color: #888; margin-top: 5px; margin-bottom: 2px; z-index: 5;}
-    .widget-pred { font-family: 'Outfit'; font-size: 34px; font-weight: 900; letter-spacing: 2px; z-index: 5; text-transform: uppercase; margin-bottom: 2px; transition: 0.3s;}
+    .widget-period { 
+      font-family: 'Share Tech Mono'; 
+      font-size: 10px; 
+      color: #888; 
+      margin-top: 5px; 
+      margin-bottom: 2px; 
+      z-index: 5;
+    }
+    
+    .widget-pred { 
+      font-family: 'Outfit'; 
+      font-size: 34px; 
+      font-weight: 900; 
+      letter-spacing: 2px; 
+      z-index: 5; 
+      text-transform: uppercase; 
+      margin-bottom: 2px; 
+      transition: 0.3s;
+    }
     
     /* SURE NUMBERS */
-    .widget-sure { font-family: 'Share Tech Mono'; font-size: 12px; color: #fff; font-weight: bold; margin-bottom: 6px; z-index: 5;}
+    .widget-sure { 
+      font-family: 'Share Tech Mono'; 
+      font-size: 12px; 
+      color: #fff; 
+      font-weight: bold; 
+      margin-bottom: 6px; 
+      z-index: 5;
+    }
 
     /* MANUAL RESULT BUTTON */
     .action-btn {
-      background: transparent; border: 1px solid #444; color: #666; font-family: 'Outfit'; font-weight: 900;
-      font-size: 12px; padding: 6px 15px; border-radius: 12px; cursor: not-allowed; transition: 0.3s; z-index: 10; letter-spacing: 1px;
+      background: transparent; 
+      border: 1px solid #444; 
+      color: #666; 
+      font-family: 'Outfit'; 
+      font-weight: 900;
+      font-size: 12px; 
+      padding: 6px 15px; 
+      border-radius: 12px; 
+      cursor: not-allowed; 
+      transition: 0.3s; 
+      z-index: 10; 
+      letter-spacing: 1px;
     }
+
     .action-btn.ready {
-      border-color: var(--neon-cyan); color: #000; background: var(--neon-cyan);
-      box-shadow: 0 0 15px rgba(0,243,255,0.4); cursor: pointer; animation: pulseBtn 1s infinite alternate;
+      border-color: var(--neon-cyan); 
+      color: #000; 
+      background: var(--neon-cyan);
+      box-shadow: 0 0 15px rgba(0,243,255,0.4); 
+      cursor: pointer; 
+      animation: pulseBtn 1s infinite alternate;
     }
-    .theme-small .action-btn.ready { border-color: var(--neon-pink); background: var(--neon-pink); box-shadow: 0 0 15px rgba(255,0,179,0.4); }
+
+    .theme-small .action-btn.ready { 
+      border-color: var(--neon-pink); 
+      background: var(--neon-pink); 
+      box-shadow: 0 0 15px rgba(255,0,179,0.4); 
+    }
     
-    @keyframes pulseBtn { from { transform: scale(1); } to { transform: scale(1.05); } }
+    @keyframes pulseBtn { 
+      from { transform: scale(1); } 
+      to { transform: scale(1.05); } 
+    }
 
     /* PARTICLES */
-    .particles-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 23px; overflow: hidden; z-index: 0; pointer-events: none; }
-    .ball { position: absolute; border-radius: 50%; filter: blur(2.5px); }
-    .b1 { width: 14px; height: 14px; background: #00f3ff; top: 30%; left: 12%; box-shadow: 0 0 10px #00f3ff; animation: float1 3s infinite alternate ease-in-out; }
-    .b2 { width: 22px; height: 22px; background: #2b00ff; top: 45%; left: 22%; box-shadow: 0 0 15px #2b00ff; animation: float2 4s infinite alternate-reverse ease-in-out; }
-    .b3 { width: 16px; height: 16px; background: #ff00b3; top: 35%; right: 18%; box-shadow: 0 0 12px #ff00b3; animation: float3 3.5s infinite alternate ease-in-out; }
-    .b4 { width: 12px; height: 12px; background: #00ff00; bottom: 20%; right: 12%; box-shadow: 0 0 10px #00ff00; animation: float4 2.8s infinite alternate-reverse ease-in-out; }
-    .b5 { width: 10px; height: 10px; background: #fff; bottom: 12%; left: 45%; box-shadow: 0 0 10px #fff; animation: float1 3s infinite alternate ease-in-out; }
+    .particles-container { 
+      position: absolute; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      height: 100%; 
+      border-radius: 23px; 
+      overflow: hidden; 
+      z-index: 0; 
+      pointer-events: none; 
+    }
+
+    .ball { 
+      position: absolute; 
+      border-radius: 50%; 
+      filter: blur(2.5px); 
+    }
+
+    .b1 { 
+      width: 14px; 
+      height: 14px; 
+      background: #00f3ff; 
+      top: 30%; 
+      left: 12%; 
+      box-shadow: 0 0 10px #00f3ff; 
+      animation: float1 3s infinite alternate ease-in-out; 
+    }
+
+    .b2 { 
+      width: 22px; 
+      height: 22px; 
+      background: #2b00ff; 
+      top: 45%; 
+      left: 22%; 
+      box-shadow: 0 0 15px #2b00ff; 
+      animation: float2 4s infinite alternate-reverse ease-in-out; 
+    }
+
+    .b3 { 
+      width: 16px; 
+      height: 16px; 
+      background: #ff00b3; 
+      top: 35%; 
+      right: 18%; 
+      box-shadow: 0 0 12px #ff00b3; 
+      animation: float3 3.5s infinite alternate ease-in-out; 
+    }
+
+    .b4 { 
+      width: 12px; 
+      height: 12px; 
+      background: #00ff00; 
+      bottom: 20%; 
+      right: 12%; 
+      box-shadow: 0 0 10px #00ff00; 
+      animation: float4 2.8s infinite alternate-reverse ease-in-out; 
+    }
+
+    .b5 { 
+      width: 10px; 
+      height: 10px; 
+      background: #fff; 
+      bottom: 12%; 
+      left: 45%; 
+      box-shadow: 0 0 10px #fff; 
+      animation: float1 3s infinite alternate ease-in-out; 
+    }
+
     @keyframes float1 { 0% { transform: translate(0, 0); } 100% { transform: translate(8px, -12px); } }
     @keyframes float2 { 0% { transform: translate(0, 0); } 100% { transform: translate(-10px, 10px); } }
     @keyframes float3 { 0% { transform: translate(0, 0); } 100% { transform: translate(-12px, -8px); } }
@@ -184,22 +648,52 @@
 
   <div id="telegram-overlay">
     <div class="tg-verify-card">
-      <div class="tg-verify-icon"><i class="fab fa-telegram-plane" style="font-size:36px;"></i></div>
+      <div class="tg-verify-icon">
+        <i class="fab fa-telegram-plane" style="font-size:36px;"></i>
+      </div>
       <div class="tg-verify-title">JOIN CHANNELS</div>
       <div class="tg-verify-subtitle">Please join all 4 Telegram channels to access<br>ULTRA PREDICTOR V.6</div>
       
       <div class="tg-channel-list">
         <a href="https://t.me/+gJcPIcA0--xjYjE9" target="_blank" class="tg-channel-item" id="tg-channel-1" onclick="tgMarkChannel(1)">
-          <div class="tg-channel-info"><div class="tg-channel-avatar">1</div><div><div class="tg-channel-name">MUZAN Community</div><div class="tg-channel-desc">Community Channel</div></div></div><span class="tg-join-btn" id="tg-join-btn-1">JOIN</span>
+          <div class="tg-channel-info">
+            <div class="tg-channel-avatar">1</div>
+            <div>
+              <div class="tg-channel-name">MUZAN Community</div>
+              <div class="tg-channel-desc">Community Channel</div>
+            </div>
+          </div>
+          <span class="tg-join-btn" id="tg-join-btn-1">JOIN</span>
         </a>
         <a href="https://t.me/+f2-5aFznsrRjNzll" target="_blank" class="tg-channel-item" id="tg-channel-2" onclick="tgMarkChannel(2)">
-          <div class="tg-channel-info"><div class="tg-channel-avatar">2</div><div><div class="tg-channel-name">Darky Alpha</div><div class="tg-channel-desc">Alpha Signals</div></div></div><span class="tg-join-btn" id="tg-join-btn-2">JOIN</span>
+          <div class="tg-channel-info">
+            <div class="tg-channel-avatar">2</div>
+            <div>
+              <div class="tg-channel-name">Darky Alpha</div>
+              <div class="tg-channel-desc">Alpha Signals</div>
+            </div>
+          </div>
+          <span class="tg-join-btn" id="tg-join-btn-2">JOIN</span>
         </a>
         <a href="https://t.me/+beHBgwpwxCM1NmM1" target="_blank" class="tg-channel-item" id="tg-channel-3" onclick="tgMarkChannel(3)">
-          <div class="tg-channel-info"><div class="tg-channel-avatar">3</div><div><div class="tg-channel-name">Darky Main Hub</div><div class="tg-channel-desc">Main Channel</div></div></div><span class="tg-join-btn" id="tg-join-btn-3">JOIN</span>
+          <div class="tg-channel-info">
+            <div class="tg-channel-avatar">3</div>
+            <div>
+              <div class="tg-channel-name">Darky Main Hub</div>
+              <div class="tg-channel-desc">Main Channel</div>
+            </div>
+          </div>
+          <span class="tg-join-btn" id="tg-join-btn-3">JOIN</span>
         </a>
         <a href="https://t.me/Muzan_official_mods" target="_blank" class="tg-channel-item" id="tg-channel-4" onclick="tgMarkChannel(4)">
-          <div class="tg-channel-info"><div class="tg-channel-avatar">4</div><div><div class="tg-channel-name">MUZAN Official</div><div class="tg-channel-desc">Official Channel</div></div></div><span class="tg-join-btn" id="tg-join-btn-4">JOIN</span>
+          <div class="tg-channel-info">
+            <div class="tg-channel-avatar">4</div>
+            <div>
+              <div class="tg-channel-name">MUZAN Official</div>
+              <div class="tg-channel-desc">Official Channel</div>
+            </div>
+          </div>
+          <span class="tg-join-btn" id="tg-join-btn-4">JOIN</span>
         </a>
       </div>
       
@@ -209,15 +703,29 @@
   </div>
 
   <div class="modal-screen-mask" id="modalMaintenance">
-    <div class="modal-panel-box red-border"><div style="font-size:3rem; margin-bottom:10px;">⚠️</div><h2 style="font-family:'Orbitron'; color:var(--neon-red); margin-bottom:10px;">MAINTENANCE</h2><p id="maintText" style="color:#888; font-family:'Rajdhani'; margin-bottom:20px;">Server is currently down.</p></div>
+    <div class="modal-panel-box red-border">
+      <div style="font-size:3rem; margin-bottom:10px;">⚠️</div>
+      <h2 style="font-family:'Orbitron'; color:var(--neon-red); margin-bottom:10px;">MAINTENANCE</h2>
+      <p id="maintText" style="color:#888; font-family:'Rajdhani'; margin-bottom:20px;">Server is currently down.</p>
+    </div>
   </div>
 
   <div class="modal-screen-mask" id="modalUpdate">
-    <div class="modal-panel-box cyan-border"><div style="font-size:3rem; margin-bottom:10px;">🚀</div><h2 style="font-family:'Orbitron'; color:var(--neon-cyan); margin-bottom:10px;">UPDATE REQUIRED</h2><p id="updText" style="color:#888; font-family:'Rajdhani'; margin-bottom:20px;">New version available!</p><button class="btn-cyber-solid" id="updBtn">DOWNLOAD</button></div>
+    <div class="modal-panel-box cyan-border">
+      <div style="font-size:3rem; margin-bottom:10px;">🚀</div>
+      <h2 style="font-family:'Orbitron'; color:var(--neon-cyan); margin-bottom:10px;">UPDATE REQUIRED</h2>
+      <p id="updText" style="color:#888; font-family:'Rajdhani'; margin-bottom:20px;">New version available!</p>
+      <button class="btn-cyber-solid" id="updBtn">DOWNLOAD</button>
+    </div>
   </div>
 
   <div class="modal-screen-mask" id="modalNotice">
-    <div class="modal-panel-box cyan-border"><div style="font-size:3rem; margin-bottom:10px;">📢</div><h2 style="font-family:'Orbitron'; color:var(--neon-cyan); margin-bottom:10px;">NOTICE</h2><p id="noticeText" style="color:#888; font-family:'Rajdhani'; margin-bottom:20px;">Welcome</p><button class="btn-cyber-solid" onclick="dismissNotice()">ACKNOWLEDGE</button></div>
+    <div class="modal-panel-box cyan-border">
+      <div style="font-size:3rem; margin-bottom:10px;">📢</div>
+      <h2 style="font-family:'Orbitron'; color:var(--neon-cyan); margin-bottom:10px;">NOTICE</h2>
+      <p id="noticeText" style="color:#888; font-family:'Rajdhani'; margin-bottom:20px;">Welcome</p>
+      <button class="btn-cyber-solid" onclick="dismissNotice()">ACKNOWLEDGE</button>
+    </div>
   </div>
 
   <div id="loginScreen">
@@ -239,8 +747,11 @@
         <div class="drag-handle" id="timerBadge">00:00</div>
         
         <div class="particles-container">
-          <div class="ball b1"></div><div class="ball b2"></div><div class="ball b3"></div>
-          <div class="ball b4"></div><div class="ball b5"></div>
+          <div class="ball b1"></div>
+          <div class="ball b2"></div>
+          <div class="ball b3"></div>
+          <div class="ball b4"></div>
+          <div class="ball b5"></div>
         </div>
 
         <div class="widget-period" id="periodBadge">ID: WAITING</div>
@@ -257,7 +768,13 @@
     import { getDatabase, ref, get, child, update, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
     // --- TELEGRAM LOGIC ---
-    let tgChannelsJoined = { ch1: false, ch2: false, ch3: false, ch4: false };
+    let tgChannelsJoined = { 
+      ch1: false, 
+      ch2: false, 
+      ch3: false, 
+      ch4: false 
+    };
+
     if (localStorage.getItem('ultrapredictor_tg_verified') === 'true') {
       document.getElementById('telegram-overlay').style.display = 'none';
     }
@@ -270,7 +787,9 @@
       
       const btn = document.getElementById('tg-verify-main-btn');
       if (tgChannelsJoined.ch1 && tgChannelsJoined.ch2 && tgChannelsJoined.ch3 && tgChannelsJoined.ch4) {
-        btn.disabled = false; btn.classList.add('active'); btn.innerText = '✅ ACCESS ULTRA PREDICTOR';
+        btn.disabled = false; 
+        btn.classList.add('active'); 
+        btn.innerText = '✅ ACCESS ULTRA PREDICTOR';
       }
     }
 
@@ -288,24 +807,44 @@
       databaseURL: "https://teamdev-88676-default-rtdb.asia-southeast1.firebasedatabase.app",
       projectId: "teamdev-88676"
     };
+
     const app = initializeApp(firebaseConfig);
     const database = getDatabase(app);
 
-    window.dismissNotice = function() { document.getElementById('modalNotice').style.display = 'none'; sessionStorage.setItem('notice_seen', 'true'); };
+    window.dismissNotice = function() { 
+      document.getElementById('modalNotice').style.display = 'none'; 
+      sessionStorage.setItem('notice_seen', 'true'); 
+    };
     
     onValue(ref(database, 'systemConfig'), (snapshot) => {
       if(snapshot.exists()) {
         const config = snapshot.val();
-        if(config.links && config.links.gameUrl) document.getElementById('gameIframe').src = config.links.gameUrl;
+
+        if(config.links && config.links.gameUrl) {
+          document.getElementById('gameIframe').src = config.links.gameUrl;
+        }
         
-        if(config.maintenance && config.maintenance.active) { document.getElementById('maintText').textContent = config.maintenance.message; document.getElementById('modalMaintenance').style.display = 'flex'; } 
-        else document.getElementById('modalMaintenance').style.display = 'none';
+        if(config.maintenance && config.maintenance.active) { 
+          document.getElementById('maintText').textContent = config.maintenance.message; 
+          document.getElementById('modalMaintenance').style.display = 'flex'; 
+        } else {
+          document.getElementById('modalMaintenance').style.display = 'none';
+        }
 
-        if(config.update && config.update.active) { document.getElementById('updText').textContent = config.update.message; document.getElementById('updBtn').onclick = () => window.open(config.update.link, '_blank'); document.getElementById('modalUpdate').style.display = 'flex'; } 
-        else document.getElementById('modalUpdate').style.display = 'none';
+        if(config.update && config.update.active) { 
+          document.getElementById('updText').textContent = config.update.message; 
+          document.getElementById('updBtn').onclick = () => window.open(config.update.link, '_blank'); 
+          document.getElementById('modalUpdate').style.display = 'flex'; 
+        } else {
+          document.getElementById('modalUpdate').style.display = 'none';
+        }
 
-        if(config.popup && config.popup.active && !sessionStorage.getItem('notice_seen')) { document.getElementById('noticeText').textContent = config.popup.text; document.getElementById('modalNotice').style.display = 'flex'; } 
-        else document.getElementById('modalNotice').style.display = 'none';
+        if(config.popup && config.popup.active && !sessionStorage.getItem('notice_seen')) { 
+          document.getElementById('noticeText').textContent = config.popup.text; 
+          document.getElementById('modalNotice').style.display = 'flex'; 
+        } else {
+          document.getElementById('modalNotice').style.display = 'none';
+        }
       }
     });
 
@@ -319,123 +858,266 @@
     document.getElementById('activateBtn').addEventListener('click', async () => {
       const key = document.getElementById('loginKey').value.trim().toUpperCase();
       const errBox = document.getElementById('errorPopup');
-      if(!key) { errBox.style.display = 'block'; errBox.innerText = "ENTER KEY"; return; }
+      
+      if(!key) { 
+        errBox.style.display = 'block'; 
+        errBox.innerText = "ENTER KEY"; 
+        return; 
+      }
       
       document.getElementById('activateBtn').innerText = "VERIFYING INTERFACE...";
+      
       try {
         const snap = await get(child(ref(database), `keys/${key}`));
+        
         if(snap.exists()) {
           const kData = snap.val();
-          if(kData.status !== "ACTIVE" || new Date() > new Date(kData.expiresAt)) { errBox.style.display = 'block'; errBox.innerText = "KEY EXPIRED"; document.getElementById('activateBtn').innerText = "INJECT MOD"; return; }
-          if(kData.deviceId && kData.deviceId !== myDeviceId) { errBox.style.display = 'block'; errBox.innerText = "HWID BOUND"; document.getElementById('activateBtn').innerText = "INJECT MOD"; return; }
           
-          if(!kData.deviceId) await update(ref(database, `keys/${key}`), { deviceId: myDeviceId });
+          if(kData.status !== "ACTIVE" || new Date() > new Date(kData.expiresAt)) { 
+            errBox.style.display = 'block'; 
+            errBox.innerText = "KEY EXPIRED"; 
+            document.getElementById('activateBtn').innerText = "INJECT MOD"; 
+            return; 
+          }
+          
+          if(kData.deviceId && kData.deviceId !== myDeviceId) { 
+            errBox.style.display = 'block'; 
+            errBox.innerText = "HWID BOUND"; 
+            document.getElementById('activateBtn').innerText = "INJECT MOD"; 
+            return; 
+          }
+          
+          if(!kData.deviceId) {
+            await update(ref(database, `keys/${key}`), { deviceId: myDeviceId });
+          }
           
           userTimeframe = kData.timeframe || "1M";
-          if(userTimeframe === "30S") API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json";
-          else API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json";
+          
+          if(userTimeframe === "30S") {
+            API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json";
+          } else {
+            API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json";
+          }
 
           document.getElementById('loginScreen').style.display = 'none';
           document.getElementById('mainApp').style.display = 'block';
           
           initEngine(); 
-        } else { errBox.style.display = 'block'; errBox.innerText = "INVALID KEY"; document.getElementById('activateBtn').innerText = "INJECT MOD"; }
-      } catch(e) { errBox.style.display = 'block'; errBox.innerText = "ERROR"; document.getElementById('activateBtn').innerText = "INJECT MOD"; }
+        } else { 
+          errBox.style.display = 'block'; 
+          errBox.innerText = "INVALID KEY"; 
+          document.getElementById('activateBtn').innerText = "INJECT MOD"; 
+        }
+      } catch(e) { 
+        errBox.style.display = 'block'; 
+        errBox.innerText = "ERROR"; 
+        document.getElementById('activateBtn').innerText = "INJECT MOD"; 
+      }
     });
 
     // --- DRAG SYSTEM ENGINE ---
     const container = document.getElementById("draggableWidget");
     const icon = document.getElementById("modIcon");
     const expandedBox = document.getElementById("modExpanded");
-    let isDragging = false, hasMoved = false, startX, startY, initialX, initialY;
+    let isDragging = false;
+    let hasMoved = false;
+    let startX, startY, initialX, initialY;
 
     function toggleWidget() {
-      if(expandedBox.classList.contains('active')) { expandedBox.classList.remove('active'); icon.classList.remove('hidden'); } 
-      else { icon.classList.add('hidden'); expandedBox.classList.add('active'); }
+      if(expandedBox.classList.contains('active')) { 
+        expandedBox.classList.remove('active'); 
+        icon.classList.remove('hidden'); 
+      } else { 
+        icon.classList.add('hidden'); 
+        expandedBox.classList.add('active'); 
+      }
     }
 
-    icon.addEventListener('click', () => { if(!hasMoved) toggleWidget(); });
+    icon.addEventListener('click', () => { 
+      if(!hasMoved) toggleWidget(); 
+    });
 
     function dragStart(e) {
       if(e.target.id === 'getResultBtn') return; 
+      
       initialX = (e.type === "touchstart") ? e.touches[0].clientX : e.clientX;
       initialY = (e.type === "touchstart") ? e.touches[0].clientY : e.clientY;
+      
       const rect = container.getBoundingClientRect();
-      startX = initialX - rect.left; startY = initialY - rect.top;
-      isDragging = true; hasMoved = false; 
+      startX = initialX - rect.left; 
+      startY = initialY - rect.top;
+      
+      isDragging = true; 
+      hasMoved = false; 
     }
 
     function drag(e) {
       if (!isDragging) return;
+      
       const currentX = (e.type === "touchmove") ? e.touches[0].clientX : e.clientX;
       const currentY = (e.type === "touchmove") ? e.touches[0].clientY : e.clientY;
+      
       if (Math.abs(currentX - initialX) > 4 || Math.abs(currentY - initialY) > 4) {
-        hasMoved = true; e.preventDefault(); 
-        let newLeft = currentX - startX, newTop = currentY - startY;
+        hasMoved = true; 
+        e.preventDefault(); 
+        
+        let newLeft = currentX - startX;
+        let newTop = currentY - startY;
+        
         newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - container.offsetWidth));
         newTop = Math.max(0, Math.min(newTop, window.innerHeight - container.offsetHeight));
-        container.style.transform = 'none'; container.style.left = newLeft + 'px'; container.style.top = newTop + 'px';
+        
+        container.style.transform = 'none'; 
+        container.style.left = newLeft + 'px'; 
+        container.style.top = newTop + 'px';
       }
     }
 
-    function dragEnd() { isDragging = false; }
-    container.addEventListener("touchstart", dragStart, { passive: false }); document.addEventListener("touchmove", drag, { passive: false }); document.addEventListener("touchend", dragEnd);
-    container.addEventListener("mousedown", dragStart); document.addEventListener("mousemove", drag); document.addEventListener("mouseup", dragEnd);
+    function dragEnd() { 
+      isDragging = false; 
+    }
+
+    container.addEventListener("touchstart", dragStart, { passive: false }); 
+    document.addEventListener("touchmove", drag, { passive: false }); 
+    document.addEventListener("touchend", dragEnd);
+
+    container.addEventListener("mousedown", dragStart); 
+    document.addEventListener("mousemove", drag); 
+    document.addEventListener("mouseup", dragEnd);
 
 
     // =========================================
-    // 🎛️ ALGORITHM BLOCK 1: STRICT 30S LOGIC (RESTORED)
+    // 🎛️ ALGORITHM BLOCK 1: STRICT 30S LOGIC
     // =========================================
     class Predictor30S {
-      constructor() { this.lastPrediction = null; this.patternData = { streak: 0, pattern: 'none', hotNumbers: [] }; }
+      constructor() { 
+        this.lastPrediction = null; 
+        this.patternData = { streak: 0, pattern: 'none', hotNumbers: [] }; 
+      }
+
       getPredictedNumbers(bsType) {
-        let min = bsType === 'BIG' ? 5 : 0; let max = bsType === 'BIG' ? 9 : 4; const nums = [];
-        while (nums.length < 2) { const rand = Math.floor(Math.random() * (max - min + 1)) + min; if (!nums.includes(rand)) nums.push(rand); }
+        let min = bsType === 'BIG' ? 5 : 0; 
+        let max = bsType === 'BIG' ? 9 : 4; 
+        const nums = [];
+
+        while (nums.length < 2) { 
+          const rand = Math.floor(Math.random() * (max - min + 1)) + min; 
+          if (!nums.includes(rand)) nums.push(rand); 
+        }
+
         return nums.sort((a,b) => a-b);
       }
+
       analyze(results) {
-        if (results.length < 5) { const randomPrediction = Math.random() > 0.5 ? 'BIG' : 'SMALL'; return { prediction: randomPrediction, numbers: this.getPredictedNumbers(randomPrediction) }; }
-        const last10 = results.slice(0, 10); const numbers = last10.map(r => parseInt(r.number));
-        const bigCount = numbers.filter(n => n >= 5).length; const smallCount = numbers.length - bigCount;
-        let currentStreak = 1, maxStreak = 1; let streakType = numbers[0] >= 5 ? 'BIG' : 'SMALL';
+        if (results.length < 5) { 
+          const randomPrediction = Math.random() > 0.5 ? 'BIG' : 'SMALL'; 
+          return { prediction: randomPrediction, numbers: this.getPredictedNumbers(randomPrediction) }; 
+        }
+
+        const last10 = results.slice(0, 10); 
+        const numbers = last10.map(r => parseInt(r.number));
+        const bigCount = numbers.filter(n => n >= 5).length; 
+        const smallCount = numbers.length - bigCount;
+        
+        let currentStreak = 1;
+        let maxStreak = 1; 
+        let streakType = numbers[0] >= 5 ? 'BIG' : 'SMALL';
+
         for (let i = 1; i < numbers.length; i++) {
-          const currentType = numbers[i] >= 5 ? 'BIG' : 'SMALL'; const prevType = numbers[i-1] >= 5 ? 'BIG' : 'SMALL';
-          if (currentType === prevType) { currentStreak++; if (currentStreak > maxStreak) { maxStreak = currentStreak; streakType = currentType; } } else { currentStreak = 1; }
+          const currentType = numbers[i] >= 5 ? 'BIG' : 'SMALL'; 
+          const prevType = numbers[i-1] >= 5 ? 'BIG' : 'SMALL';
+          
+          if (currentType === prevType) { 
+            currentStreak++; 
+            if (currentStreak > maxStreak) { 
+              maxStreak = currentStreak; 
+              streakType = currentType; 
+            } 
+          } else { 
+            currentStreak = 1; 
+          }
         }
+
         this.patternData.streak = maxStreak;
-        const freq = {}; numbers.forEach(n => freq[n] = (freq[n] || 0) + 1);
+
+        const freq = {}; 
+        numbers.forEach(n => freq[n] = (freq[n] || 0) + 1);
         const hotNumbers = Object.entries(freq).filter(([num, count]) => count >= 2).map(([num]) => parseInt(num));
+        
         let prediction = null;
-        if (this.patternData.streak >= 3) { prediction = streakType === 'BIG' ? 'SMALL' : 'BIG'; }
-        else if (bigCount >= 7) prediction = 'SMALL'; else if (smallCount >= 7) prediction = 'BIG';
-        else if (hotNumbers.length > 0) {
-          const bigHots = hotNumbers.filter(n => n >= 5).length; const smallHots = hotNumbers.length - bigHots;
-          if (bigHots > smallHots) prediction = 'BIG'; else if (smallHots > bigHots) prediction = 'SMALL';
+
+        if (this.patternData.streak >= 3) { 
+          prediction = streakType === 'BIG' ? 'SMALL' : 'BIG'; 
+        } else if (bigCount >= 7) {
+          prediction = 'SMALL'; 
+        } else if (smallCount >= 7) {
+          prediction = 'BIG';
+        } else if (hotNumbers.length > 0) {
+          const bigHots = hotNumbers.filter(n => n >= 5).length; 
+          const smallHots = hotNumbers.length - bigHots;
+          if (bigHots > smallHots) prediction = 'BIG'; 
+          else if (smallHots > bigHots) prediction = 'SMALL';
         }
-        if (!prediction) { const lastDigit = parseInt(String(results[0].issueNumber).slice(-1)); prediction = lastDigit % 2 === 0 ? 'BIG' : 'SMALL'; }
-        if (this.lastPrediction === prediction && Math.random() > 0.6) { prediction = prediction === 'BIG' ? 'SMALL' : 'BIG'; }
-        this.lastPrediction = prediction; return { prediction, numbers: this.getPredictedNumbers(prediction) };
+
+        if (!prediction) { 
+          const lastDigit = parseInt(String(results[0].issueNumber).slice(-1)); 
+          prediction = lastDigit % 2 === 0 ? 'BIG' : 'SMALL'; 
+        }
+
+        if (this.lastPrediction === prediction && Math.random() > 0.6) { 
+          prediction = prediction === 'BIG' ? 'SMALL' : 'BIG'; 
+        }
+
+        this.lastPrediction = prediction; 
+
+        return { prediction, numbers: this.getPredictedNumbers(prediction) };
       }
     }
     const predictor30S = new Predictor30S();
 
     // =========================================
-    // 🎛️ ALGORITHM BLOCK 2: STRICT 1M LOGIC (RESTORED)
+    // 🎛️ ALGORITHM BLOCK 2: STRICT 1M LOGIC
     // =========================================
     function generate1MPrediction(historyArray) {
-      let predictedSize = "BIG"; const validDraws = (historyArray || []).filter(d => d !== undefined && d.number !== undefined && !isNaN(d.number)).slice(0, 20);
-      if (validDraws.length === 0) return { predictionSize: "BIG", sureNumbers: [5, 8] };
+      let predictedSize = "BIG"; 
+      
+      const validDraws = (historyArray || []).filter(d => d !== undefined && d.number !== undefined && !isNaN(d.number)).slice(0, 20);
+      
+      if (validDraws.length === 0) {
+        return { predictionSize: "BIG", sureNumbers: [5, 8] };
+      }
+
       const recentSizes = validDraws.slice(0, 12).map(r => parseInt(r.number) >= 5 ? "BIG" : "SMALL");
+      
       if (recentSizes.length >= 3) {
-        let streak = 1; for (let i = 1; i < recentSizes.length; i++) { if (recentSizes[i] === recentSizes[0]) streak++; else break; }
-        if (streak >= 3) { predictedSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG"; }
-        else {
-          const bigCount = recentSizes.slice(0,7).filter(s => s === "BIG").length; const smallCount = recentSizes.slice(0,7).filter(s => s === "SMALL").length;
-          if (bigCount > smallCount + 1) predictedSize = "SMALL"; else if (smallCount > bigCount + 1) predictedSize = "BIG"; else predictedSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG";
+        let streak = 1; 
+        for (let i = 1; i < recentSizes.length; i++) { 
+          if (recentSizes[i] === recentSizes[0]) streak++; 
+          else break; 
         }
-      } else predictedSize = (parseInt(validDraws[0].number) >= 5 ? "BIG" : "SMALL") === "BIG" ? "SMALL" : "BIG";
-      const pool = predictedSize === "BIG" ? [5,6,7,8,9] : [0,1,2,3,4]; let sure1 = pool[Math.floor(Math.random() * 5)]; let sure2 = pool[Math.floor(Math.random() * 5)];
-      while(sure1 === sure2) sure2 = pool[Math.floor(Math.random() * 5)];
+
+        if (streak >= 3) { 
+          predictedSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG"; 
+        } else {
+          const bigCount = recentSizes.slice(0,7).filter(s => s === "BIG").length; 
+          const smallCount = recentSizes.slice(0,7).filter(s => s === "SMALL").length;
+          
+          if (bigCount > smallCount + 1) predictedSize = "SMALL"; 
+          else if (smallCount > bigCount + 1) predictedSize = "BIG"; 
+          else predictedSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG";
+        }
+      } else {
+        predictedSize = (parseInt(validDraws[0].number) >= 5 ? "BIG" : "SMALL") === "BIG" ? "SMALL" : "BIG";
+      }
+
+      const pool = predictedSize === "BIG" ? [5,6,7,8,9] : [0,1,2,3,4]; 
+      let sure1 = pool[Math.floor(Math.random() * 5)]; 
+      let sure2 = pool[Math.floor(Math.random() * 5)];
+      
+      while(sure1 === sure2) {
+        sure2 = pool[Math.floor(Math.random() * 5)];
+      }
+
       return { predictionSize: predictedSize, sureNumbers: [sure1, sure2] };
     }
 
@@ -455,18 +1137,33 @@
     setInterval(() => {
       const now = new Date();
       let secLeft = userTimeframe === "30S" ? 30 - (now.getSeconds() % 30) : 60 - now.getSeconds();
+      
       if (secLeft === 60 || secLeft === 30) secLeft = 0;
-      document.getElementById('timerBadge').textContent = `00:${secLeft < 10 ? '0'+secLeft : secLeft}`;
-      if (secLeft <= 5 && secLeft > 0) document.getElementById('timerBadge').style.color = '#ff3333';
-      else document.getElementById('timerBadge').style.color = '#fff';
+      
+      let secStr = secLeft < 10 ? '0' + secLeft : secLeft;
+      
+      document.getElementById('timerBadge').textContent = `00:${secStr}`;
+      
+      if (secLeft <= 5 && secLeft > 0) {
+        document.getElementById('timerBadge').style.color = '#ff3333';
+      } else {
+        document.getElementById('timerBadge').style.color = '#fff';
+      }
     }, 1000);
 
     async function fetchAndProcess() {
-      if(fetchingLock) return; fetchingLock = true;
+      if(fetchingLock) return; 
+      fetchingLock = true;
+      
       try {
         const res = await fetch(`${API_URL}?ts=${Date.now()}`, { headers: {'Accept':'application/json'} });
         const json = await res.json();
-        const draws = json.data.list.map(i => ({ issueNumber: String(i.issueNumber), number: parseInt(i.number), size: parseInt(i.number) >= 5 ? "BIG" : "SMALL" })).filter(d => !isNaN(d.number));
+        
+        const draws = json.data.list.map(i => ({ 
+          issueNumber: String(i.issueNumber), 
+          number: parseInt(i.number), 
+          size: parseInt(i.number) >= 5 ? "BIG" : "SMALL" 
+        })).filter(d => !isNaN(d.number));
         
         const latest = draws[0];
         const nextPeriodId = (BigInt(latest.issueNumber) + 1n).toString();
@@ -477,17 +1174,23 @@
           if(currentShownPeriod === latest.issueNumber && currentPredictionData) {
             const isWin = latest.size === currentPredictionData;
             document.getElementById('predMain').textContent = `${currentPredictionData} ${isWin ? "✅" : "❌"}`;
-            expandedBox.className = isWin ? 'mod-expanded theme-win active' : 'mod-expanded theme-loss active';
+            
+            if (isWin) {
+              expandedBox.className = 'mod-expanded theme-win active';
+            } else {
+              expandedBox.className = 'mod-expanded theme-loss active';
+            }
           }
 
           // SERVER ROUTER FOR BOTH SEPARATE ALGORITHMS
           preparedNextPeriod = nextPeriodId;
+          
           if(userTimeframe === "30S") {
-            const out30 = predictor30S.analyze(draws); // Pure 30S Object
+            const out30 = predictor30S.analyze(draws); 
             preparedPredictionSize = out30.prediction;
             preparedPredictionNumbers = out30.numbers;
           } else {
-            const out1M = generate1MPrediction(draws); // Pure 1M Object
+            const out1M = generate1MPrediction(draws); 
             preparedPredictionSize = out1M.predictionSize;
             preparedPredictionNumbers = out1M.sureNumbers;
           }
@@ -497,7 +1200,11 @@
           resultBtn.classList.add('ready');
           resultBtn.disabled = false;
         }
-      } catch(e) { console.log(e); } finally { fetchingLock = false; }
+      } catch(e) { 
+        console.log(e); 
+      } finally { 
+        fetchingLock = false; 
+      }
     }
 
     // Manual Form Update Trigger on click
@@ -512,8 +1219,11 @@
       document.getElementById('predMain').textContent = currentPredictionData;
       document.getElementById('predSure').textContent = `[ ${currentPredictionNumbers.join(' • ')} ]`;
       
-      if(currentPredictionData === 'SMALL') expandedBox.className = 'mod-expanded theme-small active';
-      else expandedBox.className = 'mod-expanded theme-big active';
+      if(currentPredictionData === 'SMALL') {
+        expandedBox.className = 'mod-expanded theme-small active';
+      } else {
+        expandedBox.className = 'mod-expanded theme-big active';
+      }
 
       isResultReady = false;
       resultBtn.textContent = "WAITING...";
@@ -522,23 +1232,35 @@
     });
 
     function initEngine() { 
-      fetch(`${API_URL}?ts=${Date.now()}`).then(r=>r.json()).then(json => {
-        const draws = json.data.list.map(i => ({ issueNumber: String(i.issueNumber), number: parseInt(i.number), size: parseInt(i.number) >= 5 ? "BIG" : "SMALL" }));
-        preparedNextPeriod = (BigInt(draws[0].issueNumber) + 1n).toString();
-        
-        if(userTimeframe === "30S") {
-          const out30 = predictor30S.analyze(draws);
-          preparedPredictionSize = out30.prediction; preparedPredictionNumbers = out30.numbers;
-        } else {
-          const out1M = generate1MPrediction(draws);
-          preparedPredictionSize = out1M.predictionSize; preparedPredictionNumbers = out1M.sureNumbers;
-        }
+      fetch(`${API_URL}?ts=${Date.now()}`)
+        .then(r => r.json())
+        .then(json => {
+          const draws = json.data.list.map(i => ({ 
+            issueNumber: String(i.issueNumber), 
+            number: parseInt(i.number), 
+            size: parseInt(i.number) >= 5 ? "BIG" : "SMALL" 
+          }));
+          
+          preparedNextPeriod = (BigInt(draws[0].issueNumber) + 1n).toString();
+          
+          if(userTimeframe === "30S") {
+            const out30 = predictor30S.analyze(draws);
+            preparedPredictionSize = out30.prediction; 
+            preparedPredictionNumbers = out30.numbers;
+          } else {
+            const out1M = generate1MPrediction(draws);
+            preparedPredictionSize = out1M.predictionSize; 
+            preparedPredictionNumbers = out1M.sureNumbers;
+          }
 
-        isResultReady = true;
-        resultBtn.textContent = "GET RESULT";
-        resultBtn.classList.add('ready');
-        resultBtn.disabled = false;
-        if(!expandedBox.classList.contains('active')) toggleWidget(); 
+          isResultReady = true;
+          resultBtn.textContent = "GET RESULT";
+          resultBtn.classList.add('ready');
+          resultBtn.disabled = false;
+          
+          if(!expandedBox.classList.contains('active')) {
+            toggleWidget(); 
+          }
       });
 
       pollInterval = setInterval(fetchAndProcess, userTimeframe === "30S" ? 3000 : 5000); 

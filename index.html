@@ -54,28 +54,6 @@
     }
 
     /* =========================================
-       TELEGRAM VERIFICATION OVERLAY
-       ========================================= */
-    #telegram-overlay { position: fixed; inset: 0; background: rgba(11, 14, 17, 0.98); backdrop-filter: blur(20px); z-index: 20000; display: flex; align-items: center; justify-content: center; padding: 20px; }
-    .tg-verify-card { background: var(--bg-card); border: 1px solid var(--gold); border-radius: 20px; padding: 32px 24px; max-width: 400px; width: 100%; text-align: center; box-shadow: 0 0 40px rgba(252, 213, 53, 0.1); position: relative; overflow: hidden; }
-    .tg-verify-icon { width: 70px; height: 70px; background: linear-gradient(135deg, var(--gold), #ffaa00); border-radius: 18px; margin: 0 auto 16px; display: flex; align-items: center; justify-content: center; font-size: 34px; color: #000; box-shadow: 0 0 20px rgba(252, 213, 53, 0.3); }
-    .tg-verify-title { font-size: 22px; font-weight: 900; color: var(--gold); margin-bottom: 6px; letter-spacing: 2px; }
-    .tg-verify-subtitle { font-size: 12px; color: #aaa; margin-bottom: 22px; line-height: 1.5; }
-    .tg-channel-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 22px; }
-    .tg-channel-item { display: flex; align-items: center; justify-content: space-between; background: #0b0e11; border: 1px solid #2b3139; padding: 12px 14px; border-radius: 12px; text-decoration: none; transition: 0.3s; cursor: pointer; }
-    .tg-channel-item.joined { border-color: var(--neon-green); background: rgba(0, 255, 102, 0.05); }
-    .tg-channel-info { display: flex; align-items: center; gap: 12px; }
-    .tg-channel-avatar { width: 38px; height: 38px; border-radius: 10px; background: var(--gold); display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 18px; color: #000; }
-    .tg-channel-name { font-weight: 700; font-size: 13px; color: #fff; text-align: left; }
-    .tg-channel-desc { font-size: 10px; color: #888; text-align: left; }
-    .tg-join-btn { background: #2b3139; color: #fff; padding: 7px 14px; border-radius: 20px; font-size: 10px; font-weight: 700; letter-spacing: 1px; transition: 0.3s; }
-    .tg-join-btn.joined { background: var(--neon-green); color: #000; }
-    .tg-verify-btn { width: 100%; padding: 15px; border: none; border-radius: 12px; font-weight: 900; font-size: 12px; letter-spacing: 2px; cursor: pointer; background: #2b3139; color: #888; transition: 0.3s; margin-bottom: 14px; text-transform: uppercase; }
-    .tg-verify-btn.active { background: var(--gold); color: #000; box-shadow: 0 0 20px rgba(252, 213, 53, 0.4); }
-    .tg-verify-btn:disabled { cursor: not-allowed; }
-    .tg-verify-footer { font-size: 10px; color: #666; line-height: 1.6; }
-
-    /* =========================================
        SYSTEM MODALS
        ========================================= */
     .modal-screen-mask { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(11, 14, 17, 0.95); z-index: 15000; justify-content: center; align-items: center; padding: 20px; }
@@ -273,30 +251,6 @@
 </head>
 <body>
 
-  <!-- =========================================
-       TELEGRAM VERIFICATION OVERLAY
-       ========================================= -->
-  <div id="telegram-overlay">
-    <div class="tg-verify-card">
-      <div class="tg-verify-icon"><i class="fab fa-telegram-plane" style="font-size:36px;"></i></div>
-      <div class="tg-verify-title">JOIN CHANNELS</div>
-      <div class="tg-verify-subtitle">Please join all 4 Telegram channels to access<br>DEV ARMY PREMIUM V6</div>
-      
-      <div class="tg-channel-list">
-        <a href="https://t.me/+gJcPIcA0--xjYjE9" target="_blank" class="tg-channel-item" id="tg-channel-1" onclick="tgMarkChannel(1)"><div class="tg-channel-info"><div class="tg-channel-avatar">1</div><div><div class="tg-channel-name">MUZAN Community</div><div class="tg-channel-desc">Community Channel</div></div></div><span class="tg-join-btn" id="tg-join-btn-1">JOIN</span></a>
-        <a href="https://t.me/+f2-5aFznsrRjNzll" target="_blank" class="tg-channel-item" id="tg-channel-2" onclick="tgMarkChannel(2)"><div class="tg-channel-info"><div class="tg-channel-avatar">2</div><div><div class="tg-channel-name">Darky Alpha</div><div class="tg-channel-desc">Alpha Signals</div></div></div><span class="tg-join-btn" id="tg-join-btn-2">JOIN</span></a>
-        <a href="https://t.me/+beHBgwpwxCM1NmM1" target="_blank" class="tg-channel-item" id="tg-channel-3" onclick="tgMarkChannel(3)"><div class="tg-channel-info"><div class="tg-channel-avatar">3</div><div><div class="tg-channel-name">Darky Main Hub</div><div class="tg-channel-desc">Main Channel</div></div></div><span class="tg-join-btn" id="tg-join-btn-3">JOIN</span></a>
-        <a href="https://t.me/Muzan_official_mods" target="_blank" class="tg-channel-item" id="tg-channel-4" onclick="tgMarkChannel(4)"><div class="tg-channel-info"><div class="tg-channel-avatar">4</div><div><div class="tg-channel-name">MUZAN Official</div><div class="tg-channel-desc">Official Channel</div></div></div><span class="tg-join-btn" id="tg-join-btn-4">JOIN</span></a>
-      </div>
-      
-      <button class="tg-verify-btn" id="tg-verify-main-btn" onclick="tgVerifyAndEnter()" disabled>JOIN ALL CHANNELS TO CONTINUE</button>
-      <p class="tg-verify-footer">After joining, come back and click the button above.<br><span>✓ Verified members get premium access</span></p>
-    </div>
-  </div>
-
-  <!-- =========================================
-       SYSTEM MODALS
-       ========================================= -->
   <div class="modal-screen-mask" id="modalMaintenance">
     <div class="modal-panel-box session-border">
       <div class="session-icon"><i class="fa-solid fa-lock"></i></div>
@@ -310,9 +264,6 @@
   <div class="modal-screen-mask" id="modalUpdate"><div class="modal-panel-box cyan-border"><div style="font-size:3rem; margin-bottom:10px;">🚀</div><h2 style="font-family:'Outfit'; color:var(--neon-cyan); margin-bottom:10px; font-weight:900;">UPDATE REQUIRED</h2><p id="updText" style="color:#888; font-family:'Outfit'; margin-bottom:20px;">New version available!</p><button class="btn-cyber-solid" id="updBtn">DOWNLOAD</button></div></div>
   <div class="modal-screen-mask" id="modalNotice"><div class="modal-panel-box cyan-border"><div style="font-size:3rem; margin-bottom:10px;">📢</div><h2 style="font-family:'Outfit'; color:var(--neon-cyan); margin-bottom:10px; font-weight:900;">NOTICE</h2><p id="noticeText" style="color:#888; font-family:'Outfit'; margin-bottom:20px;">Welcome</p><button class="btn-cyber-solid" onclick="dismissNotice()">ACKNOWLEDGE</button></div></div>
 
-  <!-- =========================================
-       NEW PREMIUM LOGIN SCREEN (DEV ARMY)
-       ========================================= -->
   <div id="loginScreen">
     <div class="login-wrapper">
       <div class="brand-header">
@@ -334,9 +285,6 @@
     </div>
   </div>
 
-  <!-- =========================================
-       MAIN APP (IFRAME + WIDGET)
-       ========================================= -->
   <div id="mainApp">
     
     <div id="newsTicker">
@@ -356,10 +304,8 @@
           <div class="ball b1"></div><div class="ball b2"></div><div class="ball b3"></div><div class="ball b4"></div>
         </div>
 
-        <!-- 🔥 FULL GLOWING PERIOD NUMBER FIRE 🔥 -->
         <div class="widget-period" id="periodBadge">CONNECTING...</div>
         
-        <!-- THESE TWO DIVS HAVE THE NEW 3D POP ANIMATION -->
         <div class="widget-pred" id="predMain">SYNC</div>
         <div class="widget-sure" id="predSure">[ - • - ]</div>
         
@@ -367,28 +313,13 @@
       </div>
     </div>
 
-    <!-- DYNAMIC LIVE TELEGRAM BUTTON -->
     <a href="#" target="_blank" id="liveTgBtn">🟢 LIVE: JOIN TELEGRAM</a>
 
   </div>
 
-  <!-- =========================================
-       JAVASCRIPT LOGIC
-       ========================================= -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getDatabase, ref, get, child, update, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
-
-    // --- TELEGRAM LOGIC ---
-    let tgChannelsJoined = { ch1: false, ch2: false, ch3: false, ch4: false };
-    if (localStorage.getItem('ultrapredictor_tg_verified') === 'true') { document.getElementById('telegram-overlay').style.display = 'none'; }
-    window.tgMarkChannel = function(channelNum) {
-      tgChannelsJoined[`ch${channelNum}`] = true;
-      document.getElementById(`tg-channel-${channelNum}`).classList.add('joined'); document.getElementById(`tg-join-btn-${channelNum}`).classList.add('joined'); document.getElementById(`tg-join-btn-${channelNum}`).innerText = '✓ JOINED';
-      const btn = document.getElementById('tg-verify-main-btn');
-      if (tgChannelsJoined.ch1 && tgChannelsJoined.ch2 && tgChannelsJoined.ch3 && tgChannelsJoined.ch4) { btn.disabled = false; btn.classList.add('active'); btn.innerText = '✅ ACCESS HACK V6'; }
-    }
-    window.tgVerifyAndEnter = function() { if (tgChannelsJoined.ch1 && tgChannelsJoined.ch2 && tgChannelsJoined.ch3 && tgChannelsJoined.ch4) { localStorage.setItem('ultrapredictor_tg_verified', 'true'); document.getElementById('telegram-overlay').style.display = 'none'; } }
 
     // --- FIREBASE LAYERS ---
     const firebaseConfig = { apiKey: "AIzaSyBNj71akpefcfEtn-SQfAcx-Pgwi8sUosg", authDomain: "teamdev-88676.firebaseapp.com", databaseURL: "https://teamdev-88676-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "teamdev-88676" };

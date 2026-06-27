@@ -3,219 +3,175 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DEV ARMY • MASTER CONTROL CENTER</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <title>DEV ARMY • GOD-MODE ADMIN</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800;900&family=Outfit:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <style>
-    :root {
-      --bg-main: #06080a; --bg-card: #111418; --bg-hover: #1e2329; --border-color: #2b3139;
-      --text-main: #eaecef; --text-muted: #848e9c; --color-green: #0ecb81; --color-red: #f6465d;
-      --color-primary: #fcd535; --color-cyan: #00f3ff; --color-purple: #a855f7; --plasma-red: #ff1744;
+    :root { 
+      --tc-green: #18b660; --tc-red: #fb5b5b; --tc-gold: #fcd535; --tc-cyan: #00f3ff;
+      --tc-dark: #0a0e14; --tc-card: #121822; --tc-border: #1e293b;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background-color: var(--bg-main); font-family: 'Inter', sans-serif; color: var(--text-main); font-size: 14px; overflow-x: hidden; }
+    body { background-color: var(--tc-dark); font-family: 'Inter', sans-serif; color: #fff; font-size: 13px; }
 
-    #adminLoginOverlay { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--bg-main); z-index: 99999; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
-    .auth-card { background: var(--bg-card); border: 1px solid var(--border-color); padding: 40px 30px; border-radius: 16px; width: 100%; max-width: 400px; box-shadow: 0 20px 50px rgba(0,0,0,0.8); position: relative; overflow: hidden; }
-    .auth-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--color-cyan), var(--color-primary)); }
-    .auth-logo { text-align: center; font-size: 45px; margin-bottom: 15px; text-shadow: 0 0 20px rgba(0,243,255,0.4); }
-    .auth-title { text-align: center; font-size: 22px; font-weight: 800; color: #fff; margin-bottom: 5px; letter-spacing: 1px;}
-    .auth-sub { text-align: center; font-size: 13px; color: var(--text-muted); margin-bottom: 35px; }
-    .auth-input { width: 100%; background: #06080a; border: 1px solid var(--border-color); color: var(--text-main); padding: 16px; border-radius: 8px; font-family: 'JetBrains Mono'; font-size: 18px; text-align: center; outline: none; margin-bottom: 25px; -webkit-text-security: disc; transition: 0.3s; }
-    .auth-input:focus { border-color: var(--color-cyan); box-shadow: 0 0 15px rgba(0,243,255,0.2); }
-    .auth-btn { width: 100%; background: linear-gradient(90deg, var(--color-cyan), #0088cc); color: #000; font-weight: 800; padding: 16px; border-radius: 8px; border: none; cursor: pointer; transition: 0.3s; font-size: 15px; letter-spacing: 1px; text-transform: uppercase; }
-    .auth-btn:hover { box-shadow: 0 0 20px rgba(0,243,255,0.4); transform: translateY(-2px);}
+    #adminLoginOverlay { position: fixed; inset: 0; background: var(--tc-dark); z-index: 99999; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; }
+    .auth-card { background: var(--tc-card); border: 1px solid var(--tc-cyan); padding: 30px 20px; border-radius: 12px; width: 100%; max-width: 320px; text-align: center; box-shadow: 0 0 40px rgba(0,243,255,0.1); }
+    .auth-input { width: 100%; background: #000; border: 1px solid #333; color: var(--tc-cyan); padding: 14px; border-radius: 8px; font-family: 'Share Tech Mono'; font-size: 16px; text-align: center; outline: none; margin: 20px 0; -webkit-text-security: disc;}
+    .auth-input:focus { border-color: var(--tc-cyan); }
+    .btn-auth { width: 100%; background: var(--tc-cyan); color: #000; font-weight: 900; padding: 14px; border-radius: 8px; border: none; cursor: pointer; text-transform: uppercase; }
 
-    #adminDashboard { display: none; flex-direction: column; height: 100vh; width: 100vw; }
-    .top-header { height: 65px; background: var(--bg-card); border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; padding: 0 20px; flex-shrink: 0; }
-    .header-left { font-weight: 900; font-size: 18px; letter-spacing: 1px; color:#fff;}
-    .header-right { display: flex; align-items: center; gap: 12px; }
-    .server-badge { background: rgba(14, 203, 129, 0.1); color: var(--color-green); padding: 6px 12px; border-radius: 6px; font-size: 12px; font-weight: 800; border: 1px solid rgba(14, 203, 129, 0.3); }
-
-    .content-scroll { flex: 1; overflow-y: auto; padding: 20px; overflow-x: hidden; }
+    #adminDashboard { display: none; flex-direction: column; height: 100vh; }
+    .top-header { height: 60px; background: var(--tc-card); border-bottom: 1px solid var(--tc-border); display: flex; justify-content: space-between; align-items: center; padding: 0 20px; flex-shrink: 0; }
+    .header-left { font-family: 'Outfit'; font-size: 18px; font-weight: 900; color: #fff; }
+    .header-left span { color: var(--tc-cyan); }
+    .content-scroll { flex: 1; overflow-y: auto; padding: 20px; }
     
-    .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 25px; }
-    .stat-card { background: var(--bg-card); border: 1px solid var(--border-color); padding: 20px; border-radius: 12px; text-align: center; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.2);}
-    .stat-card:hover { border-color: var(--color-cyan); transform: translateY(-3px);}
-    .stat-title { font-size: 11px; color: var(--text-muted); margin-bottom: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;}
-    .stat-value { font-size: 26px; font-weight: 800; color: #fff; font-family: 'JetBrains Mono'; }
-    
+    .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 20px; }
+    .stat-card { background: var(--tc-card); border: 1px solid var(--tc-border); padding: 15px; border-radius: 10px; text-align: center; }
+    .stat-title { font-size: 10px; color: #888; margin-bottom: 5px; font-weight: 800; text-transform: uppercase; }
+    .stat-value { font-size: 24px; font-weight: 900; font-family: 'Share Tech Mono'; color: var(--tc-cyan); }
+
     .layout-grid { display: flex; flex-direction: column; gap: 20px; }
-    .panel { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; margin-bottom: 20px; width: 100%; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.3);}
-    .panel-header { padding: 16px 20px; border-bottom: 1px solid var(--border-color); font-weight: 800; font-size: 14px; color: #fff; display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); text-transform: uppercase; letter-spacing: 1px;}
-    .panel-body { padding: 20px; }
-
-    .form-group { margin-bottom: 15px; }
-    .form-group label { display: block; font-size: 11px; color: var(--text-muted); font-weight: 700; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;}
-    .form-control { width: 100%; background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-main); padding: 12px; border-radius: 8px; font-size: 13px; outline: none; transition: 0.2s; font-family: 'Inter';}
-    .form-control:focus { border-color: var(--color-cyan); box-shadow: 0 0 10px rgba(0,243,255,0.1);}
-    select.form-control { appearance: none; cursor: pointer; }
-
-    .btn { background: var(--bg-hover); color: var(--text-main); border: 1px solid var(--border-color); padding: 12px 20px; border-radius: 8px; font-size: 13px; font-weight: 700; cursor: pointer; transition: 0.3s; width: 100%; text-align: center; text-transform: uppercase; letter-spacing: 1px;}
-    .btn:hover { background: #353c45; }
-    .btn-primary { background: linear-gradient(90deg, var(--color-cyan), #0088cc); color: #000; border: none; }
-    .btn-primary:hover { box-shadow: 0 0 15px rgba(0,243,255,0.4); transform: translateY(-1px);}
-    .btn-danger { background: rgba(246, 70, 93, 0.1); color: var(--color-red); border: 1px solid rgba(246, 70, 93, 0.3); }
-
-    .toggle-group { display: flex; gap: 10px; margin-bottom: 15px; }
-    .toggle-btn { flex: 1; padding: 10px; text-align: center; font-size: 12px; font-weight: 700; background: var(--bg-main); border: 1px solid var(--border-color); color: var(--text-muted); border-radius: 8px; cursor: pointer; transition: 0.2s; text-transform: uppercase;}
-    .toggle-btn.active-green { background: rgba(14, 203, 129, 0.1); color: var(--color-green); border-color: var(--color-green); box-shadow: 0 0 10px rgba(14,203,129,0.2);}
-    .toggle-btn.active-red { background: rgba(246, 70, 93, 0.1); color: var(--color-red); border-color: var(--color-red); box-shadow: 0 0 10px rgba(246,70,93,0.2);}
-    .toggle-btn.active-plasma { background: rgba(255, 23, 68, 0.1); color: var(--plasma-red); border-color: var(--plasma-red); box-shadow: 0 0 10px rgba(255, 23, 68, 0.2);}
-
-    .search-box { display: flex; gap: 10px; margin-bottom: 15px; }
-    .search-box input { flex: 1; background: var(--bg-main); border: 1px solid var(--border-color); color: #fff; padding: 10px 15px; border-radius: 8px; font-family: 'Inter'; outline: none;}
-    .search-box input:focus { border-color: var(--color-cyan); }
+    @media(min-width: 900px){ .layout-grid{flex-direction: row;} .controls-column{width: 350px;} .data-column{flex:1;} }
     
-    .table-container { overflow-x: auto; width: 100%; -webkit-overflow-scrolling: touch; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-main);}
-    table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 800px; } 
-    th { text-align: left; padding: 14px 20px; font-size: 11px; color: var(--text-muted); text-transform: uppercase; border-bottom: 1px solid var(--border-color); font-weight: 800; white-space: nowrap; background: rgba(255,255,255,0.02); }
-    td { padding: 14px 20px; border-bottom: 1px solid var(--border-color); color: var(--text-main); font-family: 'JetBrains Mono', monospace; white-space: nowrap; vertical-align: middle; }
-    tr:hover td { background: var(--bg-hover); }
-    
-    .badge { padding: 5px 10px; border-radius: 6px; font-size: 10px; font-weight: 800; font-family: 'Inter'; text-transform: uppercase; letter-spacing: 1px;}
-    .bg-green { background: rgba(14, 203, 129, 0.15); color: var(--color-green); border: 1px solid rgba(14,203,129,0.3);}
-    .bg-red { background: rgba(246, 70, 93, 0.15); color: var(--color-red); border: 1px solid rgba(246,70,93,0.3);}
-    .bg-cyan { background: rgba(0, 243, 255, 0.15); color: var(--color-cyan); border: 1px solid rgba(0,243,255,0.3);}
-    
-    .action-row { display: flex; gap: 8px; }
-    .btn-sm { padding: 6px 12px; font-size: 11px; border-radius: 6px; border: 1px solid var(--border-color); background: var(--bg-main); color: var(--text-main); cursor: pointer; font-weight: 700; text-transform: uppercase; transition: 0.2s;}
-    .btn-sm:hover { background: var(--bg-hover); }
-    .btn-sm-red:hover { background: rgba(246,70,93,0.2); color: var(--color-red); border-color: var(--color-red); }
-    .btn-sm-warn { border-color: rgba(252, 213, 53, 0.3); color: var(--color-primary); }
-    .btn-sm-warn:hover { background: rgba(252,213,53,0.2); border-color: var(--color-primary); }
+    .panel { background: var(--tc-card); border: 1px solid var(--tc-border); border-radius: 12px; margin-bottom: 20px; overflow: hidden; }
+    .panel-header { padding: 12px 15px; border-bottom: 1px solid var(--tc-border); font-weight: 800; font-size: 12px; color: #fff; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center;}
+    .panel-body { padding: 15px; }
 
-    @media (min-width: 900px) {
-      .layout-grid { flex-direction: row; align-items: flex-start; }
-      .controls-column { width: 380px; flex-shrink: 0; }
-      .data-column { flex: 1; overflow: hidden; }
-      .stats-grid { grid-template-columns: repeat(4, 1fr); }
-    }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 10px; color: #888; font-weight: 800; margin-bottom: 5px; text-transform: uppercase; }
+    .form-control { width: 100%; background: var(--tc-dark); border: 1px solid #333; color: #fff; padding: 10px; border-radius: 6px; font-size: 12px; outline: none; }
+    .form-control:focus { border-color: var(--tc-cyan); }
+
+    .btn { background: #1e293b; color: #fff; border: none; padding: 10px 15px; border-radius: 6px; font-weight: 800; cursor: pointer; transition: 0.2s; font-size: 11px; text-transform: uppercase; width: 100%;}
+    .btn-primary { background: var(--tc-cyan); color: #000; }
+    .btn-danger { background: rgba(251, 91, 91, 0.1); color: var(--tc-red); border: 1px solid var(--tc-red); }
+    .btn-gold { background: linear-gradient(135deg, var(--tc-gold), #ff9900); color: #000; }
+
+    .table-container { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; min-width: 600px; text-align: left; }
+    th { padding: 12px 15px; font-size: 10px; color: #888; background: #0a0e14; border-bottom: 1px solid var(--tc-border); }
+    td { padding: 12px 15px; border-bottom: 1px solid var(--tc-border); font-family: 'Share Tech Mono'; font-size: 12px; }
+    .badge { padding: 3px 6px; border-radius: 4px; font-size: 9px; font-weight: 800; font-family: 'Inter'; }
+    .bg-green { background: rgba(24,182,96,0.1); color: var(--tc-green); border: 1px solid var(--tc-green);}
+    .bg-red { background: rgba(251,91,91,0.1); color: var(--tc-red); border: 1px solid var(--tc-red);}
+    
+    .action-row { display: flex; gap: 5px; }
+    .btn-sm { padding: 4px 8px; font-size: 9px; border-radius: 4px; border: 1px solid #333; background: transparent; color: #fff; cursor: pointer; }
+    .toggle-group { display: flex; gap: 8px; margin-bottom: 10px; }
+    .toggle-btn { flex: 1; padding: 8px; text-align: center; font-size: 10px; font-weight: 800; background: var(--tc-dark); border: 1px solid #333; color: #888; border-radius: 6px; cursor: pointer;}
+    .toggle-btn.active { background: rgba(0,243,255,0.1); color: var(--tc-cyan); border-color: var(--tc-cyan); }
   </style>
 </head>
 <body>
 
   <div id="adminLoginOverlay">
     <div class="auth-card">
-      <div class="auth-logo">⚡</div>
-      <div class="auth-title">AUTHORIZATION</div>
-      <div class="auth-sub">Enter Root Password to Access System</div>
-      <input type="password" id="adminPass" class="auth-input" placeholder="••••••••">
-      <button class="auth-btn" onclick="verifyAdmin()">ACCESS COMMAND CENTER</button>
+      <i class="fa-solid fa-fingerprint" style="font-size: 40px; color: var(--tc-cyan); margin-bottom: 10px;"></i>
+      <h2 style="font-family: 'Outfit'; font-weight: 900; margin-bottom: 5px;">ROOT ACCESS</h2>
+      <p style="font-size: 10px; color: #888;">ENTER MASTER PASSWORD</p>
+      <input type="password" id="adminPass" class="auth-input">
+      <button class="btn-auth" onclick="verifyAdmin()">AUTHORIZE</button>
     </div>
   </div>
 
   <div id="adminDashboard">
     <div class="top-header">
-      <div class="header-left"><span style="color:var(--color-cyan);">DEV</span> ARMY</div>
-      <div class="header-right">
-        <div class="server-badge">SYSTEM SECURE</div>
-        <div style="width:32px; height:32px; background:var(--bg-hover); border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:14px; border:1px solid var(--border-color);">👤</div>
-      </div>
+      <div class="header-left">DEV <span>ARMY</span> V8</div>
+      <div style="font-size: 10px; color: var(--tc-green); border: 1px solid var(--tc-green); padding: 4px 8px; border-radius: 4px;">SYSTEM SECURE</div>
     </div>
 
     <div class="content-scroll">
-      
       <div class="stats-grid">
         <div class="stat-card"><div class="stat-title">Total Keys</div><div class="stat-value" id="statTotalKeys">0</div></div>
-        <div class="stat-card"><div class="stat-title">Bound Devices</div><div class="stat-value" id="statActiveBound" style="color: var(--color-cyan);">0</div></div>
-        <div class="stat-card"><div class="stat-title">30S Server</div><div class="stat-value" id="stat30s">0</div></div>
-        <div class="stat-card"><div class="stat-title">1M Server</div><div class="stat-value" id="stat1m">0</div></div>
+        <div class="stat-card"><div class="stat-title">Bound Devices</div><div class="stat-value" id="statActiveBound">0</div></div>
       </div>
 
       <div class="layout-grid">
-        
         <div class="controls-column">
-          <div class="panel" style="border-top: 3px solid var(--color-cyan);">
-            <div class="panel-header">Generate New Key</div>
-            <div class="panel-body">
-              <div class="form-group">
-                <label>Target Server</label>
-                <select id="kgTimeframe" class="form-control" style="border-color: var(--color-cyan); color: var(--color-cyan); font-weight: 700;">
-                  <option value="1M">1 Minute Server (Standard)</option>
-                  <option value="30S">30 Seconds Server (Fast)</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Client Alias</label>
-                <input type="text" id="kgUser" class="form-control" placeholder="e.g. VIP Member">
-              </div>
-              <div class="form-group">
-                <label>Access Duration</label>
-                <select id="kgExpiry" class="form-control">
-                  <option value="1">1 Hour</option><option value="24">1 Day</option><option value="168" selected>7 Days</option><option value="720">30 Days</option>
-                </select>
-              </div>
-              <button class="btn btn-primary" onclick="generateKey()">DEPLOY ACCESS KEY</button>
-            </div>
-          </div>
-
-          <div class="panel" style="border-top: 3px solid var(--color-purple);">
-            <div class="panel-header" style="color: var(--color-purple);">App Configurations</div>
-            <div class="panel-body">
-              <div class="form-group"><label>Gatekeeper Telegram Link</label><input type="text" id="linkTg" class="form-control" placeholder="https://t.me/yourchannel"></div>
-              <div class="form-group"><label>Game Web Link</label><input type="text" id="linkGame" class="form-control" placeholder="https://gamewebsite.com"></div>
-              
-              <hr style="border:none; border-top:1px solid var(--border-color); margin:20px 0;">
-
-              <label style="font-size:11px; color:var(--plasma-red); font-weight:700; margin-bottom:8px; display:block; text-transform:uppercase;">Live Floating Telegram Button</label>
-              <div class="toggle-group">
-                <button class="toggle-btn active-plasma" id="liveBtnOn" onclick="toggleLiveBtn(true)">Visible (Live)</button>
-                <button class="toggle-btn" id="liveBtnOff" onclick="toggleLiveBtn(false)">Hidden</button>
-              </div>
-              <input type="text" id="liveBtnLink" class="form-control" placeholder="Custom Link for Live Button">
-
-              <hr style="border:none; border-top:1px solid var(--border-color); margin:20px 0;">
-
-              <label style="font-size:11px; color:var(--text-muted); font-weight:700; margin-bottom:8px; display:block; text-transform:uppercase;">Live Top Ticker</label>
-              <div class="toggle-group">
-                <button class="toggle-btn active-green" id="tickOn" onclick="toggleTicker(true)">Show</button>
-                <button class="toggle-btn" id="tickOff" onclick="toggleTicker(false)">Hide</button>
-              </div>
-              <input type="text" id="tickMsg" class="form-control" placeholder="Announcement text...">
-
-              <hr style="border:none; border-top:1px solid var(--border-color); margin:20px 0;">
-
-              <label style="font-size:11px; color:var(--text-muted); font-weight:700; margin-bottom:8px; display:block; text-transform:uppercase;">Session Lock</label>
-              <div class="toggle-group">
-                <button class="toggle-btn" id="maintOn" onclick="toggleMaint(true)">Lock App</button>
-                <button class="toggle-btn active-green" id="maintOff" onclick="toggleMaint(false)">App Open</button>
-              </div>
-              <div style="display:flex; gap:10px; margin-bottom:10px;">
-                <input type="text" id="maintMsg" class="form-control" placeholder="Reason" style="flex:1;">
-                <input type="text" id="sessionTime" class="form-control" placeholder="Next Session" style="flex:1; border-color:var(--color-primary); color:var(--color-primary);">
-              </div>
-
-              <button class="btn" style="background:var(--color-purple); color:#fff; border:none; margin-top:10px;" onclick="saveSystemControls()">SYNC ALL SETTINGS</button>
-            </div>
-          </div>
           
-          <div class="panel" style="border-top: 3px solid var(--color-red);">
-            <div class="panel-header" style="color: var(--color-red);">Global Security Operations</div>
+          <div class="panel" style="border-top: 3px solid var(--tc-red);">
+            <div class="panel-header" style="color: var(--tc-red);"><i class="fa-solid fa-skull"></i> GOD MODE (MANUAL OVERRIDE)</div>
             <div class="panel-body">
-              <button class="btn btn-danger" style="margin-bottom:12px;" onclick="globalKillSwitch()">🛑 PANIC: PAUSE ALL KEYS</button>
-              <button class="btn" style="border-color:#555; color:#aaa;" onclick="cleanExpiredKeys()">🧹 CLEAN EXPIRED KEYS</button>
+              <p style="font-size:10px; color:#888; margin-bottom:10px;">Forces the app to show your selected result.</p>
+              <div class="form-group">
+                <label>Prediction Result</label>
+                <select id="godModeSize" class="form-control" style="color:var(--tc-red); font-weight:bold; border-color:var(--tc-red);">
+                  <option value="AUTO">🤖 AUTO (Algorithm)</option>
+                  <option value="BIG">🟢 FORCE BIG</option>
+                  <option value="SMALL">🔴 FORCE SMALL</option>
+                  <option value="SKIP">⚠️ FORCE SKIP</option>
+                </select>
+              </div>
+              <div style="display:flex; gap:10px;">
+                <div class="form-group" style="flex:1;">
+                  <label>Force Num 1</label>
+                  <input type="number" id="godModeNum1" class="form-control" placeholder="0-9">
+                </div>
+                <div class="form-group" style="flex:1;">
+                  <label>Force Num 2</label>
+                  <input type="number" id="godModeNum2" class="form-control" placeholder="0-9">
+                </div>
+              </div>
+              <button class="btn btn-danger" onclick="setGodMode()">INJECT OVERRIDE</button>
+              <div id="godStatus" style="font-size:10px; text-align:center; margin-top:10px; font-family:'Share Tech Mono'; color:var(--tc-green);"></div>
+            </div>
+          </div>
+
+          <div class="panel" style="border-top: 3px solid var(--tc-gold);">
+            <div class="panel-header" style="color: var(--tc-gold);"><i class="fa-solid fa-key"></i> BULK KEY GENERATOR</div>
+            <div class="panel-body">
+              <div style="display:flex; gap:10px;">
+                <div class="form-group" style="flex:1;">
+                  <label>Server</label>
+                  <select id="kgTimeframe" class="form-control"><option value="1M">1 Minute</option><option value="30S">30 Seconds</option></select>
+                </div>
+                <div class="form-group" style="flex:1;">
+                  <label>Expiry</label>
+                  <select id="kgExpiry" class="form-control"><option value="1">1 Hour</option><option value="24">1 Day</option><option value="168" selected>7 Days</option></select>
+                </div>
+              </div>
+              <div style="display:flex; gap:10px;">
+                <div class="form-group" style="flex:2;">
+                  <label>Alias Prefix</label>
+                  <input type="text" id="kgUser" class="form-control" placeholder="VIP_User">
+                </div>
+                <div class="form-group" style="flex:1;">
+                  <label>Amount</label>
+                  <input type="number" id="kgCount" class="form-control" value="1" min="1" max="50">
+                </div>
+              </div>
+              <button class="btn btn-gold" onclick="generateKeys()">GENERATE KEYS</button>
+            </div>
+          </div>
+
+          <div class="panel" style="border-top: 3px solid var(--tc-cyan);">
+            <div class="panel-header" style="color: var(--tc-cyan);"><i class="fa-solid fa-server"></i> APP CONFIGURATIONS</div>
+            <div class="panel-body">
+              <div class="form-group"><label>Game Link</label><input type="text" id="linkGame" class="form-control"></div>
+              <div class="form-group"><label>Telegram Link</label><input type="text" id="linkTg" class="form-control"></div>
+              
+              <label style="font-size:10px; color:#888; font-weight:800; margin-bottom:5px; display:block;">SYSTEM LOCK (MAINTENANCE)</label>
+              <div class="toggle-group">
+                <button class="toggle-btn" id="maintOn" onclick="toggleMaint(true)">LOCKED</button>
+                <button class="toggle-btn active" id="maintOff" onclick="toggleMaint(false)">OPEN</button>
+              </div>
+              <input type="text" id="sessionTime" class="form-control" placeholder="Next Session Time" style="margin-bottom:10px;">
+              <button class="btn btn-primary" onclick="saveSystemControls()">SYNC TO ALL USERS</button>
             </div>
           </div>
         </div>
 
         <div class="data-column">
-          <div class="panel" style="border-top: 3px solid var(--color-primary);">
-            <div class="panel-header">
-              Database Vault Control
-              <div style="display:flex; gap:10px;">
-                <button class="btn-sm" style="background:var(--color-green); color:#000; border:none;" onclick="exportCSV()">⬇️ CSV</button>
-                <button class="btn-sm" style="background:var(--color-primary); color:#000; border:none;" onclick="loadVault()">↻ SYNC</button>
-              </div>
-            </div>
-            <div class="panel-body" style="padding-bottom: 0;">
-              <div class="search-box">
-                <input type="text" id="searchInput" placeholder="🔍 Search by Alias or Key..." onkeyup="searchVault()">
-              </div>
+          <div class="panel">
+            <div class="panel-header">DATABASE VAULT <button class="btn-sm" style="background:var(--tc-cyan); color:#000; border:none;" onclick="loadVault()">REFRESH</button></div>
+            <div class="panel-body" style="padding-bottom:0;">
+              <input type="text" id="searchInput" class="form-control" placeholder="Search keys..." style="margin-bottom:15px;" onkeyup="searchVault()">
             </div>
             <div class="table-container">
               <table id="keyTable">
-                <thead><tr><th>Client Alias</th><th>Access Key</th><th>Expiry Time</th><th>Status</th><th>Actions</th></tr></thead>
-                <tbody id="keyVaultList"><tr><td colspan="5" style="text-align:center; padding:40px; color:#888;">Fetching Database...</td></tr></tbody>
+                <thead><tr><th>Alias</th><th>Key</th><th>Expiry</th><th>Status</th><th>Actions</th></tr></thead>
+                <tbody id="keyVaultList"><tr><td colspan="5" style="text-align:center; padding:20px; color:#555;">Loading...</td></tr></tbody>
               </table>
             </div>
           </div>
@@ -230,127 +186,126 @@
     import { getDatabase, ref, set, get, child, update, remove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
     const firebaseConfig = { apiKey: "AIzaSyBNj71akpefcfEtn-SQfAcx-Pgwi8sUosg", authDomain: "teamdev-88676.firebaseapp.com", databaseURL: "https://teamdev-88676-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "teamdev-88676" };
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
+    const app = initializeApp(firebaseConfig); const db = getDatabase(app);
 
     window.verifyAdmin = async function() {
-      const inputPass = document.getElementById('adminPass').value.trim();
-      if(!inputPass) return alert("Enter Password");
+      const pass = document.getElementById('adminPass').value;
+      if(!pass) return;
       try {
         const snap = await get(child(ref(db), 'server/adminAuth'));
-        if(snap.exists() && snap.val().password === inputPass) {
-          document.getElementById('adminLoginOverlay').style.display = 'none';
-          document.getElementById('adminDashboard').style.display = 'flex';
-          loadVault(); loadSystemControls();
+        if(snap.exists() && snap.val().password === pass) {
+          document.getElementById('adminLoginOverlay').style.display = 'none'; document.getElementById('adminDashboard').style.display = 'flex';
+          loadVault(); loadSystemControls(); loadGodMode();
         } else if(!snap.exists()) {
-          await set(ref(db, 'server/adminAuth'), { password: inputPass }); 
-          alert("✅ New Root Password Set!"); location.reload();
-        } else alert("❌ ACCESS DENIED");
-      } catch(e) { alert("Network Error"); }
+          await set(ref(db, 'server/adminAuth'), { password: pass }); alert("Root password set!"); location.reload();
+        } else alert("Access Denied");
+      } catch(e) {}
     }
 
-    let sysState = { maint: false, tick: true, liveBtn: false };
-    window.toggleMaint = (s) => { sysState.maint=s; document.getElementById('maintOn').className=s?"toggle-btn active-red":"toggle-btn"; document.getElementById('maintOff').className=!s?"toggle-btn active-green":"toggle-btn"; }
-    window.toggleTicker = (s) => { sysState.tick=s; document.getElementById('tickOn').className=s?"toggle-btn active-green":"toggle-btn"; document.getElementById('tickOff').className=!s?"toggle-btn active-red":"toggle-btn"; }
-    window.toggleLiveBtn = (s) => { sysState.liveBtn=s; document.getElementById('liveBtnOn').className=s?"toggle-btn active-plasma":"toggle-btn"; document.getElementById('liveBtnOff').className=!s?"toggle-btn active-red":"toggle-btn"; }
-
-    window.loadSystemControls = function() {
-      get(child(ref(db), 'systemConfig')).then((snap) => {
-        if(snap.exists()) {
-          const config = snap.val();
-          if(config.links) { document.getElementById('linkTg').value = config.links.telegramUrl || ""; document.getElementById('linkGame').value = config.links.gameUrl || ""; }
-          if(config.maintenance) { toggleMaint(config.maintenance.active); document.getElementById('maintMsg').value = config.maintenance.message || ""; document.getElementById('sessionTime').value = config.maintenance.sessionTime || ""; }
-          if(config.ticker) { toggleTicker(config.ticker.active); document.getElementById('tickMsg').value = config.ticker.message || ""; }
-          if(config.liveBtn) { toggleLiveBtn(config.liveBtn.active); document.getElementById('liveBtnLink').value = config.liveBtn.link || ""; }
-        }
-      });
-    }
-
-    window.saveSystemControls = async function() {
-      const data = {
-        links: { telegramUrl: document.getElementById('linkTg').value.trim(), gameUrl: document.getElementById('linkGame').value.trim() },
-        maintenance: { active: sysState.maint, message: document.getElementById('maintMsg').value, sessionTime: document.getElementById('sessionTime').value },
-        ticker: { active: sysState.tick, message: document.getElementById('tickMsg').value },
-        liveBtn: { active: sysState.liveBtn, link: document.getElementById('liveBtnLink').value.trim() }
-      };
-      await update(ref(db, 'systemConfig'), data);
-      alert("✅ App Settings Synced Successfully!");
-    }
-
-    window.generateKey = async function() {
-      const user = document.getElementById('kgUser').value || 'GUEST'; const hours = parseInt(document.getElementById('kgExpiry').value); const timeframe = document.getElementById('kgTimeframe').value; 
-      let newKey = ''; const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-      for (let i = 0; i < 16; i++) { newKey += chars.charAt(Math.floor(Math.random() * chars.length)); if(i===3||i===7||i===11) newKey += '-';}
-      const expDate = new Date(); expDate.setHours(expDate.getHours() + hours);
-      await set(ref(db, 'keys/' + newKey), { user: user, key: newKey, timeframe: timeframe, status: "ACTIVE", deviceId: null, expiresAt: expDate.toISOString() });
-      if(confirm(`✅ KEY GENERATED: ${newKey}\nCopy to clipboard?`)) navigator.clipboard.writeText(newKey); loadVault();
-    }
-
-    window.inlineAction = async function(action, key) {
-      if(action === 'pause') { await update(ref(db, `keys/${key}`), { status: 'INACTIVE' }); }
-      if(action === 'resume') { await update(ref(db, `keys/${key}`), { status: 'ACTIVE' }); }
-      if(action === 'unbind') { await update(ref(db, `keys/${key}`), { deviceId: null }); alert('✅ Unbound HWID'); }
-      if(action === 'delete') { if(confirm("Permanently delete key?")) await remove(ref(db, `keys/${key}`)); }
-      if(action === 'extend') {
-        const hours = prompt("Enter hours to add (e.g., 24 for 1 day):", "24");
-        if(hours && !isNaN(hours)) {
-          const snap = await get(child(ref(db), `keys/${key}`));
-          if(snap.exists()) {
-            const currentExp = new Date(snap.val().expiresAt); currentExp.setHours(currentExp.getHours() + parseInt(hours));
-            await update(ref(db, `keys/${key}`), { expiresAt: currentExp.toISOString() }); alert(`✅ Added ${hours} hours.`);
-          }
-        }
+    // GOD MODE LOGIC
+    window.loadGodMode = async function() {
+      const snap = await get(child(ref(db), 'server/override'));
+      if(snap.exists()) {
+        const data = snap.val();
+        document.getElementById('godModeSize').value = data.size || "AUTO";
+        document.getElementById('godModeNum1').value = data.num1 || "";
+        document.getElementById('godModeNum2').value = data.num2 || "";
+        if(data.size !== "AUTO") document.getElementById('godStatus').innerText = `ACTIVE OVERRIDE: ${data.size}`;
       }
-      if(action === 'rename') { const newName = prompt("Enter new Alias/Name:"); if(newName && newName.trim() !== "") await update(ref(db, `keys/${key}`), { user: newName.trim() }); }
+    }
+    
+    window.setGodMode = async function() {
+      const size = document.getElementById('godModeSize').value;
+      const n1 = document.getElementById('godModeNum1').value;
+      const n2 = document.getElementById('godModeNum2').value;
+      
+      await set(ref(db, 'server/override'), {
+        size: size,
+        num1: n1 ? parseInt(n1) : null,
+        num2: n2 ? parseInt(n2) : null,
+        timestamp: Date.now()
+      });
+      document.getElementById('godStatus').innerText = size === "AUTO" ? "ALGORITHM MODE ACTIVE" : `INJECTED: FORCE ${size}`;
+      if(size !== "AUTO") alert(`God Mode Active: Forcing ${size} to all apps.`);
+    }
+
+    // BULK KEY GENERATOR
+    window.generateKeys = async function() {
+      const prefix = document.getElementById('kgUser').value || 'VIP'; 
+      const count = parseInt(document.getElementById('kgCount').value) || 1;
+      const hours = parseInt(document.getElementById('kgExpiry').value); 
+      const tf = document.getElementById('kgTimeframe').value; 
+      
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+      let generatedKeys = [];
+      const updates = {};
+
+      for(let j=0; j<count; j++) {
+        let newKey = ''; 
+        for (let i = 0; i < 16; i++) { newKey += chars.charAt(Math.floor(Math.random() * chars.length)); if(i===3||i===7||i===11) newKey += '-';}
+        const expDate = new Date(); expDate.setHours(expDate.getHours() + hours);
+        
+        updates['keys/' + newKey] = { user: `${prefix}_${j+1}`, key: newKey, timeframe: tf, status: "ACTIVE", deviceId: null, expiresAt: expDate.toISOString() };
+        generatedKeys.push(newKey);
+      }
+      
+      await update(ref(db), updates);
+      
+      if(count === 1) {
+        if(confirm(`Key: ${generatedKeys[0]}\nCopy?`)) navigator.clipboard.writeText(generatedKeys[0]);
+      } else {
+        const textToCopy = generatedKeys.join('\n');
+        navigator.clipboard.writeText(textToCopy);
+        alert(`✅ ${count} Keys Generated and copied to clipboard!`);
+      }
       loadVault();
     }
 
-    function formatDate(isoString) { const d = new Date(isoString); return d.toLocaleString('en-US', { month:'short', day:'numeric', hour:'numeric', minute:'2-digit' }); }
+    // SYSTEM CONFIG
+    let sysState = { maint: false };
+    window.toggleMaint = (s) => { sysState.maint=s; document.getElementById('maintOn').className=s?"toggle-btn active":"toggle-btn"; document.getElementById('maintOff').className=!s?"toggle-btn active":"toggle-btn"; }
+    window.loadSystemControls = async function() {
+      const snap = await get(child(ref(db), 'systemConfig'));
+      if(snap.exists()) {
+        const config = snap.val();
+        if(config.links) { document.getElementById('linkTg').value = config.links.telegramUrl || ""; document.getElementById('linkGame').value = config.links.gameUrl || ""; }
+        if(config.maintenance) { toggleMaint(config.maintenance.active); document.getElementById('sessionTime').value = config.maintenance.sessionTime || ""; }
+      }
+    }
+    window.saveSystemControls = async function() {
+      await update(ref(db, 'systemConfig'), {
+        links: { telegramUrl: document.getElementById('linkTg').value, gameUrl: document.getElementById('linkGame').value },
+        maintenance: { active: sysState.maint, sessionTime: document.getElementById('sessionTime').value }
+      });
+      alert("App Synced!");
+    }
 
+    // VAULT MANAGEMENT
+    window.inlineAction = async function(action, key) {
+      if(action === 'pause') await update(ref(db, `keys/${key}`), { status: 'INACTIVE' });
+      if(action === 'resume') await update(ref(db, `keys/${key}`), { status: 'ACTIVE' });
+      if(action === 'unbind') await update(ref(db, `keys/${key}`), { deviceId: null });
+      if(action === 'delete') if(confirm("Delete key?")) await remove(ref(db, `keys/${key}`));
+      loadVault();
+    }
     window.loadVault = async function() {
-      const snapshot = await get(child(ref(db), 'keys')); const tbody = document.getElementById('keyVaultList');
-      let tot = 0, bnd = 0, c30 = 0, c1m = 0;
-      if (snapshot.exists()) {
-        let html = ''; Object.values(snapshot.val()).reverse().forEach(k => {
-          tot++; if(k.deviceId) bnd++; if(k.timeframe === '30S') c30++; else c1m++;
-          const isExpired = new Date() > new Date(k.expiresAt);
-          const statBadge = isExpired ? '<span class="badge bg-red">EXPIRED</span>' : (k.status === 'ACTIVE' ? '<span class="badge bg-green">ACTIVE</span>' : '<span class="badge bg-red">PAUSED</span>');
-          const hwidBadge = k.deviceId ? '<span class="badge bg-cyan">BOUND</span>' : '<span style="font-size:10px; color:#666;">FREE</span>';
-          const pauseBtn = k.status === 'ACTIVE' ? `<button class="btn-sm" style="color:var(--color-primary); border-color:var(--border-color);" onclick="inlineAction('pause', '${k.key}')">Pause</button>` : `<button class="btn-sm" style="color:var(--color-green);" onclick="inlineAction('resume', '${k.key}')">Resume</button>`;
-          html += `<tr class="vault-row"><td style="font-family:'Inter'; font-weight:600;"><span class="alias-text" style="color:#fff;">${k.user}</span> <span style="font-size:10px; color:var(--text-muted); cursor:pointer;" onclick="inlineAction('rename', '${k.key}')">✏️</span></td><td class="key-text" style="color:var(--color-cyan); cursor:pointer;" onclick="navigator.clipboard.writeText('${k.key}'); alert('Key Copied!');">${k.key}</td><td style="font-family:'Inter'; font-size:11px; color:${isExpired ? 'var(--color-red)' : 'var(--text-main)'};">${formatDate(k.expiresAt)}</td><td>${statBadge}</td><td><div style="display:flex; align-items:center; gap:8px;">${hwidBadge} ${k.deviceId ? `<button class="btn-sm" style="padding:2px 6px; font-size:9px;" onclick="inlineAction('unbind', '${k.key}')">Unbind</button>` : ''}</div></td><td><div class="action-row">${pauseBtn}<button class="btn-sm" onclick="inlineAction('extend', '${k.key}')">+ Time</button><button class="btn-sm btn-sm-red" onclick="inlineAction('delete', '${k.key}')">Del</button></div></td></tr>`;
+      const snap = await get(child(ref(db), 'keys')); const tbody = document.getElementById('keyVaultList');
+      let tot = 0, bnd = 0;
+      if(snap.exists()) {
+        let html = ''; Object.values(snap.val()).reverse().forEach(k => {
+          tot++; if(k.deviceId) bnd++;
+          const isExp = new Date() > new Date(k.expiresAt);
+          const stat = isExp ? '<span class="badge bg-red">EXP</span>' : (k.status==='ACTIVE'?'<span class="badge bg-green">ON</span>':'<span class="badge bg-red">PAUSED</span>');
+          const hwid = k.deviceId ? '<span class="badge bg-green">BOUND</span>' : '<span style="color:#555;">FREE</span>';
+          const pBtn = k.status==='ACTIVE'?`<button class="btn-sm" onclick="inlineAction('pause','${k.key}')">||</button>`:`<button class="btn-sm" onclick="inlineAction('resume','${k.key}')">▶</button>`;
+          html += `<tr class="v-row"><td>${k.user}</td><td style="color:var(--tc-cyan);">${k.key}</td><td style="font-size:9px;">${new Date(k.expiresAt).toLocaleDateString()}</td><td>${stat} ${hwid}</td><td><div class="action-row">${pBtn}<button class="btn-sm" onclick="inlineAction('unbind','${k.key}')">Unbind</button><button class="btn-sm" style="color:var(--tc-red); border-color:var(--tc-red);" onclick="inlineAction('delete','${k.key}')">X</button></div></td></tr>`;
         });
-        tbody.innerHTML = html; document.getElementById('statTotalKeys').innerText = tot; document.getElementById('statActiveBound').innerText = bnd; document.getElementById('stat30s').innerText = c30; document.getElementById('stat1m').innerText = c1m;
-      } else { tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:40px; color:#888;">No Keys Found.</td></tr>'; document.getElementById('statTotalKeys').innerText = '0'; document.getElementById('statActiveBound').innerText = '0'; }
+        tbody.innerHTML = html; document.getElementById('statTotalKeys').innerText=tot; document.getElementById('statActiveBound').innerText=bnd;
+      } else tbody.innerHTML = '<tr><td colspan="5">No Keys</td></tr>';
     }
-
     window.searchVault = function() {
-      const input = document.getElementById("searchInput").value.toUpperCase(); const rows = document.getElementsByClassName("vault-row");
-      for (let i = 0; i < rows.length; i++) {
-        const alias = rows[i].querySelector(".alias-text").innerText.toUpperCase(); const key = rows[i].querySelector(".key-text").innerText.toUpperCase();
-        if (alias.indexOf(input) > -1 || key.indexOf(input) > -1) rows[i].style.display = ""; else rows[i].style.display = "none";
-      }
-    }
-    window.exportCSV = async function() {
-      const snapshot = await get(child(ref(db), 'keys')); if(!snapshot.exists()) return alert("No data");
-      let csvContent = "data:text/csv;charset=utf-8,Alias,Access Key,Server,Status,HWID Bound,Expiry Date\n";
-      Object.values(snapshot.val()).forEach(k => { csvContent += `"${k.user}","${k.key}","${k.timeframe||'1M'}","${k.status}","${k.deviceId ? 'Yes' : 'No'}","${new Date(k.expiresAt).toLocaleString()}"\n`; });
-      const encodedUri = encodeURI(csvContent); const link = document.createElement("a"); link.setAttribute("href", encodedUri); link.setAttribute("download", `DEV_ARMY_KEYS.csv`); document.body.appendChild(link); link.click();
-    }
-    window.globalKillSwitch = async function() {
-      if(confirm("⚠️ WARNING: This will immediately PAUSE ALL keys. Are you sure?")) {
-        const snapshot = await get(child(ref(db), 'keys'));
-        if(snapshot.exists()) { const updates = {}; Object.keys(snapshot.val()).forEach(keyId => { updates[`keys/${keyId}/status`] = "INACTIVE"; }); await update(ref(db), updates); alert("🛑 SYSTEM LOCKED: All keys paused."); loadVault(); }
-      }
-    }
-    window.cleanExpiredKeys = async function() {
-      if(confirm("Delete all expired keys?")) {
-        const snapshot = await get(child(ref(db), 'keys'));
-        if(snapshot.exists()) {
-          let deleted = 0; const now = new Date();
-          for (const [keyId, kData] of Object.entries(snapshot.val())) { if(new Date(kData.expiresAt) < now) { await remove(ref(db, `keys/${keyId}`)); deleted++; } }
-          alert(`🧹 Deleted ${deleted} expired keys.`); loadVault();
-        }
-      }
+      const q = document.getElementById('searchInput').value.toUpperCase(); const rows = document.getElementsByClassName('v-row');
+      for(let r of rows) r.style.display = r.innerText.toUpperCase().includes(q) ? '' : 'none';
     }
   </script>
 </body>

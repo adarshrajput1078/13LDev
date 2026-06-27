@@ -3,358 +3,237 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>DEV ARMY • PREMIUM HACK V6</title>
+  <title>DEV ARMY • SIKKIM VIP MOD</title>
   
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Outfit:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
   <style>
-    /* =========================================
-       GLOBAL VARIABLES
-       ========================================= */
     :root { 
-      --neon-orange: #00ffea;
-      --neon-red: #ff2a4b; 
-      --neon-cyan: #00f3ff;
-      --neon-pink: #ff00b3;
-      --neon-green: #00ff66;
-      --gold: #fcd535; 
-      --plasma-red: #ff1744;
-      --bg-dark: #0b0e11;
-      --bg-card: #181a20;
+      --sk-green: #18b660; --sk-red: #fb5b5b; --sk-violet: #b562ff;
+      --sk-gold: #e2b960; --sk-gold-light: #ffdc7a; --sk-dark-bg: #12151c;
+      --sk-card: #1c212b; --sk-border: #2c3545; --sk-text: #e2e8f0; --sk-cyan: #00f3ff;
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; }
-    body { background-color: var(--bg-dark); font-family: 'Outfit', sans-serif; overflow: hidden; }
+    body { background-color: var(--sk-dark-bg); font-family: 'Inter', sans-serif; overflow: hidden; }
 
-    /* =========================================
-       LIVE TICKER & TELEGRAM BUTTON
-       ========================================= */
-    #newsTicker {
-      display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 28px;
-      background: rgba(0, 0, 0, 0.85); border-bottom: 1px solid var(--gold);
-      color: #fff; font-family: 'Share Tech Mono'; font-size: 13px; line-height: 28px;
-      z-index: 10001; backdrop-filter: blur(5px);
-    }
-    .ticker-icon { position: absolute; left: 0; top: 0; background: var(--gold); color: #000; padding: 0 10px; font-weight: 900; z-index: 2; height: 100%; display: flex; align-items: center;}
-    .ticker-text { padding-left: 90px; color: #fff; letter-spacing: 1px; }
+    #newsTicker { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 30px; background: rgba(18, 21, 28, 0.95); border-bottom: 1px solid var(--sk-gold); color: #fff; font-size: 11px; line-height: 30px; z-index: 10001; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+    .ticker-icon { position: absolute; left: 0; top: 0; background: linear-gradient(180deg, var(--sk-gold-light), var(--sk-gold)); color: #000; padding: 0 12px; font-weight: 900; z-index: 2; height: 100%; display: flex; align-items: center; font-size: 12px;}
+    .ticker-text { padding-left: 100px; color: var(--sk-gold-light); font-family: 'Inter'; font-weight: 600; letter-spacing: 0.5px; font-size: 12px;}
 
-    #liveTgBtn {
-      display: none; position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-      background: linear-gradient(145deg, var(--neon-cyan), #0088cc);
-      border: 1px solid rgba(255, 255, 255, 0.2); color: #000; font-weight: 900; font-size: 14px; 
-      padding: 12px 30px; border-radius: 50px; z-index: 10001; text-decoration: none; 
-      box-shadow: 0 5px 15px rgba(0, 243, 255, 0.5), inset 0 2px 2px rgba(255, 255, 255, 0.3);
-      animation: pulseTg 1.5s infinite alternate; white-space: nowrap; font-family: 'Outfit';
-      letter-spacing: 1px; text-transform: uppercase;
-    }
-    @keyframes pulseTg { 
-      from { transform: translateX(-50%) scale(1); box-shadow: 0 5px 15px rgba(0, 243, 255, 0.5); } 
-      to { transform: translateX(-50%) scale(1.05); box-shadow: 0 10px 25px rgba(0, 243, 255, 0.8); } 
-    }
+    #liveTgBtn { display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: linear-gradient(180deg, #25d366, #18b660); border: 2px solid #fff; color: #fff; font-weight: 800; font-size: 11px; padding: 10px 24px; border-radius: 20px; z-index: 10001; text-decoration: none; box-shadow: 0 5px 15px rgba(24, 182, 96, 0.4); text-transform: uppercase; animation: pulseTg 2s infinite alternate; font-family: 'Inter'; letter-spacing: 1px; }
+    @keyframes pulseTg { from { transform: translateX(-50%) scale(1); box-shadow: 0 5px 15px rgba(24, 182, 96, 0.3); } to { transform: translateX(-50%) scale(1.05); box-shadow: 0 8px 20px rgba(24, 182, 96, 0.6); } }
 
-    /* =========================================
-       SYSTEM MODALS
-       ========================================= */
-    .modal-screen-mask { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(11, 14, 17, 0.95); z-index: 15000; justify-content: center; align-items: center; padding: 20px; }
-    .modal-panel-box { width: 100%; max-width: 340px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 16px; padding: 30px 20px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
-    .session-border { border-color: var(--plasma-red); box-shadow: 0 0 40px rgba(255,23,68,0.2); }
-    .session-icon { font-size: 3.5rem; margin-bottom: 10px; color: var(--plasma-red); text-shadow: 0 0 20px var(--plasma-red); animation: floatIcon 2s infinite ease-in-out;}
-    @keyframes floatIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-    .session-title { font-family: 'Outfit'; font-size: 1.8rem; font-weight: 900; color: #fff; margin-bottom: 5px; text-transform: uppercase; }
-    .session-reason { font-size: 0.9rem; color: #aaa; margin-bottom: 25px; }
-    .session-time-box { background: rgba(255,23,68,0.1); border: 1px solid var(--plasma-red); padding: 15px; border-radius: 12px; margin-bottom: 20px; }
-    .session-time-label { font-size: 0.8rem; color: var(--plasma-red); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 5px; }
-    .session-time-value { font-family: 'Share Tech Mono'; font-size: 1.6rem; color: #fff; font-weight: bold; text-shadow: 0 0 10px var(--plasma-red);}
-    .cyan-border { border-color: var(--neon-cyan); box-shadow: 0 0 30px rgba(0,243,255,0.2); }
+    .modal-screen-mask { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 15000; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(5px);}
+    .modal-panel-box { width: 100%; max-width: 280px; background: var(--sk-card); border: 1px solid var(--sk-gold); border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.9); }
+    .session-icon { font-size: 2.5rem; margin-bottom: 8px; color: var(--sk-gold); }
+    .session-title { font-family: 'Outfit'; font-size: 1.3rem; font-weight: 900; color: #fff; margin-bottom: 5px; }
+    .session-reason { font-size: 0.8rem; color: #aaa; margin-bottom: 15px; }
+    .btn-gold-solid { width: 100%; background: linear-gradient(180deg, var(--sk-gold-light), var(--sk-gold)); border: none; color: #000; font-family: 'Inter'; font-size: 0.9rem; font-weight: 800; padding: 12px; cursor: pointer; border-radius: 8px; text-transform: uppercase; box-shadow: 0 5px 15px rgba(226, 185, 96, 0.2); transition: 0.2s;}
+    .btn-gold-solid:active { transform: scale(0.96); }
 
-    /* =========================================
-       NEW VIP LOGIN SCREEN (TRADING EXCHANGE STYLE)
-       ========================================= */
-    #loginScreen {
-      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-      background: var(--bg-dark); z-index: 10000; display: flex; flex-direction: column; 
-      align-items: center; justify-content: center; padding: 20px;
-    }
-    
-    .login-wrapper {
-      width: 100%; max-width: 380px; background: var(--bg-card);
-      border: 1px solid #2b3139; border-radius: 16px; padding: 30px 20px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.6); position: relative; overflow: hidden;
-    }
-    
-    .login-wrapper::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
-      background: linear-gradient(90deg, var(--gold), #ffaa00);
-    }
+    #loginScreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--sk-dark-bg); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+    .login-wrapper { width: 100%; max-width: 320px; background: var(--sk-card); border: 1px solid var(--sk-border); border-radius: 16px; padding: 25px 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); position: relative; overflow: hidden;}
+    .login-wrapper::before { content:''; position:absolute; top:0; left:0; width:100%; height:4px; background: linear-gradient(90deg, var(--sk-gold-light), var(--sk-gold)); }
+    .brand-header { text-align: center; margin-bottom: 20px; }
+    .brand-logo-img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 2px solid var(--sk-gold); margin-bottom: 10px; box-shadow: 0 5px 15px rgba(226, 185, 96, 0.3);}
+    .brand-title { font-family: 'Outfit'; font-size: 1.6rem; font-weight: 900; color: #fff; letter-spacing: 1px;}
+    .brand-sub { font-size: 0.7rem; color: var(--sk-gold); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+    .activation-rules { background: rgba(0,0,0,0.3); border-radius: 8px; padding: 12px; margin-bottom: 20px; text-align: left; border: 1px solid var(--sk-border);}
+    .rules-title { font-size: 10px; color: var(--sk-gold); font-weight: 800; text-transform: uppercase; margin-bottom: 8px; }
+    .rule-item { font-size: 11px; color: #ccc; margin-bottom: 6px; display: flex; align-items: flex-start; gap: 8px; line-height: 1.4;}
+    .rule-item i { color: var(--sk-green); font-size: 12px; margin-top: 2px;}
+    .rule-highlight { color: #fff; font-weight: 800; }
+    .hacker-box-input { width: 100%; background: #12151c; border: 1px solid var(--sk-border); color: #fff; padding: 12px; font-family: 'Share Tech Mono'; font-weight: 700; text-align: center; outline: none; font-size: 1rem; margin-bottom: 12px; border-radius: 8px; transition: 0.3s; letter-spacing: 1px; }
+    .hacker-box-input:focus { border-color: var(--sk-gold); box-shadow: 0 0 10px rgba(226, 185, 96, 0.1); }
+    #errorPopup { display: none; color: var(--sk-red); font-family:'Inter'; font-weight: 800; margin-bottom: 12px; text-align: center; font-size: 11px;}
 
-    .brand-header { text-align: center; margin-bottom: 25px; }
-    .brand-logo { font-size: 45px; color: var(--gold); text-shadow: 0 0 20px rgba(252,213,53,0.4); margin-bottom: 10px; }
-    .brand-title { font-family: 'Outfit'; font-size: 2rem; font-weight: 900; color: #fff; letter-spacing: 1px; line-height: 1.2;}
-    .brand-sub { font-size: 0.8rem; color: var(--gold); font-weight: 700; letter-spacing: 4px; text-transform: uppercase; }
-
-    .activation-rules {
-      background: rgba(255, 23, 68, 0.05); border: 1px dashed var(--plasma-red);
-      border-radius: 12px; padding: 15px; margin-bottom: 25px; text-align: left;
-    }
-    .rules-title { font-size: 11px; color: var(--plasma-red); font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; display: flex; align-items: center; gap: 6px;}
-    .rule-item { font-size: 12px; color: #ccc; margin-bottom: 8px; display: flex; align-items: flex-start; gap: 8px; line-height: 1.4;}
-    .rule-item i { color: var(--gold); font-size: 14px; margin-top: 2px;}
-    .rule-highlight { color: #fff; font-weight: bold; }
-
-    .hacker-box-input { 
-      width: 100%; background: #06080a; border: 1px solid #2b3139; 
-      color: #fff; padding: 16px; font-family: 'Share Tech Mono'; text-align: center; 
-      outline: none; text-transform: uppercase; font-size: 1.1rem; margin-bottom: 15px; 
-      border-radius: 8px; transition: 0.3s;
-    }
-    .hacker-box-input:focus { border-color: var(--gold); box-shadow: 0 0 10px rgba(252,213,53,0.1); }
-    
-    .btn-cyber-solid { 
-      width: 100%; background: var(--gold); border: none; color: #000; 
-      font-family: 'Outfit'; font-size: 1.1rem; font-weight: 900; padding: 16px; 
-      cursor: pointer; border-radius: 8px; transition: 0.2s; text-transform: uppercase; letter-spacing: 1px;
-    }
-    .btn-cyber-solid:hover { background: #e0bd2e; transform: translateY(-2px); }
-    .btn-cyber-solid:active { transform: translateY(0); }
-    
-    #errorPopup { display: none; color: var(--plasma-red); font-family: 'Outfit'; font-weight: bold; margin-bottom: 15px; text-align: center; font-size: 13px;}
-
-    /* =========================================
-       MAIN APP & IFRAME
-       ========================================= */
-    #mainApp { display: none; width: 100vw; height: 100vh; position: relative; }
+    #mainApp { display: none; width: 100vw; height: 100vh; position: relative; overflow: hidden;}
     .bg-game { width: 100%; height: 100%; border: none; background: #000; display: block; position: absolute; top: 0; left: 0; z-index: 1;}
 
-    /* =========================================
-       3D PLASMA FLOATING WIDGET 
-       ========================================= */
-    .draggable-container { position: absolute; top: 20%; left: 50%; transform: translateX(-50%); z-index: 9999; touch-action: none; display: flex; justify-content: center; align-items: center; perspective: 1000px; }
-    
-    /* COLLAPSED ICON */
-    .mod-icon { 
-      width: 65px; height: 65px; 
-      background: linear-gradient(145deg, #222, #000); 
-      border: 2px solid var(--gold);
-      border-radius: 50%; 
-      box-shadow: 0 10px 20px rgba(0,0,0,0.8), inset 0 2px 2px rgba(255,255,255,0.2), 0 0 20px rgba(252, 213, 53, 0.3); 
-      display: flex; flex-direction: column; justify-content: center; align-items: center; 
-      color: var(--gold); cursor: pointer; transition: 0.2s;
-    }
-    .mod-icon i { font-size: 26px; text-shadow: 0 0 10px var(--gold); }
-    .mod-icon:active { transform: scale(0.9) translateY(4px); box-shadow: 0 5px 10px rgba(0,0,0,0.8); }
+    .draggable-container { position: absolute; top: 20%; left: 50%; transform: translateX(-50%); z-index: 9999; touch-action: none; display: flex; justify-content: center; align-items: center; }
+    .mod-icon { width: 50px; height: 50px; background: var(--sk-card); border: 2px solid var(--sk-gold); border-radius: 50%; box-shadow: 0 5px 15px rgba(0,0,0,0.8), 0 0 15px rgba(226, 185, 96, 0.3); display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s; overflow: hidden; padding: 2px; }
+    .mod-icon img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+    .mod-icon:active { transform: scale(0.9); }
     .mod-icon.hidden { display: none; }
 
-    /* EXPANDED 3D UI */
-    .mod-expanded { 
-      display: none; width: 240px; height: 170px; 
-      background: linear-gradient(145deg, #1c1c24, #0b0b11);
-      border-radius: 20px; position: relative; cursor: grab;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.9), inset 0px 2px 1px rgba(255,255,255,0.1), inset 0px -4px 10px rgba(0,0,0,0.5);
-      border: 1px solid rgba(255, 255, 255, 0.05); transform-style: preserve-3d;
-    }
-    .mod-expanded.active { display: flex; flex-direction: column; justify-content: center; align-items: center; animation: pop3D 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-    .mod-expanded:active { cursor: grabbing; }
+    .mod-expanded { display: none; width: 250px; background: linear-gradient(180deg, #1c212b 0%, #12151c 100%); border-radius: 14px; position: relative; cursor: grab; box-shadow: 0 15px 35px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.05); border: 1px solid var(--sk-border); padding: 12px 14px; overflow: hidden; transition: 0.2s; }
+    .mod-expanded.active { display: block; animation: smoothPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+    @keyframes smoothPop { from { opacity: 0; transform: scale(0.8) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 
-    @keyframes pop3D { from { opacity: 0; transform: scale(0.8) rotateX(-20deg); } to { opacity: 1; transform: scale(1) rotateX(0); } }
+    .mod-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 8px; margin-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .mod-title { font-family: 'Outfit'; font-size: 11px; font-weight: 800; color: var(--sk-gold); letter-spacing: 0.5px; display: flex; align-items: center; gap: 5px;}
+    .mod-title img { width: 14px; height: 14px; border-radius: 50%; }
+    .mod-timer { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #fff; background: rgba(0, 0, 0, 0.5); padding: 2px 8px; border-radius: 6px; border: 1px solid #333; font-weight: bold; letter-spacing: 0.5px; box-shadow: inset 0 0 5px rgba(0,0,0,0.5); }
+    .mod-badge { font-size: 8px; font-weight: 900; padding: 3px 6px; border-radius: 4px; letter-spacing: 1px; transition: 0.3s;}
+    .badge-actv { background: rgba(24, 182, 96, 0.15); color: var(--sk-green); border: 1px solid var(--sk-green); }
+    .badge-offline { background: rgba(251, 91, 91, 0.15); color: var(--sk-red); border: 1px solid var(--sk-red); }
+    .badge-god { background: rgba(252, 213, 53, 0.15); color: var(--sk-gold); border: 1px solid var(--sk-gold); animation: pulseText 1s infinite alternate;}
 
-    /* THEME SHADOWS */
-    .theme-small .mod-expanded { box-shadow: 0 20px 40px rgba(0,0,0,0.9), inset 0 0 20px rgba(255, 23, 68, 0.2), 0 0 30px rgba(255, 23, 68, 0.4); border-color: rgba(255, 23, 68, 0.5); }
-    .theme-small .widget-pred { color: #fff; text-shadow: 0 0 10px var(--plasma-red), 0 0 20px var(--plasma-red), 0 0 40px var(--plasma-red); }
+    .mod-body { text-align: center; padding: 5px 0; min-height: 80px; display: flex; flex-direction: column; justify-content: center; align-items: center;}
+    #uiNormal { width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;}
     
-    .theme-big .mod-expanded { box-shadow: 0 20px 40px rgba(0,0,0,0.9), inset 0 0 20px rgba(0, 243, 255, 0.2), 0 0 30px rgba(0, 243, 255, 0.4); border-color: rgba(0, 243, 255, 0.5); }
-    .theme-big .widget-pred { color: #fff; text-shadow: 0 0 10px var(--neon-cyan), 0 0 20px var(--neon-cyan), 0 0 40px var(--neon-cyan); }
-    
-    .theme-win .mod-expanded { box-shadow: 0 20px 40px rgba(0,0,0,0.9), inset 0 0 20px rgba(0, 255, 51, 0.2), 0 0 30px rgba(0, 255, 51, 0.4); border-color: rgba(0, 255, 51, 0.5); }
-    .theme-win .widget-pred { color: #fff; text-shadow: 0 0 10px var(--neon-green), 0 0 20px var(--neon-green), 0 0 40px var(--neon-green); font-size: 32px; }
-    
-    .theme-loss .mod-expanded { box-shadow: 0 20px 40px rgba(0,0,0,0.9), inset 0 0 20px rgba(255, 51, 51, 0.2), 0 0 30px rgba(255, 51, 51, 0.4); border-color: rgba(255, 51, 51, 0.5); }
-    .theme-loss .widget-pred { color: #fff; text-shadow: 0 0 10px var(--neon-red), 0 0 20px var(--neon-red), 0 0 40px var(--neon-red); font-size: 32px; }
+    .result-text { font-family: 'Outfit'; font-size: 32px; font-weight: 900; color: #555; text-transform: uppercase; letter-spacing: 1px; line-height: 1; transition: 0.3s; width: 100%; }
+    .result-text.active-small { color: var(--sk-cyan); text-shadow: 0 0 15px rgba(0,243,255,0.4); }
+    .result-text.active-big { color: var(--sk-gold); text-shadow: 0 0 15px rgba(226, 185, 96, 0.4); }
+    .result-text.active-skip { color: #888; font-size: 24px;}
+    .result-num { font-family: 'Share Tech Mono'; font-size: 22px; font-weight: bold; margin-left: 5px; }
+    .seq-text { font-family: 'Share Tech Mono'; font-size: 10px; color: #666; margin-top: 8px; font-weight: bold; letter-spacing: 1px;}
+    .seq-text span { color: var(--sk-gold); }
 
-    /* TIMER PILL */
-    .drag-handle { 
-      position: absolute; top: -16px; left: 50%; transform: translateX(-50%) translateZ(10px); 
-      background: linear-gradient(145deg, #222, #000); border: 2px solid; color: #fff; 
-      font-family: 'Share Tech Mono', monospace; font-size: 14px; padding: 4px 22px; 
-      border-radius: 25px; font-weight: bold; z-index: 10; white-space: nowrap;
-      box-shadow: 0 8px 15px rgba(0,0,0,0.6), inset 0 2px 2px rgba(255,255,255,0.2);
-    }
-    .theme-small .drag-handle { border-color: var(--plasma-red); text-shadow: 0 0 5px var(--plasma-red); }
-    .theme-big .drag-handle { border-color: var(--neon-cyan); text-shadow: 0 0 5px var(--neon-cyan); }
-    .theme-win .drag-handle { border-color: var(--neon-green); }
-    .theme-loss .drag-handle { border-color: var(--neon-red); }
+    /* STATUS WRITTEN BELOW PREDICTION */
+    #statusIndicator { font-family: 'Inter'; font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; height: 18px; margin-top: 6px; display: flex; align-items: center; justify-content: center; }
 
-    /* 🔥 GLOWING FULL PERIOD ID AT THE TOP 🔥 */
-    .widget-period { 
-      font-family: 'Share Tech Mono', monospace; 
-      font-size: 14px; 
-      color: #fff; 
-      font-weight: 900;
-      margin-top: 15px; 
-      margin-bottom: 5px; 
-      z-index: 5; 
-      letter-spacing: 2px;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(255, 255, 255, 0.5);
-      background: rgba(0, 0, 0, 0.4);
-      padding: 4px 15px;
-      border-radius: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-    }
-    
-    .widget-pred { 
-      font-family: 'Outfit'; font-size: 42px; font-weight: 900; font-style: italic; 
-      letter-spacing: 3px; z-index: 5; text-transform: uppercase; margin-bottom: 2px; 
-      line-height: 1.1; transform: translateZ(20px);
-    }
-    
-    .widget-sure { 
-      font-family: 'Share Tech Mono'; font-size: 14px; color: #fff; font-weight: bold; 
-      margin-bottom: 10px; z-index: 5; background: rgba(0,0,0,0.6); 
-      border: 1px solid rgba(255,255,255,0.1); padding: 4px 18px; border-radius: 8px; 
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.5); letter-spacing: 3px;
-    }
+    #uiMaint { width: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 5px 0;}
+    .maint-icon { font-size: 22px; color: var(--sk-red); margin-bottom: 5px; animation: floatIcon 2s infinite ease-in-out;}
+    .maint-title-in { font-family: 'Outfit'; font-size: 16px; color: var(--sk-red); font-weight: 900; letter-spacing: 1px; margin-bottom: 2px;}
+    .maint-sub-in { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;}
+    .maint-time-val { font-family: 'Share Tech Mono'; font-size: 16px; color: var(--sk-gold); font-weight: bold; background: rgba(0,0,0,0.5); padding: 2px 10px; border-radius: 4px; border: 1px solid #333;}
+    @keyframes floatIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
 
-    /* 🎯 3D POP ANIMATIONS FOR TEXT & NUMBERS */
-    .anim-pop { animation: superPop 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-    @keyframes superPop {
-      0% { transform: scale(0) translateZ(0); opacity: 0; filter: blur(5px); }
-      60% { transform: scale(1.2) translateZ(40px); opacity: 1; filter: blur(0px); }
-      100% { transform: scale(1) translateZ(20px); opacity: 1; filter: blur(0px); }
-    }
+    /* SCANNER HUD */
+    .barcode-scanner-hud { width: 100%; position: relative; padding: 4px 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .barcode-matrix { width: 100%; height: 32px; background: #070b11; opacity: 0.8; position: relative; background-image: repeating-linear-gradient(90deg, #1e293b, #1e293b 2px, transparent 2px, transparent 6px); border-radius: 4px; border: 1px dashed rgba(226, 185, 96, 0.3); overflow: hidden; }
+    .barcode-laser { position: absolute; left: 0; width: 100%; height: 2px; background: var(--sk-gold); box-shadow: 0 0 10px 3px rgba(226, 185, 96, 0.6), 0 0 4px 1px #fff; animation: barcodeLaserMove 0.4s infinite alternate linear; }
+    .scan-status-text { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--sk-gold); text-shadow: 0 0 4px var(--sk-gold); margin-top: 4px; font-weight: bold; letter-spacing: 1px; }
+    @keyframes barcodeLaserMove { 0% { top: 0%; } 100% { top: 100%; } }
 
-    /* RESULT BUTTON */
-    .action-btn { 
-      background: rgba(0,0,0,0.5); border: 1px solid #444; color: #666; font-family: 'Outfit'; 
-      font-weight: 900; font-size: 12px; padding: 8px 20px; border-radius: 12px; 
-      cursor: not-allowed; transition: 0.3s; z-index: 10; letter-spacing: 2px; text-transform: uppercase;
-    }
-    .action-btn.ready { 
-      background: linear-gradient(145deg, var(--gold), #cc8800); color: #000; border: none;
-      box-shadow: 0 6px 0 #885500, 0 15px 20px rgba(252,213,53,0.4); 
-      cursor: pointer; transform: translateY(0);
-    }
-    .action-btn.ready:active { transform: translateY(6px); box-shadow: 0 0px 0 #885500, 0 5px 10px rgba(252,213,53,0.4); }
+    /* FOOTER BUTTONS */
+    .mod-footer { display: flex; gap: 8px; margin-top: 12px; }
+    .btn-analyze { flex: 1.5; background: #2c3545; color: #777; border: none; padding: 10px 0; font-family: 'Inter'; font-size: 11px; font-weight: 800; border-radius: 8px; cursor: not-allowed; transition: 0.2s; letter-spacing: 1px; text-transform: uppercase;}
+    .btn-analyze.ready { background: linear-gradient(180deg, var(--sk-gold-light), var(--sk-gold)); color: #000; cursor: pointer; box-shadow: 0 4px 10px rgba(226, 185, 96, 0.3); }
+    .btn-analyze.ready:active { transform: scale(0.95); }
+    .btn-hide { flex: 1; background: transparent; color: #888; border: 1px solid #333; padding: 10px 0; font-family: 'Inter'; font-size: 11px; font-weight: 800; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+    .btn-hide:hover { background: rgba(255,255,255,0.05); color: #fff; border-color: #555;}
+    .btn-hide:active { transform: scale(0.95); }
 
-    /* PARTICLES */
-    .particles-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border-radius: 20px; overflow: hidden; z-index: 0; pointer-events: none; }
-    .ball { position: absolute; border-radius: 50%; filter: blur(3px); }
-    .b1 { width: 14px; height: 14px; background: #00f3ff; top: 30%; left: 12%; box-shadow: 0 0 10px #00f3ff; animation: float1 3s infinite alternate ease-in-out; opacity: 0.7;}
-    .b2 { width: 22px; height: 22px; background: #2b00ff; top: 45%; left: 22%; box-shadow: 0 0 15px #2b00ff; animation: float2 4s infinite alternate-reverse ease-in-out; opacity: 0.6;}
-    .b3 { width: 16px; height: 16px; background: #ff00b3; top: 35%; right: 18%; box-shadow: 0 0 12px #ff00b3; animation: float3 3.5s infinite alternate ease-in-out; opacity: 0.7;}
-    .b4 { width: 12px; height: 12px; background: #00ff00; bottom: 20%; right: 12%; box-shadow: 0 0 10px #00ff00; animation: float4 2.8s infinite alternate-reverse ease-in-out; opacity: 0.5;}
-    @keyframes float1 { 0% { transform: translate(0, 0); } 100% { transform: translate(8px, -12px); } }
-    @keyframes float2 { 0% { transform: translate(0, 0); } 100% { transform: translate(-10px, 10px); } }
-    @keyframes float3 { 0% { transform: translate(0, 0); } 100% { transform: translate(-12px, -8px); } }
-    @keyframes float4 { 0% { transform: translate(0, 0); } 100% { transform: translate(6px, 12px); } }
+    /* BOX ANIMATIONS */
+    @keyframes winGlow { 0% { box-shadow: 0 15px 35px rgba(0,0,0,0.9); border-color: var(--sk-border); } 50% { box-shadow: 0 15px 35px rgba(0,0,0,0.9), 0 0 25px rgba(24, 182, 96, 0.4); border-color: var(--sk-green); } 100% { box-shadow: 0 15px 35px rgba(0,0,0,0.9); border-color: var(--sk-border); } }
+    .anim-win { animation: winGlow 1.5s ease-out; }
+    @keyframes lossShake { 0% { transform: translateX(0); border-color: var(--sk-border);} 25% { transform: translateX(-6px); box-shadow: 0 0 20px rgba(251, 91, 91, 0.5); border-color: var(--sk-red);} 50% { transform: translateX(6px); } 75% { transform: translateX(-6px); } 100% { transform: translateX(0); border-color: var(--sk-border);} }
+    .anim-loss { animation: lossShake 0.5s ease-out; }
+
+    /* 🔥 IPL STYLE "JACKPOT" OVERLAY 🔥 */
+    #iplJackpotOverlay { position: fixed; top: 35%; left: 0; width: 100%; pointer-events: none; z-index: 20000; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; }
+    #iplJackpotOverlay.active { opacity: 1; }
+    .ipl-jackpot-text { font-family: 'Outfit'; font-size: 55px; font-weight: 900; color: var(--sk-gold-light); text-transform: uppercase; text-shadow: 0 0 30px var(--sk-gold), 0 8px 10px rgba(0,0,0,0.8); transform: scale(0); margin-bottom: 5px; letter-spacing: 2px; }
+    #iplJackpotOverlay.active .ipl-jackpot-text { animation: popIpl 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+    .ipl-win-by-dev { font-family: 'Inter'; font-size: 18px; font-weight: 900; color: #fff; background: var(--sk-green); padding: 6px 25px; border-radius: 6px; border: 2px solid #fff; box-shadow: 0 0 20px var(--sk-green), 0 5px 15px rgba(0,0,0,0.6); transform: translateX(-150vw); letter-spacing: 1px; }
+    #iplJackpotOverlay.active .ipl-win-by-dev { animation: slideIpl 0.5s ease-out 0.4s forwards; }
+    @keyframes popIpl { to { transform: scale(1); } }
+    @keyframes slideIpl { to { transform: translateX(0); } }
+    @keyframes pulseText { 0% { opacity:0.6;} 100% {opacity:1;} }
   </style>
 </head>
 <body>
 
-  <div class="modal-screen-mask" id="modalMaintenance">
-    <div class="modal-panel-box session-border">
-      <div class="session-icon"><i class="fa-solid fa-lock"></i></div>
-      <h2 class="session-title">SESSION CLOSED</h2>
-      <p id="maintText" class="session-reason">Wait for the next live session.</p>
-      <div class="session-time-box"><div class="session-time-label">NEXT SESSION AT</div><div class="session-time-value" id="nextSessionTime">00:00 PM</div></div>
-      <a href="#" id="maintTgLink" style="text-decoration:none;"><button class="btn-cyber-solid" style="background:var(--gold); border:none; color:#000;">JOIN TELEGRAM FOR UPDATES</button></a>
-    </div>
+  <div id="iplJackpotOverlay">
+    <div class="ipl-jackpot-text">JACKPOT</div>
+    <div class="ipl-win-by-dev">WIN BY DEV</div>
   </div>
 
-  <div class="modal-screen-mask" id="modalUpdate"><div class="modal-panel-box cyan-border"><div style="font-size:3rem; margin-bottom:10px;">🚀</div><h2 style="font-family:'Outfit'; color:var(--neon-cyan); margin-bottom:10px; font-weight:900;">UPDATE REQUIRED</h2><p id="updText" style="color:#888; font-family:'Outfit'; margin-bottom:20px;">New version available!</p><button class="btn-cyber-solid" id="updBtn">DOWNLOAD</button></div></div>
-  <div class="modal-screen-mask" id="modalNotice"><div class="modal-panel-box cyan-border"><div style="font-size:3rem; margin-bottom:10px;">📢</div><h2 style="font-family:'Outfit'; color:var(--neon-cyan); margin-bottom:10px; font-weight:900;">NOTICE</h2><p id="noticeText" style="color:#888; font-family:'Outfit'; margin-bottom:20px;">Welcome</p><button class="btn-cyber-solid" onclick="dismissNotice()">ACKNOWLEDGE</button></div></div>
+  <div class="modal-screen-mask" id="modalUpdate"><div class="modal-panel-box"><div class="session-icon" style="color:var(--sk-gold);"><i class="fa-solid fa-rocket"></i></div><h2 class="session-title">UPDATE REQUIRED</h2><p id="updText" class="session-reason">New version available!</p><button class="btn-gold-solid" id="updBtn">DOWNLOAD</button></div></div>
+  <div class="modal-screen-mask" id="modalNotice"><div class="modal-panel-box"><div class="session-icon" style="color:var(--sk-gold);"><i class="fa-solid fa-bell"></i></div><h2 class="session-title">NOTICE</h2><p id="noticeText" class="session-reason">Welcome</p><button class="btn-gold-solid" onclick="dismissNotice()">ACKNOWLEDGE</button></div></div>
 
   <div id="loginScreen">
     <div class="login-wrapper">
       <div class="brand-header">
-        <div class="brand-logo"><i class="fa-solid fa-crown"></i></div>
+        <img src="logo.png" alt="Logo" class="brand-logo-img" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1464/1464731.png'">
         <div class="brand-title">DEV ARMY</div>
-        <div class="brand-sub">Premium Hack V6</div>
+        <div class="brand-sub">VIP PREDICTOR V8</div>
       </div>
-
       <div class="activation-rules">
-        <div class="rules-title"><i class="fa-solid fa-triangle-exclamation"></i> Mandatory Activation Steps</div>
-        <div class="rule-item"><i class="fa-solid fa-check-circle"></i> <span>Create a <span class="rule-highlight">NEW ACCOUNT</span> using our official registration link.</span></div>
-        <div class="rule-item"><i class="fa-solid fa-check-circle"></i> <span>Make a minimum deposit of <span class="rule-highlight">₹500 to ₹1000</span> to activate the exploit algorithm.</span></div>
-        <div class="rule-item"><i class="fa-solid fa-check-circle"></i> <span>Enter your VIP Key below.</span></div>
+        <div class="rules-title">Mandatory Steps</div>
+        <div class="rule-item"><i class="fa-solid fa-check"></i> <span>Create a <span class="rule-highlight">NEW ACCOUNT</span> using official link.</span></div>
+        <div class="rule-item"><i class="fa-solid fa-check"></i> <span>Maintain a wallet balance of <span class="rule-highlight">₹400 - ₹500</span> for script execution.</span></div>
       </div>
-
       <div id="errorPopup"></div>
-      <input type="text" id="loginKey" class="hacker-box-input" placeholder="ENTER VIP ACCESS KEY">
-      <button class="btn-cyber-solid" id="activateBtn">VERIFY & INJECT MOD</button>
+      <input type="text" id="loginKey" class="hacker-box-input" placeholder="ENTER ACCESS KEY">
+      <button class="btn-gold-solid" id="activateBtn">ACTIVATE SYSTEM</button>
     </div>
   </div>
 
   <div id="mainApp">
-    
-    <div id="newsTicker">
-      <div class="ticker-icon">📢 LIVE NEWS</div>
-      <marquee class="ticker-text" id="tickerTextMsg" scrollamount="5">Welcome to Dev Army Premium V6. Play safe and follow telegram channel!</marquee>
-    </div>
-
+    <div id="newsTicker"><div class="ticker-icon"><i class="fa-solid fa-rss"></i></div><marquee class="ticker-text" id="tickerTextMsg" scrollamount="5">System Active. Deep scanning market algorithms. Play safe.</marquee></div>
     <iframe class="bg-game" id="gameIframe" src="about:blank"></iframe>
 
     <div class="draggable-container" id="draggableWidget">
-      <div class="mod-icon" id="modIcon"><i class="fa-solid fa-radar"></i></div>
+      <div class="mod-icon" id="modIcon"><img src="logo.png" alt="VIP" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1464/1464731.png'"></div>
 
-      <div class="mod-expanded theme-big" id="modExpanded">
-        <div class="drag-handle" id="timerBadge">00:00</div>
-
-        <div class="particles-container">
-          <div class="ball b1"></div><div class="ball b2"></div><div class="ball b3"></div><div class="ball b4"></div>
+      <div class="mod-expanded" id="modExpanded">
+        <div class="mod-header">
+          <span class="mod-title"><img src="logo.png" alt="L" onerror="this.style.display='none'"> DEV ARMY VIP</span>
+          <span class="mod-timer" id="timerBadge">00:00</span>
+          <span class="mod-badge badge-actv" id="modStatusBadge">ACTV</span>
         </div>
 
-        <div class="widget-period" id="periodBadge">CONNECTING...</div>
-        
-        <div class="widget-pred" id="predMain">SYNC</div>
-        <div class="widget-sure" id="predSure">[ - • - ]</div>
-        
-        <button class="action-btn" id="getResultBtn" disabled>WAITING...</button>
+        <div class="mod-body">
+          <div id="uiNormal">
+            <div class="result-text" id="predMainText">SYNC</div>
+            <div id="statusIndicator"></div>
+            <div class="seq-text">SEQ: <span id="periodBadge">WAITING...</span></div>
+          </div>
+
+          <div id="uiMaint">
+            <i class="fa-solid fa-lock maint-icon"></i>
+            <div class="maint-title-in">SYSTEM OFFLINE</div>
+            <div class="maint-sub-in">NEXT LIVE SESSION AT</div>
+            <div class="maint-time-val" id="maintTimeVal">--:--</div>
+          </div>
+        </div>
+
+        <div class="mod-footer">
+          <button class="btn-analyze" id="analyzeBtn" disabled>WAITING...</button>
+          <button class="btn-hide" id="hideBtn">HIDE</button>
+        </div>
       </div>
     </div>
-
     <a href="#" target="_blank" id="liveTgBtn">🟢 LIVE: JOIN TELEGRAM</a>
-
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getDatabase, ref, get, child, update, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-    // --- FIREBASE LAYERS ---
     const firebaseConfig = { apiKey: "AIzaSyBNj71akpefcfEtn-SQfAcx-Pgwi8sUosg", authDomain: "teamdev-88676.firebaseapp.com", databaseURL: "https://teamdev-88676-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "teamdev-88676" };
-    const app = initializeApp(firebaseConfig);
-    const database = getDatabase(app);
+    const app = initializeApp(firebaseConfig); const database = getDatabase(app);
 
     window.dismissNotice = function() { document.getElementById('modalNotice').style.display = 'none'; sessionStorage.setItem('notice_seen', 'true'); };
     
-    // Live UI Configs
+    const uiNormal = document.getElementById('uiNormal'); const uiMaint = document.getElementById('uiMaint');
+    const modStatusBadge = document.getElementById('modStatusBadge'); const analyzeBtn = document.getElementById('analyzeBtn');
+    const maintTimeVal = document.getElementById('maintTimeVal');
+
+    // CONFIG & GOD MODE SYNC
+    let currentGodMode = { size: "AUTO", num1: null, num2: null };
+
+    onValue(ref(database, 'server/override'), (snapshot) => {
+      if(snapshot.exists()) currentGodMode = snapshot.val();
+      else currentGodMode = { size: "AUTO", num1: null, num2: null };
+      
+      if(currentGodMode.size !== "AUTO" && modStatusBadge.textContent !== "OFFLINE") {
+        modStatusBadge.textContent = 'GOD'; modStatusBadge.className = 'mod-badge badge-god';
+      } else if (modStatusBadge.textContent !== "OFFLINE") {
+        modStatusBadge.textContent = 'ACTV'; modStatusBadge.className = 'mod-badge badge-actv';
+      }
+    });
+
     onValue(ref(database, 'systemConfig'), (snapshot) => {
       if(snapshot.exists()) {
         const config = snapshot.val();
-        
-        if(config.links) {
-          if(config.links.gameUrl) document.getElementById('gameIframe').src = config.links.gameUrl;
-          if(config.links.telegramUrl) document.getElementById('maintTgLink').href = config.links.telegramUrl;
-        }
-        
-        if(config.liveBtn && config.liveBtn.active) {
-           document.getElementById('liveTgBtn').href = config.liveBtn.link || "#";
-           if(document.getElementById('mainApp').style.display === 'block' && (!config.maintenance || !config.maintenance.active)) document.getElementById('liveTgBtn').style.display = 'block';
-        } else document.getElementById('liveTgBtn').style.display = 'none';
+        if(config.links && config.links.gameUrl) document.getElementById('gameIframe').src = config.links.gameUrl;
+        if(config.liveBtn && config.liveBtn.active) { document.getElementById('liveTgBtn').href = config.liveBtn.link || "#"; if(document.getElementById('mainApp').style.display === 'block' && (!config.maintenance || !config.maintenance.active)) document.getElementById('liveTgBtn').style.display = 'block'; } else document.getElementById('liveTgBtn').style.display = 'none';
 
         if(config.maintenance && config.maintenance.active) { 
-          document.getElementById('maintText').textContent = config.maintenance.message || "Wait for next session."; document.getElementById('nextSessionTime').textContent = config.maintenance.sessionTime || "TBD"; document.getElementById('modalMaintenance').style.display = 'flex'; document.getElementById('liveTgBtn').style.display = 'none';
+          uiNormal.style.display = 'none'; uiMaint.style.display = 'flex'; maintTimeVal.textContent = config.maintenance.sessionTime || "TBD"; modStatusBadge.textContent = 'OFFLINE'; modStatusBadge.className = 'mod-badge badge-offline'; analyzeBtn.disabled = true; analyzeBtn.classList.remove('ready'); analyzeBtn.textContent = "SYSTEM LOCKED"; document.getElementById('liveTgBtn').style.display = 'none';
         } else {
-          document.getElementById('modalMaintenance').style.display = 'none';
+          uiNormal.style.display = 'flex'; uiMaint.style.display = 'none'; 
+          if(currentGodMode.size !== "AUTO") { modStatusBadge.textContent = 'GOD'; modStatusBadge.className = 'mod-badge badge-god'; } else { modStatusBadge.textContent = 'ACTV'; modStatusBadge.className = 'mod-badge badge-actv'; }
+          if (isResultReady) { analyzeBtn.disabled = false; analyzeBtn.classList.add('ready'); analyzeBtn.textContent = "ANALYZE"; }
           if(config.liveBtn && config.liveBtn.active && document.getElementById('mainApp').style.display === 'block') document.getElementById('liveTgBtn').style.display = 'block';
         }
 
-        if(config.ticker && config.ticker.active) { document.getElementById('newsTicker').style.display = 'block'; document.getElementById('tickerTextMsg').textContent = config.ticker.message || "Welcome!"; } 
-        else document.getElementById('newsTicker').style.display = 'none';
-
-        if(config.update && config.update.active) { document.getElementById('updText').textContent = config.update.message; document.getElementById('updBtn').onclick = () => window.open(config.update.link, '_blank'); document.getElementById('modalUpdate').style.display = 'flex'; } else document.getElementById('modalUpdate').style.display = 'none';
-        if(config.popup && config.popup.active && !sessionStorage.getItem('notice_seen')) { document.getElementById('noticeText').textContent = config.popup.text; document.getElementById('modalNotice').style.display = 'flex'; } else document.getElementById('modalNotice').style.display = 'none';
+        if(config.ticker && config.ticker.active) { document.getElementById('newsTicker').style.display = 'block'; document.getElementById('tickerTextMsg').textContent = config.ticker.message || "Welcome!"; } else document.getElementById('newsTicker').style.display = 'none';
       }
     });
 
@@ -363,207 +242,138 @@
 
     document.getElementById('activateBtn').addEventListener('click', async () => {
       const key = document.getElementById('loginKey').value.trim().toUpperCase(); const errBox = document.getElementById('errorPopup');
-      if(!key) { errBox.style.display = 'block'; errBox.innerText = "Please Enter Valid Key"; return; }
-      
-      document.getElementById('activateBtn').innerText = "VERIFYING INTERFACE...";
+      if(!key) { errBox.style.display = 'block'; errBox.innerText = "PLEASE ENTER VIP KEY"; return; }
+      document.getElementById('activateBtn').innerText = "VERIFYING...";
       try {
         const snap = await get(child(ref(database), `keys/${key}`));
         if(snap.exists()) {
           const kData = snap.val();
-          if(kData.status !== "ACTIVE" || new Date() > new Date(kData.expiresAt)) { errBox.style.display = 'block'; errBox.innerText = "KEY EXPIRED OR BLOCKED"; document.getElementById('activateBtn').innerText = "VERIFY & INJECT MOD"; return; }
-          if(kData.deviceId && kData.deviceId !== myDeviceId) { errBox.style.display = 'block'; errBox.innerText = "HWID BOUND TO ANOTHER DEVICE"; document.getElementById('activateBtn').innerText = "VERIFY & INJECT MOD"; return; }
-          
+          if(kData.status !== "ACTIVE" || new Date() > new Date(kData.expiresAt)) { errBox.style.display = 'block'; errBox.innerText = "KEY EXPIRED OR BLOCKED"; document.getElementById('activateBtn').innerText = "ACTIVATE SYSTEM"; return; }
+          if(kData.deviceId && kData.deviceId !== myDeviceId) { errBox.style.display = 'block'; errBox.innerText = "HWID BOUND TO OTHER DEVICE"; document.getElementById('activateBtn').innerText = "ACTIVATE SYSTEM"; return; }
           if(!kData.deviceId) await update(ref(database, `keys/${key}`), { deviceId: myDeviceId });
-          
           userTimeframe = kData.timeframe || "1M";
           if(userTimeframe === "30S") API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json"; else API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json";
-
           document.getElementById('loginScreen').style.display = 'none'; document.getElementById('mainApp').style.display = 'block';
-          
-          get(child(ref(database), 'systemConfig/liveBtn')).then((s) => { if(s.exists() && s.val().active) document.getElementById('liveTgBtn').style.display = 'block'; });
-
           initEngine(); 
-        } else { errBox.style.display = 'block'; errBox.innerText = "INVALID KEY"; document.getElementById('activateBtn').innerText = "VERIFY & INJECT MOD"; }
-      } catch(e) { errBox.style.display = 'block'; errBox.innerText = "ERROR CONNECTING TO SERVER"; document.getElementById('activateBtn').innerText = "VERIFY & INJECT MOD"; }
+        } else { errBox.style.display = 'block'; errBox.innerText = "INVALID KEY"; document.getElementById('activateBtn').innerText = "ACTIVATE SYSTEM"; }
+      } catch(e) { errBox.style.display = 'block'; errBox.innerText = "SERVER ERROR"; document.getElementById('activateBtn').innerText = "ACTIVATE SYSTEM"; }
     });
 
-    // --- DRAG SYSTEM ENGINE ---
-    const container = document.getElementById("draggableWidget"); const icon = document.getElementById("modIcon"); const expandedBox = document.getElementById("modExpanded");
+    const container = document.getElementById("draggableWidget"); const icon = document.getElementById("modIcon"); const expandedBox = document.getElementById("modExpanded"); const hideBtn = document.getElementById("hideBtn");
     let isDragging = false, hasMoved = false, startX, startY, initialX, initialY;
 
-    function toggleWidget() {
-      if(expandedBox.classList.contains('active')) { expandedBox.classList.remove('active'); icon.classList.remove('hidden'); } 
-      else { icon.classList.add('hidden'); expandedBox.classList.add('active'); }
+    function enforceScreenBounds() {
+      const rect = container.getBoundingClientRect(); let currentLeft = rect.left; let currentTop = rect.top;
+      const maxLeft = window.innerWidth - rect.width; const maxTop = window.innerHeight - rect.height;
+      let newLeft = Math.max(0, Math.min(currentLeft, maxLeft)); let newTop = Math.max(32, Math.min(currentTop, maxTop));
+      container.style.transform = 'none'; container.style.left = newLeft + 'px'; container.style.top = newTop + 'px';
     }
-    icon.addEventListener('click', () => { if(!hasMoved) toggleWidget(); });
+    function toggleWidget() { if(expandedBox.classList.contains('active')) { expandedBox.classList.remove('active'); icon.classList.remove('hidden'); } else { icon.classList.add('hidden'); expandedBox.classList.add('active'); } setTimeout(enforceScreenBounds, 15); }
+    icon.addEventListener('click', () => { if(!hasMoved) toggleWidget(); }); hideBtn.addEventListener('click', () => { toggleWidget(); }); window.addEventListener('resize', enforceScreenBounds);
+    function dragStart(e) { if(e.target.id === 'analyzeBtn' || e.target.id === 'hideBtn') return; initialX = (e.type === "touchstart") ? e.touches[0].clientX : e.clientX; initialY = (e.type === "touchstart") ? e.touches[0].clientY : e.clientY; const rect = container.getBoundingClientRect(); startX = initialX - rect.left; startY = initialY - rect.top; isDragging = true; hasMoved = false; }
+    function drag(e) { if (!isDragging) return; const currentX = (e.type === "touchmove") ? e.touches[0].clientX : e.clientX; const currentY = (e.type === "touchmove") ? e.touches[0].clientY : e.clientY; if (Math.abs(currentX - initialX) > 4 || Math.abs(currentY - initialY) > 4) { hasMoved = true; e.preventDefault(); let newLeft = currentX - startX, newTop = currentY - startY; newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - container.offsetWidth)); newTop = Math.max(32, Math.min(newTop, window.innerHeight - container.offsetHeight)); container.style.transform = 'none'; container.style.left = newLeft + 'px'; container.style.top = newTop + 'px'; } }
+    function dragEnd() { isDragging = false; enforceScreenBounds(); }
+    container.addEventListener("touchstart", dragStart, { passive: false }); document.addEventListener("touchmove", drag, { passive: false }); document.addEventListener("touchend", dragEnd); container.addEventListener("mousedown", dragStart); document.addEventListener("mousemove", drag); document.addEventListener("mouseup", dragEnd);
 
-    function dragStart(e) {
-      if(e.target.id === 'getResultBtn') return; 
-      initialX = (e.type === "touchstart") ? e.touches[0].clientX : e.clientX; initialY = (e.type === "touchstart") ? e.touches[0].clientY : e.clientY;
-      const rect = container.getBoundingClientRect(); startX = initialX - rect.left; startY = initialY - rect.top;
-      isDragging = true; hasMoved = false; 
-    }
-    function drag(e) {
-      if (!isDragging) return;
-      const currentX = (e.type === "touchmove") ? e.touches[0].clientX : e.clientX; const currentY = (e.type === "touchmove") ? e.touches[0].clientY : e.clientY;
-      if (Math.abs(currentX - initialX) > 4 || Math.abs(currentY - initialY) > 4) {
-        hasMoved = true; e.preventDefault(); 
-        let newLeft = currentX - startX, newTop = currentY - startY;
-        newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - container.offsetWidth));
-        newTop = Math.max(28, Math.min(newTop, window.innerHeight - container.offsetHeight - 50)); 
-        container.style.transform = 'none'; container.style.left = newLeft + 'px'; container.style.top = newTop + 'px';
-      }
-    }
-    function dragEnd() { isDragging = false; }
-    container.addEventListener("touchstart", dragStart, { passive: false }); document.addEventListener("touchmove", drag, { passive: false }); document.addEventListener("touchend", dragEnd);
-    container.addEventListener("mousedown", dragStart); document.addEventListener("mousemove", drag); document.addEventListener("mouseup", dragEnd);
-
-    // =========================================
-    // PREDICTION LOGIC 30S & 1M
-    // =========================================
     class Predictor30S {
-      constructor() { this.lastPrediction = null; this.patternData = { streak: 0, pattern: 'none', hotNumbers: [] }; }
       getPredictedNumbers(bsType) { let min = bsType === 'BIG' ? 5 : 0; let max = bsType === 'BIG' ? 9 : 4; const nums = []; while (nums.length < 2) { const rand = Math.floor(Math.random() * (max - min + 1)) + min; if (!nums.includes(rand)) nums.push(rand); } return nums.sort((a,b) => a-b); }
       analyze(results) {
-        if (results.length < 5) { const randomPrediction = Math.random() > 0.5 ? 'BIG' : 'SMALL'; return { prediction: randomPrediction, numbers: this.getPredictedNumbers(randomPrediction) }; }
-        const last10 = results.slice(0, 10); const numbers = last10.map(r => parseInt(r.number));
-        const bigCount = numbers.filter(n => n >= 5).length; const smallCount = numbers.length - bigCount;
-        let currentStreak = 1, maxStreak = 1; let streakType = numbers[0] >= 5 ? 'BIG' : 'SMALL';
-        for (let i = 1; i < numbers.length; i++) {
-          const currentType = numbers[i] >= 5 ? 'BIG' : 'SMALL'; const prevType = numbers[i-1] >= 5 ? 'BIG' : 'SMALL';
-          if (currentType === prevType) { currentStreak++; if (currentStreak > maxStreak) { maxStreak = currentStreak; streakType = currentType; } } else { currentStreak = 1; }
-        }
-        this.patternData.streak = maxStreak;
-        const freq = {}; numbers.forEach(n => freq[n] = (freq[n] || 0) + 1); const hotNumbers = Object.entries(freq).filter(([num, count]) => count >= 2).map(([num]) => parseInt(num));
-        let prediction = null;
-        if (this.patternData.streak >= 3) { prediction = streakType === 'BIG' ? 'SMALL' : 'BIG'; }
-        else if (bigCount >= 7) prediction = 'SMALL'; else if (smallCount >= 7) prediction = 'BIG';
-        else if (hotNumbers.length > 0) {
-          const bigHots = hotNumbers.filter(n => n >= 5).length; const smallHots = hotNumbers.length - bigHots;
-          if (bigHots > smallHots) prediction = 'BIG'; else if (smallHots > bigHots) prediction = 'SMALL';
-        }
-        if (!prediction) { const lastDigit = parseInt(String(results[0].issueNumber).slice(-1)); prediction = lastDigit % 2 === 0 ? 'BIG' : 'SMALL'; }
-        if (this.lastPrediction === prediction && Math.random() > 0.6) { prediction = prediction === 'BIG' ? 'SMALL' : 'BIG'; }
-        this.lastPrediction = prediction; return { prediction, numbers: this.getPredictedNumbers(prediction) };
+        if (results.length < 5) return { prediction: 'BIG', numbers: [6,8] };
+        const numbers = results.slice(0, 10).map(r => parseInt(r.number));
+        let streakType = numbers[0] >= 5 ? 'BIG' : 'SMALL'; let currentStreak = 1, maxStreak = 1;
+        for (let i = 1; i < numbers.length; i++) { const cType = numbers[i] >= 5 ? 'BIG' : 'SMALL'; const pType = numbers[i-1] >= 5 ? 'BIG' : 'SMALL'; if (cType === pType) { currentStreak++; if (currentStreak > maxStreak) { maxStreak = currentStreak; streakType = cType; } } else { currentStreak = 1; } }
+        let prediction = streakType === 'BIG' ? 'SMALL' : 'BIG'; 
+        return { prediction, numbers: this.getPredictedNumbers(prediction) };
       }
     }
     const predictor30S = new Predictor30S();
-
     function generate1MPrediction(historyArray) {
-      let predictedSize = "BIG"; const validDraws = (historyArray || []).filter(d => d !== undefined && d.number !== undefined && !isNaN(d.number)).slice(0, 20);
-      if (validDraws.length === 0) return { predictionSize: "BIG", sureNumbers: [5, 8] };
-      const recentSizes = validDraws.slice(0, 12).map(r => parseInt(r.number) >= 5 ? "BIG" : "SMALL");
-      if (recentSizes.length >= 3) {
-        let streak = 1; for (let i = 1; i < recentSizes.length; i++) { if (recentSizes[i] === recentSizes[0]) streak++; else break; }
-        if (streak >= 3) { predictedSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG"; }
-        else {
-          const bigCount = recentSizes.slice(0,7).filter(s => s === "BIG").length; const smallCount = recentSizes.slice(0,7).filter(s => s === "SMALL").length;
-          if (bigCount > smallCount + 1) predictedSize = "SMALL"; else if (smallCount > bigCount + 1) predictedSize = "BIG"; else predictedSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG";
-        }
-      } else predictedSize = (parseInt(validDraws[0].number) >= 5 ? "BIG" : "SMALL") === "BIG" ? "SMALL" : "BIG";
-      const pool = predictedSize === "BIG" ? [5,6,7,8,9] : [0,1,2,3,4]; let sure1 = pool[Math.floor(Math.random() * 5)]; let sure2 = pool[Math.floor(Math.random() * 5)];
-      while(sure1 === sure2) sure2 = pool[Math.floor(Math.random() * 5)];
-      return { predictionSize: predictedSize, sureNumbers: [sure1, sure2] };
+      let presidentialSize = "BIG"; const validDraws = (historyArray || []).filter(d => !isNaN(d.number)).slice(0, 20);
+      if (validDraws.length > 0) { const recentSizes = validDraws.slice(0, 12).map(r => parseInt(r.number) >= 5 ? "BIG" : "SMALL"); presidentialSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG"; }
+      const pool = presidentialSize === "BIG" ? [5,6,7,8,9] : [0,1,2,3,4]; let sure1 = pool[Math.floor(Math.random() * 5)]; let sure2 = pool[Math.floor(Math.random() * 5)]; while(sure1 === sure2) sure2 = pool[Math.floor(Math.random() * 5)];
+      return { predictionSize: presidentialSize, sureNumbers: [sure1, sure2] };
     }
 
-    // --- SCHEDULER & ANIMATED GET RESULT SYSTEM ---
-    let fetchingLock = false, currentShownPeriod = null, currentPredictionData = null, currentPredictionNumbers = null;
-    let preparedNextPeriod = null, preparedPredictionSize = null, preparedPredictionNumbers = null, isResultReady = false;
-
-    const resultBtn = document.getElementById('getResultBtn');
-    const predMainEl = document.getElementById('predMain');
-    const predSureEl = document.getElementById('predSure');
+    let fetchingLock = false, currentShownPeriod = null, preparedNextPeriod = null, preparedPredictionSize = null, preparedPredictionNumbers = null, isResultReady = false, currentPredictionData = null, currentPredictedNumArray = [];
+    const predMainText = document.getElementById('predMainText'), periodBadge = document.getElementById('periodBadge'), timerBadge = document.getElementById('timerBadge'), statusIndicator = document.getElementById('statusIndicator'), iplJackpotOverlay = document.getElementById('iplJackpotOverlay');
 
     setInterval(() => {
-      const now = new Date();
-      let secLeft = userTimeframe === "30S" ? 30 - (now.getSeconds() % 30) : 60 - now.getSeconds();
-      if (secLeft === 60 || secLeft === 30) secLeft = 0;
-      document.getElementById('timerBadge').textContent = `00:${secLeft < 10 ? '0'+secLeft : secLeft}`;
-      if (secLeft <= 5 && secLeft > 0) document.getElementById('timerBadge').style.color = 'var(--plasma-red)';
-      else document.getElementById('timerBadge').style.color = '#fff';
+      const now = new Date(); let secLeft = userTimeframe === "30S" ? 30 - (now.getSeconds() % 30) : 60 - now.getSeconds(); if (secLeft === 60 || secLeft === 30) secLeft = 0;
+      timerBadge.textContent = `00:${secLeft < 10 ? '0'+secLeft : secLeft}`;
+      if (secLeft <= 5 && secLeft > 0) timerBadge.style.color = 'var(--sk-red)'; else timerBadge.style.color = '#fff';
     }, 1000);
 
     async function fetchAndProcess() {
       if(fetchingLock) return; fetchingLock = true;
       try {
-        const res = await fetch(`${API_URL}?ts=${Date.now()}`, { headers: {'Accept':'application/json'} });
-        const json = await res.json();
+        const res = await fetch(`${API_URL}?ts=${Date.now()}`, { headers: {'Accept':'application/json'} }); const json = await res.json();
         const draws = json.data.list.map(i => ({ issueNumber: String(i.issueNumber), number: parseInt(i.number), size: parseInt(i.number) >= 5 ? "BIG" : "SMALL" })).filter(d => !isNaN(d.number));
-        
-        const latest = draws[0];
-        const nextPeriodId = (BigInt(latest.issueNumber) + 1n).toString();
+        const latest = draws[0]; const nextPeriodId = (BigInt(latest.issueNumber) + 1n).toString();
+
+        if(currentShownPeriod === latest.issueNumber && currentPredictionData && currentPredictionData !== "SKIP") {
+          const isSizeWin = latest.size === currentPredictionData;
+          const isNumWin = currentPredictedNumArray.includes(latest.number);
+          
+          expandedBox.classList.remove('anim-win', 'anim-loss'); void expandedBox.offsetWidth; 
+          
+          if(isSizeWin && isNumWin) {
+            expandedBox.classList.add('anim-win'); statusIndicator.innerHTML = "<span style='color:var(--sk-gold); text-shadow: 0 0 10px var(--sk-gold);'>👑 JACKPOT WIN</span>";
+            iplJackpotOverlay.classList.add('active'); setTimeout(() => { iplJackpotOverlay.classList.remove('active'); }, 4000);
+          } else if (isSizeWin) {
+            expandedBox.classList.add('anim-win'); statusIndicator.innerHTML = "<span style='color:var(--sk-green); text-shadow: 0 0 10px var(--sk-green);'>✔ WIN</span>";
+          } else {
+            expandedBox.classList.add('anim-loss'); statusIndicator.innerHTML = "<span style='color:var(--sk-red); text-shadow: 0 0 10px var(--sk-red);'>✘ LOSS</span>";
+          }
+          currentPredictionData = null; 
+        }
         
         if(preparedNextPeriod !== nextPeriodId) {
-          
-          if(currentShownPeriod === latest.issueNumber && currentPredictionData) {
-            const isWin = latest.size === currentPredictionData;
-            predMainEl.textContent = `${currentPredictionData} ${isWin ? "✅" : "❌"}`;
-            if (isWin) expandedBox.className = 'mod-expanded theme-win active';
-            else expandedBox.className = 'mod-expanded theme-loss active';
-          }
-
           preparedNextPeriod = nextPeriodId;
-          if(userTimeframe === "30S") {
-            const out30 = predictor30S.analyze(draws); 
-            preparedPredictionSize = out30.prediction;
-            preparedPredictionNumbers = out30.numbers;
+          
+          // 🔥 APPLY GOD MODE OVERRIDE IF ACTIVE 🔥
+          if(currentGodMode.size !== "AUTO") {
+            preparedPredictionSize = currentGodMode.size;
+            let n1 = currentGodMode.num1 !== null ? currentGodMode.num1 : (preparedPredictionSize === "BIG" ? 6 : 2);
+            let n2 = currentGodMode.num2 !== null ? currentGodMode.num2 : (preparedPredictionSize === "BIG" ? 8 : 4);
+            preparedPredictionNumbers = [n1, n2];
           } else {
-            const out1M = generate1MPrediction(draws); 
-            preparedPredictionSize = out1M.predictionSize;
-            preparedPredictionNumbers = out1M.sureNumbers;
+            // NORMAL ALGORITHM
+            if(userTimeframe === "30S") {
+              const out30 = predictor30S.analyze(draws); preparedPredictionSize = out30.prediction; preparedPredictionNumbers = out30.numbers;
+            } else {
+              const out1M = generate1MPrediction(draws); preparedPredictionSize = out1M.predictionSize; preparedPredictionNumbers = out1M.sureNumbers;
+            }
           }
           
           isResultReady = true;
-          resultBtn.textContent = "GET RESULT";
-          resultBtn.classList.add('ready');
-          resultBtn.disabled = false;
+          if(modStatusBadge.textContent !== "OFFLINE") { analyzeBtn.textContent = "ANALYZE"; analyzeBtn.classList.add('ready'); analyzeBtn.disabled = false; }
         }
       } catch(e) { console.log(e); } finally { fetchingLock = false; }
     }
 
-    resultBtn.addEventListener('click', () => {
-      if(!isResultReady) return;
-      currentShownPeriod = preparedNextPeriod;
-      currentPredictionData = preparedPredictionSize;
-      currentPredictionNumbers = preparedPredictionNumbers;
-
-      document.getElementById('periodBadge').textContent = currentShownPeriod;
-      predMainEl.textContent = currentPredictionData;
-      predSureEl.textContent = `[ ${currentPredictionNumbers.join(' • ')} ]`;
+    analyzeBtn.addEventListener('click', () => {
+      if(!isResultReady) return; isResultReady = false;
+      analyzeBtn.textContent = "SCANNING..."; analyzeBtn.classList.remove('ready'); analyzeBtn.disabled = true;
+      statusIndicator.innerHTML = "";
       
-      if(currentPredictionData === 'SMALL') expandedBox.className = 'mod-expanded theme-small active';
-      else expandedBox.className = 'mod-expanded theme-big active';
-
-      predMainEl.classList.remove('anim-pop');
-      predSureEl.classList.remove('anim-pop');
-      void predMainEl.offsetWidth; 
-      predMainEl.classList.add('anim-pop');
-      predSureEl.classList.add('anim-pop');
-
-      isResultReady = false;
-      resultBtn.textContent = "WAITING...";
-      resultBtn.classList.remove('ready');
-      resultBtn.disabled = true;
+      predMainText.innerHTML = `<div class="barcode-scanner-hud"><div class="barcode-matrix"><div class="barcode-laser"></div></div><div class="scan-status-text">DECRYPTING...</div></div>`;
+      predMainText.className = "result-text";
+      
+      setTimeout(() => {
+        periodBadge.textContent = preparedNextPeriod; currentShownPeriod = preparedNextPeriod; currentPredictionData = preparedPredictionSize; currentPredictedNumArray = preparedPredictionNumbers;
+        
+        if(preparedPredictionSize === "SKIP") {
+          predMainText.innerHTML = `SKIP <span class="result-num" style="color:#666;">-</span>`; predMainText.className = "result-text active-skip";
+        } else {
+          const numStr = `${preparedPredictionNumbers[0]} • ${preparedPredictionNumbers[1]}`;
+          if(preparedPredictionSize === 'SMALL') { predMainText.innerHTML = `SMALL <span class="result-num">${numStr}</span>`; predMainText.className = "result-text active-small"; } 
+          else { predMainText.innerHTML = `BIG <span class="result-num">${numStr}</span>`; predMainText.className = "result-text active-big"; }
+        }
+        analyzeBtn.textContent = "WAITING...";
+      }, 1500); 
     });
 
-    function initEngine() { 
-      fetch(`${API_URL}?ts=${Date.now()}`).then(r => r.json()).then(json => {
-          const draws = json.data.list.map(i => ({ issueNumber: String(i.issueNumber), number: parseInt(i.number), size: parseInt(i.number) >= 5 ? "BIG" : "SMALL" }));
-          preparedNextPeriod = (BigInt(draws[0].issueNumber) + 1n).toString();
-          if(userTimeframe === "30S") {
-            const out30 = predictor30S.analyze(draws);
-            preparedPredictionSize = out30.prediction; preparedPredictionNumbers = out30.numbers;
-          } else {
-            const out1M = generate1MPrediction(draws);
-            preparedPredictionSize = out1M.predictionSize; preparedPredictionNumbers = out1M.sureNumbers;
-          }
-          isResultReady = true;
-          resultBtn.textContent = "GET RESULT"; resultBtn.classList.add('ready'); resultBtn.disabled = false;
-          if(!expandedBox.classList.contains('active')) toggleWidget(); 
-      });
-
-      pollInterval = setInterval(fetchAndProcess, userTimeframe === "30S" ? 3000 : 5000); 
-    }
+    function initEngine() { fetch(`${API_URL}?ts=${Date.now()}`).then(r => r.json()).then(json => { const draws = json.data.list.map(i => ({ issueNumber: String(i.issueNumber), number: parseInt(i.number), size: parseInt(i.number) >= 5 ? "BIG" : "SMALL" })); preparedNextPeriod = (BigInt(draws[0].issueNumber) + 1n).toString(); if(userTimeframe === "30S") { const out30 = predictor30S.analyze(draws); preparedPredictionSize = out30.prediction; preparedPredictionNumbers = out30.numbers; } else { const out1M = generate1MPrediction(draws); preparedPredictionSize = out1M.predictionSize; preparedPredictionNumbers = out1M.sureNumbers; } isResultReady = true; if(modStatusBadge.textContent !== "OFFLINE") { analyzeBtn.textContent = "ANALYZE"; analyzeBtn.classList.add('ready'); analyzeBtn.disabled = false; } if(!expandedBox.classList.contains('active')) toggleWidget(); }); pollInterval = setInterval(fetchAndProcess, userTimeframe === "30S" ? 3000 : 5000); }
   </script>
 </body>
 </html>

@@ -9,9 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
   <style>
-    /* =========================================
-       ORIGINAL SLEEK CYBER HACKER THEME
-       ========================================= */
+    /* ORIGINAL SLEEK CYBER THEME */
     :root { 
       --tc-green: #00ff66; --tc-red: #ff2a4b; --tc-gold: #fcd535; --tc-cyan: #00f3ff;
       --tc-dark: #050505; --tc-card: #0a0e14; --tc-border: #1e293b; --tc-warn: #ff9900;
@@ -20,7 +18,6 @@
     * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; }
     body { background-color: var(--tc-dark); font-family: 'Inter', sans-serif; overflow: hidden; }
 
-    /* BACKGROUND & IFRAME */
     #mainApp { display: none; width: 100vw; height: 100vh; position: relative; overflow: hidden;}
     .bg-game { width: 100%; height: 100%; border: none; background: #000; position: absolute; top: 0; left: 0; z-index: 1;}
     @media (min-width: 1024px) { .bg-game { width: 400px; left: 50%; transform: translateX(-50%); box-shadow: 0 0 50px rgba(0,0,0,0.8); border-left: 1px solid var(--tc-border); border-right: 1px solid var(--tc-border);} }
@@ -50,7 +47,7 @@
     @keyframes pulseWarn { from { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255,153,0,0.2)); } to { transform: scale(1.1); filter: drop-shadow(0 0 20px rgba(255,153,0,0.6)); } }
     @keyframes pulseRed { from { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255,42,75,0.2)); } to { transform: scale(1.1); filter: drop-shadow(0 0 20px rgba(255,42,75,0.6)); } }
 
-    /* LOGIN SCREEN */
+    /* LOGIN & EVENT SCREEN */
     #fullOverlayScreen { position: fixed; inset: 0; background: var(--tc-dark); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
     .wrapper-card { width: 100%; max-width: 320px; background: var(--tc-card); border: 1px solid var(--tc-border); border-radius: 12px; padding: 30px 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.8); position: relative; overflow: hidden; text-align: center;}
     
@@ -59,37 +56,32 @@
     .hacker-box-input:focus { border-color: var(--tc-cyan); box-shadow: 0 0 10px rgba(0,243,255,0.1); }
     #errorPopup { display: none; color: var(--tc-red); font-weight: 800; margin-bottom: 12px; font-size: 11px; text-transform: uppercase;}
 
-    /* =========================================
-       🔥 ORIGINAL CLEAN WIDGET UI 🔥
-       ========================================= */
-    .draggable-container { position: absolute; top: 20%; left: 50%; transform: translateX(-50%); z-index: 9999; touch-action: none; display: flex; justify-content: center; align-items: center; }
-    
-    /* COLLAPSED ICON (CLEAN CROSSHAIR) */
-    .mod-icon { 
-      width: 45px; height: 45px; background: var(--tc-card); border: 1px solid var(--tc-cyan); border-radius: 50%; 
-      display: flex; justify-content: center; align-items: center; color: var(--tc-cyan); cursor: pointer; transition: 0.2s; 
-      box-shadow: inset 0 0 10px rgba(0,243,255,0.2), 0 5px 15px rgba(0,0,0,0.6);
-    }
-    .mod-icon i { font-size: 20px; filter: drop-shadow(0 0 5px var(--tc-cyan));}
-    .mod-icon:active { transform: scale(0.9); }
-    .mod-icon.hidden { display: none; }
+    /* WAITING ROOM STYLES */
+    .waiting-pulse { animation: pulseOp 1.5s infinite alternate; }
+    @keyframes pulseOp { from {opacity:0.5;} to {opacity:1;} }
+    .ev-timer-large { font-family: 'Share Tech Mono'; font-size: 40px; color: var(--tc-cyan); font-weight: bold; margin: 15px 0; text-shadow: 0 0 15px rgba(0,243,255,0.4); }
+    .phase-bidding .phase-icon { color: var(--tc-cyan); text-shadow: 0 0 15px rgba(0,243,255,0.5); }
+    .phase-bidding .phase-title { color: #fff; }
+    .phase-bidding .phase-sub { color: var(--tc-cyan); }
+    .phase-locked .phase-icon { color: var(--tc-red); text-shadow: 0 0 15px rgba(255,42,75,0.5); }
+    .phase-locked .phase-title { color: var(--tc-red); }
+    .phase-locked .phase-sub { color: #aaa; }
+    .phase-locked .ev-timer-large { color: var(--tc-red); text-shadow: 0 0 15px rgba(255,42,75,0.4); font-size: 30px;}
 
-    /* EXPANDED BOX (SLEEK RECTANGLE) */
-    .mod-expanded { 
-      display: none; width: 250px; background: linear-gradient(180deg, #111824 0%, #0a0e14 100%); 
-      border-radius: 12px; border: 1px solid var(--tc-border); padding: 12px; overflow: hidden; 
-      box-shadow: 0 15px 35px rgba(0,0,0,0.9), 0 0 10px rgba(0,243,255,0.1);
-    }
+    /* MAIN APP WIDGET (CLEAN CROSSHAIR) */
+    .draggable-container { position: absolute; top: 20%; left: 50%; transform: translateX(-50%); z-index: 9999; touch-action: none; display: flex; justify-content: center; align-items: center; }
+    .mod-icon { width: 45px; height: 45px; background: var(--tc-card); border: 1px solid var(--tc-cyan); border-radius: 50%; display: flex; justify-content: center; align-items: center; color: var(--tc-cyan); cursor: pointer; transition: 0.2s; box-shadow: inset 0 0 10px rgba(0,243,255,0.2), 0 5px 15px rgba(0,0,0,0.6);}
+    .mod-icon i { font-size: 20px; filter: drop-shadow(0 0 5px var(--tc-cyan));}
+    .mod-icon.hidden { display: none; }
+    .mod-expanded { display: none; width: 250px; background: linear-gradient(180deg, #111824 0%, #0a0e14 100%); border-radius: 12px; border: 1px solid var(--tc-border); padding: 12px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.9), 0 0 10px rgba(0,243,255,0.1);}
     .mod-expanded.active { display: block; animation: smoothPop 0.3s ease-out forwards; }
     @keyframes smoothPop { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
 
-    /* HEADER */
     .mod-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 8px; margin-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); }
     .mod-title { font-family: 'Outfit'; font-size: 11px; font-weight: 800; color: #fff; letter-spacing: 0.5px; display: flex; align-items: center;}
     .type-badge { font-size: 8px; background: rgba(0,243,255,0.1); color: var(--tc-cyan); padding: 2px 6px; border-radius: 4px; margin-left: 6px; border: 1px solid var(--tc-cyan); letter-spacing: 1px;}
     .mod-timer { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #fff; background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); font-weight: bold; }
     
-    /* BODY / SYNC DISPLAY */
     .mod-body { text-align: center; padding: 5px 0; min-height: 70px; display: flex; flex-direction: column; justify-content: center; align-items: center;}
     
     #uiNormal { width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;}
@@ -97,15 +89,12 @@
     .result-text.active-small { color: var(--tc-cyan); text-shadow: 0 0 15px rgba(0,243,255,0.4); }
     .result-text.active-big { color: var(--tc-gold); text-shadow: 0 0 15px rgba(252,213,53,0.4); }
     .result-text.active-skip { color: #888; font-size: 24px;}
-    .result-text.jackpot-win { color: var(--tc-green); text-shadow: 0 0 20px var(--tc-gold), 0 0 10px var(--tc-green); font-size: 28px; animation: textPulse 0.5s infinite alternate;}
-    @keyframes textPulse { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
     
     .result-num { font-family: 'Share Tech Mono'; font-size: 22px; font-weight: bold; margin-left: 5px; }
     .seq-text { font-family: 'Share Tech Mono'; font-size: 10px; color: #666; margin-top: 10px; font-weight: bold; letter-spacing: 1px;}
     .seq-text span { color: var(--tc-cyan); }
     #statusIndicator { font-family: 'Inter'; font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; height: 16px; margin-top: 6px; display: flex; align-items: center; justify-content: center; }
 
-    /* SYSTEM SLEEP UI */
     #uiMaint { width: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 5px 0;}
     .maint-icon { font-size: 22px; color: var(--tc-red); margin-bottom: 6px; animation: floatIcon 2s infinite ease-in-out;}
     .maint-title-in { font-family: 'Outfit'; font-size: 13px; color: var(--tc-red); font-weight: 900; letter-spacing: 1px; margin-bottom: 2px;}
@@ -113,7 +102,6 @@
     .maint-time-val { font-family: 'Share Tech Mono'; font-size: 13px; color: var(--tc-cyan); font-weight: bold; background: rgba(0,0,0,0.5); padding: 4px 10px; border-radius: 4px; border: 1px solid #333;}
     @keyframes floatIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
 
-    /* BUTTONS */
     .mod-footer { display: flex; gap: 8px; margin-top: 10px; }
     .btn-analyze { flex: 1.5; background: #1e293b; color: #666; border: none; padding: 10px 0; font-family: 'Inter'; font-size: 11px; font-weight: 900; border-radius: 6px; cursor: not-allowed; transition: 0.2s; letter-spacing: 1px;}
     .btn-analyze.ready { background: rgba(0,243,255,0.1); color: var(--tc-cyan); border: 1px solid var(--tc-cyan); cursor: pointer; box-shadow: 0 4px 10px rgba(0,243,255,0.15);}
@@ -122,31 +110,11 @@
     .btn-hide:hover { background: rgba(255,255,255,0.05); color: #fff; border-color: #555;}
     .btn-hide:active { transform: scale(0.95); }
 
-    /* REAL BARCODE SCANNER HUD */
     .barcode-scanner-hud { width: 100%; padding: 4px 0; display: flex; flex-direction: column; align-items: center; }
     .barcode-matrix { width: 100%; height: 32px; background: #070b11; opacity: 0.8; position: relative; background-image: repeating-linear-gradient(90deg, #1e293b, #1e293b 2px, transparent 2px, transparent 6px); border-radius: 4px; border: 1px dashed rgba(0, 243, 255, 0.2); overflow: hidden; }
     .barcode-laser { position: absolute; left: 0; width: 100%; height: 2px; background: var(--tc-cyan); box-shadow: 0 0 10px 3px var(--tc-cyan), 0 0 4px 1px #fff; animation: barcodeLaserMove 0.4s infinite alternate linear; }
     .scan-status-text { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--tc-cyan); text-shadow: 0 0 4px var(--tc-cyan); margin-top: 4px; font-weight: bold; letter-spacing: 1px; }
     @keyframes barcodeLaserMove { 0% { top: 0%; } 100% { top: 100%; } }
-
-    /* BOX ANIMATIONS */
-    @keyframes winGlow { 0% { box-shadow: 0 15px 35px rgba(0,0,0,0.9); border-color: var(--tc-border); } 50% { box-shadow: 0 15px 35px rgba(0,0,0,0.9), 0 0 25px rgba(0, 255, 102, 0.4); border-color: var(--tc-green); } 100% { box-shadow: 0 15px 35px rgba(0,0,0,0.9); border-color: var(--tc-border); } }
-    .anim-win { animation: winGlow 1.5s ease-out; }
-    @keyframes lossShake { 0% { transform: translateX(0); border-color: var(--tc-border);} 25% { transform: translateX(-6px); box-shadow: 0 0 20px rgba(255, 42, 75, 0.5); border-color: var(--tc-red);} 50% { transform: translateX(6px); } 75% { transform: translateX(-6px); } 100% { transform: translateX(0); border-color: var(--tc-border);} }
-    .anim-loss { animation: lossShake 0.5s ease-out; }
-    @keyframes jackpotWin { 0% { box-shadow: 0 15px 35px rgba(0,0,0,0.9); border-color: var(--tc-border); transform: scale(1); } 20% { box-shadow: 0 0 30px rgba(0, 255, 102, 0.6), inset 0 0 20px rgba(252, 213, 53, 0.4); border-color: var(--tc-gold); transform: scale(1.05); } 40% { box-shadow: 0 0 40px rgba(252, 213, 53, 0.8), inset 0 0 30px rgba(0, 255, 102, 0.6); border-color: var(--tc-green); transform: scale(1.02); } 60% { box-shadow: 0 0 50px rgba(0, 255, 102, 0.8), inset 0 0 40px rgba(252, 213, 53, 0.8); border-color: var(--tc-gold); transform: scale(1.06); } 80% { box-shadow: 0 0 30px rgba(252, 213, 53, 0.6), inset 0 0 20px rgba(0, 255, 102, 0.4); border-color: var(--tc-green); transform: scale(1.02); } 100% { box-shadow: 0 15px 35px rgba(0,0,0,0.9); border-color: var(--tc-border); transform: scale(1); } }
-    .anim-win-jackpot { animation: jackpotWin 2.5s ease-out; }
-
-    /* IPL JACKPOT OVERLAY (CYAN THEME VERSION) */
-    #iplJackpotOverlay { position: fixed; top: 35%; left: 0; width: 100%; pointer-events: none; z-index: 20000; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; }
-    #iplJackpotOverlay.active { opacity: 1; }
-    .ipl-jackpot-text { font-family: 'Outfit'; font-size: 50px; font-weight: 900; color: var(--tc-cyan); text-transform: uppercase; text-shadow: 0 0 30px rgba(0,243,255,0.8), 0 8px 10px rgba(0,0,0,0.8); transform: scale(0); margin-bottom: 5px; letter-spacing: 2px; }
-    #iplJackpotOverlay.active .ipl-jackpot-text { animation: popIpl 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-    .ipl-win-by-dev { font-family: 'Inter'; font-size: 18px; font-weight: 900; color: #000; background: var(--tc-cyan); padding: 8px 25px; border-radius: 6px; border: 2px solid #fff; box-shadow: 0 0 20px var(--tc-cyan), 0 5px 15px rgba(0,0,0,0.6); transform: translateX(-150vw); letter-spacing: 1px; }
-    #iplJackpotOverlay.active .ipl-win-by-dev { animation: slideIpl 0.5s ease-out 0.4s forwards; }
-    @keyframes popIpl { to { transform: scale(1); } }
-    @keyframes slideIpl { to { transform: translateX(0); } }
-
   </style>
 </head>
 <body>
@@ -156,7 +124,7 @@
     <div class="modal-panel-box">
       <div class="session-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
       <h2 class="session-title" id="secTitle">SECURITY WARNING</h2>
-      <p class="session-reason" id="secMsg">Minimizing or switching tabs is strictly prohibited to prevent leaks.</p>
+      <p class="session-reason" id="secMsg">Minimizing or switching tabs is strictly prohibited for your account type.</p>
       <div class="security-strikes" id="secStrikes">STRIKES: 1/5</div>
       <button class="btn-cyber-solid" onclick="dismissSecurity()" id="secBtn" style="background:var(--tc-red); color:#fff;">I UNDERSTAND</button>
     </div>
@@ -180,34 +148,47 @@
     </div>
   </div>
 
-  <div id="iplJackpotOverlay">
-    <div class="ipl-jackpot-text">JACKPOT</div>
-    <div class="ipl-win-by-dev">WIN BY DEV</div>
-  </div>
-
-  <!-- MAIN LOGIN SCREEN OVERLAY -->
+  <!-- MAIN LOGIN / EVENT SCREEN OVERLAY -->
   <div id="fullOverlayScreen">
+    <!-- LOGIN FORM -->
     <div class="wrapper-card" id="loginFormCard">
       <div class="brand-logo"><i class="fa-solid fa-crosshairs"></i></div>
       <h2 style="font-family:'Outfit'; color:#fff; margin-bottom:5px; font-size: 1.5rem; letter-spacing: 1px;">DEV ARMY VIP</h2>
-      <p style="font-size:10px; color:#888; margin-bottom:20px; letter-spacing: 2px;">V12 ACCESS PROTOCOL</p>
+      <p style="font-size:10px; color:#888; margin-bottom:20px; letter-spacing: 2px;">V14 ACCESS PROTOCOL</p>
       <div id="errorPopup"></div>
       <input type="text" id="loginKey" class="hacker-box-input" placeholder="ACCESS KEY">
       <input type="number" id="gameUid" class="hacker-box-input" placeholder="7-DIGIT GAME UID" oninput="if(this.value.length > 7) this.value = this.value.slice(0, 7);">
       <button class="btn-cyber-solid" id="activateBtn">CONNECT SYSTEM</button>
     </div>
+
+    <!-- WAITING ROOM (EVENT) -->
+    <div class="wrapper-card phase-bidding" id="waitingRoomCard" style="display:none; border-color:var(--tc-border);">
+      <i class="fa-solid fa-lock-open phase-icon waiting-pulse" id="waitIcon" style="font-size:40px; margin-bottom:10px;"></i>
+      <h2 style="font-family:'Outfit'; font-size:22px; margin-bottom:2px;" class="phase-title" id="waitTitle">DEPOSIT WINDOW OPEN</h2>
+      <p style="font-size:10px; font-weight:800; letter-spacing:1px; margin-bottom:10px;" class="phase-sub" id="waitSub">MAKE YOUR DEPOSIT NOW</p>
+      <p style="font-size:11px; color:#888; line-height:1.4;">Highest depositor will be granted 24H access at announcement time.</p>
+      <div class="ev-timer-large" id="waitTimer">--:--:--</div>
+      <div style="background:rgba(0,0,0,0.5); border:1px dashed #333; padding:10px; border-radius:8px; margin-bottom:10px;">
+        <span style="font-size:10px; color:#888;">YOUR REGISTERED UID:</span><br>
+        <span style="font-family:'Share Tech Mono'; font-size:18px; color:var(--tc-cyan);" id="waitUidDisplay">---</span>
+      </div>
+      <p class="waiting-pulse" style="font-size:10px; color:var(--tc-cyan); font-weight:bold;">PLEASE DO NOT CLOSE THIS SCREEN</p>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div class="wrapper-card" id="eventResultCard" style="display:none;">
+      <div id="resIcon" style="font-size:50px; margin-bottom:10px;"></div>
+      <h2 id="resTitle" style="font-family:'Outfit'; color:#fff; font-size:24px;">---</h2>
+      <p id="resSub" style="font-size:12px; color:#aaa; margin:10px 0 20px;">---</p>
+      <button class="btn-cyber-solid" id="resBtn" onclick="location.reload()">CONTINUE</button>
+    </div>
   </div>
 
-  <!-- MAIN APP -->
+  <!-- MAIN APP WIDGET -->
   <div id="mainApp">
     <iframe class="bg-game" id="gameIframe" src="about:blank"></iframe>
-    
     <div class="draggable-container" id="draggableWidget">
-      
-      <!-- CLEAN CROSSHAIR ICON -->
       <div class="mod-icon" id="modIcon"><i class="fa-solid fa-crosshairs"></i></div>
-      
-      <!-- SLEEK EXPANDED MOD BOX -->
       <div class="mod-expanded" id="modExpanded">
         <div class="mod-header">
           <span class="mod-title">DEV ARMY <span class="type-badge" id="accTypeBadge">VIP</span></span>
@@ -234,7 +215,6 @@
           <button class="btn-hide" id="hideBtn">HIDE</button>
         </div>
       </div>
-
     </div>
   </div>
 
@@ -245,18 +225,16 @@
     const firebaseConfig = { apiKey: "AIzaSyBNj71akpefcfEtn-SQfAcx-Pgwi8sUosg", authDomain: "teamdev-88676.firebaseapp.com", databaseURL: "https://teamdev-88676-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "teamdev-88676" };
     const app = initializeApp(firebaseConfig); const database = getDatabase(app);
 
-    let activeKey = null; let isWhitelisted = false;
+    // 🔥 SMART SECURITY LOGIC (VIP/PAID/AGENT BYPASS) 🔥
+    let activeKey = null; 
+    let isPremiumKey = false; // Will be true for VIP, PAID, AGENT
     let minCount = localStorage.getItem('sec_min_count') ? parseInt(localStorage.getItem('sec_min_count')) : 0;
-    window.userTimeframe = "1M";
-    window.API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json"; 
-
-    const loginCard = document.getElementById('loginFormCard'); const fullOverlay = document.getElementById('fullOverlayScreen'); const mainApp = document.getElementById('mainApp'); const errBox = document.getElementById('errorPopup');
-    const uiNormal = document.getElementById('uiNormal'); const uiMaint = document.getElementById('uiMaint'); const analyzeBtn = document.getElementById('analyzeBtn');
-
-    // 🔥 SECURITY ANTI-MINIMIZE LOGIC 🔥
+    
     document.addEventListener('visibilitychange', async () => {
       if(document.hidden && document.getElementById('mainApp').style.display === 'block') {
-        if(isWhitelisted) return;
+        // If user is VIP, PAID, or AGENT -> NO RESTRICTIONS. Complete bypass!
+        if(isPremiumKey) return; 
+
         minCount++; localStorage.setItem('sec_min_count', minCount);
         
         if(minCount >= 5 && activeKey) {
@@ -275,13 +253,18 @@
       document.getElementById('securityModal').style.display = 'none';
     }
 
-    // 🔥 SLEEP MODE & SYSTEM LOCK LOGIC 🔥
+    // SYSTEM VARIABLES
+    window.API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json"; 
+    const loginCard = document.getElementById('loginFormCard'); const waitCard = document.getElementById('waitingRoomCard'); const resCard = document.getElementById('eventResultCard');
+    const fullOverlay = document.getElementById('fullOverlayScreen'); const mainApp = document.getElementById('mainApp'); const errBox = document.getElementById('errorPopup');
+    const uiNormal = document.getElementById('uiNormal'); const uiMaint = document.getElementById('uiMaint'); const analyzeBtn = document.getElementById('analyzeBtn');
+
+    // 🔥 SLEEP MODE LOGIC 🔥
     let sleepCheckInterval = null; let systemIsLocked = false;
     onValue(ref(database, 'systemConfig'), (snapshot) => {
       if(snapshot.exists()) {
         const config = snapshot.val();
         if(config.links && config.links.gameUrl) document.getElementById('gameIframe').src = config.links.gameUrl;
-        
         if(config.maintenance) {
           const mode = config.maintenance.mode; clearInterval(sleepCheckInterval);
           if(mode === 'LOCKED') {
@@ -325,6 +308,42 @@
       
       document.getElementById('activateBtn').innerText = "CONNECTING...";
       try {
+        // EVENT CHECK
+        const evSnap = await get(child(ref(database), 'events/live'));
+        if(evSnap.exists()) {
+          const evData = evSnap.val();
+          if(evData.key === key && evData.status === 'RUNNING') {
+            await set(ref(database, `events/participants/${myDeviceId}`), { gameUid: uid, timestamp: Date.now() });
+            loginCard.style.display = 'none'; waitCard.style.display = 'block'; document.getElementById('waitUidDisplay').innerText = uid;
+            
+            onValue(ref(database, 'events/live'), (liveSnap) => {
+              const liveData = liveSnap.val();
+              if(liveData.status === 'RUNNING') {
+                let checkTimer = setInterval(() => {
+                  let left = liveData.targetTime - Date.now();
+                  if(left <= 0) {
+                    clearInterval(checkTimer); waitCard.className = "wrapper-card phase-locked";
+                    document.getElementById('waitIcon').className = "fa-solid fa-lock phase-icon waiting-pulse"; document.getElementById('waitTitle').innerText = "WINDOW CLOSED"; document.getElementById('waitSub').innerText = "VERIFYING LEDGERS & DEPOSITS"; document.getElementById('waitTimer').innerText = "AWAITING ADMIN DECISION...";
+                  } else {
+                    waitCard.className = "wrapper-card phase-bidding"; document.getElementById('waitIcon').className = "fa-solid fa-lock-open phase-icon waiting-pulse"; document.getElementById('waitTitle').innerText = "DEPOSIT WINDOW OPEN"; document.getElementById('waitSub').innerText = "MAKE YOUR DEPOSIT NOW";
+                    let h = Math.floor(left / 3600000); let m = Math.floor((left % 3600000) / 60000); let s = Math.floor((left % 60000) / 1000); document.getElementById('waitTimer').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+                  }
+                }, 1000);
+              } else if (liveData.status === 'ENDED') {
+                waitCard.style.display = 'none'; resCard.style.display = 'block';
+                if(liveData.winnerDevice === myDeviceId) {
+                  document.getElementById('resIcon').innerHTML = '🏆'; document.getElementById('resTitle').innerText = 'JACKPOT WINNER!'; document.getElementById('resTitle').style.color = 'var(--tc-cyan)'; document.getElementById('resSub').innerText = 'Your deposit was verified. 24H VIP Access Granted.'; document.getElementById('resBtn').innerText = 'LAUNCH HACK';
+                  document.getElementById('resBtn').onclick = () => { fullOverlay.style.display='none'; mainApp.style.display='block'; initEngine(); };
+                } else {
+                  document.getElementById('resIcon').innerHTML = '❌'; document.getElementById('resTitle').innerText = 'BID LOST'; document.getElementById('resTitle').style.color = 'var(--tc-red)'; document.getElementById('resSub').innerText = 'Event ended. The highest depositor was selected.'; document.getElementById('resBtn').innerText = 'EXIT';
+                }
+              }
+            });
+            return; 
+          }
+        }
+
+        // NORMAL LOGIN
         const snap = await get(child(ref(database), `keys/${key}`));
         if(snap.exists()) {
           const kData = snap.val();
@@ -333,7 +352,6 @@
           if(kData.status === "UNDER_REVIEW") { document.getElementById('reviewModal').style.display='flex'; return; }
           if(kData.status === "INACTIVE") { errBox.style.display='block'; errBox.innerText="KEY PAUSED BY ADMIN"; document.getElementById('activateBtn').innerText="CONNECT"; return; }
           if(new Date() > new Date(kData.expiresAt)) { errBox.style.display='block'; errBox.innerText="KEY EXPIRED"; document.getElementById('activateBtn').innerText="CONNECT"; return; }
-          
           if(kData.targetUid && kData.targetUid !== uid) { errBox.style.display='block'; errBox.innerText="KEY IS PRE-BOUND TO ANOTHER UID"; document.getElementById('activateBtn').innerText="CONNECT"; return; }
           if(kData.boundUid && kData.boundUid !== uid) { errBox.style.display='block'; errBox.innerText="KEY IS ALREADY BOUND TO A UID"; document.getElementById('activateBtn').innerText="CONNECT"; return; }
           
@@ -341,16 +359,21 @@
           if(!kData.boundUid) updates[`keys/${key}/boundUid`] = uid;
           if(!kData.deviceId) updates[`keys/${key}/deviceId`] = myDeviceId;
           
-          isWhitelisted = kData.whitelist || false;
-          window.userTimeframe = kData.timeframe || "1M";
-          document.getElementById('accTypeBadge').innerText = kData.type || 'VIP';
+          // SMART KEY TYPE LOGIC (Determine if user has restrictions)
+          let kType = kData.type || 'VIP';
+          document.getElementById('accTypeBadge').innerText = kType;
+          if(kType === 'VIP' || kType === 'PAID' || kType === 'AGENT') {
+            isPremiumKey = true; // No restrictions
+          } else {
+            isPremiumKey = false; // FREE or GIVEAWAY -> Strict mode
+          }
           
           if(kData.status === "ACTIVE" && minCount >= 5) { minCount = 0; localStorage.setItem('sec_min_count', 0); }
           if(Object.keys(updates).length > 0) await update(ref(database), updates);
           
           activeKey = key;
           
-          if(minCount >= 5 && !isWhitelisted) {
+          if(minCount >= 5 && !isPremiumKey) {
              document.getElementById('securityModal').style.display = 'flex';
              document.getElementById('mainApp').style.pointerEvents = 'none';
           } else {
@@ -363,32 +386,94 @@
     // DRAGGABLE UI LOGIC
     const container = document.getElementById("draggableWidget"); const iconCollapsed = document.getElementById("modIcon"); const expandedBox = document.getElementById("modExpanded");
     let isDragging = false, hasMoved = false, startX, startY, initialX, initialY;
-    
-    function toggleWidget() { 
-      if(expandedBox.classList.contains('active')) { expandedBox.classList.remove('active'); iconCollapsed.classList.remove('hidden'); } 
-      else { iconCollapsed.classList.add('hidden'); expandedBox.classList.add('active'); } 
-    }
+    function toggleWidget() { if(expandedBox.classList.contains('active')) { expandedBox.classList.remove('active'); iconCollapsed.classList.remove('hidden'); } else { iconCollapsed.classList.add('hidden'); expandedBox.classList.add('active'); } }
     iconCollapsed.addEventListener('click', () => { if(!hasMoved) toggleWidget(); });
     document.getElementById('hideBtn').addEventListener('click', toggleWidget);
-
     function dragStart(e) { if(e.target.id === 'analyzeBtn' || e.target.id === 'hideBtn') return; initialX = (e.type === "touchstart") ? e.touches[0].clientX : e.clientX; initialY = (e.type === "touchstart") ? e.touches[0].clientY : e.clientY; const rect = container.getBoundingClientRect(); startX = initialX - rect.left; startY = initialY - rect.top; isDragging = true; hasMoved = false; }
     function drag(e) { if (!isDragging) return; const currentX = (e.type === "touchmove") ? e.touches[0].clientX : e.clientX; const currentY = (e.type === "touchmove") ? e.touches[0].clientY : e.clientY; if (Math.abs(currentX - initialX) > 4 || Math.abs(currentY - initialY) > 4) { hasMoved = true; e.preventDefault(); container.style.transform = 'none'; container.style.left = (currentX - startX) + 'px'; container.style.top = (currentY - startY) + 'px'; } }
     function dragEnd() { isDragging = false; }
     container.addEventListener("touchstart", dragStart, { passive: false }); document.addEventListener("touchmove", drag, { passive: false }); document.addEventListener("touchend", dragEnd); container.addEventListener("mousedown", dragStart); document.addEventListener("mousemove", drag); document.addEventListener("mouseup", dragEnd);
 
-    // 🔥 AUTO-SYNC DUAL ENGINE ALGORITHM 🔥
-    let fetchingLock = false, preparedNextPeriod = null, preparedPredictionSize = null, preparedPredictionNumbers = [], isResultReady = false, currentPredictionData = null, currentPredictedNumArray = []; let currentShownPeriod = null;
-    const predMainText = document.getElementById('predMainText'); const periodBadge = document.getElementById('periodBadge'); const statusIndicator = document.getElementById('statusIndicator'); const iplJackpotOverlay = document.getElementById('iplJackpotOverlay');
+    // 🔥 ADVANCED AI ALGORITHM ENGINE (Injected from Request) 🔥
+    function getSizeFromNumber(num) { if (num === undefined || num === null) return null; return num >= 5 ? "BIG" : "SMALL"; }
     
-    setInterval(() => { const now = new Date(); let secLeft = window.userTimeframe === "30S" ? 30 - (now.getSeconds() % 30) : 60 - now.getSeconds(); if(secLeft===60 || secLeft===30) secLeft=0; document.getElementById('timerBadge').innerText = `00:${secLeft<10?'0'+secLeft:secLeft}`; }, 1000);
+    function generateAIPrediction(historyArray) {
+      let predictedSize = "BIG"; let sure1 = 5, sure2 = 8;
+      const validDraws = (historyArray || []).filter(d => d !== undefined && d.number !== undefined && !isNaN(d.number)).slice(0, 20);
+      
+      if (validDraws.length === 0) return { predictionSize: "BIG", sureNumbers: [6, 9] };
+      
+      const recent = [...validDraws].slice(0, 12);
+      const recentSizes = recent.map(r => getSizeFromNumber(r.number)).filter(s => s !== null);
+      const recentNumbers = recent.map(r => r.number);
+      
+      if (recentSizes.length >= 3) {
+        let streakLength = 1;
+        for (let i = 1; i < recentSizes.length; i++) { if (recentSizes[i] === recentSizes[0]) streakLength++; else break; }
+        if (streakLength >= 3) {
+          predictedSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG";
+        } else {
+          const last7 = recentSizes.slice(0, 7);
+          const bigCount = last7.filter(s => s === "BIG").length;
+          const smallCount = last7.filter(s => s === "SMALL").length;
+          if (bigCount > smallCount + 1) predictedSize = "SMALL";
+          else if (smallCount > bigCount + 1) predictedSize = "BIG";
+          else {
+            if (recentSizes.length >= 2 && recentSizes[0] === recentSizes[1]) {
+              predictedSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG";
+            } else {
+              predictedSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG";
+            }
+          }
+        }
+      } else {
+        const lastSize = getSizeFromNumber(validDraws[0].number);
+        predictedSize = lastSize === "BIG" ? "SMALL" : "BIG";
+      }
+      
+      const freqMap = new Map();
+      recentNumbers.forEach(n => freqMap.set(n, (freqMap.get(n) || 0) + 1));
+      let hotNumbers = [...freqMap.entries()].sort((a,b) => b[1] - a[1]).map(e => e[0]);
+      
+      const targetPool = predictedSize === "BIG" ? [5,6,7,8,9] : [0,1,2,3,4];
+      let hotInPool = hotNumbers.filter(n => targetPool.includes(n));
+      let seenInPool = [...new Set(recentNumbers.filter(n => targetPool.includes(n)))];
+      let coldInPool = targetPool.filter(n => !seenInPool.includes(n));
+      
+      let candidates = [];
+      if (hotInPool.length >= 2) candidates = hotInPool.slice(0, 4);
+      else if (hotInPool.length === 1) candidates = [hotInPool[0], ...coldInPool.slice(0,2)];
+      else candidates = coldInPool.length >= 2 ? coldInPool.slice(0,4) : targetPool.slice(0,4);
+      
+      if (candidates.length < 2) candidates = [...targetPool];
+      let uniqueCandidates = [...new Set(candidates)];
+      if (uniqueCandidates.length === 1) uniqueCandidates = targetPool.filter(v => v !== uniqueCandidates[0]).concat(uniqueCandidates);
+      
+      sure1 = uniqueCandidates[0];
+      sure2 = uniqueCandidates.length > 1 ? uniqueCandidates[1] : (uniqueCandidates[0] === targetPool[0] ? targetPool[1] : targetPool[0]);
+      
+      if (sure1 === sure2) sure2 = (sure1 + 3) % 10;
+      if (!targetPool.includes(sure1)) sure1 = targetPool[0];
+      if (!targetPool.includes(sure2)) sure2 = targetPool[targetPool.length-1];
+      
+      sure1 = Math.min(9, Math.max(0, sure1)); sure2 = Math.min(9, Math.max(0, sure2));
+      if (sure1 === sure2) sure2 = (sure1 + 7) % 10;
+      if (!targetPool.includes(sure2)) sure2 = sure1 === targetPool[0] ? targetPool[1] : targetPool[0];
+      
+      return { predictionSize: predictedSize, sureNumbers: [sure1, sure2] };
+    }
+
+    let fetchingLock = false, preparedNextPeriod = null, preparedPredictionSize = null, preparedPredictionNumbers = [], isResultReady = false, currentPredictionData = null, currentPredictedNumArray = []; let currentShownPeriod = null;
+    const predMainText = document.getElementById('predMainText'); const periodBadge = document.getElementById('periodBadge'); const statusIndicator = document.getElementById('statusIndicator');
+    
+    setInterval(() => { const now = new Date(); let secLeft = 60 - now.getSeconds(); if(secLeft===60) secLeft=0; document.getElementById('timerBadge').innerText = `00:${secLeft<10?'0'+secLeft:secLeft}`; }, 1000);
 
     async function fetchAndProcess() {
       if(fetchingLock) return; fetchingLock = true;
       let nextPeriodId = "";
       
       try {
-        let API_URL_VAR = window.userTimeframe === "30S" ? "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json" : "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json";
-        const res = await fetch(`${API_URL_VAR}?ts=${Date.now()}`, { headers: {'Accept':'application/json'} }); const json = await res.json();
+        const res = await fetch(`${window.API_URL}?ts=${Date.now()}`, { headers: {'Accept':'application/json'} }); const json = await res.json();
         if(!json.data || !json.data.list || json.data.list.length === 0) throw new Error("API Blocked");
         
         const draws = json.data.list.map(i => ({ issueNumber: String(i.issueNumber), number: parseInt(i.number), size: parseInt(i.number) >= 5 ? "BIG" : "SMALL" })).filter(d => !isNaN(d.number));
@@ -396,10 +481,9 @@
         
         if(currentShownPeriod === latest.issueNumber && currentPredictionData && currentPredictionData !== "SKIP") {
           const isSizeWin = latest.size === currentPredictionData; const isNumWin = currentPredictedNumArray.includes(latest.number);
-          expandedBox.classList.remove('anim-win', 'anim-loss', 'anim-win-jackpot'); void expandedBox.offsetWidth; 
-          if(isSizeWin && isNumWin) { expandedBox.classList.add('anim-win-jackpot'); statusIndicator.innerHTML = "<span style='color:var(--tc-gold); text-shadow: 0 0 10px var(--tc-gold);'>👑 JACKPOT WIN</span>"; iplJackpotOverlay.classList.add('active'); setTimeout(() => { iplJackpotOverlay.classList.remove('active'); }, 4000);
-          } else if (isSizeWin) { expandedBox.classList.add('anim-win'); statusIndicator.innerHTML = "<span style='color:var(--tc-green); text-shadow: 0 0 10px var(--tc-green);'>✔ WIN</span>";
-          } else { expandedBox.classList.add('anim-loss'); statusIndicator.innerHTML = "<span style='color:var(--tc-red); text-shadow: 0 0 10px var(--tc-red);'>✘ LOSS</span>"; }
+          
+          if (isSizeWin) { statusIndicator.innerHTML = "<span style='color:var(--tc-green); text-shadow: 0 0 10px var(--tc-green);'>✔ WIN</span>";
+          } else { statusIndicator.innerHTML = "<span style='color:var(--tc-red); text-shadow: 0 0 10px var(--tc-red);'>✘ LOSS</span>"; }
           currentPredictionData = null; 
         }
 
@@ -409,25 +493,27 @@
           let n2 = currentGodMode.num2 !== null ? currentGodMode.num2 : (preparedPredictionSize === "BIG" ? 8 : 4);
           preparedPredictionNumbers = [n1, n2];
         } else {
-          const recentSizes = draws.slice(0, 5).map(r => r.number >= 5 ? "BIG" : "SMALL");
-          preparedPredictionSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG"; 
-          const pool = preparedPredictionSize === "BIG" ? [5,6,7,8,9] : [0,1,2,3,4]; 
-          preparedPredictionNumbers = [pool[Math.floor(Math.random() * 5)], pool[Math.floor(Math.random() * 5)]];
-          if(currentPolarity === 'REVERSE' && preparedPredictionSize !== "SKIP") {
+          // Use Advanced Neural Logic
+          const aiOut = generateAIPrediction(draws);
+          preparedPredictionSize = aiOut.predictionSize;
+          preparedPredictionNumbers = aiOut.sureNumbers;
+
+          // Admin Polarity Override
+          if(currentPolarity === 'REVERSE') {
              preparedPredictionSize = preparedPredictionSize === "BIG" ? "SMALL" : "BIG";
-             const revPool = preparedPredictionSize === "BIG" ? [5,6,7,8,9] : [0,1,2,3,4]; preparedPredictionNumbers = [revPool[0], revPool[1]];
+             const revPool = preparedPredictionSize === "BIG" ? [5,6,7,8,9] : [0,1,2,3,4]; 
+             preparedPredictionNumbers = [revPool[0], revPool[1]];
           }
         }
       } catch(e) {
         const now = new Date(); const yyyy = now.getFullYear(); const mm = String(now.getMonth() + 1).padStart(2, '0'); const dd = String(now.getDate()).padStart(2, '0');
-        if(window.userTimeframe === "30S") {
-            const totalSeconds = (now.getHours() * 3600) + (now.getMinutes() * 60) + now.getSeconds();
-            const totalPeriods = Math.floor(totalSeconds / 30) + 1; nextPeriodId = `${yyyy}${mm}${dd}3000${String(totalPeriods).padStart(4, '0')}`;
-        } else {
-            const totalMinutes = (now.getHours() * 60) + now.getMinutes() + 1; nextPeriodId = `${yyyy}${mm}${dd}1000${String(totalMinutes).padStart(4, '0')}`;
-        }
+        const totalMinutes = (now.getHours() * 60) + now.getMinutes() + 1; nextPeriodId = `${yyyy}${mm}${dd}1000${String(totalMinutes).padStart(4, '0')}`;
+        
         if(currentGodMode.size !== "AUTO") {
-          preparedPredictionSize = currentGodMode.size; let n1 = currentGodMode.num1 !== null ? currentGodMode.num1 : (preparedPredictionSize === "BIG" ? 6 : 2); let n2 = currentGodMode.num2 !== null ? currentGodMode.num2 : (preparedPredictionSize === "BIG" ? 8 : 4); preparedPredictionNumbers = [n1, n2];
+          preparedPredictionSize = currentGodMode.size;
+          let n1 = currentGodMode.num1 !== null ? currentGodMode.num1 : (preparedPredictionSize === "BIG" ? 6 : 2);
+          let n2 = currentGodMode.num2 !== null ? currentGodMode.num2 : (preparedPredictionSize === "BIG" ? 8 : 4);
+          preparedPredictionNumbers = [n1, n2];
         } else {
           preparedPredictionSize = Math.random() > 0.5 ? "BIG" : "SMALL";
           const pool = preparedPredictionSize === "BIG" ? [5,6,7,8,9] : [0,1,2,3,4]; preparedPredictionNumbers = [pool[0], pool[1]];
@@ -444,7 +530,7 @@
     analyzeBtn.addEventListener('click', () => {
       if(!isResultReady || systemIsLocked) return; isResultReady = false;
       analyzeBtn.textContent = "SCANNING..."; analyzeBtn.classList.remove('ready'); analyzeBtn.disabled = true; statusIndicator.innerHTML = "";
-      predMainText.innerHTML = `<div class="barcode-scanner-hud"><div class="barcode-matrix"><div class="barcode-laser"></div></div><div class="scan-status-text">DECRYPTING</div></div>`;
+      predMainText.innerHTML = `<div class="barcode-scanner-hud"><div class="barcode-matrix"><div class="barcode-laser"></div></div></div>`;
       setTimeout(() => {
         periodBadge.textContent = preparedNextPeriod; currentShownPeriod = preparedNextPeriod; currentPredictionData = preparedPredictionSize; currentPredictedNumArray = preparedPredictionNumbers;
         if(preparedPredictionSize === "SKIP") { predMainText.innerHTML = `SKIP <span class="result-num" style="color:#666;">-</span>`; predMainText.className = "result-text active-skip"; } 

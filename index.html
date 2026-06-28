@@ -9,23 +9,27 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
   <style>
+    /* =========================================
+       ORIGINAL SLEEK CYBER HACKER THEME
+       ========================================= */
     :root { 
       --tc-green: #00ff66; --tc-red: #ff2a4b; --tc-gold: #fcd535; --tc-cyan: #00f3ff;
-      --tc-dark: #0a0e14; --tc-card: #121822; --tc-border: #1e293b; --tc-warn: #ff9900;
+      --tc-dark: #050505; --tc-card: #0a0e14; --tc-border: #1e293b; --tc-warn: #ff9900;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; }
-    body { background-color: #050505; font-family: 'Inter', sans-serif; overflow: hidden; }
+    body { background-color: var(--tc-dark); font-family: 'Inter', sans-serif; overflow: hidden; }
 
+    /* BACKGROUND & IFRAME */
     #mainApp { display: none; width: 100vw; height: 100vh; position: relative; overflow: hidden;}
     .bg-game { width: 100%; height: 100%; border: none; background: #000; position: absolute; top: 0; left: 0; z-index: 1;}
-    @media (min-width: 1024px) { .bg-game { width: 400px; left: 50%; transform: translateX(-50%); box-shadow: 0 0 50px rgba(0,0,0,0.8); } }
+    @media (min-width: 1024px) { .bg-game { width: 400px; left: 50%; transform: translateX(-50%); box-shadow: 0 0 50px rgba(0,0,0,0.8); border-left: 1px solid var(--tc-border); border-right: 1px solid var(--tc-border);} }
 
     .btn-cyber-solid { width: 100%; background: var(--tc-cyan); border: none; color: #000; font-family: 'Inter'; font-size: 0.9rem; font-weight: 900; padding: 12px; cursor: pointer; border-radius: 8px; text-transform: uppercase; box-shadow: 0 5px 15px rgba(0, 243, 255, 0.2); transition: 0.2s;}
     .btn-cyber-solid:active { transform: scale(0.96); }
 
     /* SYSTEM MODALS */
-    .modal-screen-mask { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 25000; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(8px);}
+    .modal-screen-mask { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 25000; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(5px);}
     .modal-panel-box { width: 100%; max-width: 320px; background: var(--tc-card); border: 1px solid var(--tc-border); border-radius: 12px; padding: 25px 20px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.9); position: relative; overflow: hidden;}
     
     #securityModal .modal-panel-box { border-color: var(--tc-red); }
@@ -36,94 +40,125 @@
     #reviewModal .session-icon { color: var(--tc-warn); font-size: 3.5rem; margin-bottom: 10px; animation: pulseWarn 1s infinite alternate;}
     #reviewModal .session-title { font-family: 'Outfit'; font-size: 1.4rem; font-weight: 900; color: var(--tc-warn); margin-bottom: 5px; }
     
-    #banModal .modal-panel-box { border-color: var(--tc-red); background: #0a0202;}
+    #banModal .modal-panel-box { border-color: var(--tc-red); background: #000;}
     #banModal .session-icon { color: var(--tc-red); font-size: 3.5rem; margin-bottom: 10px; animation: pulseRed 1s infinite alternate;}
     #banModal .session-title { font-family: 'Outfit'; font-size: 1.4rem; font-weight: 900; color: var(--tc-red); margin-bottom: 5px; }
 
     .session-reason { font-size: 0.85rem; color: #aaa; margin-bottom: 15px; line-height: 1.4;}
-    .security-strikes { font-family: 'Share Tech Mono'; font-size: 24px; font-weight: bold; color: var(--tc-cyan); margin: 15px 0; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px;}
+    .security-strikes { font-family: 'Share Tech Mono'; font-size: 20px; font-weight: bold; color: var(--tc-cyan); margin: 15px 0; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; border: 1px dashed var(--tc-cyan);}
     
-    @keyframes pulseWarn { from { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255,153,0,0.2)); } to { transform: scale(1.1); filter: drop-shadow(0 0 20px rgba(255,153,0,0.8)); } }
-    @keyframes pulseRed { from { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255,42,75,0.2)); } to { transform: scale(1.1); filter: drop-shadow(0 0 20px rgba(255,42,75,0.8)); } }
+    @keyframes pulseWarn { from { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255,153,0,0.2)); } to { transform: scale(1.1); filter: drop-shadow(0 0 20px rgba(255,153,0,0.6)); } }
+    @keyframes pulseRed { from { transform: scale(1); filter: drop-shadow(0 0 10px rgba(255,42,75,0.2)); } to { transform: scale(1.1); filter: drop-shadow(0 0 20px rgba(255,42,75,0.6)); } }
 
     /* LOGIN SCREEN */
     #fullOverlayScreen { position: fixed; inset: 0; background: var(--tc-dark); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-    .wrapper-card { width: 100%; max-width: 350px; background: var(--tc-card); border: 1px solid var(--tc-border); border-radius: 16px; padding: 30px 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); position: relative; overflow: hidden; text-align: center;}
-    .wrapper-card::before { content:''; position:absolute; top:0; left:0; width:100%; height:4px; background: linear-gradient(90deg, var(--tc-cyan), #00ff66); }
+    .wrapper-card { width: 100%; max-width: 320px; background: var(--tc-card); border: 1px solid var(--tc-border); border-radius: 12px; padding: 30px 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.8); position: relative; overflow: hidden; text-align: center;}
     
+    .brand-logo { font-size: 40px; color: var(--tc-cyan); margin-bottom: 10px; filter: drop-shadow(0 0 10px rgba(0,243,255,0.4));}
     .hacker-box-input { width: 100%; background: #0b0f16; border: 1px solid #333; color: #fff; padding: 14px; font-family: 'Share Tech Mono'; font-weight: 700; text-align: center; outline: none; font-size: 1rem; margin-bottom: 12px; border-radius: 8px; transition: 0.3s; letter-spacing: 1px; }
     .hacker-box-input:focus { border-color: var(--tc-cyan); box-shadow: 0 0 10px rgba(0,243,255,0.1); }
-    #errorPopup { display: none; color: var(--tc-red); font-weight: 800; margin-bottom: 12px; font-size: 12px; text-transform: uppercase;}
+    #errorPopup { display: none; color: var(--tc-red); font-weight: 800; margin-bottom: 12px; font-size: 11px; text-transform: uppercase;}
 
-    /* MAIN APP WIDGET (SLEEK SLIM MOD) */
+    /* =========================================
+       🔥 ORIGINAL CLEAN WIDGET UI 🔥
+       ========================================= */
     .draggable-container { position: absolute; top: 20%; left: 50%; transform: translateX(-50%); z-index: 9999; touch-action: none; display: flex; justify-content: center; align-items: center; }
     
-    .mod-icon-collapsed { width: 45px; height: 45px; background: #000; border: 2px solid var(--tc-cyan); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s; overflow: hidden; box-shadow: inset 0 0 10px rgba(0,243,255,0.2), 0 5px 15px rgba(0,0,0,0.6);}
-    .mod-icon-collapsed img { width: 100%; height: 100%; object-fit: cover; }
-    .mod-icon-collapsed.hidden { display: none; }
+    /* COLLAPSED ICON (CLEAN CROSSHAIR) */
+    .mod-icon { 
+      width: 45px; height: 45px; background: var(--tc-card); border: 1px solid var(--tc-cyan); border-radius: 50%; 
+      display: flex; justify-content: center; align-items: center; color: var(--tc-cyan); cursor: pointer; transition: 0.2s; 
+      box-shadow: inset 0 0 10px rgba(0,243,255,0.2), 0 5px 15px rgba(0,0,0,0.6);
+    }
+    .mod-icon i { font-size: 20px; filter: drop-shadow(0 0 5px var(--tc-cyan));}
+    .mod-icon:active { transform: scale(0.9); }
+    .mod-icon.hidden { display: none; }
 
-    .mod-expanded-wrapper { position: relative; display: none; align-items: center; animation: smoothPop 0.3s ease-out forwards;}
-    .mod-expanded-wrapper.active { display: flex; }
+    /* EXPANDED BOX (SLEEK RECTANGLE) */
+    .mod-expanded { 
+      display: none; width: 250px; background: linear-gradient(180deg, #111824 0%, #0a0e14 100%); 
+      border-radius: 12px; border: 1px solid var(--tc-border); padding: 12px; overflow: hidden; 
+      box-shadow: 0 15px 35px rgba(0,0,0,0.9), 0 0 10px rgba(0,243,255,0.1);
+    }
+    .mod-expanded.active { display: block; animation: smoothPop 0.3s ease-out forwards; }
     @keyframes smoothPop { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
 
-    .mod-icon-side { width: 50px; height: 50px; border-radius: 50%; border: 2px solid var(--tc-cyan); box-shadow: 0 0 15px rgba(0,243,255,0.3), 0 5px 15px rgba(0,0,0,0.8); z-index: 10; position: absolute; left: -25px; background: #000; overflow: hidden; }
-    .mod-icon-side img { width: 100%; height: 100%; object-fit: cover; }
-
-    .mod-content { width: 260px; background: var(--tc-card); border-radius: 12px; padding: 15px; padding-left: 35px; box-shadow: 0 15px 40px rgba(0,0,0,0.9); border: 1px solid var(--tc-border); display: flex; flex-direction: column; }
-
-    .mod-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-    .mod-title { font-family: 'Outfit'; font-size: 13px; font-weight: 900; color: #fff; letter-spacing: 0.5px; display: flex; align-items: center;}
-    .type-badge { font-size: 8px; background: rgba(0,243,255,0.2); color: var(--tc-cyan); padding: 2px 6px; border-radius: 4px; margin-left: 6px; border: 1px solid var(--tc-cyan); letter-spacing: 1px;}
-    .mod-timer { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #fff; background: rgba(255,255,255,0.05); padding: 3px 8px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1); font-weight: bold; }
+    /* HEADER */
+    .mod-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 8px; margin-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .mod-title { font-family: 'Outfit'; font-size: 11px; font-weight: 800; color: #fff; letter-spacing: 0.5px; display: flex; align-items: center;}
+    .type-badge { font-size: 8px; background: rgba(0,243,255,0.1); color: var(--tc-cyan); padding: 2px 6px; border-radius: 4px; margin-left: 6px; border: 1px solid var(--tc-cyan); letter-spacing: 1px;}
+    .mod-timer { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #fff; background: rgba(255,255,255,0.05); padding: 2px 6px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); font-weight: bold; }
     
-    .mod-body { text-align: center; padding: 10px 0; min-height: 80px; display: flex; flex-direction: column; justify-content: center; align-items: center;}
+    /* BODY / SYNC DISPLAY */
+    .mod-body { text-align: center; padding: 5px 0; min-height: 70px; display: flex; flex-direction: column; justify-content: center; align-items: center;}
     
     #uiNormal { width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;}
-    .result-text { font-family: 'Outfit'; font-size: 38px; font-weight: 900; color: #333; text-transform: uppercase; line-height: 1; width: 100%; transition: 0.3s; letter-spacing: 2px;}
-    .result-text.active-small { color: var(--tc-cyan); text-shadow: 0 0 20px rgba(0,243,255,0.5); }
-    .result-text.active-big { color: var(--tc-gold); text-shadow: 0 0 20px rgba(252,213,53,0.5); }
-    .result-text.active-skip { color: #888; font-size: 26px;}
-    .result-text.jackpot-win { color: var(--tc-green); text-shadow: 0 0 20px var(--tc-gold), 0 0 10px var(--tc-green); font-size: 32px; animation: textPulse 0.5s infinite alternate;}
+    .result-text { font-family: 'Outfit'; font-size: 32px; font-weight: 900; color: #444; text-transform: uppercase; line-height: 1; width: 100%; transition: 0.3s;}
+    .result-text.active-small { color: var(--tc-cyan); text-shadow: 0 0 15px rgba(0,243,255,0.4); }
+    .result-text.active-big { color: var(--tc-gold); text-shadow: 0 0 15px rgba(252,213,53,0.4); }
+    .result-text.active-skip { color: #888; font-size: 24px;}
+    .result-text.jackpot-win { color: var(--tc-green); text-shadow: 0 0 20px var(--tc-gold), 0 0 10px var(--tc-green); font-size: 28px; animation: textPulse 0.5s infinite alternate;}
     @keyframes textPulse { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
     
-    .result-num { font-family: 'Share Tech Mono'; font-size: 24px; font-weight: bold; margin-left: 5px; }
-    .seq-text { font-family: 'Share Tech Mono'; font-size: 10px; color: #666; margin-top: 15px; font-weight: bold; letter-spacing: 1px;}
+    .result-num { font-family: 'Share Tech Mono'; font-size: 22px; font-weight: bold; margin-left: 5px; }
+    .seq-text { font-family: 'Share Tech Mono'; font-size: 10px; color: #666; margin-top: 10px; font-weight: bold; letter-spacing: 1px;}
     .seq-text span { color: var(--tc-cyan); }
-    
-    #statusIndicator { font-family: 'Inter'; font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; height: 18px; margin-top: 8px; display: flex; align-items: center; justify-content: center; }
+    #statusIndicator { font-family: 'Inter'; font-size: 12px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; height: 16px; margin-top: 6px; display: flex; align-items: center; justify-content: center; }
 
+    /* SYSTEM SLEEP UI */
     #uiMaint { width: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 5px 0;}
-    .maint-icon { font-size: 24px; color: var(--tc-red); margin-bottom: 6px; animation: floatIcon 2s infinite ease-in-out;}
-    .maint-title-in { font-family: 'Outfit'; font-size: 14px; color: var(--tc-red); font-weight: 900; letter-spacing: 1px; margin-bottom: 2px;}
+    .maint-icon { font-size: 22px; color: var(--tc-red); margin-bottom: 6px; animation: floatIcon 2s infinite ease-in-out;}
+    .maint-title-in { font-family: 'Outfit'; font-size: 13px; color: var(--tc-red); font-weight: 900; letter-spacing: 1px; margin-bottom: 2px;}
     .maint-sub-in { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;}
-    .maint-time-val { font-family: 'Share Tech Mono'; font-size: 14px; color: var(--tc-cyan); font-weight: bold; background: rgba(0,0,0,0.5); padding: 4px 10px; border-radius: 4px; border: 1px solid #333;}
+    .maint-time-val { font-family: 'Share Tech Mono'; font-size: 13px; color: var(--tc-cyan); font-weight: bold; background: rgba(0,0,0,0.5); padding: 4px 10px; border-radius: 4px; border: 1px solid #333;}
     @keyframes floatIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
 
-    .mod-footer { display: flex; gap: 10px; margin-top: 15px; }
-    .btn-analyze { flex: 1.5; background: #1e293b; color: #666; border: none; padding: 12px 0; font-family: 'Inter'; font-size: 11px; font-weight: 900; border-radius: 8px; cursor: not-allowed; transition: 0.2s; letter-spacing: 1px;}
-    .btn-analyze.ready { background: rgba(0,243,255,0.1); color: var(--tc-cyan); border: 1px solid var(--tc-cyan); cursor: pointer; box-shadow: 0 4px 15px rgba(0,243,255,0.15);}
+    /* BUTTONS */
+    .mod-footer { display: flex; gap: 8px; margin-top: 10px; }
+    .btn-analyze { flex: 1.5; background: #1e293b; color: #666; border: none; padding: 10px 0; font-family: 'Inter'; font-size: 11px; font-weight: 900; border-radius: 6px; cursor: not-allowed; transition: 0.2s; letter-spacing: 1px;}
+    .btn-analyze.ready { background: rgba(0,243,255,0.1); color: var(--tc-cyan); border: 1px solid var(--tc-cyan); cursor: pointer; box-shadow: 0 4px 10px rgba(0,243,255,0.15);}
     .btn-analyze.ready:active { transform: scale(0.95); }
-    .btn-hide { flex: 1; background: transparent; color: #888; border: 1px solid #333; padding: 12px 0; font-family: 'Inter'; font-size: 11px; font-weight: 900; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+    .btn-hide { flex: 1; background: transparent; color: #888; border: 1px solid #333; padding: 10px 0; font-family: 'Inter'; font-size: 11px; font-weight: 900; border-radius: 6px; cursor: pointer; transition: 0.2s; }
     .btn-hide:hover { background: rgba(255,255,255,0.05); color: #fff; border-color: #555;}
     .btn-hide:active { transform: scale(0.95); }
 
+    /* REAL BARCODE SCANNER HUD */
     .barcode-scanner-hud { width: 100%; padding: 4px 0; display: flex; flex-direction: column; align-items: center; }
     .barcode-matrix { width: 100%; height: 32px; background: #070b11; opacity: 0.8; position: relative; background-image: repeating-linear-gradient(90deg, #1e293b, #1e293b 2px, transparent 2px, transparent 6px); border-radius: 4px; border: 1px dashed rgba(0, 243, 255, 0.2); overflow: hidden; }
-    .barcode-laser { position: absolute; left: 0; width: 100%; height: 2px; background: var(--tc-red); box-shadow: 0 0 10px 3px var(--tc-red), 0 0 4px 1px #fff; animation: barcodeLaserMove 0.4s infinite alternate linear; }
-    .scan-status-text { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--tc-red); text-shadow: 0 0 4px var(--tc-red); margin-top: 4px; font-weight: bold; letter-spacing: 1px; }
+    .barcode-laser { position: absolute; left: 0; width: 100%; height: 2px; background: var(--tc-cyan); box-shadow: 0 0 10px 3px var(--tc-cyan), 0 0 4px 1px #fff; animation: barcodeLaserMove 0.4s infinite alternate linear; }
+    .scan-status-text { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--tc-cyan); text-shadow: 0 0 4px var(--tc-cyan); margin-top: 4px; font-weight: bold; letter-spacing: 1px; }
     @keyframes barcodeLaserMove { 0% { top: 0%; } 100% { top: 100%; } }
+
+    /* BOX ANIMATIONS */
+    @keyframes winGlow { 0% { box-shadow: 0 15px 35px rgba(0,0,0,0.9); border-color: var(--tc-border); } 50% { box-shadow: 0 15px 35px rgba(0,0,0,0.9), 0 0 25px rgba(0, 255, 102, 0.4); border-color: var(--tc-green); } 100% { box-shadow: 0 15px 35px rgba(0,0,0,0.9); border-color: var(--tc-border); } }
+    .anim-win { animation: winGlow 1.5s ease-out; }
+    @keyframes lossShake { 0% { transform: translateX(0); border-color: var(--tc-border);} 25% { transform: translateX(-6px); box-shadow: 0 0 20px rgba(255, 42, 75, 0.5); border-color: var(--tc-red);} 50% { transform: translateX(6px); } 75% { transform: translateX(-6px); } 100% { transform: translateX(0); border-color: var(--tc-border);} }
+    .anim-loss { animation: lossShake 0.5s ease-out; }
+    @keyframes jackpotWin { 0% { box-shadow: 0 15px 35px rgba(0,0,0,0.9); border-color: var(--tc-border); transform: scale(1); } 20% { box-shadow: 0 0 30px rgba(0, 255, 102, 0.6), inset 0 0 20px rgba(252, 213, 53, 0.4); border-color: var(--tc-gold); transform: scale(1.05); } 40% { box-shadow: 0 0 40px rgba(252, 213, 53, 0.8), inset 0 0 30px rgba(0, 255, 102, 0.6); border-color: var(--tc-green); transform: scale(1.02); } 60% { box-shadow: 0 0 50px rgba(0, 255, 102, 0.8), inset 0 0 40px rgba(252, 213, 53, 0.8); border-color: var(--tc-gold); transform: scale(1.06); } 80% { box-shadow: 0 0 30px rgba(252, 213, 53, 0.6), inset 0 0 20px rgba(0, 255, 102, 0.4); border-color: var(--tc-green); transform: scale(1.02); } 100% { box-shadow: 0 15px 35px rgba(0,0,0,0.9); border-color: var(--tc-border); transform: scale(1); } }
+    .anim-win-jackpot { animation: jackpotWin 2.5s ease-out; }
+
+    /* IPL JACKPOT OVERLAY (CYAN THEME VERSION) */
+    #iplJackpotOverlay { position: fixed; top: 35%; left: 0; width: 100%; pointer-events: none; z-index: 20000; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; }
+    #iplJackpotOverlay.active { opacity: 1; }
+    .ipl-jackpot-text { font-family: 'Outfit'; font-size: 50px; font-weight: 900; color: var(--tc-cyan); text-transform: uppercase; text-shadow: 0 0 30px rgba(0,243,255,0.8), 0 8px 10px rgba(0,0,0,0.8); transform: scale(0); margin-bottom: 5px; letter-spacing: 2px; }
+    #iplJackpotOverlay.active .ipl-jackpot-text { animation: popIpl 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+    .ipl-win-by-dev { font-family: 'Inter'; font-size: 18px; font-weight: 900; color: #000; background: var(--tc-cyan); padding: 8px 25px; border-radius: 6px; border: 2px solid #fff; box-shadow: 0 0 20px var(--tc-cyan), 0 5px 15px rgba(0,0,0,0.6); transform: translateX(-150vw); letter-spacing: 1px; }
+    #iplJackpotOverlay.active .ipl-win-by-dev { animation: slideIpl 0.5s ease-out 0.4s forwards; }
+    @keyframes popIpl { to { transform: scale(1); } }
+    @keyframes slideIpl { to { transform: translateX(0); } }
 
   </style>
 </head>
 <body>
 
+  <!-- MODALS -->
   <div class="modal-screen-mask" id="securityModal">
     <div class="modal-panel-box">
       <div class="session-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
       <h2 class="session-title" id="secTitle">SECURITY WARNING</h2>
       <p class="session-reason" id="secMsg">Minimizing or switching tabs is strictly prohibited to prevent leaks.</p>
       <div class="security-strikes" id="secStrikes">STRIKES: 1/5</div>
-      <button class="btn-cyber-solid" onclick="dismissSecurity()" id="secBtn" style="background:var(--tc-red); color:#fff; box-shadow:0 0 15px rgba(255,42,75,0.4);">I UNDERSTAND</button>
+      <button class="btn-cyber-solid" onclick="dismissSecurity()" id="secBtn" style="background:var(--tc-red); color:#fff;">I UNDERSTAND</button>
     </div>
   </div>
 
@@ -132,7 +167,7 @@
       <div class="session-icon"><i class="fa-solid fa-user-shield"></i></div>
       <h2 class="session-title">UNDER REVIEW</h2>
       <p class="session-reason">You have reached the minimize limit. Admin is currently verifying your game deposits. Please wait.</p>
-      <div class="security-strikes" style="border: 1px dashed var(--tc-warn); color: var(--tc-warn); font-size: 20px;">STATUS: PENDING</div>
+      <div class="security-strikes" style="border: 1px dashed var(--tc-warn); color: var(--tc-warn);">STATUS: PENDING</div>
     </div>
   </div>
 
@@ -141,14 +176,20 @@
       <div class="session-icon"><i class="fa-solid fa-skull"></i></div>
       <h2 class="session-title">SYSTEM BANNED</h2>
       <p class="session-reason">Your account has been permanently locked by the administrator for policy violations.</p>
-      <div class="security-strikes" style="border: 1px dashed var(--tc-red); color:var(--tc-red); font-size: 20px;">ACCESS DENIED</div>
+      <div class="security-strikes" style="border: 1px dashed var(--tc-red); color:var(--tc-red);">ACCESS DENIED</div>
     </div>
   </div>
 
+  <div id="iplJackpotOverlay">
+    <div class="ipl-jackpot-text">JACKPOT</div>
+    <div class="ipl-win-by-dev">WIN BY DEV</div>
+  </div>
+
+  <!-- MAIN LOGIN SCREEN OVERLAY -->
   <div id="fullOverlayScreen">
     <div class="wrapper-card" id="loginFormCard">
-      <img src="logo.png" alt="Logo" style="width:75px; border-radius:50%; border:2px solid var(--tc-cyan); margin-bottom:15px; box-shadow: 0 0 15px rgba(0,243,255,0.3);" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1464/1464731.png'">
-      <h2 style="font-family:'Outfit'; color:#fff; margin-bottom:5px; font-size: 1.6rem; letter-spacing: 1px;">DEV ARMY HACK</h2>
+      <div class="brand-logo"><i class="fa-solid fa-crosshairs"></i></div>
+      <h2 style="font-family:'Outfit'; color:#fff; margin-bottom:5px; font-size: 1.5rem; letter-spacing: 1px;">DEV ARMY VIP</h2>
       <p style="font-size:10px; color:#888; margin-bottom:20px; letter-spacing: 2px;">V12 ACCESS PROTOCOL</p>
       <div id="errorPopup"></div>
       <input type="text" id="loginKey" class="hacker-box-input" placeholder="ACCESS KEY">
@@ -157,41 +198,40 @@
     </div>
   </div>
 
+  <!-- MAIN APP -->
   <div id="mainApp">
     <iframe class="bg-game" id="gameIframe" src="about:blank"></iframe>
     
     <div class="draggable-container" id="draggableWidget">
       
-      <div class="mod-icon-collapsed" id="modIcon"><img src="logo.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1464/1464731.png'"></div>
+      <!-- CLEAN CROSSHAIR ICON -->
+      <div class="mod-icon" id="modIcon"><i class="fa-solid fa-crosshairs"></i></div>
       
-      <div class="mod-expanded-wrapper" id="modExpanded">
-        <div class="mod-icon-side"><img src="logo.png" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1464/1464731.png'"></div>
+      <!-- SLEEK EXPANDED MOD BOX -->
+      <div class="mod-expanded" id="modExpanded">
+        <div class="mod-header">
+          <span class="mod-title">DEV ARMY <span class="type-badge" id="accTypeBadge">VIP</span></span>
+          <span class="mod-timer" id="timerBadge">00:00</span>
+        </div>
         
-        <div class="mod-content">
-          <div class="mod-header">
-            <span class="mod-title">DEV ARMY <span class="type-badge" id="accTypeBadge">VIP</span></span>
-            <span class="mod-timer" id="timerBadge">00:00</span>
+        <div class="mod-body">
+          <div id="uiNormal">
+            <div class="result-text" id="predMainText">SYNC</div>
+            <div id="statusIndicator"></div>
+            <div class="seq-text">SEQ: <span id="periodBadge">WAITING...</span></div>
           </div>
           
-          <div class="mod-body">
-            <div id="uiNormal">
-              <div class="result-text" id="predMainText">SYNC</div>
-              <div id="statusIndicator"></div>
-              <div class="seq-text">SEQ: <span id="periodBadge">WAITING...</span></div>
-            </div>
-            
-            <div id="uiMaint">
-              <i class="fa-solid fa-moon maint-icon" id="maintIconDisp"></i>
-              <div class="maint-title-in" id="maintTitleDisp">SYSTEM SLEEPING</div>
-              <div class="maint-sub-in" id="maintSubDisp">AUTO-WAKING IN</div>
-              <div class="maint-time-val" id="maintTimeVal">--:--</div>
-            </div>
+          <div id="uiMaint">
+            <i class="fa-solid fa-moon maint-icon" id="maintIconDisp"></i>
+            <div class="maint-title-in" id="maintTitleDisp">SYSTEM SLEEPING</div>
+            <div class="maint-sub-in" id="maintSubDisp">AUTO-WAKING IN</div>
+            <div class="maint-time-val" id="maintTimeVal">--:--</div>
           </div>
+        </div>
 
-          <div class="mod-footer">
-            <button class="btn-analyze" id="analyzeBtn" disabled>WAITING...</button>
-            <button class="btn-hide" id="hideBtn">HIDE</button>
-          </div>
+        <div class="mod-footer">
+          <button class="btn-analyze" id="analyzeBtn" disabled>WAITING...</button>
+          <button class="btn-hide" id="hideBtn">HIDE</button>
         </div>
       </div>
 
@@ -205,15 +245,15 @@
     const firebaseConfig = { apiKey: "AIzaSyBNj71akpefcfEtn-SQfAcx-Pgwi8sUosg", authDomain: "teamdev-88676.firebaseapp.com", databaseURL: "https://teamdev-88676-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "teamdev-88676" };
     const app = initializeApp(firebaseConfig); const database = getDatabase(app);
 
-    let activeKey = null;
-    let isWhitelisted = false;
+    let activeKey = null; let isWhitelisted = false;
     let minCount = localStorage.getItem('sec_min_count') ? parseInt(localStorage.getItem('sec_min_count')) : 0;
     window.userTimeframe = "1M";
-    
+    window.API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json"; 
+
     const loginCard = document.getElementById('loginFormCard'); const fullOverlay = document.getElementById('fullOverlayScreen'); const mainApp = document.getElementById('mainApp'); const errBox = document.getElementById('errorPopup');
     const uiNormal = document.getElementById('uiNormal'); const uiMaint = document.getElementById('uiMaint'); const analyzeBtn = document.getElementById('analyzeBtn');
 
-    // 🔥 SECURITY LOGIC 🔥
+    // 🔥 SECURITY ANTI-MINIMIZE LOGIC 🔥
     document.addEventListener('visibilitychange', async () => {
       if(document.hidden && document.getElementById('mainApp').style.display === 'block') {
         if(isWhitelisted) return;
@@ -235,7 +275,7 @@
       document.getElementById('securityModal').style.display = 'none';
     }
 
-    // 🔥 SLEEP MODE LOGIC 🔥
+    // 🔥 SLEEP MODE & SYSTEM LOCK LOGIC 🔥
     let sleepCheckInterval = null; let systemIsLocked = false;
     onValue(ref(database, 'systemConfig'), (snapshot) => {
       if(snapshot.exists()) {
@@ -277,7 +317,7 @@
 
     let myDeviceId = localStorage.getItem('predict_device_id') || ('DEV-' + Math.random().toString(36).substr(2, 9).toUpperCase()); localStorage.setItem('predict_device_id', myDeviceId);
 
-    // LOGIN LOGIC
+    // LOGIN & UID BINDING LOGIC
     document.getElementById('activateBtn').addEventListener('click', async () => {
       const key = document.getElementById('loginKey').value.trim().toUpperCase(); const uid = document.getElementById('gameUid').value.trim();
       if(!key) { errBox.style.display='block'; errBox.innerText="ENTER KEY"; return; } 
@@ -303,8 +343,6 @@
           
           isWhitelisted = kData.whitelist || false;
           window.userTimeframe = kData.timeframe || "1M";
-          
-          // SET KEY TYPE IN HEADER
           document.getElementById('accTypeBadge').innerText = kData.type || 'VIP';
           
           if(kData.status === "ACTIVE" && minCount >= 5) { minCount = 0; localStorage.setItem('sec_min_count', 0); }
@@ -327,13 +365,9 @@
     let isDragging = false, hasMoved = false, startX, startY, initialX, initialY;
     
     function toggleWidget() { 
-      if(expandedBox.classList.contains('active')) { 
-        expandedBox.classList.remove('active'); iconCollapsed.classList.remove('hidden'); 
-      } else { 
-        iconCollapsed.classList.add('hidden'); expandedBox.classList.add('active'); 
-      } 
+      if(expandedBox.classList.contains('active')) { expandedBox.classList.remove('active'); iconCollapsed.classList.remove('hidden'); } 
+      else { iconCollapsed.classList.add('hidden'); expandedBox.classList.add('active'); } 
     }
-    
     iconCollapsed.addEventListener('click', () => { if(!hasMoved) toggleWidget(); });
     document.getElementById('hideBtn').addEventListener('click', toggleWidget);
 
@@ -344,7 +378,7 @@
 
     // 🔥 AUTO-SYNC DUAL ENGINE ALGORITHM 🔥
     let fetchingLock = false, preparedNextPeriod = null, preparedPredictionSize = null, preparedPredictionNumbers = [], isResultReady = false, currentPredictionData = null, currentPredictedNumArray = []; let currentShownPeriod = null;
-    const predMainText = document.getElementById('predMainText'); const periodBadge = document.getElementById('periodBadge'); const statusIndicator = document.getElementById('statusIndicator');
+    const predMainText = document.getElementById('predMainText'); const periodBadge = document.getElementById('periodBadge'); const statusIndicator = document.getElementById('statusIndicator'); const iplJackpotOverlay = document.getElementById('iplJackpotOverlay');
     
     setInterval(() => { const now = new Date(); let secLeft = window.userTimeframe === "30S" ? 30 - (now.getSeconds() % 30) : 60 - now.getSeconds(); if(secLeft===60 || secLeft===30) secLeft=0; document.getElementById('timerBadge').innerText = `00:${secLeft<10?'0'+secLeft:secLeft}`; }, 1000);
 
@@ -362,8 +396,8 @@
         
         if(currentShownPeriod === latest.issueNumber && currentPredictionData && currentPredictionData !== "SKIP") {
           const isSizeWin = latest.size === currentPredictionData; const isNumWin = currentPredictedNumArray.includes(latest.number);
-          expandedBox.classList.remove('anim-win', 'anim-loss'); void expandedBox.offsetWidth; 
-          if(isSizeWin && isNumWin) { expandedBox.classList.add('anim-win'); statusIndicator.innerHTML = "<span style='color:var(--tc-gold); text-shadow: 0 0 10px var(--tc-gold);'>👑 JACKPOT WIN</span>";
+          expandedBox.classList.remove('anim-win', 'anim-loss', 'anim-win-jackpot'); void expandedBox.offsetWidth; 
+          if(isSizeWin && isNumWin) { expandedBox.classList.add('anim-win-jackpot'); statusIndicator.innerHTML = "<span style='color:var(--tc-gold); text-shadow: 0 0 10px var(--tc-gold);'>👑 JACKPOT WIN</span>"; iplJackpotOverlay.classList.add('active'); setTimeout(() => { iplJackpotOverlay.classList.remove('active'); }, 4000);
           } else if (isSizeWin) { expandedBox.classList.add('anim-win'); statusIndicator.innerHTML = "<span style='color:var(--tc-green); text-shadow: 0 0 10px var(--tc-green);'>✔ WIN</span>";
           } else { expandedBox.classList.add('anim-loss'); statusIndicator.innerHTML = "<span style='color:var(--tc-red); text-shadow: 0 0 10px var(--tc-red);'>✘ LOSS</span>"; }
           currentPredictionData = null; 
@@ -392,12 +426,8 @@
         } else {
             const totalMinutes = (now.getHours() * 60) + now.getMinutes() + 1; nextPeriodId = `${yyyy}${mm}${dd}1000${String(totalMinutes).padStart(4, '0')}`;
         }
-        
         if(currentGodMode.size !== "AUTO") {
-          preparedPredictionSize = currentGodMode.size;
-          let n1 = currentGodMode.num1 !== null ? currentGodMode.num1 : (preparedPredictionSize === "BIG" ? 6 : 2);
-          let n2 = currentGodMode.num2 !== null ? currentGodMode.num2 : (preparedPredictionSize === "BIG" ? 8 : 4);
-          preparedPredictionNumbers = [n1, n2];
+          preparedPredictionSize = currentGodMode.size; let n1 = currentGodMode.num1 !== null ? currentGodMode.num1 : (preparedPredictionSize === "BIG" ? 6 : 2); let n2 = currentGodMode.num2 !== null ? currentGodMode.num2 : (preparedPredictionSize === "BIG" ? 8 : 4); preparedPredictionNumbers = [n1, n2];
         } else {
           preparedPredictionSize = Math.random() > 0.5 ? "BIG" : "SMALL";
           const pool = preparedPredictionSize === "BIG" ? [5,6,7,8,9] : [0,1,2,3,4]; preparedPredictionNumbers = [pool[0], pool[1]];
@@ -414,7 +444,7 @@
     analyzeBtn.addEventListener('click', () => {
       if(!isResultReady || systemIsLocked) return; isResultReady = false;
       analyzeBtn.textContent = "SCANNING..."; analyzeBtn.classList.remove('ready'); analyzeBtn.disabled = true; statusIndicator.innerHTML = "";
-      predMainText.innerHTML = `<div class="barcode-scanner-hud"><div class="barcode-matrix"><div class="barcode-laser"></div></div></div>`;
+      predMainText.innerHTML = `<div class="barcode-scanner-hud"><div class="barcode-matrix"><div class="barcode-laser"></div></div><div class="scan-status-text">DECRYPTING</div></div>`;
       setTimeout(() => {
         periodBadge.textContent = preparedNextPeriod; currentShownPeriod = preparedNextPeriod; currentPredictionData = preparedPredictionSize; currentPredictedNumArray = preparedPredictionNumbers;
         if(preparedPredictionSize === "SKIP") { predMainText.innerHTML = `SKIP <span class="result-num" style="color:#666;">-</span>`; predMainText.className = "result-text active-skip"; } 

@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DEV ARMY • MASTER CONTROL V11</title>
+  <title>DEV ARMY • MASTER CONTROL V12</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Outfit:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
-    :root { --bg-main: #06090e; --bg-card: #0d1219; --border-color: #1e2631; --tc-cyan: #00e5ff; --tc-green: #00ff88; --tc-red: #ff3366; --tc-gold: #ffb700; --tc-warn: #ff8800; --text-main: #e1e7ef; --text-muted: #7d8590; }
+    :root { --bg-main: #06090e; --bg-card: #0d1219; --border-color: #1e2631; --tc-cyan: #00e5ff; --tc-green: #00ff88; --tc-red: #ff3366; --tc-gold: #ffb700; --tc-warn: #ff8800; --tc-purple: #b562ff; --text-main: #e1e7ef; --text-muted: #7d8590; }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { background-color: var(--bg-main); color: var(--text-main); font-family: 'Inter', sans-serif; font-size: 13px; display: flex; height: 100vh; overflow: hidden; }
     ::-webkit-scrollbar { width: 5px; height: 5px; } ::-webkit-scrollbar-track { background: var(--bg-main); } ::-webkit-scrollbar-thumb { background: #2d3748; border-radius: 10px; } ::-webkit-scrollbar-thumb:hover { background: var(--tc-cyan); }
@@ -67,9 +67,12 @@
     th { padding: 16px; font-size: 10px; color: var(--text-muted); text-transform: uppercase; border-bottom: 1px solid var(--border-color); }
     td { padding: 16px; border-bottom: 1px solid var(--border-color); font-family: 'Share Tech Mono'; font-size: 12px; }
     .badge { padding: 4px 8px; border-radius: 4px; font-size: 9px; font-weight: 800; font-family: 'Inter'; text-transform: uppercase; }
+    
     .bg-green { background: rgba(0,255,136,0.1); color: var(--tc-green); border: 1px solid var(--tc-green);}
     .bg-red { background: rgba(255,51,102,0.1); color: var(--tc-red); border: 1px solid var(--tc-red);}
     .bg-gold { background: rgba(255,183,0,0.1); color: var(--tc-gold); border: 1px solid var(--tc-gold);}
+    .bg-cyan { background: rgba(0,229,255,0.1); color: var(--tc-cyan); border: 1px solid var(--tc-cyan);}
+    .bg-purple { background: rgba(181,98,255,0.1); color: var(--tc-purple); border: 1px solid var(--tc-purple);}
     .bg-warn { background: rgba(255,136,0,0.2); color: var(--tc-warn); border: 1px solid var(--tc-warn); animation: pulseWarn 1s infinite alternate;}
 
     @keyframes pulseWarn { from{box-shadow: 0 0 5px rgba(255,136,0,0.2);} to{box-shadow: 0 0 15px rgba(255,136,0,0.6);} }
@@ -112,7 +115,6 @@
 
     <div class="dashboard-scroll">
       
-      <!-- DASHBOARD TAB -->
       <div id="tab-dashboard" class="tab-content">
         <div class="stats-grid">
           <div class="stat-card c-cyan"><div class="stat-title">Live Active Players</div><div class="stat-value"><div class="radar-dot"></div> <span id="statLiveUsers">0</span></div></div>
@@ -125,30 +127,40 @@
         </div>
       </div>
 
-      <!-- KEY MANAGER TAB -->
       <div id="tab-keys" class="tab-content" style="display: none;">
         
-        <!-- Key Generator -->
         <div class="panel" style="margin-bottom: 20px; border-color: var(--tc-gold);">
           <div class="panel-header" style="color:var(--tc-gold); background:rgba(255,183,0,0.05);">
-            <span><i class="fa-solid fa-plus-circle"></i> Create New Keys</span>
+            <span><i class="fa-solid fa-plus-circle"></i> Create Dynamic Keys</span>
           </div>
           <div class="panel-body">
+            
             <div style="display:flex; gap:15px; margin-bottom:15px;">
+              <div class="form-group" style="flex:1.5; margin:0;">
+                <label>Key Category (Mode)</label>
+                <select id="kgType" class="form-control" style="font-weight:bold; color:var(--tc-gold);">
+                  <option value="PAID">💰 PAID MEMBER</option>
+                  <option value="FREE">🎁 FREE USER</option>
+                  <option value="GIVEAWAY">🎉 GIVEAWAY WINNER</option>
+                  <option value="AGENT">💼 AGENT WORK</option>
+                  <option value="VIP" selected>👑 VIP MEMBER</option>
+                </select>
+              </div>
               <div class="form-group" style="flex:1; margin:0;"><label>Quantity</label><input type="number" id="kgCount" class="form-control" value="1" min="1" max="50"></div>
-              <div class="form-group" style="flex:1; margin:0;"><label>Expiry</label><select id="kgExpiry" class="form-control"><option value="24">1 Day</option><option value="168" selected>7 Days</option></select></div>
-              <div class="form-group" style="flex:1.5; margin:0;"><label>Pre-Bind Target UID (Optional)</label><input type="text" id="kgTargetUid" class="form-control" placeholder="7-Digit UID" maxlength="7"></div>
+              <div class="form-group" style="flex:1; margin:0;"><label>Validity (In Hours)</label><input type="number" id="kgHours" class="form-control" value="24" placeholder="E.g. 1, 12, 24, 720"></div>
             </div>
+
             <div style="display:flex; gap:15px;">
-              <div class="form-group" style="flex:2; margin:0;"><label>Alias / Note</label><input type="text" id="kgUser" class="form-control" placeholder="E.g. VIP_Client"></div>
+              <div class="form-group" style="flex:2; margin:0;"><label>Alias / Note</label><input type="text" id="kgUser" class="form-control" placeholder="E.g. Client_Name"></div>
+              <div class="form-group" style="flex:1.5; margin:0;"><label>Pre-Bind UID (Optional)</label><input type="text" id="kgTargetUid" class="form-control" placeholder="7-Digit UID" maxlength="7"></div>
               <div style="flex:1; display:flex; align-items:flex-end;">
-                <button class="btn btn-gold btn-block" onclick="generateKeys('VIP')" style="padding:14px;"><i class="fa-solid fa-key"></i> GENERATE</button>
+                <button class="btn btn-gold btn-block" onclick="generateDynamicKeys()" style="padding:14px;"><i class="fa-solid fa-key"></i> GENERATE</button>
               </div>
             </div>
+
           </div>
         </div>
 
-        <!-- Key Vault Table -->
         <div class="panel">
           <div class="panel-header">
             <span><i class="fa-solid fa-database"></i> Client Database</span>
@@ -156,14 +168,13 @@
           </div>
           <div class="panel-body" style="padding:0; overflow-x:auto;">
             <table id="keyTable">
-              <thead><tr><th>Alias & Key</th><th>Game UID (7-Digit)</th><th>Status</th><th>Security & Actions</th></tr></thead>
+              <thead><tr><th>Alias & Key</th><th>Category</th><th>Game UID</th><th>Status</th><th>Actions</th></tr></thead>
               <tbody id="keyVaultList"></tbody>
             </table>
           </div>
         </div>
       </div>
 
-      <!-- GOD MODE TAB -->
       <div id="tab-godmode" class="tab-content" style="display: none;">
         <div class="grid-2">
           <div class="panel" style="border-color: var(--tc-red);">
@@ -185,7 +196,6 @@
         </div>
       </div>
 
-      <!-- SETTINGS & SLEEP MODE TAB -->
       <div id="tab-settings" class="tab-content" style="display: none;">
         <div class="grid-2">
           <div class="panel">
@@ -307,31 +317,45 @@
     window.setGodMode = async function() { const s = document.getElementById('godModeSize').value; await set(ref(db, 'server/override'), { size: s, timestamp: Date.now() }); alert("Override Set!"); }
     window.setPolarity = async function(mode) { await set(ref(db, 'server/polarity'), mode); }
 
-    // KEYS & VAULT (WITH TARGET UID, REVIEW & WHITELIST)
-    window.generateKeys = async function(type) { 
+    // 🔥 NEW: DYNAMIC KEY GENERATOR 🔥
+    window.generateDynamicKeys = async function() { 
       let prefix = document.getElementById('kgUser').value || 'User'; 
       let count = parseInt(document.getElementById('kgCount').value) || 1;
-      let hours = parseInt(document.getElementById('kgExpiry').value); 
+      let hours = parseInt(document.getElementById('kgHours').value) || 24; 
+      let keyType = document.getElementById('kgType').value;
       let tUid = document.getElementById('kgTargetUid').value.trim();
+      
       if(tUid && tUid.length !== 7) return alert("Target UID must be exactly 7 digits.");
       
       const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; let generatedKeys = []; const updates = {};
+      
       for(let j=0; j<count; j++) {
         let newKey = ''; for (let i = 0; i < 16; i++) { newKey += chars.charAt(Math.floor(Math.random() * chars.length)); if(i===3||i===7||i===11) newKey += '-';}
         const expDate = new Date(); expDate.setHours(expDate.getHours() + hours);
-        updates['keys/' + newKey] = { user: `${prefix}_${j+1}`, key: newKey, timeframe: "1M", status: "ACTIVE", deviceId: null, targetUid: tUid || null, boundUid: null, whitelist: false, expiresAt: expDate.toISOString() };
+        updates['keys/' + newKey] = { 
+          user: `${prefix}_${j+1}`, 
+          key: newKey, 
+          timeframe: "1M", 
+          status: "ACTIVE", 
+          deviceId: null, 
+          targetUid: tUid || null, 
+          boundUid: null, 
+          whitelist: false, 
+          type: keyType, // Custom Type
+          expiresAt: expDate.toISOString() 
+        };
         generatedKeys.push(newKey);
       }
-      await update(ref(db), updates); navigator.clipboard.writeText(generatedKeys.join('\n')); alert(`✅ ${count} Keys Generated!`); loadVault(); 
+      await update(ref(db), updates); navigator.clipboard.writeText(generatedKeys.join('\n')); alert(`✅ ${count} ${keyType} Keys Generated!\nValid for ${hours} Hours.\nCopied to clipboard!`); loadVault(); 
     }
 
     window.inlineAction = async function(action, key, currentState) {
-      if(action === 'approve') await update(ref(db, `keys/${key}`), { status: 'ACTIVE' }); // Unbans from review
+      if(action === 'approve') await update(ref(db, `keys/${key}`), { status: 'ACTIVE' }); 
       if(action === 'ban') if(confirm("Permanently ban this user?")) await update(ref(db, `keys/${key}`), { status: 'BANNED' });
       if(action === 'pause') await update(ref(db, `keys/${key}`), { status: 'INACTIVE' });
       if(action === 'resume') await update(ref(db, `keys/${key}`), { status: 'ACTIVE' });
       if(action === 'whitelist') await update(ref(db, `keys/${key}`), { whitelist: !currentState });
-      if(action === 'delete') if(confirm("Permanently delete this key?")) await remove(ref(db, `keys/${key}`));
+      if(action === 'delete') if(confirm("Permanently delete this key?")) await remove(ref(db, `keys/${key}`);
       loadVault();
     }
     
@@ -349,11 +373,18 @@
           else if(k.status === 'BANNED') { statClass = 'bg-red'; statText = 'BANNED'; }
           else if(k.status === 'INACTIVE') { statClass = 'bg-red'; statText = 'PAUSED'; }
 
-          // UID Display
+          // Badge logic for Type
+          let kType = k.type || 'VIP';
+          let typeBadge = '';
+          if(kType === 'PAID') typeBadge = '<span class="badge bg-green">PAID</span>';
+          else if(kType === 'FREE') typeBadge = '<span class="badge" style="background:rgba(255,255,255,0.1); color:#ccc;">FREE</span>';
+          else if(kType === 'GIVEAWAY') typeBadge = '<span class="badge bg-gold">GIVEAWAY</span>';
+          else if(kType === 'AGENT') typeBadge = '<span class="badge bg-cyan">AGENT</span>';
+          else typeBadge = '<span class="badge bg-purple">VIP</span>';
+
           let uidText = k.boundUid ? `<span class="uid-display">${k.boundUid}</span>` : '<span style="color:#555;">Waiting...</span>';
           if(k.targetUid) uidText += `<br><span class="uid-target">Target: ${k.targetUid}</span>`;
 
-          // Actions Logic
           let actionBtns = '';
           if(k.status === 'UNDER_REVIEW') {
             actionBtns += `<button class="btn btn-green" onclick="inlineAction('approve','${k.key}')" title="Approve Deposit & Unban"><i class="fa-solid fa-check"></i> APPROVE</button>`;
@@ -366,14 +397,15 @@
           }
 
           h+=`<tr class="v-row">
-            <td><div style="font-weight:bold; color:#fff;">${k.user}</div><div style="color:var(--tc-cyan); font-size:10px;">${k.key}</div></td>
+            <td><div style="font-weight:bold; color:#fff; margin-bottom:4px;">${k.user}</div><div style="color:var(--tc-cyan); font-size:10px;">${k.key}</div></td>
+            <td>${typeBadge}</td>
             <td>${uidText}</td>
             <td><span class="badge ${statClass}">${statText}</span></td>
             <td><div style="display:flex; gap:5px;">${actionBtns}</div></td>
           </tr>`;
         }); 
         tbody.innerHTML=h; document.getElementById('statTotalKeys').innerText=t; document.getElementById('statActiveBound').innerText=b; baseTraffic = Math.floor(b * 0.8);
-      } else tbody.innerHTML='<tr><td colspan="4" style="text-align:center; padding:30px; color:#555;">No Data</td></tr>'; 
+      } else tbody.innerHTML='<tr><td colspan="5" style="text-align:center; padding:30px; color:#555;">No Data</td></tr>'; 
     }
     
     window.searchVault = function() { const q = document.getElementById('searchInput').value.toUpperCase(); const rows = document.getElementsByClassName('v-row'); for(let r of rows) r.style.display = r.innerText.toUpperCase().includes(q) ? '' : 'none'; }

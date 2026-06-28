@@ -3,305 +3,384 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>DEV ARMY • SIKKIM VIP MOD</title>
-  
+  <title>DEV ARMY • PREMIUM VIP</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Outfit:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
   <style>
-    :root { 
-      --sk-green: #18b660; --sk-red: #fb5b5b; --sk-violet: #b562ff;
-      --sk-gold: #e2b960; --sk-gold-light: #ffdc7a; --sk-dark-bg: #12151c;
-      --sk-card: #1c212b; --sk-border: #2c3545; --sk-text: #e2e8f0; --sk-cyan: #00f3ff;
-    }
+    :root { --sk-green: #18b660; --sk-red: #fb5b5b; --sk-gold: #e2b960; --sk-gold-light: #ffdc7a; --sk-dark-bg: #12151c; --sk-card: #1c212b; --sk-border: #2c3545; --sk-cyan: #00f3ff; }
     * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; }
     body { background-color: var(--sk-dark-bg); font-family: 'Inter', sans-serif; overflow: hidden; }
 
-    #newsTicker { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 30px; background: rgba(18, 21, 28, 0.95); border-bottom: 1px solid var(--sk-gold); color: #fff; font-size: 11px; line-height: 30px; z-index: 10001; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-    .ticker-icon { position: absolute; left: 0; top: 0; background: linear-gradient(180deg, var(--sk-gold-light), var(--sk-gold)); color: #000; padding: 0 12px; font-weight: 900; z-index: 2; height: 100%; display: flex; align-items: center; font-size: 12px;}
-    .ticker-text { padding-left: 100px; color: var(--sk-gold-light); font-family: 'Inter'; font-weight: 600; letter-spacing: 0.5px; font-size: 12px;}
-
-    #liveTgBtn { display: none; position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: linear-gradient(180deg, #25d366, #18b660); border: 2px solid #fff; color: #fff; font-weight: 800; font-size: 11px; padding: 10px 24px; border-radius: 20px; z-index: 10001; text-decoration: none; box-shadow: 0 5px 15px rgba(24, 182, 96, 0.4); text-transform: uppercase; animation: pulseTg 2s infinite alternate; font-family: 'Inter'; letter-spacing: 1px; }
-    @keyframes pulseTg { from { transform: translateX(-50%) scale(1); box-shadow: 0 5px 15px rgba(24, 182, 96, 0.3); } to { transform: translateX(-50%) scale(1.05); box-shadow: 0 8px 20px rgba(24, 182, 96, 0.6); } }
-
-    .modal-screen-mask { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); z-index: 15000; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(5px);}
-    .modal-panel-box { width: 100%; max-width: 280px; background: var(--sk-card); border: 1px solid var(--sk-gold); border-radius: 12px; padding: 20px; text-align: center; box-shadow: 0 20px 40px rgba(0,0,0,0.9); }
-    .session-icon { font-size: 2.5rem; margin-bottom: 8px; color: var(--sk-gold); }
-    .session-title { font-family: 'Outfit'; font-size: 1.3rem; font-weight: 900; color: #fff; margin-bottom: 5px; }
-    .session-reason { font-size: 0.8rem; color: #aaa; margin-bottom: 15px; }
-    .btn-gold-solid { width: 100%; background: linear-gradient(180deg, var(--sk-gold-light), var(--sk-gold)); border: none; color: #000; font-family: 'Inter'; font-size: 0.9rem; font-weight: 800; padding: 12px; cursor: pointer; border-radius: 8px; text-transform: uppercase; box-shadow: 0 5px 15px rgba(226, 185, 96, 0.2); transition: 0.2s;}
-    .btn-gold-solid:active { transform: scale(0.96); }
-
-    #loginScreen { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: var(--sk-dark-bg); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-    .login-wrapper { width: 100%; max-width: 320px; background: var(--sk-card); border: 1px solid var(--sk-border); border-radius: 16px; padding: 25px 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); position: relative; overflow: hidden;}
-    .login-wrapper::before { content:''; position:absolute; top:0; left:0; width:100%; height:4px; background: linear-gradient(90deg, var(--sk-gold-light), var(--sk-gold)); }
-    .brand-header { text-align: center; margin-bottom: 20px; }
-    .brand-logo-img { width: 70px; height: 70px; border-radius: 50%; object-fit: cover; border: 2px solid var(--sk-gold); margin-bottom: 10px; box-shadow: 0 5px 15px rgba(226, 185, 96, 0.3);}
-    .brand-title { font-family: 'Outfit'; font-size: 1.6rem; font-weight: 900; color: #fff; letter-spacing: 1px;}
-    .brand-sub { font-size: 0.7rem; color: var(--sk-gold); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
-    .activation-rules { background: rgba(0,0,0,0.3); border-radius: 8px; padding: 12px; margin-bottom: 20px; text-align: left; border: 1px solid var(--sk-border);}
-    .rules-title { font-size: 10px; color: var(--sk-gold); font-weight: 800; text-transform: uppercase; margin-bottom: 8px; }
-    .rule-item { font-size: 11px; color: #ccc; margin-bottom: 6px; display: flex; align-items: flex-start; gap: 8px; line-height: 1.4;}
-    .rule-item i { color: var(--sk-green); font-size: 12px; margin-top: 2px;}
-    .rule-highlight { color: #fff; font-weight: 800; }
-    .hacker-box-input { width: 100%; background: #12151c; border: 1px solid var(--sk-border); color: #fff; padding: 12px; font-family: 'Share Tech Mono'; font-weight: 700; text-align: center; outline: none; font-size: 1rem; margin-bottom: 12px; border-radius: 8px; transition: 0.3s; letter-spacing: 1px; }
-    .hacker-box-input:focus { border-color: var(--sk-gold); box-shadow: 0 0 10px rgba(226, 185, 96, 0.1); }
-    #errorPopup { display: none; color: var(--sk-red); font-family:'Inter'; font-weight: 800; margin-bottom: 12px; text-align: center; font-size: 11px;}
-
     #mainApp { display: none; width: 100vw; height: 100vh; position: relative; overflow: hidden;}
-    .bg-game { width: 100%; height: 100%; border: none; background: #000; display: block; position: absolute; top: 0; left: 0; z-index: 1;}
+    .bg-game { width: 100%; height: 100%; border: none; background: #000; position: absolute; top: 0; left: 0; z-index: 1;}
+    @media (min-width: 1024px) { .bg-game { width: 400px; left: 50%; transform: translateX(-50%); box-shadow: 0 0 50px rgba(0,0,0,0.8); } }
 
-    .draggable-container { position: absolute; top: 20%; left: 50%; transform: translateX(-50%); z-index: 9999; touch-action: none; display: flex; justify-content: center; align-items: center; }
-    .mod-icon { width: 50px; height: 50px; background: var(--sk-card); border: 2px solid var(--sk-gold); border-radius: 50%; box-shadow: 0 5px 15px rgba(0,0,0,0.8), 0 0 15px rgba(226, 185, 96, 0.3); display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s; overflow: hidden; padding: 2px; }
-    .mod-icon img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
-    .mod-icon:active { transform: scale(0.9); }
-    .mod-icon.hidden { display: none; }
-
-    .mod-expanded { display: none; width: 250px; background: linear-gradient(180deg, #1c212b 0%, #12151c 100%); border-radius: 14px; position: relative; cursor: grab; box-shadow: 0 15px 35px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.05); border: 1px solid var(--sk-border); padding: 12px 14px; overflow: hidden; transition: 0.2s; }
-    .mod-expanded.active { display: block; animation: smoothPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-    @keyframes smoothPop { from { opacity: 0; transform: scale(0.8) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-
-    .mod-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 8px; margin-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-    .mod-title { font-family: 'Outfit'; font-size: 11px; font-weight: 800; color: var(--sk-gold); letter-spacing: 0.5px; display: flex; align-items: center; gap: 5px;}
-    .mod-title img { width: 14px; height: 14px; border-radius: 50%; }
-    .mod-timer { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: #fff; background: rgba(0, 0, 0, 0.5); padding: 2px 8px; border-radius: 6px; border: 1px solid #333; font-weight: bold; letter-spacing: 0.5px; box-shadow: inset 0 0 5px rgba(0,0,0,0.5); }
-    .mod-badge { font-size: 8px; font-weight: 900; padding: 3px 6px; border-radius: 4px; letter-spacing: 1px; transition: 0.3s;}
-    .badge-actv { background: rgba(24, 182, 96, 0.15); color: var(--sk-green); border: 1px solid var(--sk-green); }
-    .badge-offline { background: rgba(251, 91, 91, 0.15); color: var(--sk-red); border: 1px solid var(--sk-red); }
-    .badge-god { background: rgba(252, 213, 53, 0.15); color: var(--sk-gold); border: 1px solid var(--sk-gold); animation: pulseText 1s infinite alternate;}
-
-    .mod-body { text-align: center; padding: 5px 0; min-height: 80px; display: flex; flex-direction: column; justify-content: center; align-items: center;}
-    #uiNormal { width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;}
+    .btn-gold-solid { width: 100%; background: linear-gradient(180deg, var(--sk-gold-light), var(--sk-gold)); border: none; color: #000; font-family: 'Inter'; font-size: 0.9rem; font-weight: 800; padding: 12px; cursor: pointer; border-radius: 8px; text-transform: uppercase; box-shadow: 0 5px 15px rgba(226, 185, 96, 0.2); transition: 0.2s;}
     
-    .result-text { font-family: 'Outfit'; font-size: 32px; font-weight: 900; color: #555; text-transform: uppercase; letter-spacing: 1px; line-height: 1; transition: 0.3s; width: 100%; }
+    /* SECURITY MODAL */
+    .modal-screen-mask { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.9); z-index: 25000; justify-content: center; align-items: center; padding: 20px; backdrop-filter: blur(8px);}
+    .modal-panel-box { width: 100%; max-width: 300px; background: var(--sk-card); border: 1px solid var(--sk-gold); border-radius: 12px; padding: 25px 20px; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.9); position: relative; overflow: hidden;}
+    #securityModal .modal-panel-box { border-color: var(--sk-red); background: #120505; box-shadow: 0 0 40px rgba(251,91,91,0.3); }
+    #securityModal .session-icon { color: var(--sk-red); filter: drop-shadow(0 0 15px rgba(251,91,91,0.8)); font-size: 3rem; margin-bottom: 10px; animation: pulseRed 1s infinite alternate;}
+    #securityModal .session-title { font-family: 'Outfit'; font-size: 1.4rem; font-weight: 900; color: var(--sk-red); margin-bottom: 5px; }
+    .session-reason { font-size: 0.85rem; color: #aaa; margin-bottom: 15px; line-height: 1.4;}
+    .security-strikes { font-family: 'Share Tech Mono'; font-size: 24px; font-weight: bold; color: var(--sk-gold); margin: 15px 0; background: rgba(0,0,0,0.5); padding: 10px; border-radius: 8px; border: 1px dashed var(--sk-red);}
+    @keyframes pulseRed { from { transform: scale(1); } to { transform: scale(1.1); } }
+
+    /* LOGIN & SCHEDULED EVENT SCREEN */
+    #fullOverlayScreen { position: fixed; inset: 0; background: var(--sk-dark-bg); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+    .wrapper-card { width: 100%; max-width: 350px; background: var(--sk-card); border: 1px solid var(--sk-border); border-radius: 16px; padding: 30px 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.6); position: relative; overflow: hidden; text-align: center;}
+    .wrapper-card::before { content:''; position:absolute; top:0; left:0; width:100%; height:4px; background: linear-gradient(90deg, var(--sk-gold-light), var(--sk-gold)); }
+    .hacker-box-input { width: 100%; background: #12151c; border: 1px solid var(--sk-border); color: #fff; padding: 14px; font-family: 'Share Tech Mono'; font-weight: 700; text-align: center; outline: none; font-size: 1rem; margin-bottom: 12px; border-radius: 8px; transition: 0.3s; letter-spacing: 1px; }
+    .hacker-box-input:focus { border-color: var(--sk-gold); box-shadow: 0 0 10px rgba(226, 185, 96, 0.1); }
+    #errorPopup { display: none; color: var(--sk-red); font-weight: 800; margin-bottom: 12px; font-size: 12px;}
+
+    /* WAITING ROOM STYLES */
+    .waiting-pulse { animation: pulseOp 1.5s infinite alternate; }
+    @keyframes pulseOp { from {opacity:0.5;} to {opacity:1;} }
+    .ev-timer-large { font-family: 'Share Tech Mono'; font-size: 40px; color: var(--sk-green); font-weight: bold; margin: 15px 0; text-shadow: 0 0 15px rgba(24, 182, 96, 0.4); }
+    .phase-bidding .phase-icon { color: var(--sk-green); text-shadow: 0 0 15px rgba(24, 182, 96, 0.5); }
+    .phase-bidding .phase-title { color: #fff; }
+    .phase-bidding .phase-sub { color: var(--sk-green); }
+    .phase-locked .phase-icon { color: var(--sk-red); text-shadow: 0 0 15px rgba(251, 91, 91, 0.5); }
+    .phase-locked .phase-title { color: var(--sk-red); }
+    .phase-locked .phase-sub { color: #aaa; }
+    .phase-locked .ev-timer-large { color: var(--sk-red); text-shadow: 0 0 15px rgba(251, 91, 91, 0.4); font-size: 30px;}
+
+    /* WIDGET */
+    .draggable-container { position: absolute; top: 20%; left: 50%; transform: translateX(-50%); z-index: 9999; touch-action: none; display: flex; justify-content: center; align-items: center; }
+    .mod-icon { width: 55px; height: 55px; background: var(--sk-card); border: 2px solid var(--sk-gold); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: 0.2s; overflow: hidden; padding: 2px; }
+    .mod-icon img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; }
+    .mod-expanded { display: none; width: 260px; background: linear-gradient(180deg, #1c212b 0%, #12151c 100%); border-radius: 14px; border: 1px solid var(--sk-border); padding: 15px; overflow: hidden; }
+    .mod-expanded.active { display: block; }
+    .mod-header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 10px; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .mod-title { font-family: 'Outfit'; font-size: 12px; font-weight: 800; color: var(--sk-gold); }
+    .mod-timer { font-family: 'Share Tech Mono'; font-size: 12px; color: #fff; background: rgba(0, 0, 0, 0.5); padding: 3px 8px; border-radius: 6px; border: 1px solid #333; font-weight: bold; }
+    
+    .mod-body { text-align: center; padding: 5px 0; min-height: 80px; display: flex; flex-direction: column; justify-content: center; align-items: center;}
+    
+    /* NORMAL UI */
+    #uiNormal { width: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;}
+    .result-text { font-family: 'Outfit'; font-size: 34px; font-weight: 900; color: #555; text-transform: uppercase; line-height: 1; width: 100%; transition: 0.3s;}
     .result-text.active-small { color: var(--sk-cyan); text-shadow: 0 0 15px rgba(0,243,255,0.4); }
     .result-text.active-big { color: var(--sk-gold); text-shadow: 0 0 15px rgba(226, 185, 96, 0.4); }
-    .result-text.active-skip { color: #888; font-size: 24px;}
-    .result-num { font-family: 'Share Tech Mono'; font-size: 22px; font-weight: bold; margin-left: 5px; }
-    .seq-text { font-family: 'Share Tech Mono'; font-size: 10px; color: #666; margin-top: 8px; font-weight: bold; letter-spacing: 1px;}
-    .seq-text span { color: var(--sk-gold); }
+    .result-text.active-skip { color: #888; font-size: 26px;}
+    .result-text.jackpot-win { color: var(--sk-green); text-shadow: 0 0 20px var(--sk-gold), 0 0 10px var(--sk-green); font-size: 28px; animation: textPulse 0.5s infinite alternate;}
+    @keyframes textPulse { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+    .result-num { font-family: 'Share Tech Mono'; font-size: 24px; font-weight: bold; margin-left: 5px; }
+    .seq-text { font-family: 'Share Tech Mono'; font-size: 11px; color: #666; margin-top: 8px; font-weight: bold; }
+    #statusIndicator { font-family: 'Inter'; font-size: 14px; font-weight: 900; text-transform: uppercase; height: 20px; margin-top: 6px; display: flex; align-items: center; justify-content: center; }
 
-    /* STATUS WRITTEN BELOW PREDICTION */
-    #statusIndicator { font-family: 'Inter'; font-size: 13px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; height: 18px; margin-top: 6px; display: flex; align-items: center; justify-content: center; }
-
+    /* SYSTEM MAINTENANCE & SLEEP UI */
     #uiMaint { width: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 5px 0;}
-    .maint-icon { font-size: 22px; color: var(--sk-red); margin-bottom: 5px; animation: floatIcon 2s infinite ease-in-out;}
+    .maint-icon { font-size: 26px; color: var(--sk-red); margin-bottom: 8px; animation: floatIcon 2s infinite ease-in-out;}
     .maint-title-in { font-family: 'Outfit'; font-size: 16px; color: var(--sk-red); font-weight: 900; letter-spacing: 1px; margin-bottom: 2px;}
-    .maint-sub-in { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;}
-    .maint-time-val { font-family: 'Share Tech Mono'; font-size: 16px; color: var(--sk-gold); font-weight: bold; background: rgba(0,0,0,0.5); padding: 2px 10px; border-radius: 4px; border: 1px solid #333;}
+    .maint-sub-in { font-size: 9px; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px;}
+    .maint-time-val { font-family: 'Share Tech Mono'; font-size: 16px; color: var(--sk-gold); font-weight: bold; background: rgba(0,0,0,0.5); padding: 4px 12px; border-radius: 6px; border: 1px solid #333;}
     @keyframes floatIcon { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
 
-    /* SCANNER HUD */
-    .barcode-scanner-hud { width: 100%; position: relative; padding: 4px 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .barcode-matrix { width: 100%; height: 32px; background: #070b11; opacity: 0.8; position: relative; background-image: repeating-linear-gradient(90deg, #1e293b, #1e293b 2px, transparent 2px, transparent 6px); border-radius: 4px; border: 1px dashed rgba(226, 185, 96, 0.3); overflow: hidden; }
-    .barcode-laser { position: absolute; left: 0; width: 100%; height: 2px; background: var(--sk-gold); box-shadow: 0 0 10px 3px rgba(226, 185, 96, 0.6), 0 0 4px 1px #fff; animation: barcodeLaserMove 0.4s infinite alternate linear; }
-    .scan-status-text { font-family: 'Share Tech Mono', monospace; font-size: 11px; color: var(--sk-gold); text-shadow: 0 0 4px var(--sk-gold); margin-top: 4px; font-weight: bold; letter-spacing: 1px; }
+    .btn-analyze { flex: 1.5; background: #2c3545; color: #777; border: none; padding: 12px 0; font-weight: 800; border-radius: 8px; cursor: not-allowed; text-transform: uppercase; width:100%; margin-top:15px;}
+    .btn-analyze.ready { background: linear-gradient(180deg, var(--sk-gold-light), var(--sk-gold)); color: #000; cursor: pointer; }
+    
+    .barcode-scanner-hud { width: 100%; padding: 4px 0; display: flex; flex-direction: column; align-items: center; }
+    .barcode-matrix { width: 100%; height: 36px; background: #070b11; border: 1px dashed rgba(226, 185, 96, 0.3); position: relative; overflow: hidden; }
+    .barcode-laser { position: absolute; left: 0; width: 100%; height: 2px; background: var(--sk-gold); box-shadow: 0 0 10px 3px rgba(226, 185, 96, 0.6); animation: barcodeLaserMove 0.4s infinite alternate linear; }
     @keyframes barcodeLaserMove { 0% { top: 0%; } 100% { top: 100%; } }
 
-    /* FOOTER BUTTONS */
-    .mod-footer { display: flex; gap: 8px; margin-top: 12px; }
-    .btn-analyze { flex: 1.5; background: #2c3545; color: #777; border: none; padding: 10px 0; font-family: 'Inter'; font-size: 11px; font-weight: 800; border-radius: 8px; cursor: not-allowed; transition: 0.2s; letter-spacing: 1px; text-transform: uppercase;}
-    .btn-analyze.ready { background: linear-gradient(180deg, var(--sk-gold-light), var(--sk-gold)); color: #000; cursor: pointer; box-shadow: 0 4px 10px rgba(226, 185, 96, 0.3); }
-    .btn-analyze.ready:active { transform: scale(0.95); }
-    .btn-hide { flex: 1; background: transparent; color: #888; border: 1px solid #333; padding: 10px 0; font-family: 'Inter'; font-size: 11px; font-weight: 800; border-radius: 8px; cursor: pointer; transition: 0.2s; }
-    .btn-hide:hover { background: rgba(255,255,255,0.05); color: #fff; border-color: #555;}
-    .btn-hide:active { transform: scale(0.95); }
-
-    /* BOX ANIMATIONS */
+    /* ANIMATIONS */
     @keyframes winGlow { 0% { box-shadow: 0 15px 35px rgba(0,0,0,0.9); border-color: var(--sk-border); } 50% { box-shadow: 0 15px 35px rgba(0,0,0,0.9), 0 0 25px rgba(24, 182, 96, 0.4); border-color: var(--sk-green); } 100% { box-shadow: 0 15px 35px rgba(0,0,0,0.9); border-color: var(--sk-border); } }
     .anim-win { animation: winGlow 1.5s ease-out; }
     @keyframes lossShake { 0% { transform: translateX(0); border-color: var(--sk-border);} 25% { transform: translateX(-6px); box-shadow: 0 0 20px rgba(251, 91, 91, 0.5); border-color: var(--sk-red);} 50% { transform: translateX(6px); } 75% { transform: translateX(-6px); } 100% { transform: translateX(0); border-color: var(--sk-border);} }
     .anim-loss { animation: lossShake 0.5s ease-out; }
+    @keyframes jackpotWin { 0% { box-shadow: 0 15px 35px rgba(0,0,0,0.9); border-color: var(--sk-border); transform: scale(1); } 20% { box-shadow: 0 0 30px rgba(24, 182, 96, 0.6), inset 0 0 20px rgba(226, 185, 96, 0.4); border-color: var(--sk-gold); transform: scale(1.05); } 40% { box-shadow: 0 0 40px rgba(226, 185, 96, 0.8), inset 0 0 30px rgba(24, 182, 96, 0.6); border-color: var(--sk-green); transform: scale(1.02); } 60% { box-shadow: 0 0 50px rgba(24, 182, 96, 0.8), inset 0 0 40px rgba(226, 185, 96, 0.8); border-color: var(--sk-gold); transform: scale(1.06); } 80% { box-shadow: 0 0 30px rgba(226, 185, 96, 0.6), inset 0 0 20px rgba(24, 182, 96, 0.4); border-color: var(--sk-green); transform: scale(1.02); } 100% { box-shadow: 0 15px 35px rgba(0,0,0,0.9); border-color: var(--sk-border); transform: scale(1); } }
+    .anim-win-jackpot { animation: jackpotWin 2.5s ease-out; }
 
-    /* 🔥 IPL STYLE "JACKPOT" OVERLAY 🔥 */
+    /* IPL JACKPOT OVERLAY */
     #iplJackpotOverlay { position: fixed; top: 35%; left: 0; width: 100%; pointer-events: none; z-index: 20000; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; }
     #iplJackpotOverlay.active { opacity: 1; }
-    .ipl-jackpot-text { font-family: 'Outfit'; font-size: 55px; font-weight: 900; color: var(--sk-gold-light); text-transform: uppercase; text-shadow: 0 0 30px var(--sk-gold), 0 8px 10px rgba(0,0,0,0.8); transform: scale(0); margin-bottom: 5px; letter-spacing: 2px; }
+    .ipl-jackpot-text { font-family: 'Outfit'; font-size: 60px; font-weight: 900; color: var(--sk-gold-light); text-transform: uppercase; text-shadow: 0 0 30px var(--sk-gold), 0 8px 10px rgba(0,0,0,0.8); transform: scale(0); margin-bottom: 5px; letter-spacing: 2px; }
     #iplJackpotOverlay.active .ipl-jackpot-text { animation: popIpl 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-    .ipl-win-by-dev { font-family: 'Inter'; font-size: 18px; font-weight: 900; color: #fff; background: var(--sk-green); padding: 6px 25px; border-radius: 6px; border: 2px solid #fff; box-shadow: 0 0 20px var(--sk-green), 0 5px 15px rgba(0,0,0,0.6); transform: translateX(-150vw); letter-spacing: 1px; }
+    .ipl-win-by-dev { font-family: 'Inter'; font-size: 20px; font-weight: 900; color: #fff; background: var(--sk-green); padding: 8px 30px; border-radius: 8px; border: 2px solid #fff; box-shadow: 0 0 20px var(--sk-green), 0 5px 15px rgba(0,0,0,0.6); transform: translateX(-150vw); letter-spacing: 1px; }
     #iplJackpotOverlay.active .ipl-win-by-dev { animation: slideIpl 0.5s ease-out 0.4s forwards; }
     @keyframes popIpl { to { transform: scale(1); } }
     @keyframes slideIpl { to { transform: translateX(0); } }
-    @keyframes pulseText { 0% { opacity:0.6;} 100% {opacity:1;} }
+
   </style>
 </head>
 <body>
+
+  <!-- ANTI-MINIMIZE MODAL -->
+  <div class="modal-screen-mask" id="securityModal">
+    <div class="modal-panel-box">
+      <div class="session-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+      <h2 class="session-title" id="secTitle">SECURITY WARNING</h2>
+      <p class="session-reason" id="secMsg">Minimizing or switching tabs is strictly prohibited to prevent leaks.</p>
+      <div class="security-strikes" id="secStrikes">STRIKES: 1/5</div>
+      <button class="btn-gold-solid" onclick="dismissSecurity()" id="secBtn" style="background:var(--sk-red); color:#fff; box-shadow:0 0 15px rgba(251,91,91,0.4);">I UNDERSTAND</button>
+    </div>
+  </div>
 
   <div id="iplJackpotOverlay">
     <div class="ipl-jackpot-text">JACKPOT</div>
     <div class="ipl-win-by-dev">WIN BY DEV</div>
   </div>
 
-  <div class="modal-screen-mask" id="modalUpdate"><div class="modal-panel-box"><div class="session-icon" style="color:var(--sk-gold);"><i class="fa-solid fa-rocket"></i></div><h2 class="session-title">UPDATE REQUIRED</h2><p id="updText" class="session-reason">New version available!</p><button class="btn-gold-solid" id="updBtn">DOWNLOAD</button></div></div>
-  <div class="modal-screen-mask" id="modalNotice"><div class="modal-panel-box"><div class="session-icon" style="color:var(--sk-gold);"><i class="fa-solid fa-bell"></i></div><h2 class="session-title">NOTICE</h2><p id="noticeText" class="session-reason">Welcome</p><button class="btn-gold-solid" onclick="dismissNotice()">ACKNOWLEDGE</button></div></div>
-
-  <div id="loginScreen">
-    <div class="login-wrapper">
-      <div class="brand-header">
-        <img src="logo.png" alt="Logo" class="brand-logo-img" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1464/1464731.png'">
-        <div class="brand-title">DEV ARMY</div>
-        <div class="brand-sub">VIP PREDICTOR V8</div>
-      </div>
-      <div class="activation-rules">
-        <div class="rules-title">Mandatory Steps</div>
-        <div class="rule-item"><i class="fa-solid fa-check"></i> <span>Create a <span class="rule-highlight">NEW ACCOUNT</span> using official link.</span></div>
-        <div class="rule-item"><i class="fa-solid fa-check"></i> <span>Maintain a wallet balance of <span class="rule-highlight">₹400 - ₹500</span> for script execution.</span></div>
-      </div>
+  <!-- MAIN LOGIN / EVENT SCREEN OVERLAY -->
+  <div id="fullOverlayScreen">
+    
+    <!-- LOGIN FORM -->
+    <div class="wrapper-card" id="loginFormCard">
+      <img src="logo.png" alt="Logo" style="width:70px; border-radius:50%; border:2px solid var(--sk-gold); margin-bottom:10px;">
+      <h2 style="font-family:'Outfit'; color:#fff; margin-bottom:5px;">DEV ARMY VIP</h2>
+      <p style="font-size:11px; color:var(--sk-gold); margin-bottom:20px;">ENTER ACCESS DETAILS</p>
       <div id="errorPopup"></div>
-      <input type="text" id="loginKey" class="hacker-box-input" placeholder="ENTER ACCESS KEY">
-      <button class="btn-gold-solid" id="activateBtn">ACTIVATE SYSTEM</button>
+      <input type="text" id="loginKey" class="hacker-box-input" placeholder="ACCESS/EVENT KEY">
+      <input type="number" id="gameUid" class="hacker-box-input" placeholder="GAME UID (E.g. 56291)">
+      <button class="btn-gold-solid" id="activateBtn">CONNECT SYSTEM</button>
     </div>
+
+    <!-- WAITING ROOM -->
+    <div class="wrapper-card phase-bidding" id="waitingRoomCard" style="display:none; border-color:var(--sk-border);">
+      <i class="fa-solid fa-lock-open phase-icon waiting-pulse" id="waitIcon" style="font-size:40px; margin-bottom:10px;"></i>
+      <h2 style="font-family:'Outfit'; font-size:22px; margin-bottom:2px;" class="phase-title" id="waitTitle">DEPOSIT WINDOW OPEN</h2>
+      <p style="font-size:10px; font-weight:800; letter-spacing:1px; margin-bottom:10px;" class="phase-sub" id="waitSub">MAKE YOUR DEPOSIT NOW</p>
+      <p style="font-size:11px; color:#888; line-height:1.4;">Highest depositor will be granted 24H access at announcement time.</p>
+      <div class="ev-timer-large" id="waitTimer">--:--:--</div>
+      <div style="background:rgba(0,0,0,0.5); border:1px dashed #444; padding:10px; border-radius:8px; margin-bottom:10px;">
+        <span style="font-size:10px; color:#888;">YOUR REGISTERED UID:</span><br>
+        <span style="font-family:'Share Tech Mono'; font-size:18px; color:var(--sk-gold);" id="waitUidDisplay">---</span>
+      </div>
+      <p class="waiting-pulse" style="font-size:10px; color:var(--sk-gold); font-weight:bold;">PLEASE DO NOT CLOSE THIS SCREEN</p>
+    </div>
+
+    <!-- RESULT SCREEN -->
+    <div class="wrapper-card" id="eventResultCard" style="display:none;">
+      <div id="resIcon" style="font-size:50px; margin-bottom:10px;"></div>
+      <h2 id="resTitle" style="font-family:'Outfit'; color:#fff; font-size:24px;">---</h2>
+      <p id="resSub" style="font-size:12px; color:#aaa; margin:10px 0 20px;">---</p>
+      <button class="btn-gold-solid" id="resBtn" onclick="location.reload()">CONTINUE</button>
+    </div>
+
   </div>
 
+  <!-- MAIN APP -->
   <div id="mainApp">
-    <div id="newsTicker"><div class="ticker-icon"><i class="fa-solid fa-rss"></i></div><marquee class="ticker-text" id="tickerTextMsg" scrollamount="5">System Active. Deep scanning market algorithms. Play safe.</marquee></div>
     <iframe class="bg-game" id="gameIframe" src="about:blank"></iframe>
-
     <div class="draggable-container" id="draggableWidget">
-      <div class="mod-icon" id="modIcon"><img src="logo.png" alt="VIP" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1464/1464731.png'"></div>
-
+      <div class="mod-icon" id="modIcon"><img src="logo.png" onerror="this.style.display='none'"></div>
       <div class="mod-expanded" id="modExpanded">
         <div class="mod-header">
-          <span class="mod-title"><img src="logo.png" alt="L" onerror="this.style.display='none'"> DEV ARMY VIP</span>
+          <span class="mod-title">DEV ARMY VIP</span>
           <span class="mod-timer" id="timerBadge">00:00</span>
-          <span class="mod-badge badge-actv" id="modStatusBadge">ACTV</span>
         </div>
-
+        
         <div class="mod-body">
+          <!-- NORMAL PLAY UI -->
           <div id="uiNormal">
             <div class="result-text" id="predMainText">SYNC</div>
             <div id="statusIndicator"></div>
             <div class="seq-text">SEQ: <span id="periodBadge">WAITING...</span></div>
           </div>
-
+          
+          <!-- SLEEP / LOCK UI -->
           <div id="uiMaint">
-            <i class="fa-solid fa-lock maint-icon"></i>
-            <div class="maint-title-in">SYSTEM OFFLINE</div>
-            <div class="maint-sub-in">NEXT LIVE SESSION AT</div>
+            <i class="fa-solid fa-moon maint-icon" id="maintIconDisp"></i>
+            <div class="maint-title-in" id="maintTitleDisp">SYSTEM SLEEPING</div>
+            <div class="maint-sub-in" id="maintSubDisp">AUTO-WAKING AT</div>
             <div class="maint-time-val" id="maintTimeVal">--:--</div>
           </div>
         </div>
 
-        <div class="mod-footer">
-          <button class="btn-analyze" id="analyzeBtn" disabled>WAITING...</button>
-          <button class="btn-hide" id="hideBtn">HIDE</button>
-        </div>
+        <button class="btn-analyze" id="analyzeBtn" disabled>WAITING...</button>
       </div>
     </div>
-    <a href="#" target="_blank" id="liveTgBtn">🟢 LIVE: JOIN TELEGRAM</a>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getDatabase, ref, get, child, update, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+    import { getDatabase, ref, get, child, update, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
     const firebaseConfig = { apiKey: "AIzaSyBNj71akpefcfEtn-SQfAcx-Pgwi8sUosg", authDomain: "teamdev-88676.firebaseapp.com", databaseURL: "https://teamdev-88676-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "teamdev-88676" };
     const app = initializeApp(firebaseConfig); const database = getDatabase(app);
 
-    window.dismissNotice = function() { document.getElementById('modalNotice').style.display = 'none'; sessionStorage.setItem('notice_seen', 'true'); };
-    
-    const uiNormal = document.getElementById('uiNormal'); const uiMaint = document.getElementById('uiMaint');
-    const modStatusBadge = document.getElementById('modStatusBadge'); const analyzeBtn = document.getElementById('analyzeBtn');
-    const maintTimeVal = document.getElementById('maintTimeVal');
+    // 🔥 SECURITY ANTI-MINIMIZE LOGIC 🔥
+    let activeKey = null;
+    let minCount = localStorage.getItem('sec_min_count') ? parseInt(localStorage.getItem('sec_min_count')) : 0;
+    let lastDate = localStorage.getItem('sec_last_date'); let today = new Date().toDateString();
+    if(lastDate !== today) { minCount = 0; localStorage.setItem('sec_min_count', 0); localStorage.setItem('sec_last_date', today); }
 
-    // CONFIG & GOD MODE SYNC
-    let currentGodMode = { size: "AUTO", num1: null, num2: null };
+    window.dismissSecurity = function() {
+      if(minCount >= 5) { alert("YOUR UID HAS BEEN PERMANENTLY BANNED."); return; }
+      document.getElementById('securityModal').style.display = 'none';
+    }
 
-    onValue(ref(database, 'server/override'), (snapshot) => {
-      if(snapshot.exists()) currentGodMode = snapshot.val();
-      else currentGodMode = { size: "AUTO", num1: null, num2: null };
-      
-      if(currentGodMode.size !== "AUTO" && modStatusBadge.textContent !== "OFFLINE") {
-        modStatusBadge.textContent = 'GOD'; modStatusBadge.className = 'mod-badge badge-god';
-      } else if (modStatusBadge.textContent !== "OFFLINE") {
-        modStatusBadge.textContent = 'ACTV'; modStatusBadge.className = 'mod-badge badge-actv';
+    document.addEventListener('visibilitychange', async () => {
+      if(document.hidden && document.getElementById('mainApp').style.display === 'block') {
+        minCount++; localStorage.setItem('sec_min_count', minCount);
+        const secModal = document.getElementById('securityModal'); const secStrikes = document.getElementById('secStrikes');
+        if(minCount >= 5 && activeKey) {
+          document.getElementById('secTitle').innerText = "SYSTEM BANNED"; document.getElementById('secMsg').innerText = "Max minimize limit exceeded. Permanently banned.";
+          secStrikes.innerText = `STRIKES: ${minCount}/5 (BANNED)`; document.getElementById('secBtn').innerText = "ACCESS DENIED";
+          secModal.style.display = 'flex'; await update(ref(database, `keys/${activeKey}`), { status: "BANNED" });
+          document.getElementById('mainApp').style.pointerEvents = 'none'; document.getElementById('mainApp').style.filter = 'blur(10px) grayscale(100%)';
+        } else {
+          secStrikes.innerText = `STRIKES: ${minCount}/5`; secModal.style.display = 'flex';
+        }
       }
     });
+
+    let myDeviceId = localStorage.getItem('predict_device_id') || ('DEV-' + Math.random().toString(36).substr(2, 9).toUpperCase()); localStorage.setItem('predict_device_id', myDeviceId);
+    let API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json"; 
+    
+    // UI Elements
+    const loginCard = document.getElementById('loginFormCard'); const waitCard = document.getElementById('waitingRoomCard'); const resCard = document.getElementById('eventResultCard');
+    const fullOverlay = document.getElementById('fullOverlayScreen'); const mainApp = document.getElementById('mainApp'); const errBox = document.getElementById('errorPopup');
+    const uiNormal = document.getElementById('uiNormal'); const uiMaint = document.getElementById('uiMaint'); const analyzeBtn = document.getElementById('analyzeBtn');
+
+    // 🔥 SLEEP MODE & SYSTEM LOCK LOGIC 🔥
+    let sleepCheckInterval = null;
+    let systemIsLocked = false;
 
     onValue(ref(database, 'systemConfig'), (snapshot) => {
       if(snapshot.exists()) {
         const config = snapshot.val();
         if(config.links && config.links.gameUrl) document.getElementById('gameIframe').src = config.links.gameUrl;
-        if(config.liveBtn && config.liveBtn.active) { document.getElementById('liveTgBtn').href = config.liveBtn.link || "#"; if(document.getElementById('mainApp').style.display === 'block' && (!config.maintenance || !config.maintenance.active)) document.getElementById('liveTgBtn').style.display = 'block'; } else document.getElementById('liveTgBtn').style.display = 'none';
+        
+        if(config.maintenance) {
+          const mode = config.maintenance.mode;
+          clearInterval(sleepCheckInterval);
 
-        if(config.maintenance && config.maintenance.active) { 
-          uiNormal.style.display = 'none'; uiMaint.style.display = 'flex'; maintTimeVal.textContent = config.maintenance.sessionTime || "TBD"; modStatusBadge.textContent = 'OFFLINE'; modStatusBadge.className = 'mod-badge badge-offline'; analyzeBtn.disabled = true; analyzeBtn.classList.remove('ready'); analyzeBtn.textContent = "SYSTEM LOCKED"; document.getElementById('liveTgBtn').style.display = 'none';
-        } else {
-          uiNormal.style.display = 'flex'; uiMaint.style.display = 'none'; 
-          if(currentGodMode.size !== "AUTO") { modStatusBadge.textContent = 'GOD'; modStatusBadge.className = 'mod-badge badge-god'; } else { modStatusBadge.textContent = 'ACTV'; modStatusBadge.className = 'mod-badge badge-actv'; }
-          if (isResultReady) { analyzeBtn.disabled = false; analyzeBtn.classList.add('ready'); analyzeBtn.textContent = "ANALYZE"; }
-          if(config.liveBtn && config.liveBtn.active && document.getElementById('mainApp').style.display === 'block') document.getElementById('liveTgBtn').style.display = 'block';
+          if(mode === 'LOCKED') {
+            systemIsLocked = true;
+            uiNormal.style.display = 'none'; uiMaint.style.display = 'flex';
+            document.getElementById('maintIconDisp').className = "fa-solid fa-lock maint-icon";
+            document.getElementById('maintTitleDisp').innerText = "SYSTEM LOCKED";
+            document.getElementById('maintSubDisp').innerText = "MAINTENANCE MESSAGE";
+            document.getElementById('maintTimeVal').innerText = config.maintenance.sessionTime || "STAY TUNED";
+            analyzeBtn.disabled = true; analyzeBtn.classList.remove('ready'); analyzeBtn.textContent = "OFFLINE";
+          } 
+          else if(mode === 'SLEEP') {
+            systemIsLocked = true;
+            uiNormal.style.display = 'none'; uiMaint.style.display = 'flex';
+            document.getElementById('maintIconDisp').className = "fa-solid fa-moon maint-icon";
+            document.getElementById('maintTitleDisp').innerText = "SYSTEM SLEEPING";
+            document.getElementById('maintSubDisp').innerText = "AUTO-WAKING IN";
+            analyzeBtn.disabled = true; analyzeBtn.classList.remove('ready'); analyzeBtn.textContent = "Zzz...";
+
+            if(config.maintenance.autoWakeTime) {
+              sleepCheckInterval = setInterval(() => {
+                let left = config.maintenance.autoWakeTime - Date.now();
+                if(left <= 0) {
+                  // AUTO WAKE TRIGGERED!
+                  clearInterval(sleepCheckInterval);
+                  systemIsLocked = false;
+                  uiNormal.style.display = 'flex'; uiMaint.style.display = 'none';
+                  if(isResultReady) { analyzeBtn.disabled = false; analyzeBtn.classList.add('ready'); analyzeBtn.textContent = "ANALYZE"; }
+                } else {
+                  let h = Math.floor(left / 3600000); let m = Math.floor((left % 3600000) / 60000); let s = Math.floor((left % 60000) / 1000);
+                  document.getElementById('maintTimeVal').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+                }
+              }, 1000);
+            } else {
+              document.getElementById('maintTimeVal').innerText = "--:--";
+            }
+          } 
+          else {
+            // OPEN
+            systemIsLocked = false;
+            uiNormal.style.display = 'flex'; uiMaint.style.display = 'none';
+            if (isResultReady) { analyzeBtn.disabled = false; analyzeBtn.classList.add('ready'); analyzeBtn.textContent = "ANALYZE"; }
+          }
         }
-
-        if(config.ticker && config.ticker.active) { document.getElementById('newsTicker').style.display = 'block'; document.getElementById('tickerTextMsg').textContent = config.ticker.message || "Welcome!"; } else document.getElementById('newsTicker').style.display = 'none';
       }
     });
 
-    let myDeviceId = localStorage.getItem('predict_device_id') || ('DEV-' + Math.random().toString(36).substr(2, 9).toUpperCase()); localStorage.setItem('predict_device_id', myDeviceId);
-    let userTimeframe = "1M"; let API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json"; let pollInterval = null;
+    let currentPolarity = 'NORMAL';
+    onValue(ref(database, 'server/polarity'), (snap) => { currentPolarity = snap.val() || 'NORMAL'; });
+    
+    let currentGodMode = { size: "AUTO" };
+    onValue(ref(database, 'server/override'), (snap) => { if(snap.exists()) currentGodMode = snap.val(); else currentGodMode = { size: "AUTO" }; });
 
+    // LOGIN LOGIC
     document.getElementById('activateBtn').addEventListener('click', async () => {
-      const key = document.getElementById('loginKey').value.trim().toUpperCase(); const errBox = document.getElementById('errorPopup');
-      if(!key) { errBox.style.display = 'block'; errBox.innerText = "PLEASE ENTER VIP KEY"; return; }
-      document.getElementById('activateBtn').innerText = "VERIFYING...";
+      const key = document.getElementById('loginKey').value.trim().toUpperCase(); const uid = document.getElementById('gameUid').value.trim();
+      if(!key) { errBox.style.display='block'; errBox.innerText="ENTER KEY"; return; } if(!uid) { errBox.style.display='block'; errBox.innerText="GAME UID REQUIRED"; return; }
+      
+      document.getElementById('activateBtn').innerText = "CONNECTING...";
       try {
+        const evSnap = await get(child(ref(database), 'events/live'));
+        if(evSnap.exists()) {
+          const evData = evSnap.val();
+          if(evData.key === key && evData.status === 'RUNNING') {
+            await set(ref(database, `events/participants/${myDeviceId}`), { gameUid: uid, timestamp: Date.now() });
+            loginCard.style.display = 'none'; waitCard.style.display = 'block'; document.getElementById('waitUidDisplay').innerText = uid;
+            
+            onValue(ref(database, 'events/live'), (liveSnap) => {
+              const liveData = liveSnap.val();
+              if(liveData.status === 'RUNNING') {
+                let checkTimer = setInterval(() => {
+                  let left = liveData.targetTime - Date.now();
+                  if(left <= 0) {
+                    clearInterval(checkTimer); waitCard.className = "wrapper-card phase-locked";
+                    document.getElementById('waitIcon').className = "fa-solid fa-lock phase-icon waiting-pulse";
+                    document.getElementById('waitTitle').innerText = "WINDOW CLOSED"; document.getElementById('waitSub').innerText = "VERIFYING LEDGERS & DEPOSITS"; document.getElementById('waitTimer').innerText = "AWAITING ADMIN DECISION...";
+                  } else {
+                    waitCard.className = "wrapper-card phase-bidding";
+                    document.getElementById('waitIcon').className = "fa-solid fa-lock-open phase-icon waiting-pulse";
+                    document.getElementById('waitTitle').innerText = "DEPOSIT WINDOW OPEN"; document.getElementById('waitSub').innerText = "MAKE YOUR DEPOSIT NOW";
+                    let h = Math.floor(left / 3600000); let m = Math.floor((left % 3600000) / 60000); let s = Math.floor((left % 60000) / 1000);
+                    document.getElementById('waitTimer').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+                  }
+                }, 1000);
+              } else if (liveData.status === 'ENDED') {
+                waitCard.style.display = 'none'; resCard.style.display = 'block';
+                if(liveData.winnerDevice === myDeviceId) {
+                  document.getElementById('resIcon').innerHTML = '🏆'; document.getElementById('resTitle').innerText = 'JACKPOT WINNER!'; document.getElementById('resTitle').style.color = 'var(--sk-gold)'; document.getElementById('resSub').innerText = 'Your deposit was verified. 24H VIP Access Granted.'; document.getElementById('resBtn').innerText = 'LAUNCH HACK';
+                  document.getElementById('resBtn').onclick = () => { fullOverlay.style.display='none'; mainApp.style.display='block'; initEngine(); };
+                } else {
+                  document.getElementById('resIcon').innerHTML = '❌'; document.getElementById('resTitle').innerText = 'BID LOST'; document.getElementById('resTitle').style.color = 'var(--sk-red)'; document.getElementById('resSub').innerText = 'Event ended. The highest depositor was selected.'; document.getElementById('resBtn').innerText = 'EXIT';
+                }
+              }
+            });
+            return; 
+          }
+        }
+
         const snap = await get(child(ref(database), `keys/${key}`));
         if(snap.exists()) {
           const kData = snap.val();
-          if(kData.status !== "ACTIVE" || new Date() > new Date(kData.expiresAt)) { errBox.style.display = 'block'; errBox.innerText = "KEY EXPIRED OR BLOCKED"; document.getElementById('activateBtn').innerText = "ACTIVATE SYSTEM"; return; }
-          if(kData.deviceId && kData.deviceId !== myDeviceId) { errBox.style.display = 'block'; errBox.innerText = "HWID BOUND TO OTHER DEVICE"; document.getElementById('activateBtn').innerText = "ACTIVATE SYSTEM"; return; }
+          if(kData.status !== "ACTIVE" || new Date() > new Date(kData.expiresAt)) { errBox.style.display='block'; errBox.innerText="KEY EXPIRED"; document.getElementById('activateBtn').innerText="ACTIVATE"; return; }
+          if(kData.deviceId && kData.deviceId !== myDeviceId) { errBox.style.display='block'; errBox.innerText="HWID MISMATCH"; document.getElementById('activateBtn').innerText="ACTIVATE"; return; }
           if(!kData.deviceId) await update(ref(database, `keys/${key}`), { deviceId: myDeviceId });
-          userTimeframe = kData.timeframe || "1M";
-          if(userTimeframe === "30S") API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json"; else API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json";
-          document.getElementById('loginScreen').style.display = 'none'; document.getElementById('mainApp').style.display = 'block';
-          initEngine(); 
-        } else { errBox.style.display = 'block'; errBox.innerText = "INVALID KEY"; document.getElementById('activateBtn').innerText = "ACTIVATE SYSTEM"; }
-      } catch(e) { errBox.style.display = 'block'; errBox.innerText = "SERVER ERROR"; document.getElementById('activateBtn').innerText = "ACTIVATE SYSTEM"; }
+          
+          activeKey = key;
+          
+          if(minCount >= 5) {
+             document.getElementById('securityModal').style.display = 'flex';
+             document.getElementById('mainApp').style.pointerEvents = 'none';
+          } else {
+             fullOverlay.style.display = 'none'; mainApp.style.display = 'block'; initEngine(); 
+          }
+        } else { errBox.style.display = 'block'; errBox.innerText = "INVALID KEY"; document.getElementById('activateBtn').innerText = "CONNECT SYSTEM"; }
+      } catch(e) { errBox.style.display = 'block'; errBox.innerText = "SERVER ERROR"; document.getElementById('activateBtn').innerText = "CONNECT SYSTEM"; }
     });
 
-    const container = document.getElementById("draggableWidget"); const icon = document.getElementById("modIcon"); const expandedBox = document.getElementById("modExpanded"); const hideBtn = document.getElementById("hideBtn");
+    // DRAGGABLE WIDGET
+    const container = document.getElementById("draggableWidget"); const icon = document.getElementById("modIcon"); const expandedBox = document.getElementById("modExpanded");
     let isDragging = false, hasMoved = false, startX, startY, initialX, initialY;
-
-    function enforceScreenBounds() {
-      const rect = container.getBoundingClientRect(); let currentLeft = rect.left; let currentTop = rect.top;
-      const maxLeft = window.innerWidth - rect.width; const maxTop = window.innerHeight - rect.height;
-      let newLeft = Math.max(0, Math.min(currentLeft, maxLeft)); let newTop = Math.max(32, Math.min(currentTop, maxTop));
-      container.style.transform = 'none'; container.style.left = newLeft + 'px'; container.style.top = newTop + 'px';
-    }
-    function toggleWidget() { if(expandedBox.classList.contains('active')) { expandedBox.classList.remove('active'); icon.classList.remove('hidden'); } else { icon.classList.add('hidden'); expandedBox.classList.add('active'); } setTimeout(enforceScreenBounds, 15); }
-    icon.addEventListener('click', () => { if(!hasMoved) toggleWidget(); }); hideBtn.addEventListener('click', () => { toggleWidget(); }); window.addEventListener('resize', enforceScreenBounds);
-    function dragStart(e) { if(e.target.id === 'analyzeBtn' || e.target.id === 'hideBtn') return; initialX = (e.type === "touchstart") ? e.touches[0].clientX : e.clientX; initialY = (e.type === "touchstart") ? e.touches[0].clientY : e.clientY; const rect = container.getBoundingClientRect(); startX = initialX - rect.left; startY = initialY - rect.top; isDragging = true; hasMoved = false; }
-    function drag(e) { if (!isDragging) return; const currentX = (e.type === "touchmove") ? e.touches[0].clientX : e.clientX; const currentY = (e.type === "touchmove") ? e.touches[0].clientY : e.clientY; if (Math.abs(currentX - initialX) > 4 || Math.abs(currentY - initialY) > 4) { hasMoved = true; e.preventDefault(); let newLeft = currentX - startX, newTop = currentY - startY; newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - container.offsetWidth)); newTop = Math.max(32, Math.min(newTop, window.innerHeight - container.offsetHeight)); container.style.transform = 'none'; container.style.left = newLeft + 'px'; container.style.top = newTop + 'px'; } }
-    function dragEnd() { isDragging = false; enforceScreenBounds(); }
+    function toggleWidget() { if(expandedBox.classList.contains('active')) { expandedBox.classList.remove('active'); icon.classList.remove('hidden'); } else { icon.classList.add('hidden'); expandedBox.classList.add('active'); } }
+    icon.addEventListener('click', () => { if(!hasMoved) toggleWidget(); });
+    function dragStart(e) { if(e.target.id === 'analyzeBtn') return; initialX = (e.type === "touchstart") ? e.touches[0].clientX : e.clientX; initialY = (e.type === "touchstart") ? e.touches[0].clientY : e.clientY; const rect = container.getBoundingClientRect(); startX = initialX - rect.left; startY = initialY - rect.top; isDragging = true; hasMoved = false; }
+    function drag(e) { if (!isDragging) return; const currentX = (e.type === "touchmove") ? e.touches[0].clientX : e.clientX; const currentY = (e.type === "touchmove") ? e.touches[0].clientY : e.clientY; if (Math.abs(currentX - initialX) > 4 || Math.abs(currentY - initialY) > 4) { hasMoved = true; e.preventDefault(); container.style.transform = 'none'; container.style.left = (currentX - startX) + 'px'; container.style.top = (currentY - startY) + 'px'; } }
+    function dragEnd() { isDragging = false; }
     container.addEventListener("touchstart", dragStart, { passive: false }); document.addEventListener("touchmove", drag, { passive: false }); document.addEventListener("touchend", dragEnd); container.addEventListener("mousedown", dragStart); document.addEventListener("mousemove", drag); document.addEventListener("mouseup", dragEnd);
 
-    class Predictor30S {
-      getPredictedNumbers(bsType) { let min = bsType === 'BIG' ? 5 : 0; let max = bsType === 'BIG' ? 9 : 4; const nums = []; while (nums.length < 2) { const rand = Math.floor(Math.random() * (max - min + 1)) + min; if (!nums.includes(rand)) nums.push(rand); } return nums.sort((a,b) => a-b); }
-      analyze(results) {
-        if (results.length < 5) return { prediction: 'BIG', numbers: [6,8] };
-        const numbers = results.slice(0, 10).map(r => parseInt(r.number));
-        let streakType = numbers[0] >= 5 ? 'BIG' : 'SMALL'; let currentStreak = 1, maxStreak = 1;
-        for (let i = 1; i < numbers.length; i++) { const cType = numbers[i] >= 5 ? 'BIG' : 'SMALL'; const pType = numbers[i-1] >= 5 ? 'BIG' : 'SMALL'; if (cType === pType) { currentStreak++; if (currentStreak > maxStreak) { maxStreak = currentStreak; streakType = cType; } } else { currentStreak = 1; } }
-        let prediction = streakType === 'BIG' ? 'SMALL' : 'BIG'; 
-        return { prediction, numbers: this.getPredictedNumbers(prediction) };
-      }
-    }
-    const predictor30S = new Predictor30S();
-    function generate1MPrediction(historyArray) {
-      let presidentialSize = "BIG"; const validDraws = (historyArray || []).filter(d => !isNaN(d.number)).slice(0, 20);
-      if (validDraws.length > 0) { const recentSizes = validDraws.slice(0, 12).map(r => parseInt(r.number) >= 5 ? "BIG" : "SMALL"); presidentialSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG"; }
-      const pool = presidentialSize === "BIG" ? [5,6,7,8,9] : [0,1,2,3,4]; let sure1 = pool[Math.floor(Math.random() * 5)]; let sure2 = pool[Math.floor(Math.random() * 5)]; while(sure1 === sure2) sure2 = pool[Math.floor(Math.random() * 5)];
-      return { predictionSize: presidentialSize, sureNumbers: [sure1, sure2] };
-    }
-
-    let fetchingLock = false, currentShownPeriod = null, preparedNextPeriod = null, preparedPredictionSize = null, preparedPredictionNumbers = null, isResultReady = false, currentPredictionData = null, currentPredictedNumArray = [];
-    const predMainText = document.getElementById('predMainText'), periodBadge = document.getElementById('periodBadge'), timerBadge = document.getElementById('timerBadge'), statusIndicator = document.getElementById('statusIndicator'), iplJackpotOverlay = document.getElementById('iplJackpotOverlay');
-
-    setInterval(() => {
-      const now = new Date(); let secLeft = userTimeframe === "30S" ? 30 - (now.getSeconds() % 30) : 60 - now.getSeconds(); if (secLeft === 60 || secLeft === 30) secLeft = 0;
-      timerBadge.textContent = `00:${secLeft < 10 ? '0'+secLeft : secLeft}`;
-      if (secLeft <= 5 && secLeft > 0) timerBadge.style.color = 'var(--sk-red)'; else timerBadge.style.color = '#fff';
-    }, 1000);
+    // ALGORITHM
+    let fetchingLock = false, preparedNextPeriod = null, preparedPredictionSize = null, preparedPredictionNumbers = [], isResultReady = false, currentPredictionData = null, currentPredictedNumArray = [];
+    const predMainText = document.getElementById('predMainText'); const periodBadge = document.getElementById('periodBadge'); const statusIndicator = document.getElementById('statusIndicator'); const iplJackpotOverlay = document.getElementById('iplJackpotOverlay');
+    
+    setInterval(() => { const now = new Date(); let secLeft = 60 - now.getSeconds(); if(secLeft===60) secLeft=0; document.getElementById('timerBadge').innerText = `00:${secLeft<10?'0'+secLeft:secLeft}`; }, 1000);
 
     async function fetchAndProcess() {
       if(fetchingLock) return; fetchingLock = true;
@@ -309,15 +388,16 @@
         const res = await fetch(`${API_URL}?ts=${Date.now()}`, { headers: {'Accept':'application/json'} }); const json = await res.json();
         const draws = json.data.list.map(i => ({ issueNumber: String(i.issueNumber), number: parseInt(i.number), size: parseInt(i.number) >= 5 ? "BIG" : "SMALL" })).filter(d => !isNaN(d.number));
         const latest = draws[0]; const nextPeriodId = (BigInt(latest.issueNumber) + 1n).toString();
-
+        
+        // WIN/LOSS CHECK
         if(currentShownPeriod === latest.issueNumber && currentPredictionData && currentPredictionData !== "SKIP") {
           const isSizeWin = latest.size === currentPredictionData;
           const isNumWin = currentPredictedNumArray.includes(latest.number);
           
-          expandedBox.classList.remove('anim-win', 'anim-loss'); void expandedBox.offsetWidth; 
+          expandedBox.classList.remove('anim-win', 'anim-loss', 'anim-win-jackpot'); void expandedBox.offsetWidth; 
           
           if(isSizeWin && isNumWin) {
-            expandedBox.classList.add('anim-win'); statusIndicator.innerHTML = "<span style='color:var(--sk-gold); text-shadow: 0 0 10px var(--sk-gold);'>👑 JACKPOT WIN</span>";
+            expandedBox.classList.add('anim-win-jackpot'); statusIndicator.innerHTML = "<span style='color:var(--sk-gold); text-shadow: 0 0 10px var(--sk-gold);'>👑 JACKPOT WIN</span>";
             iplJackpotOverlay.classList.add('active'); setTimeout(() => { iplJackpotOverlay.classList.remove('active'); }, 4000);
           } else if (isSizeWin) {
             expandedBox.classList.add('anim-win'); statusIndicator.innerHTML = "<span style='color:var(--sk-green); text-shadow: 0 0 10px var(--sk-green);'>✔ WIN</span>";
@@ -326,11 +406,11 @@
           }
           currentPredictionData = null; 
         }
-        
+
         if(preparedNextPeriod !== nextPeriodId) {
           preparedNextPeriod = nextPeriodId;
           
-          // 🔥 APPLY GOD MODE OVERRIDE IF ACTIVE 🔥
+          // GOD MODE HAS PRIORITY
           if(currentGodMode.size !== "AUTO") {
             preparedPredictionSize = currentGodMode.size;
             let n1 = currentGodMode.num1 !== null ? currentGodMode.num1 : (preparedPredictionSize === "BIG" ? 6 : 2);
@@ -338,27 +418,31 @@
             preparedPredictionNumbers = [n1, n2];
           } else {
             // NORMAL ALGORITHM
-            if(userTimeframe === "30S") {
-              const out30 = predictor30S.analyze(draws); preparedPredictionSize = out30.prediction; preparedPredictionNumbers = out30.numbers;
-            } else {
-              const out1M = generate1MPrediction(draws); preparedPredictionSize = out1M.predictionSize; preparedPredictionNumbers = out1M.sureNumbers;
+            const recentSizes = draws.slice(0, 5).map(r => r.number >= 5 ? "BIG" : "SMALL");
+            preparedPredictionSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG"; 
+            const pool = preparedPredictionSize === "BIG" ? [5,6,7,8,9] : [0,1,2,3,4]; 
+            preparedPredictionNumbers = [pool[Math.floor(Math.random() * 5)], pool[Math.floor(Math.random() * 5)]];
+            
+            // REVERSE POLARITY LOGIC
+            if(currentPolarity === 'REVERSE' && preparedPredictionSize !== "SKIP") {
+               preparedPredictionSize = preparedPredictionSize === "BIG" ? "SMALL" : "BIG";
+               const revPool = preparedPredictionSize === "BIG" ? [5,6,7,8,9] : [0,1,2,3,4]; 
+               preparedPredictionNumbers = [revPool[0], revPool[1]];
             }
           }
-          
-          isResultReady = true;
-          if(modStatusBadge.textContent !== "OFFLINE") { analyzeBtn.textContent = "ANALYZE"; analyzeBtn.classList.add('ready'); analyzeBtn.disabled = false; }
+
+          isResultReady = true; 
+          if(!systemIsLocked) { analyzeBtn.textContent = "ANALYZE"; analyzeBtn.classList.add('ready'); analyzeBtn.disabled = false; }
         }
-      } catch(e) { console.log(e); } finally { fetchingLock = false; }
+      } catch(e) {} finally { fetchingLock = false; }
     }
 
     analyzeBtn.addEventListener('click', () => {
-      if(!isResultReady) return; isResultReady = false;
+      if(!isResultReady || systemIsLocked) return; isResultReady = false;
       analyzeBtn.textContent = "SCANNING..."; analyzeBtn.classList.remove('ready'); analyzeBtn.disabled = true;
       statusIndicator.innerHTML = "";
       
-      predMainText.innerHTML = `<div class="barcode-scanner-hud"><div class="barcode-matrix"><div class="barcode-laser"></div></div><div class="scan-status-text">DECRYPTING...</div></div>`;
-      predMainText.className = "result-text";
-      
+      predMainText.innerHTML = `<div class="barcode-scanner-hud"><div class="barcode-matrix"><div class="barcode-laser"></div></div></div>`;
       setTimeout(() => {
         periodBadge.textContent = preparedNextPeriod; currentShownPeriod = preparedNextPeriod; currentPredictionData = preparedPredictionSize; currentPredictedNumArray = preparedPredictionNumbers;
         
@@ -373,7 +457,7 @@
       }, 1500); 
     });
 
-    function initEngine() { fetch(`${API_URL}?ts=${Date.now()}`).then(r => r.json()).then(json => { const draws = json.data.list.map(i => ({ issueNumber: String(i.issueNumber), number: parseInt(i.number), size: parseInt(i.number) >= 5 ? "BIG" : "SMALL" })); preparedNextPeriod = (BigInt(draws[0].issueNumber) + 1n).toString(); if(userTimeframe === "30S") { const out30 = predictor30S.analyze(draws); preparedPredictionSize = out30.prediction; preparedPredictionNumbers = out30.numbers; } else { const out1M = generate1MPrediction(draws); preparedPredictionSize = out1M.predictionSize; preparedPredictionNumbers = out1M.sureNumbers; } isResultReady = true; if(modStatusBadge.textContent !== "OFFLINE") { analyzeBtn.textContent = "ANALYZE"; analyzeBtn.classList.add('ready'); analyzeBtn.disabled = false; } if(!expandedBox.classList.contains('active')) toggleWidget(); }); pollInterval = setInterval(fetchAndProcess, userTimeframe === "30S" ? 3000 : 5000); }
+    function initEngine() { fetchAndProcess(); setInterval(fetchAndProcess, 5000); toggleWidget(); }
   </script>
 </body>
 </html>

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <!-- PREVENTS AUTO-ZOOM ON MOBILE -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>DEV ARMY • MASTER CONTROL V15 (MOBILE PRO)</title>
+  <title>DEV ARMY • MASTER CONTROL V18</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Outfit:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -214,7 +214,7 @@
             <span><i class="fa-solid fa-plus-circle"></i> Create Smart Keys</span>
           </div>
           <div class="panel-body">
-            <p style="font-size:11px; color:#aaa; margin-bottom:15px;"><strong style="color:var(--tc-green);">Pro Tip:</strong> 'PAID', 'VIP', and 'AGENT' bypass the minimize restriction.</p>
+            <p style="font-size:11px; color:#aaa; margin-bottom:15px;"><strong style="color:var(--tc-green);">Pro Tip:</strong> Timer will only start when user connects/activates the key for the first time.</p>
             
             <div class="flex-row" style="margin-bottom:5px;">
               <div class="form-group" style="flex:1.5;">
@@ -318,7 +318,7 @@
     import { getDatabase, ref, set, get, child, update, remove, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
     const firebaseConfig = { apiKey: "AIzaSyBNj71akpefcfEtn-SQfAcx-Pgwi8sUosg", authDomain: "teamdev-88676.firebaseapp.com", databaseURL: "https://teamdev-88676-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "teamdev-88676" };
-    const app = initializeApp(firebaseConfig); const db = getDatabase(app);
+    const app = initializeApp(firebaseConfig); window.db = getDatabase(app);
 
     // MOBILE SIDEBAR TOGGLE LOGIC
     window.toggleSidebar = function() {
@@ -334,27 +334,24 @@
     window.onload = () => {
       const tmrw = new Date(); tmrw.setDate(tmrw.getDate() + 1); tmrw.setHours(9,0,0,0); tmrw.setMinutes(tmrw.getMinutes() - tmrw.getTimezoneOffset());
       document.getElementById('autoWakeTime').value = tmrw.toISOString().slice(0,16);
-      const now = new Date(); now.setHours(now.getHours() + 1); now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-      document.getElementById('evTargetTime').value = now.toISOString().slice(0,16);
     }
 
     window.switchTab = function(tabId) {
       document.querySelectorAll('.tab-content').forEach(el => el.style.display = 'none');
       document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
       document.getElementById('tab-' + tabId).style.display = 'block'; event.currentTarget.classList.add('active');
-      // Auto close sidebar on mobile
       if(window.innerWidth <= 850) { toggleSidebar(); }
     }
 
     window.verifyAdmin = async function() {
       const pass = document.getElementById('adminPass').value; if(!pass) return;
       try {
-        const snap = await get(child(ref(db), 'server/adminAuth'));
+        const snap = await get(child(ref(window.db), 'server/adminAuth'));
         if(snap.exists() && snap.val().password === pass) {
           document.getElementById('adminLoginOverlay').style.display = 'none';
-          initDashboard(); loadVault(); loadGodMode(); loadSystemControls(); initScheduledEventTracker();
+          initDashboard(); loadVault(); loadGodMode(); loadSystemControls();
         } else if(!snap.exists()) {
-          await set(ref(db, 'server/adminAuth'), { password: pass }); location.reload();
+          await set(ref(window.db, 'server/adminAuth'), { password: pass }); location.reload();
         } else alert("Denied");
       } catch(e) {}
     }
@@ -377,64 +374,6 @@
     }
     setInterval(updateLiveGraph, 3000); 
 
-    // SCHEDULED EVENT
-    let eventTimerInterval;
-    function initScheduledEventTracker() {
-      onValue(ref(db, 'events/live'), (snap) => {
-        const ev = snap.val();
-        if(ev && ev.status === 'RUNNING') {
-          document.getElementById('eventStatusBadge').innerText = 'LIVE EVENT'; document.getElementById('eventStatusBadge').className = 'badge bg-green';
-          document.getElementById('startEvBtn').style.display = 'none'; document.getElementById('stopEvBtn').style.display = 'block';
-          clearInterval(eventTimerInterval);
-          eventTimerInterval = setInterval(() => {
-            let left = ev.targetTime - Date.now();
-            if(left <= 0) {
-              document.getElementById('evTimerDisplay').innerText = "00:00:00"; document.getElementById('evTimerDisplay').style.color = "var(--tc-red)";
-              document.getElementById('evPhaseText').innerText = "DEPOSIT WINDOW CLOSED. SELECT WINNER NOW."; document.getElementById('evPhaseText').style.color = "var(--tc-red)";
-            } else {
-              document.getElementById('evTimerDisplay').style.color = "var(--tc-gold)"; document.getElementById('evPhaseText').innerText = "DEPOSIT PHASE ACTIVE"; document.getElementById('evPhaseText').style.color = "var(--tc-cyan)";
-              let h = Math.floor(left / 3600000); let m = Math.floor((left % 3600000) / 60000); let s = Math.floor((left % 60000) / 1000);
-              document.getElementById('evTimerDisplay').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-            }
-          }, 1000);
-        } else {
-          document.getElementById('eventStatusBadge').innerText = 'OFFLINE'; document.getElementById('eventStatusBadge').className = 'badge bg-red';
-          document.getElementById('startEvBtn').style.display = 'block'; document.getElementById('stopEvBtn').style.display = 'none';
-          clearInterval(eventTimerInterval); document.getElementById('evTimerDisplay').innerText = "00:00:00"; document.getElementById('evPhaseText').innerText = "";
-        }
-      });
-      onValue(ref(db, 'events/participants'), (snap) => {
-        const listDiv = document.getElementById('evParticipantsList');
-        if(snap.exists()) {
-          let html = '';
-          Object.entries(snap.val()).forEach(([devId, data]) => {
-            html += `<div class="participant-row"><div><div style="font-family:'Outfit'; font-weight:800; font-size:14px; color:#fff;">Game UID: <span style="color:var(--tc-cyan);">${data.gameUid}</span></div><div style="font-size:9px; color:#666; font-family:'Share Tech Mono';">Device: ${devId.substring(0,12)}...</div></div><button class="btn btn-gold" style="padding:8px;" onclick="declareWinner('${devId}', '${data.gameUid}')"><i class="fa-solid fa-crown"></i> SET WINNER</button></div>`;
-          });
-          listDiv.innerHTML = html;
-        } else { listDiv.innerHTML = '<div style="text-align:center; padding:20px; color:#555;">Waiting for users to connect...</div>'; }
-      });
-    }
-
-    window.startScheduledEvent = async function() {
-      const keyName = document.getElementById('evKey').value.trim(); const targetTimeStr = document.getElementById('evTargetTime').value;
-      if(!keyName || !targetTimeStr) return alert("Enter valid key name and target time.");
-      const targetTimeMs = new Date(targetTimeStr).getTime();
-      if(targetTimeMs <= Date.now()) return alert("Announcement time must be in the future.");
-      await remove(ref(db, 'events/participants'));
-      await set(ref(db, 'events/live'), { key: keyName, targetTime: targetTimeMs, status: 'RUNNING', winnerDevice: null });
-      alert(`Scheduled Giveaway Started! Deposit phase closes at ${new Date(targetTimeMs).toLocaleTimeString()}`);
-    }
-    window.stopEvent = async function() { if(confirm("End event without winner?")) { await update(ref(db, 'events/live'), { status: 'CANCELLED' }); } }
-    window.declareWinner = async function(deviceId, gameUid) {
-      if(confirm(`Declare UID ${gameUid} as the winner and grant 24H VIP access?`)) {
-        await update(ref(db, 'events/live'), { status: 'ENDED', winnerDevice: deviceId });
-        const snap = await get(child(ref(db), 'events/live/key')); const evKeyName = snap.exists() ? snap.val() : 'GIVEAWAY_WIN';
-        const expDate = new Date(); expDate.setHours(expDate.getHours() + 24);
-        await set(ref(db, `keys/${evKeyName}_${deviceId.substring(0,5)}`), { user: `WINNER_${gameUid}`, key: `${evKeyName}_${deviceId.substring(0,5)}`, timeframe: "1M", status: "ACTIVE", deviceId: deviceId, type: 'VIP', expiresAt: expDate.toISOString() });
-        alert(`Winner Declared! UID ${gameUid} now has 24H VIP access.`); loadVault();
-      }
-    }
-
     // SYSTEM CONFIG
     let currentSysMode = 'OPEN';
     window.setLockMode = function(mode) {
@@ -445,7 +384,7 @@
       document.getElementById('sleepTimeContainer').style.display = mode === 'SLEEP' ? "block" : "none";
     }
     window.loadSystemControls = async function() {
-      const snap = await get(child(ref(db), 'systemConfig'));
+      const snap = await get(child(ref(window.db), 'systemConfig'));
       if(snap.exists()) {
         const config = snap.val();
         if(config.links) document.getElementById('linkGame').value = config.links.gameUrl || "";
@@ -457,20 +396,20 @@
     }
     window.saveLockMode = async function() {
       const wakeTimeMs = new Date(document.getElementById('autoWakeTime').value).getTime();
-      await update(ref(db, 'systemConfig/maintenance'), { mode: currentSysMode, sessionTime: document.getElementById('sessionTime').value, autoWakeTime: currentSysMode === 'SLEEP' ? wakeTimeMs : null });
+      await update(ref(window.db, 'systemConfig/maintenance'), { mode: currentSysMode, sessionTime: document.getElementById('sessionTime').value, autoWakeTime: currentSysMode === 'SLEEP' ? wakeTimeMs : null });
       alert(`State: ${currentSysMode} Deployed!`);
     }
-    window.saveSystemControls = async function() { await update(ref(db, 'systemConfig/links'), { gameUrl: document.getElementById('linkGame').value }); alert("Saved"); }
+    window.saveSystemControls = async function() { await update(ref(window.db, 'systemConfig/links'), { gameUrl: document.getElementById('linkGame').value }); alert("Saved"); }
 
     // GOD & POLARITY
     window.loadGodMode = async function() {
-      onValue(ref(db, 'server/polarity'), (snap) => { const mode = snap.val() || 'NORMAL'; document.getElementById('polNormal').className = mode === 'NORMAL' ? "toggle-btn active" : "toggle-btn"; document.getElementById('polReverse').className = mode === 'REVERSE' ? "toggle-btn active-red" : "toggle-btn"; });
-      const snap = await get(child(ref(db), 'server/override')); if(snap.exists()) document.getElementById('godModeSize').value = snap.val().size || "AUTO";
+      onValue(ref(window.db, 'server/polarity'), (snap) => { const mode = snap.val() || 'NORMAL'; document.getElementById('polNormal').className = mode === 'NORMAL' ? "toggle-btn active" : "toggle-btn"; document.getElementById('polReverse').className = mode === 'REVERSE' ? "toggle-btn active-red" : "toggle-btn"; });
+      const snap = await get(child(ref(window.db), 'server/override')); if(snap.exists()) document.getElementById('godModeSize').value = snap.val().size || "AUTO";
     }
-    window.setGodMode = async function() { const s = document.getElementById('godModeSize').value; await set(ref(db, 'server/override'), { size: s, timestamp: Date.now() }); alert("Override Set!"); }
-    window.setPolarity = async function(mode) { await set(ref(db, 'server/polarity'), mode); }
+    window.setGodMode = async function() { const s = document.getElementById('godModeSize').value; await set(ref(window.db, 'server/override'), { size: s, timestamp: Date.now() }); alert("Override Set!"); }
+    window.setPolarity = async function(mode) { await set(ref(window.db, 'server/polarity'), mode); }
 
-    // SMART KEY GENERATOR
+    // 🔥 SMART KEY GENERATOR (WITH ACTIVATION TIMER LOGIC) 🔥
     window.generateDynamicKeys = async function() { 
       let prefix = document.getElementById('kgUser').value || 'User'; 
       let count = parseInt(document.getElementById('kgCount').value) || 1;
@@ -484,46 +423,67 @@
       
       for(let j=0; j<count; j++) {
         let newKey = ''; for (let i = 0; i < 16; i++) { newKey += chars.charAt(Math.floor(Math.random() * chars.length)); if(i===3||i===7||i===11) newKey += '-';}
-        const expDate = new Date(); expDate.setHours(expDate.getHours() + hours);
+        
+        // STORE VALIDITY HOURS, DO NOT SET EXPIRES_AT YET
         updates['keys/' + newKey] = { 
-          user: `${prefix}_${j+1}`, key: newKey, timeframe: "1M", status: "ACTIVE", deviceId: null, targetUid: tUid || null, boundUid: null, whitelist: false, type: keyType, expiresAt: expDate.toISOString(), holdMsg: null 
+          user: `${prefix}_${j+1}`, 
+          key: newKey, 
+          timeframe: "1M", 
+          status: "UNUSED", 
+          deviceId: null, 
+          targetUid: tUid || null, 
+          boundUid: null, 
+          whitelist: false, 
+          type: keyType, 
+          validityHours: hours, 
+          expiresAt: null, 
+          holdMsg: null 
         };
         generatedKeys.push(newKey);
       }
-      await update(ref(db), updates); navigator.clipboard.writeText(generatedKeys.join('\n')); alert(`✅ ${count} ${keyType} Keys Generated!\nValid for ${hours} Hours.\nCopied to clipboard!`); loadVault(); 
+      await update(ref(window.db), updates); navigator.clipboard.writeText(generatedKeys.join('\n')); alert(`✅ ${count} ${keyType} Keys Generated!\nTimer will start on first use.\nCopied to clipboard!`); loadVault(); 
     }
 
+    // CUSTOM HOLD MESSAGE ACTION
     window.setHoldMessage = async function(key) {
       let msg = prompt("Enter Custom Message/Hold Reason for User (e.g., 'DEPOSIT PENDING').\nLeave blank to clear hold:");
       if(msg !== null) {
-        await update(ref(db, `keys/${key}`), { holdMsg: msg === "" ? null : msg });
-        alert("User App Status Updated!"); loadVault();
+        await update(ref(window.db, `keys/${key}`), { holdMsg: msg === "" ? null : msg });
+        alert("User App Status Updated!");
+        loadVault();
       }
     }
 
     window.inlineAction = async function(action, key, currentState) {
-      if(action === 'approve') await update(ref(db, `keys/${key}`), { status: 'ACTIVE' }); 
-      if(action === 'ban') if(confirm("Permanently ban this user?")) await update(ref(db, `keys/${key}`), { status: 'BANNED' });
-      if(action === 'pause') await update(ref(db, `keys/${key}`), { status: 'INACTIVE' });
-      if(action === 'resume') await update(ref(db, `keys/${key}`), { status: 'ACTIVE' });
-      if(action === 'whitelist') await update(ref(db, `keys/${key}`), { whitelist: !currentState });
-      if(action === 'delete') if(confirm("Permanently delete this key?")) await remove(ref(db, `keys/${key}`));
+      if(action === 'ban') if(confirm("Permanently ban this user?")) await update(ref(window.db, `keys/${key}`), { status: 'BANNED' });
+      if(action === 'delete') if(confirm("Permanently delete this key?")) await remove(ref(window.db, `keys/${key}`));
+      if(action === 'whitelist') await update(ref(window.db, `keys/${key}`), { whitelist: !currentState });
+      if(action === 'pause') await update(ref(window.db, `keys/${key}`), { status: 'INACTIVE' });
+      if(action === 'resume') await update(ref(window.db, `keys/${key}`), { status: 'ACTIVE' });
       loadVault();
     }
     
     window.loadVault = async function() { 
-      const snap = await get(child(ref(db), 'keys')); const tbody = document.getElementById('keyVaultList'); let t=0,b=0; 
+      const snap = await get(child(ref(window.db), 'keys')); const tbody = document.getElementById('keyVaultList'); let t=0,b=0; 
       if(snap.exists()){
         let h=''; 
         Object.values(snap.val()).reverse().forEach(k => {
           t++; if(k.boundUid || k.deviceId) b++; 
-          const isExp = new Date() > new Date(k.expiresAt);
           
           let statClass = 'bg-green'; let statText = 'ACTIVE';
-          if(isExp) { statClass = 'bg-red'; statText = 'EXPIRED'; }
-          else if(k.status === 'UNDER_REVIEW') { statClass = 'bg-warn'; statText = 'UNDER REVIEW'; }
-          else if(k.status === 'BANNED') { statClass = 'bg-red'; statText = 'BANNED'; }
-          else if(k.status === 'INACTIVE') { statClass = 'bg-red'; statText = 'PAUSED'; }
+          
+          // 🔥 UNUSED STATUS DISPLAY 🔥
+          if(k.status === 'UNUSED' || !k.expiresAt) {
+            statClass = 'bg-cyan'; statText = `UNUSED (${k.validityHours || 24}H)`;
+          } else if(new Date() > new Date(k.expiresAt)) { 
+            statClass = 'bg-red'; statText = 'EXPIRED'; 
+          } else if(k.status === 'BANNED') { 
+            statClass = 'bg-red'; statText = 'BANNED'; 
+          } else if(k.status === 'INACTIVE') { 
+            statClass = 'bg-red'; statText = 'PAUSED'; 
+          } else if(k.status === 'UNDER_REVIEW') { 
+            statClass = 'bg-warn'; statText = 'UNDER REVIEW'; 
+          }
 
           let customHoldDisplay = k.holdMsg ? `<br><span style="color:var(--tc-warn); font-size:10px; border:1px dashed var(--tc-warn); padding:2px 4px; border-radius:4px; display:inline-block; margin-top:4px;">HOLD: ${k.holdMsg}</span>` : '';
 
@@ -538,16 +498,17 @@
           if(k.targetUid) uidText += `<br><span class="uid-target">Target: ${k.targetUid}</span>`;
 
           let actionBtns = '';
-          if(k.status === 'UNDER_REVIEW') {
-            actionBtns += `<button class="btn btn-green" onclick="inlineAction('approve','${k.key}')" title="Approve Deposit & Unban"><i class="fa-solid fa-check"></i> APPROVE</button>`;
-            actionBtns += `<button class="btn btn-red" onclick="inlineAction('ban','${k.key}')" title="Strict Ban"><i class="fa-solid fa-gavel"></i> BAN</button>`;
-          } else {
-            actionBtns += `<button class="btn" style="background:rgba(255,136,0,0.15); color:var(--tc-warn);" onclick="setHoldMessage('${k.key}')" title="Set Hold Message"><i class="fa-solid fa-comment-dots"></i> MSG</button>`;
-            actionBtns += k.status==='ACTIVE'?`<button class="btn btn-red" onclick="inlineAction('pause','${k.key}')" title="Pause"><i class="fa-solid fa-pause"></i></button>`:`<button class="btn btn-green" onclick="inlineAction('resume','${k.key}')" title="Activate"><i class="fa-solid fa-play"></i></button>`;
-            let wlColor = k.whitelist ? 'var(--tc-gold)' : '#555';
-            actionBtns += `<button class="btn" style="background:#1e2631; color:${wlColor};" onclick="inlineAction('whitelist','${k.key}', ${k.whitelist})" title="Whitelist"><i class="fa-solid fa-shield-halved"></i></button>`;
-            actionBtns += `<button class="btn" style="background:rgba(255,51,102,0.15); color:var(--tc-red);" onclick="inlineAction('delete','${k.key}')" title="Delete"><i class="fa-solid fa-trash"></i></button>`;
+          actionBtns += `<button class="btn" style="background:rgba(255,136,0,0.15); color:var(--tc-warn);" onclick="setHoldMessage('${k.key}')" title="Set Hold Message"><i class="fa-solid fa-comment-dots"></i> MSG</button>`;
+          
+          if(k.status === 'ACTIVE') {
+            actionBtns += `<button class="btn" style="background:rgba(255,51,102,0.15); color:var(--tc-red);" onclick="inlineAction('pause','${k.key}')" title="Pause Key"><i class="fa-solid fa-pause"></i></button>`;
+          } else if (k.status === 'INACTIVE') {
+            actionBtns += `<button class="btn" style="background:rgba(0,255,136,0.15); color:var(--tc-green);" onclick="inlineAction('resume','${k.key}')" title="Resume Key"><i class="fa-solid fa-play"></i></button>`;
           }
+
+          let wlColor = k.whitelist ? 'var(--tc-gold)' : '#555';
+          actionBtns += `<button class="btn" style="background:#1e2631; color:${wlColor};" onclick="inlineAction('whitelist','${k.key}', ${k.whitelist})" title="Whitelist"><i class="fa-solid fa-shield-halved"></i></button>`;
+          actionBtns += `<button class="btn" style="background:rgba(255,51,102,0.15); color:var(--tc-red);" onclick="inlineAction('delete','${k.key}')" title="Delete"><i class="fa-solid fa-trash"></i></button>`;
 
           h+=`<tr class="v-row">
             <td><div style="font-weight:bold; color:#fff; margin-bottom:4px;">${k.user}</div><div style="color:var(--tc-cyan); font-size:10px;">${k.key}</div></td>

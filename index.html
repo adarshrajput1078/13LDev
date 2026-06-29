@@ -10,11 +10,12 @@
 
   <style>
     /* =========================================
-       🔥 ULTRA-COMPACT SQUARE CYBER THEME 🔥
+       🔥 MICRO-SQUARE CYBER THEME 🔥
        ========================================= */
     :root { 
-      --tc-green: #00ff66; --tc-red: #ff2a7a; --tc-magenta: #ff007f; --tc-gold: #fcd535; --tc-cyan: #00f3ff;
-      --tc-dark: #030408; --tc-card: #0a0e16; --tc-border: rgba(0, 243, 255, 0.3); --tc-warn: #ff9900;
+      --tc-green: #00ff66; --tc-red: #ff2a7a; --tc-gold: #fcd535; --tc-cyan: #00f3ff;
+      --tc-dark: #000000; --tc-card: #050505; --tc-border: #1e293b; --tc-warn: #ff9900;
+      --tc-tg: #0088cc;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;}
@@ -22,14 +23,14 @@
 
     #mainApp { display: none; width: 100vw; height: 100vh; position: relative; overflow: hidden;}
     .bg-game { width: 100%; height: 100%; border: none; background: #000; position: absolute; top: 0; left: 0; z-index: 1;}
-    @media (min-width: 1024px) { .bg-game { width: 400px; left: 50%; transform: translateX(-50%); box-shadow: 0 0 60px rgba(0,0,0,0.9); border-left: 1px solid #1e293b; border-right: 1px solid #1e293b;} }
+    @media (min-width: 1024px) { .bg-game { width: 400px; left: 50%; transform: translateX(-50%); box-shadow: 0 0 60px rgba(0,243,255,0.15); border-left: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05);} }
 
     .btn-cyber-solid { width: 100%; background: var(--tc-cyan); border: none; color: #000; font-family: 'Inter'; font-size: 0.9rem; font-weight: 900; padding: 14px; cursor: pointer; border-radius: 6px; text-transform: uppercase; box-shadow: 0 5px 15px rgba(0, 243, 255, 0.3); transition: 0.2s; min-height: 44px;}
     .btn-cyber-solid:active { transform: scale(0.96); }
 
     /* MODALS */
-    .modal-screen-mask { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(3,4,8,0.85); backdrop-filter: blur(6px); z-index: 25000; justify-content: center; align-items: center; padding: 20px;}
-    .modal-panel-box { width: 100%; max-width: 300px; background: var(--tc-card); border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 20px 15px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8); position: relative; overflow: hidden;}
+    .modal-screen-mask { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); z-index: 25000; justify-content: center; align-items: center; padding: 20px;}
+    .modal-panel-box { width: 100%; max-width: 300px; background: #080808; border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 20px 15px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.9); position: relative; overflow: hidden;}
     
     #securityModal .modal-panel-box, #banModal .modal-panel-box { border-color: var(--tc-red); }
     #securityModal .session-icon, #banModal .session-icon { color: var(--tc-red); font-size: 2.5rem; margin-bottom: 10px; animation: pulseRed 1s infinite alternate;}
@@ -40,31 +41,35 @@
     #reviewModal .session-title { font-family: 'Outfit'; font-size: 1.2rem; font-weight: 900; color: var(--tc-warn); margin-bottom: 5px; }
 
     .session-reason { font-size: 0.8rem; color: #8e9aa8; margin-bottom: 15px; line-height: 1.4;}
-    .security-strikes { font-family: 'Share Tech Mono'; font-size: 18px; font-weight: bold; color: var(--tc-cyan); margin: 15px 0; background: rgba(0,0,0,0.4); padding: 8px; border-radius: 4px; border: 1px dashed var(--tc-cyan);}
+    .security-strikes { font-family: 'Share Tech Mono'; font-size: 18px; font-weight: bold; color: var(--tc-cyan); margin: 15px 0; background: rgba(0,0,0,0.6); padding: 8px; border-radius: 4px; border: 1px dashed var(--tc-cyan);}
     
     @keyframes pulseRed { from { transform: scale(1); filter: drop-shadow(0 0 8px rgba(255,42,75,0.3)); } to { transform: scale(1.08); filter: drop-shadow(0 0 16px rgba(255,42,75,0.7)); } }
     @keyframes pulseWarn { from { transform: scale(1); filter: drop-shadow(0 0 8px rgba(255,153,0,0.3)); } to { transform: scale(1.08); filter: drop-shadow(0 0 16px rgba(255,153,0,0.7)); } }
 
-    /* AD-READY LOGIN SCREEN */
+    /* LOGIN SCREEN */
     #fullOverlayScreen { position: fixed; inset: 0; background: var(--tc-dark); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-    .wrapper-card { width: 100%; max-width: 320px; background: #0b0f19; border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 30px 20px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8); position: relative; overflow: hidden; text-align: center;}
-    .wrapper-card::before { content:''; position:absolute; top:0; left:0; width:100%; height:3px; background: linear-gradient(90deg, var(--tc-cyan), var(--tc-magenta)); }
-    
+    .wrapper-card { width: 100%; max-width: 320px; background: #050505; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 30px 20px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.9); position: relative; overflow: hidden; text-align: center;}
     .brand-logo { font-size: 38px; color: var(--tc-cyan); margin-bottom: 10px; filter: drop-shadow(0 0 8px rgba(0,243,255,0.4)); animation: logoGlow 2s infinite alternate;}
     @keyframes logoGlow { from { filter: drop-shadow(0 0 4px rgba(0,243,255,0.2)); } to { filter: drop-shadow(0 0 12px rgba(0,243,255,0.6)); } }
     
-    .hacker-box-input { width: 100%; background: #05070f; border: 1px solid #1e293b; color: #fff; padding: 14px; font-family: 'Share Tech Mono'; font-weight: 700; text-align: center; outline: none; font-size: 16px; margin-bottom: 15px; border-radius: 4px; transition: 0.3s; letter-spacing: 1px; min-height: 48px; }
+    .hacker-box-input { width: 100%; background: #000; border: 1px solid #1e293b; color: #fff; padding: 14px; font-family: 'Share Tech Mono'; font-weight: 700; text-align: center; outline: none; font-size: 16px; margin-bottom: 15px; border-radius: 4px; transition: 0.3s; letter-spacing: 1px; min-height: 48px; }
     .hacker-box-input:focus { border-color: var(--tc-cyan); box-shadow: 0 0 10px rgba(0,243,255,0.15); }
     #errorPopup { display: none; color: var(--tc-red); font-weight: 800; margin-bottom: 10px; font-size: 10px; text-transform: uppercase;}
 
+    .get-key-section { margin-top: 20px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); }
+    .get-key-text { font-size: 9px; color: #8e9aa8; margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase; font-weight: 800;}
+    .btn-get-key { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: rgba(0, 136, 204, 0.1); border: 1px solid var(--tc-tg); color: var(--tc-tg); font-family: 'Inter'; font-size: 11px; font-weight: 900; padding: 12px; border-radius: 6px; text-decoration: none; transition: 0.3s; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 0 10px rgba(0,136,204,0.1);}
+    .btn-get-key i { font-size: 14px; }
+    .btn-get-key:active { transform: scale(0.96); }
+
     /* =========================================
-       🔥 ULTRA-COMPACT SQUARE WIDGET 🔥
+       🔥 MICRO WIDGET (200px) & ANIMATIONS 🔥
        ========================================= */
     .draggable-container { position: absolute; top: 15%; left: 50%; transform: translateX(-50%); z-index: 9999; touch-action: none; display: flex; justify-content: center; align-items: center; }
     
     /* COLLAPSED ICON */
     .mod-icon { 
-      width: 44px; height: 44px; background: #070a12; border: 1.5px solid var(--tc-cyan); 
+      width: 40px; height: 40px; background: #000; border: 1.5px solid var(--tc-cyan); 
       border-radius: 6px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: transform 0.2s; 
       overflow: hidden; box-shadow: 0 0 15px rgba(0,243,255,0.3);
     }
@@ -72,122 +77,96 @@
     .mod-icon:active { transform: scale(0.92); }
     .mod-icon.hidden { display: none; }
 
-    /* EXPANDED BOX - VERY COMPACT */
+    /* EXPANDED MICRO BOX */
     .mod-expanded { 
-      display: none; width: 220px; /* SHRUNK TO 220px */
-      background: #05070a; border-radius: 8px; border: 1px solid var(--tc-border); padding: 10px; 
-      box-shadow: 0 15px 40px rgba(0,0,0,0.9), 0 0 15px rgba(0,243,255,0.15);
-      position: relative; overflow: hidden; 
+      display: none; width: 200px; min-height: 140px; background: #000; border-radius: 8px; 
+      position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.9); padding: 2px; overflow: hidden; 
+      transition: border-color 0.3s, box-shadow 0.3s;
     }
     .mod-expanded.active { display: block; animation: radarPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
     @keyframes radarPop { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
 
-    /* ANIMATED GRID BACKGROUND */
+    /* 🌈 THE SPINNING NEON BORDER 🌈 */
     .mod-expanded::before {
-      content: ''; position: absolute; inset: 0; z-index: 0; opacity: 0.8;
-      background: linear-gradient(rgba(0, 243, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 243, 255, 0.1) 1px, transparent 1px);
-      background-size: 15px 15px; animation: moveGrid 3s linear infinite;
+      content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
+      background: conic-gradient(transparent, transparent, transparent, var(--tc-cyan));
+      animation: spinBorder 2s linear infinite; z-index: 0;
     }
-    @keyframes moveGrid { 0% { background-position: 0 0; } 100% { background-position: 15px 15px; } }
+    @keyframes spinBorder { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-    /* FLOATING AI CORE GLOW */
-    .mod-expanded::after {
-      content: ''; position: absolute; top: 0; left: 0; width: 150%; height: 150%; z-index: 0;
-      background: radial-gradient(circle at 50% 50%, rgba(0,243,255,0.15), transparent 60%);
-      animation: corePulse 5s ease-in-out infinite alternate; pointer-events: none;
+    /* ⬛ PURE BLACK INNER BOX */
+    .mod-content-wrapper { 
+      position: relative; z-index: 2; width: 100%; height: 100%; 
+      background: #050505; border-radius: 6px; padding: 10px; display: flex; flex-direction: column; justify-content: flex-start;
     }
-    @keyframes corePulse { 
-      0% { transform: translate(-20%, -20%) scale(0.8); background: radial-gradient(circle at 50% 50%, rgba(0,243,255,0.15), transparent 60%); } 
-      100% { transform: translate(0%, 0%) scale(1.2); background: radial-gradient(circle at 50% 50%, rgba(255,0,127,0.1), transparent 60%); } 
-    }
-
-    /* KEEPS TEXT ON TOP */
-    .mod-content-wrapper { position: relative; z-index: 2; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: space-between; align-items: center;}
 
     /* HEADER */
-    .mod-header { width: 100%; display: flex; justify-content: space-between; align-items: center; padding-bottom: 6px; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 6px;}
-    .mod-title { font-family: 'Outfit'; font-size: 10px; font-weight: 800; color: #fff; letter-spacing: 0.5px; display: flex; align-items: center;}
-    .type-badge { font-size: 6px; background: rgba(0,243,255,0.1); color: var(--tc-cyan); padding: 2px 4px; border-radius: 2px; margin-left: 4px; border: 1px solid var(--tc-cyan); letter-spacing: 1px;}
-    .mod-timer { font-family: 'Share Tech Mono', monospace; font-size: 9px; color: #fff; background: rgba(0,0,0,0.6); padding: 2px 4px; border-radius: 3px; border: 1px solid rgba(255,255,255,0.1); font-weight: bold; }
+    .mod-header { width: 100%; display: flex; justify-content: center; align-items: center; margin-bottom: 4px; }
+    .mod-title { font-family: 'Outfit'; font-size: 11px; font-weight: 800; color: #fff; letter-spacing: 0.5px; display: flex; align-items: center;}
+    .type-badge { font-size: 7px; background: rgba(0,243,255,0.1); color: var(--tc-cyan); padding: 2px 4px; border-radius: 3px; margin-left: 4px; border: 1px solid var(--tc-cyan); letter-spacing: 1px;}
 
-    /* 🔥 LIVE EXPIRY TIMER 🔥 */
-    .key-expiry-box { width: 100%; font-family: 'Share Tech Mono', monospace; font-size: 8px; color: var(--tc-gold); font-weight: bold; text-align: center; margin-bottom: 6px; letter-spacing: 1px; background: rgba(252,213,53,0.1); padding: 3px; border-radius: 3px; border: 1px dashed rgba(252,213,53,0.3);}
+    /* KEY EXPIRY TIMER */
+    .key-expiry-box { width: 100%; font-family: 'Share Tech Mono', monospace; font-size: 8px; color: var(--tc-gold); font-weight: bold; text-align: center; margin-bottom: 8px; letter-spacing: 1px; }
 
-    /* PERIOD TAG */
-    .mod-period-pill {
-      background: rgba(0, 0, 0, 0.5); border: 1px solid var(--tc-cyan); color: var(--tc-cyan);
-      font-family: 'Share Tech Mono'; font-size: 8px; font-weight: bold; padding: 3px 8px;
-      border-radius: 4px; margin-bottom: 6px; letter-spacing: 1px; display: inline-flex; align-items: center; gap: 4px;
-    }
+    /* PERIOD & COUNTDOWN ROW */
+    .info-row { display: flex; justify-content: space-between; align-items: center; background: #111; border: 1px solid #222; padding: 4px 6px; border-radius: 4px; margin-bottom: 8px;}
+    .info-period { font-family: 'Share Tech Mono'; font-size: 9px; color: #aaa; font-weight: bold; letter-spacing: 0.5px;}
+    .info-period span { color: var(--tc-cyan); }
+    .info-timer { font-family: 'Share Tech Mono'; font-size: 11px; color: var(--tc-green); font-weight: bold; letter-spacing: 1px; text-shadow: 0 0 5px rgba(0,255,102,0.4);}
 
-    .status-indicator { font-family: 'Outfit'; font-size: 8px; font-weight: 900; color: var(--tc-magenta); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px; filter: drop-shadow(0 0 5px rgba(255,0,127,0.5)); }
-
-    /* REAL RESULT AREA (ULTRA COMPACT) */
-    .real-result-area { display: flex; flex-direction: column; align-items: center; gap: 4px; margin-bottom: 8px; height: 75px; justify-content: center; }
-    .res-text-box { font-family: 'Outfit'; font-size: 26px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s; line-height: 1; margin-bottom: 2px;}
-    .res-text-box.big { color: var(--tc-gold); filter: drop-shadow(0 0 8px rgba(252,213,53,0.6)); animation: breathGold 1.5s infinite alternate;}
-    .res-text-box.small { color: var(--tc-cyan); filter: drop-shadow(0 0 8px rgba(0,243,255,0.6)); animation: breathCyan 1.5s infinite alternate;}
-    .res-text-box.scanning { color: #888; font-size: 18px; animation: pulseScan 0.5s infinite alternate; letter-spacing: 3px; margin-top: 4px;}
-    .res-text-box.hold-msg { color: var(--tc-red); font-size: 11px; text-shadow: 0 0 8px rgba(255,42,75,0.6); line-height: 1.4; text-align: center; padding: 0 5px; letter-spacing: 0.5px;}
+    /* =========================================
+       🔥 NEW RESULT AREA (STYLED BIG/SMALL) 🔥
+       ========================================= */
+    .result-area { display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 8px; height: 50px; margin-bottom: 8px; width: 100%;}
     
-    @keyframes breathGold { from { transform: scale(1); filter: drop-shadow(0 0 4px rgba(252,213,53,0.4));} to { transform: scale(1.05); filter: drop-shadow(0 0 10px rgba(252,213,53,0.8));} }
-    @keyframes breathCyan { from { transform: scale(1); filter: drop-shadow(0 0 4px rgba(0,243,255,0.4));} to { transform: scale(1.05); filter: drop-shadow(0 0 10px rgba(0,243,255,0.8));} }
-    @keyframes pulseScan { from { color: #555; } to { color: var(--tc-cyan); text-shadow: 0 0 8px var(--tc-cyan); } }
-
-    /* The Square Number Box */
-    .res-square-box { display: none; }
-    .res-square-box.active { display: block; animation: popSquare 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+    .res-text-box { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; transition: 0.3s; }
     
-    .res-square-num {
-       width: 36px; height: 36px; border-radius: 4px; display: flex; justify-content: center; align-items: center;
-       font-family: 'Share Tech Mono'; font-size: 20px; font-weight: 900; color: #fff;
-       box-shadow: 0 4px 8px rgba(0,0,0,0.8), inset 0 0 6px rgba(0,0,0,0.5);
-       border: 1px solid rgba(255,255,255,0.2);
-    }
+    .res-word { font-family: 'Outfit'; font-size: 22px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; padding: 4px 10px; border-radius: 4px; line-height: 1; }
+
+    .res-text-box.big .res-word { background: linear-gradient(135deg, rgba(252,213,53,0.15), rgba(0,0,0,0.8)); border: 1px solid rgba(252,213,53,0.5); color: #fff; text-shadow: 0 0 5px var(--tc-gold), 0 0 10px var(--tc-gold); box-shadow: inset 0 0 8px rgba(252,213,53,0.2), 0 0 10px rgba(252,213,53,0.3); animation: breathGold 1.5s infinite alternate; }
+    .res-text-box.small .res-word { background: linear-gradient(135deg, rgba(0,243,255,0.15), rgba(0,0,0,0.8)); border: 1px solid rgba(0,243,255,0.5); color: #fff; text-shadow: 0 0 5px var(--tc-cyan), 0 0 10px var(--tc-cyan); box-shadow: inset 0 0 8px rgba(0,243,255,0.2), 0 0 10px rgba(0,243,255,0.3); animation: breathCyan 1.5s infinite alternate; }
     
-    .bg-red { background: linear-gradient(135deg, #ff4d4d, #b30000); box-shadow: 0 0 10px rgba(204,0,0,0.6); }
-    .bg-green { background: linear-gradient(135deg, #33ff33, #008000); box-shadow: 0 0 10px rgba(0,153,0,0.6); }
-    .bg-violet-red { background: linear-gradient(135deg, #9900cc 50%, #cc0000 50%); box-shadow: 0 0 10px rgba(153,0,204,0.6); }
-    .bg-violet-green { background: linear-gradient(135deg, #9900cc 50%, #009900 50%); box-shadow: 0 0 10px rgba(153,0,204,0.6); }
+    .res-text-box.ready .res-word { background: transparent; border: none; color: #555; text-shadow: none; box-shadow: none; font-size: 18px; letter-spacing: 2px; }
+    .res-text-box.scanning .res-word { background: transparent; border: none; box-shadow: none; color: var(--tc-cyan); font-size: 16px; animation: pulseScan 0.5s infinite alternate; letter-spacing: 2px; }
 
-    @keyframes popSquare { 0% { transform: scale(0); opacity: 0; } 70% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+    /* NUMBER STYLE */
+    .res-number { font-family: 'Share Tech Mono'; font-size: 20px; font-weight: bold; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
+    .res-text-box.big .res-number { color: var(--tc-gold); border-color: rgba(252,213,53,0.4); box-shadow: 0 0 8px rgba(252,213,53,0.2); }
+    .res-text-box.small .res-number { color: var(--tc-cyan); border-color: rgba(0,243,255,0.4); box-shadow: 0 0 8px rgba(0,243,255,0.2); }
 
-    /* 3 STATS BOXES ROW */
-    .stats-row { display: flex; justify-content: center; gap: 4px; width: 100%; margin-bottom: 8px;}
-    .stat-box { flex: 1; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 4px 0; text-align: center; }
-    .stat-box .s-title { font-size: 6px; color: #8e9aa8; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; display: block; margin-bottom: 1px;}
-    .stat-box .s-val { font-family: 'Share Tech Mono'; font-size: 9px; color: #fff; font-weight: bold; }
+    .res-text-box.hold-msg { color: var(--tc-red); font-size: 11px; text-shadow: 0 0 10px rgba(255,42,75,0.6); line-height: 1.4; text-align: center; padding: 0 2px;}
 
-    /* ACTION BUTTONS (MOBILE FRIENDLY BUT SMALL) */
-    .action-row { display: flex; justify-content: center; gap: 6px; width: 100%; }
-    .btn-action { flex: 1; padding: 10px 0; border-radius: 4px; font-family: 'Inter'; font-size: 10px; font-weight: 900; text-transform: uppercase; cursor: pointer; transition: 0.2s; letter-spacing: 0.5px; border: 1px solid transparent; min-height: 38px; }
+    @keyframes breathGold { from { filter: drop-shadow(0 0 2px rgba(252,213,53,0.2));} to { filter: drop-shadow(0 0 8px rgba(252,213,53,0.8)); transform: scale(1.02);} }
+    @keyframes breathCyan { from { filter: drop-shadow(0 0 2px rgba(0,243,255,0.2));} to { filter: drop-shadow(0 0 8px rgba(0,243,255,0.8)); transform: scale(1.02);} }
+    @keyframes pulseScan { from { color: #444; } to { color: var(--tc-cyan); text-shadow: 0 0 8px var(--tc-cyan); } }
+
+    /* ACTION BUTTONS */
+    .action-row { display: flex; justify-content: center; gap: 6px; width: 100%; margin-top: auto;}
+    .btn-action { flex: 1; padding: 10px 0; border-radius: 4px; font-family: 'Inter'; font-size: 10px; font-weight: 900; text-transform: uppercase; cursor: pointer; transition: 0.2s; letter-spacing: 1px; border: 1px solid transparent; min-height: 36px; }
     .btn-action:active { transform: scale(0.95); }
     .btn-scan { background: var(--tc-cyan); color: #000; box-shadow: 0 0 10px rgba(0,243,255,0.3); }
-    .btn-scan:disabled { background: #1e293b; color: #555; box-shadow: none; cursor: not-allowed; }
-    .btn-hide { background: rgba(0,0,0,0.6); color: #aaa; border-color: rgba(255,255,255,0.1); }
-    .btn-hide:hover { color: #fff; background: rgba(255,255,255,0.1); }
+    .btn-scan:disabled { background: #111; color: #444; box-shadow: none; cursor: not-allowed; border: 1px solid #222;}
+    .btn-hide { background: transparent; color: #888; border-color: #333; }
+    .btn-hide:hover { color: #fff; background: rgba(255,255,255,0.05); }
 
     /* SYSTEM MAINTENANCE UI INSIDE */
     #uiMaint { width: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 10px 0; flex: 1;}
-    .maint-icon { font-size: 26px; color: var(--tc-red); margin-bottom: 8px; animation: pulseRed 2s infinite ease-in-out;}
-    .maint-title-in { font-family: 'Outfit'; font-size: 14px; color: var(--tc-red); font-weight: 900; letter-spacing: 1px; margin-bottom: 4px;}
-    .maint-time-val { font-family: 'Share Tech Mono'; font-size: 12px; color: var(--tc-cyan); font-weight: bold; background: rgba(0,0,0,0.8); padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); margin-top: 8px;}
+    .maint-icon { font-size: 20px; color: var(--tc-red); margin-bottom: 6px; animation: pulseRed 2s infinite ease-in-out;}
+    .maint-title-in { font-family: 'Outfit'; font-size: 12px; color: var(--tc-red); font-weight: 900; letter-spacing: 1px; margin-bottom: 4px;}
+    .maint-time-val { font-family: 'Share Tech Mono'; font-size: 10px; color: var(--tc-cyan); font-weight: bold; background: rgba(0,0,0,0.8); padding: 4px 8px; border-radius: 4px; border: 1px solid #333;}
 
-    /* WAITING ROOM EVENT STYLES */
-    .phase-bidding .phase-icon { color: var(--tc-cyan); text-shadow: 0 0 15px rgba(0,243,255,0.5); }
-    .phase-bidding .phase-title { color: #fff; }
-    .phase-bidding .phase-sub { color: var(--tc-cyan); }
-    .phase-locked .phase-icon { color: var(--tc-red); text-shadow: 0 0 15px rgba(255,42,75,0.5); }
-    .phase-locked .phase-title { color: var(--tc-red); }
-    .phase-locked .phase-sub { color: #aaa; }
-    .phase-locked .ev-timer-large { color: var(--tc-red); text-shadow: 0 0 15px rgba(255,42,75,0.4); font-size: 30px;}
-    .ev-timer-large { font-family: 'Share Tech Mono'; font-size: 36px; color: var(--tc-cyan); font-weight: bold; margin: 10px 0; text-shadow: 0 0 15px rgba(0,243,255,0.4); }
-    .waiting-pulse { animation: pulseOp 1.5s infinite alternate; }
-    @keyframes pulseOp { from {opacity:0.5;} to {opacity:1;} }
+    /* 🟢🔴 PERMANENT WIN / LOSS GLOW STYLES FOR SCREENSHOTS 🔴🟢 */
+    @keyframes winPulse { 0% { box-shadow: 0 0 15px rgba(0, 255, 102, 0.3); border-color: var(--tc-green); } 100% { box-shadow: 0 0 40px rgba(0, 255, 102, 0.8); border-color: var(--tc-green); } }
+    .anim-win { animation: winPulse 1.5s infinite alternate; border-color: var(--tc-green) !important; }
+    
+    @keyframes lossShakeAnim { 0% { transform: translateX(0); } 25% { transform: translateX(-4px); } 50% { transform: translateX(4px); } 75% { transform: translateX(-4px); } 100% { transform: translateX(0); } }
+    .anim-loss { animation: lossShakeAnim 0.5s ease-out; border-color: var(--tc-red) !important; box-shadow: 0 0 30px rgba(255, 42, 75, 0.7) !important; }
+
   </style>
 </head>
 <body>
 
+  <!-- MODALS -->
   <div class="modal-screen-mask" id="securityModal">
     <div class="modal-panel-box">
       <div class="session-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
@@ -216,83 +195,73 @@
     </div>
   </div>
 
+  <!-- LOGIN SCREEN (UPDATED WITH GET KEY BUTTON) -->
   <div id="fullOverlayScreen">
     <div class="wrapper-card" id="loginFormCard">
-      <div class="brand-logo"><i class="fa-solid fa-crosshairs"></i></div>
+      <img src="logo.png" alt="Logo" style="width:70px; height:70px; border-radius:8px; border:1px solid var(--tc-cyan); margin-bottom:12px; box-shadow: 0 0 15px rgba(0,243,255,0.2); object-fit:cover;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1464/1464731.png'">
       <h2 style="font-family:'Outfit'; color:#fff; margin-bottom:4px; font-size: 1.5rem; letter-spacing: 1px;">DEV ARMY VIP</h2>
       <p style="font-size:10px; color:#52627a; margin-bottom:20px; letter-spacing: 2px;">SECURE ACCESS NODE</p>
+      
       <div id="errorPopup"></div>
+      
       <input type="text" id="loginKey" class="hacker-box-input" placeholder="ENTER ACCESS KEY">
-      <button class="btn-cyber-solid" id="activateBtn">CONNECT SERVER</button>
-    </div>
-
-    <div class="wrapper-card phase-bidding" id="waitingRoomCard" style="display:none; border-color:var(--tc-border);">
-      <i class="fa-solid fa-lock-open phase-icon waiting-pulse" id="waitIcon" style="font-size:36px; margin-bottom:10px;"></i>
-      <h2 style="font-family:'Outfit'; font-size:20px; margin-bottom:2px;" class="phase-title" id="waitTitle">DEPOSIT WINDOW OPEN</h2>
-      <p style="font-size:10px; font-weight:800; letter-spacing:1px; margin-bottom:10px;" class="phase-sub" id="waitSub">MAKE YOUR DEPOSIT NOW</p>
-      <p style="font-size:11px; color:#888; line-height:1.4;">Highest depositor will be granted 24H access at announcement time.</p>
-      <div class="ev-timer-large" id="waitTimer">--:--:--</div>
-      <div style="background:rgba(0,0,0,0.5); border:1px dashed #333; padding:8px; border-radius:6px; margin-bottom:10px;">
-        <span style="font-size:10px; color:#888;">YOUR REGISTERED UID:</span><br>
-        <span style="font-family:'Share Tech Mono'; font-size:16px; color:var(--tc-cyan);" id="waitUidDisplay">---</span>
+      <button class="btn-cyber-solid" id="activateBtn">CONNECT</button>
+      
+      <div class="get-key-section">
+         <p class="get-key-text">Don't have an access key?</p>
+         <!-- REPLACE WITH YOUR TELEGRAM LINK -->
+         <a href="https://t.me/YOUR_TELEGRAM_LINK" target="_blank" class="btn-get-key">
+            <i class="fa-brands fa-telegram"></i> GET KEY FROM ADMIN
+         </a>
       </div>
-      <p class="waiting-pulse" style="font-size:10px; color:var(--tc-cyan); font-weight:bold;">PLEASE DO NOT CLOSE THIS SCREEN</p>
-    </div>
 
-    <div class="wrapper-card" id="eventResultCard" style="display:none;">
-      <div id="resIcon" style="font-size:40px; margin-bottom:10px;"></div>
-      <h2 id="resTitle" style="font-family:'Outfit'; color:#fff; font-size:22px;">---</h2>
-      <p id="resSub" style="font-size:11px; color:#aaa; margin:10px 0 20px;">---</p>
-      <button class="btn-cyber-solid" id="resBtn" onclick="location.reload()">CONTINUE</button>
     </div>
   </div>
 
+  <!-- MAIN APP -->
   <div id="mainApp">
     <iframe class="bg-game" id="gameIframe" src="about:blank"></iframe>
     
     <div class="draggable-container" id="draggableWidget">
       
+      <!-- COMPACT ICON -->
       <div class="mod-icon" id="modIcon">
         <img src="logo.png" alt="Icon" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1464/1464731.png'">
       </div>
       
+      <!-- MICRO SQUARE EXPANDED BOX -->
       <div class="mod-expanded" id="modExpanded">
         <div class="mod-content-wrapper">
           
           <div class="mod-header">
             <span class="mod-title">DEV ARMY <span class="type-badge" id="accTypeBadge">VIP</span></span>
-            <span class="mod-timer" id="timerBadge">00:00</span>
           </div>
 
+          <!-- KEY EXPIRY TIMER -->
           <div class="key-expiry-box" id="keyExpiryTimer">VALID: CHECKING...</div>
           
-          <div id="uiNormal" style="width: 100%; display: flex; flex-direction: column; align-items: center; flex: 1;">
+          <!-- NORMAL UI -->
+          <div id="uiNormal" style="width: 100%; display: flex; flex-direction: column; flex: 1;">
             
-            <div class="mod-period-pill">
-              <i class="fa-solid fa-hourglass-half"></i> <span id="periodBadge">----</span>
+            <div class="info-row">
+              <div class="info-period">SEQ: <span id="periodBadge">----</span></div>
+              <div class="info-timer" id="countdownTimer">00:00</div>
             </div>
 
-            <div class="status-indicator" id="statusIndicator">ONLINE SUCCESS</div>
-
-            <div class="real-result-area" id="realResultArea">
-               <div class="res-text-box scanning" id="resSizeBox">DECRYPTING</div>
-               <div class="res-square-box" id="resBallBox">
-                  <div class="res-square-num" id="resBallNum">-</div>
+            <!-- RESULT AREA -->
+            <div class="result-area">
+               <div class="res-text-box ready" id="resBox">
+                  <span class="res-word">READY</span>
                </div>
             </div>
 
-            <div class="stats-row">
-              <div class="stat-box"><span class="s-title">SERVER</span><span class="s-val" style="color:var(--tc-green);">ON</span></div>
-              <div class="stat-box"><span class="s-title">LATENCY</span><span class="s-val" id="pingNode">45ms</span></div>
-              <div class="stat-box"><span class="s-title">CONFIDENCE</span><span class="s-val" id="confNode">90.5%</span></div>
-            </div>
-
             <div class="action-row">
-              <button class="btn-action btn-scan" id="analyzeBtn" disabled>WAITING...</button>
+              <button class="btn-action btn-scan" id="analyzeBtn" disabled>PREDICT</button>
               <button class="btn-action btn-hide" id="hideBtn">HIDE</button>
             </div>
           </div>
           
+          <!-- SLEEP MODE UI -->
           <div id="uiMaint">
             <i class="fa-solid fa-moon maint-icon" id="maintIconDisp"></i>
             <div class="maint-title-in" id="maintTitleDisp">SYSTEM SLEEPING</div>
@@ -318,12 +287,11 @@
     window.userTimeframe = "1M";
     window.API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json"; 
     window.isHeld = false; 
-    window.keyExpiryTime = 0;
 
     const fullOverlay = document.getElementById('fullOverlayScreen'); const mainApp = document.getElementById('mainApp'); const errBox = document.getElementById('errorPopup');
     const uiNormal = document.getElementById('uiNormal'); const uiMaint = document.getElementById('uiMaint'); const analyzeBtn = document.getElementById('analyzeBtn');
 
-    // SECURITY ANTI-ABUSE HOOK
+    // SECURITY SYSTEM
     document.addEventListener('visibilitychange', async () => {
       if(document.hidden && document.getElementById('mainApp').style.display === 'block') {
         if(isPremiumKey) return; 
@@ -344,21 +312,31 @@
       document.getElementById('securityModal').style.display = 'none';
     }
 
-    // 🔥 LIVE EXPIRY TIMER 🔥
+    // 🔥 TIMER LOGIC: EXPIRY & COUNTDOWN 🔥
     setInterval(() => {
-      if(window.keyExpiryTime > 0) {
-        let left = window.keyExpiryTime - Date.now();
-        if(left <= 0) { document.getElementById('keyExpiryTimer').innerText = "EXPIRED"; location.reload(); return; }
-        let d = Math.floor(left / (1000 * 60 * 60 * 24));
-        let h = Math.floor((left % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        let m = Math.floor((left % (1000 * 60 * 60)) / (1000 * 60));
-        let s = Math.floor((left % (1000 * 60)) / 1000);
-        let timeStr = d > 0 ? `${d}D ${h}H ${m}M` : `${h}H ${m}M ${s}S`;
-        document.getElementById('keyExpiryTimer').innerText = `VALID: ${timeStr}`;
+      // Periodic Countdown
+      const now = new Date();
+      let secLeft = window.userTimeframe === "30S" ? 30 - (now.getSeconds() % 30) : 60 - now.getSeconds();
+      if(secLeft === 60 || secLeft === 30) secLeft = 0;
+      
+      const timerEl = document.getElementById('countdownTimer');
+      if(timerEl) {
+        timerEl.innerText = `00:${secLeft < 10 ? '0'+secLeft : secLeft}`;
       }
     }, 1000);
 
-    // LOCK & AUTO SLEEP
+    // DYNAMIC EXPIRY UPDATER
+    function checkExpiry(expiryString) {
+      if(!expiryString) return;
+      setInterval(() => {
+         let left = new Date(expiryString).getTime() - Date.now();
+         if(left <= 0) { document.getElementById('keyExpiryTimer').innerText = "EXPIRED"; location.reload(); return; }
+         let h = Math.floor(left / (1000 * 60 * 60)); let m = Math.floor((left % (1000 * 60 * 60)) / (1000 * 60));
+         document.getElementById('keyExpiryTimer').innerText = `VALIDITY: ${h}H ${m}M`;
+      }, 1000);
+    }
+
+    // SYSTEM CONFIG
     let sleepCheckInterval = null; let systemIsLocked = false;
     onValue(ref(database, 'systemConfig'), (snapshot) => {
       if(snapshot.exists()) {
@@ -368,27 +346,24 @@
           const mode = config.maintenance.mode; clearInterval(sleepCheckInterval);
           if(mode === 'LOCKED') {
             systemIsLocked = true; uiNormal.style.display = 'none'; uiMaint.style.display = 'flex';
-            document.getElementById('maintIconDisp').className = "fa-solid fa-lock maint-icon"; document.getElementById('maintTitleDisp').innerText = "SYSTEM LOCKED"; document.getElementById('maintTimeVal').innerText = config.maintenance.sessionTime || "STAY TUNED";
+            document.getElementById('maintTitleDisp').innerText = "SYSTEM LOCKED"; document.getElementById('maintTimeVal').innerText = config.maintenance.sessionTime || "STAY TUNED";
             analyzeBtn.disabled = true; analyzeBtn.textContent = "OFFLINE";
           } else if(mode === 'SLEEP') {
             systemIsLocked = true; uiNormal.style.display = 'none'; uiMaint.style.display = 'flex';
-            document.getElementById('maintIconDisp').className = "fa-solid fa-moon maint-icon"; document.getElementById('maintTitleDisp').innerText = "SYSTEM SLEEPING";
-            analyzeBtn.disabled = true; analyzeBtn.textContent = "Zzz...";
+            document.getElementById('maintTitleDisp').innerText = "SYSTEM SLEEPING";
             if(config.maintenance.autoWakeTime) {
               sleepCheckInterval = setInterval(() => {
                 let left = config.maintenance.autoWakeTime - Date.now();
                 if(left <= 0) {
                   clearInterval(sleepCheckInterval); systemIsLocked = false; uiNormal.style.display = 'flex'; uiMaint.style.display = 'none';
-                  if(isResultReady && !window.isHeld) { analyzeBtn.disabled = false; analyzeBtn.textContent = "SCAN NOW"; }
                 } else {
                   let h = Math.floor(left / 3600000); let m = Math.floor((left % 3600000) / 60000); let s = Math.floor((left % 60000) / 1000);
-                  document.getElementById('maintTimeVal').innerText = `WAKES IN: ${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+                  document.getElementById('maintTimeVal').innerText = `WAKES: ${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
                 }
               }, 1000);
             } else { document.getElementById('maintTimeVal').innerText = "--:--"; }
           } else {
             systemIsLocked = false; uiNormal.style.display = 'flex'; uiMaint.style.display = 'none';
-            if (isResultReady && !window.isHeld) { analyzeBtn.disabled = false; analyzeBtn.textContent = "SCAN NOW"; }
           }
         }
       }
@@ -399,7 +374,7 @@
 
     let myDeviceId = localStorage.getItem('predict_device_id') || ('DEV-' + Math.random().toString(36).substr(2, 9).toUpperCase()); localStorage.setItem('predict_device_id', myDeviceId);
 
-    // GATEWAY CONNECT
+    // 🔥 ACTIVATION LOGIC (TIMER STARTS HERE) 🔥
     document.getElementById('activateBtn').addEventListener('click', async () => {
       const key = document.getElementById('loginKey').value.trim().toUpperCase();
       if(!key) { errBox.style.display='block'; errBox.innerText="ENTER ACCESS KEY"; return; }
@@ -411,12 +386,29 @@
           const kData = snap.val();
           if(kData.status === "BANNED") { document.getElementById('banModal').style.display='flex'; return; }
           if(kData.status === "UNDER_REVIEW") { document.getElementById('reviewModal').style.display='flex'; return; }
-          if(kData.status === "INACTIVE") { errBox.style.display='block'; errBox.innerText="KEY PAUSED BY ADMIN"; document.getElementById('activateBtn').innerText="CONNECT SERVER"; return; }
-          if(new Date() > new Date(kData.expiresAt)) { errBox.style.display='block'; errBox.innerText="KEY EXPIRED"; document.getElementById('activateBtn').innerText="CONNECT SERVER"; return; }
-          if(kData.deviceId && kData.deviceId !== myDeviceId) { errBox.style.display='block'; errBox.innerText="HWID MISMATCH BOUND NODE"; document.getElementById('activateBtn').innerText="CONNECT SERVER"; return; }
+          if(kData.status === "INACTIVE") { errBox.style.display='block'; errBox.innerText="KEY PAUSED BY ADMIN"; document.getElementById('activateBtn').innerText="CONNECT"; return; }
+          
+          let finalExpiresAt = kData.expiresAt;
+          let isFirstUse = false;
+
+          // FIRST USE TRIGGER: Calculate expiry ONLY now
+          if(!kData.expiresAt || kData.status === "UNUSED") {
+             const exp = new Date();
+             exp.setHours(exp.getHours() + (kData.validityHours || 24));
+             finalExpiresAt = exp.toISOString();
+             isFirstUse = true;
+          } else if (new Date() > new Date(kData.expiresAt)) {
+             errBox.style.display='block'; errBox.innerText="KEY EXPIRED"; document.getElementById('activateBtn').innerText="CONNECT"; return;
+          }
+
+          if(kData.deviceId && kData.deviceId !== myDeviceId) { errBox.style.display='block'; errBox.innerText="HWID MISMATCH"; document.getElementById('activateBtn').innerText="CONNECT"; return; }
           
           const updates = {};
           if(!kData.deviceId) updates[`keys/${key}/deviceId`] = myDeviceId;
+          if(isFirstUse) {
+             updates[`keys/${key}/expiresAt`] = finalExpiresAt;
+             updates[`keys/${key}/status`] = "ACTIVE";
+          }
           
           let kType = kData.type || 'VIP';
           document.getElementById('accTypeBadge').innerText = kType;
@@ -430,7 +422,7 @@
           if(Object.keys(updates).length > 0) await update(ref(database), updates);
           
           activeKey = key;
-          window.keyExpiryTime = new Date(kData.expiresAt).getTime();
+          checkExpiry(finalExpiresAt); // Start live countdown
 
           onValue(ref(database, `keys/${activeKey}`), (kSnap) => {
              if(kSnap.exists()){
@@ -438,16 +430,15 @@
                 if(data.status === "BANNED" || data.status === "INACTIVE") location.reload();
                 if(data.holdMsg) {
                    window.isHeld = true;
-                   document.getElementById('resSizeBox').innerText = data.holdMsg;
-                   document.getElementById('resSizeBox').className = "res-text-box hold-msg";
-                   document.getElementById('resBallBox').classList.remove('active');
+                   document.getElementById('resBox').innerHTML = data.holdMsg;
+                   document.getElementById('resBox').className = "res-text-box hold-msg";
                    analyzeBtn.disabled = true;
                    analyzeBtn.textContent = "LOCKED";
                 } else {
                    window.isHeld = false;
-                   document.getElementById('resSizeBox').innerText = "SYNC";
-                   document.getElementById('resSizeBox').className = "res-text-box scanning";
-                   if(isResultReady && !systemIsLocked) { analyzeBtn.disabled = false; analyzeBtn.textContent = "SCAN NOW"; }
+                   document.getElementById('resBox').innerHTML = `<span class="res-word">READY</span>`;
+                   document.getElementById('resBox').className = "res-text-box ready";
+                   if(!systemIsLocked) { analyzeBtn.disabled = false; analyzeBtn.textContent = "PREDICT"; }
                 }
              }
           });
@@ -457,11 +448,11 @@
           } else {
              fullOverlay.style.display = 'none'; mainApp.style.display = 'block'; initEngine(); 
           }
-        } else { errBox.style.display = 'block'; errBox.innerText = "INVALID ACCESS KEY"; document.getElementById('activateBtn').innerText = "CONNECT SERVER"; }
-      } catch(e) { errBox.style.display = 'block'; errBox.innerText = "SERVER REFUSED Connection"; document.getElementById('activateBtn').innerText = "CONNECT SERVER"; }
+        } else { errBox.style.display = 'block'; errBox.innerText = "INVALID ACCESS KEY"; document.getElementById('activateBtn').innerText = "CONNECT"; }
+      } catch(e) { errBox.style.display = 'block'; errBox.innerText = "SERVER REFUSED Connection"; document.getElementById('activateBtn').innerText = "CONNECT"; }
     });
 
-    // DRAGGABLE CONTAINER MODULE
+    // DRAGGABLE CONTAINER
     const container = document.getElementById("draggableWidget"); const iconCollapsed = document.getElementById("modIcon"); const expandedBox = document.getElementById("modExpanded");
     let isDragging = false, hasMoved = false, startX, startY, initialX, initialY;
     
@@ -469,13 +460,10 @@
       const rect = container.getBoundingClientRect();
       const gameWidth = window.innerWidth > 1024 ? 400 : window.innerWidth;
       const xOffset = window.innerWidth > 1024 ? (window.innerWidth - 400)/2 : 0;
-      
       const maxLeft = xOffset + gameWidth - rect.width;
       const maxTop = window.innerHeight - rect.height;
-
       let newLeft = Math.max(xOffset, Math.min(rect.left, maxLeft));
       let newTop = Math.max(20, Math.min(rect.top, maxTop - 20));
-
       container.style.transform = 'none'; container.style.left = newLeft + 'px'; container.style.top = newTop + 'px';
     }
 
@@ -504,7 +492,7 @@
     function dragEnd() { isDragging = false; enforceScreenBounds(); }
     container.addEventListener("touchstart", dragStart, { passive: false }); document.addEventListener("touchmove", drag, { passive: false }); document.addEventListener("touchend", dragEnd); container.addEventListener("mousedown", dragStart); document.addEventListener("mousemove", drag); document.addEventListener("mouseup", dragEnd);
 
-    // 🔥 WANTEDSCARY ADVANCED INTELLIGENCE PATTERN MATRIX ENGINE 🔥
+    // 🔥 ADVANCED INTELLIGENCE ENGINE 🔥
     function getSizeFromNumber(num) { if (num === undefined || num === null) return null; return num >= 5 ? "BIG" : "SMALL"; }
     function generateAIPrediction(historyArray) {
       let predictedSize = "BIG"; let sure1 = 5;
@@ -538,13 +526,14 @@
       return { predictionSize: predictedSize, sureNumber: sure1 };
     }
 
-    let fetchingLock = false, preparedNextPeriod = null, preparedPredictionSize = null, preparedPredictionNumber = null, isResultReady = false; let currentShownPeriod = null;
-    const sizeBox = document.getElementById('resSizeBox'); const ballBox = document.getElementById('resBallBox'); const ballNum = document.getElementById('resBallNum'); const statusIndicator = document.getElementById('statusIndicator');
+    // THE "READY & SCREENSHOT" LOGIC VARIABLES
+    let fetchingLock = false;
+    let internalLatestPeriod = null; 
+    let internalPredictionSize = null; 
+    let internalPredictionNum = null;
+    let predictedPeriodId = null; 
 
-    function updateFakeStats() {
-      document.getElementById('pingNode').innerText = Math.floor(Math.random() * 60 + 30) + 'ms';
-      document.getElementById('confNode').innerText = (Math.random() * 10 + 88).toFixed(1) + '%';
-    }
+    const resBox = document.getElementById('resBox');
 
     async function fetchAndProcess() {
       if(fetchingLock) return; fetchingLock = true;
@@ -552,26 +541,58 @@
       try {
         let API_URL_VAR = window.userTimeframe === "30S" ? "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json" : "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json";
         const res = await fetch(`${API_URL_VAR}?ts=${Date.now()}`, { headers: {'Accept':'application/json'} }); const json = await res.json();
-        if(!json.data || !json.data.list || json.data.list.length === 0) throw new Error("API Blocked Node intercept");
         
         const draws = json.data.list.map(i => ({ issueNumber: String(i.issueNumber), number: parseInt(i.number), size: parseInt(i.number) >= 5 ? "BIG" : "SMALL" })).filter(d => !isNaN(d.number));
         const latest = draws[0]; nextPeriodId = (BigInt(latest.issueNumber) + 1n).toString();
         
-        if(preparedNextPeriod !== nextPeriodId) {
-          preparedNextPeriod = nextPeriodId;
+        let justEvaluated = false;
+
+        // 🔥 WIN/LOSS EVALUATION (STAYS ON SCREEN) 🔥
+        if(predictedPeriodId === latest.issueNumber) {
+            const isSizeWin = (latest.size === internalPredictionSize);
+            
+            expandedBox.classList.remove('anim-win', 'anim-loss');
+            void expandedBox.offsetWidth; // Reflow to restart animation
+
+            if(isSizeWin) {
+                expandedBox.classList.add('anim-win');
+            } else {
+                expandedBox.classList.add('anim-loss');
+            }
+
+            predictedPeriodId = null; 
+            justEvaluated = true;
+        }
+
+        // 🔥 NEW PERIOD ARRIVES 🔥
+        if(internalLatestPeriod !== nextPeriodId) {
+          internalLatestPeriod = nextPeriodId;
+          document.getElementById('periodBadge').textContent = nextPeriodId;
+
+          // Generate next prediction in background
           if(currentGodMode.size !== "AUTO") {
-            preparedPredictionSize = currentGodMode.size; preparedPredictionNumber = preparedPredictionSize === "BIG" ? 7 : 3;
+            internalPredictionSize = currentGodMode.size; internalPredictionNum = internalPredictionSize === "BIG" ? 7 : 3;
           } else {
             const aiOut = generateAIPrediction(draws);
-            preparedPredictionSize = aiOut.predictionSize; preparedPredictionNumber = aiOut.sureNumber;
-            if(currentPolarity === 'REVERSE' && preparedPredictionSize !== "SKIP") {
-               preparedPredictionSize = preparedPredictionSize === "BIG" ? "SMALL" : "BIG"; preparedPredictionNumber = preparedPredictionSize === "BIG" ? 6 : 2;
+            internalPredictionSize = aiOut.predictionSize; internalPredictionNum = aiOut.sureNumber;
+            if(currentPolarity === 'REVERSE' && internalPredictionSize !== "SKIP") {
+               internalPredictionSize = internalPredictionSize === "BIG" ? "SMALL" : "BIG"; internalPredictionNum = internalPredictionSize === "BIG" ? 6 : 2;
             }
           }
-          isResultReady = true; updateFakeStats();
-          if(!systemIsLocked && !window.isHeld) { analyzeBtn.disabled = false; analyzeBtn.textContent = "SCAN NOW"; }
+          
+          if(!systemIsLocked && !window.isHeld) { 
+             analyzeBtn.disabled = false; 
+             analyzeBtn.textContent = "PREDICT"; 
+             
+             if(!justEvaluated && !predictedPeriodId) {
+                 resBox.innerHTML = `<span class="res-word">READY</span>`;
+                 resBox.className = "res-text-box ready";
+                 expandedBox.classList.remove('anim-win', 'anim-loss');
+             }
+          }
         }
       } catch(e) {
+        // Fallback Time Calculation
         const now = new Date(); 
         now.setMinutes(now.getMinutes() + now.getTimezoneOffset() + 330);
         const yyyy = now.getFullYear(); const mm = String(now.getMonth() + 1).padStart(2, '0'); const dd = String(now.getDate()).padStart(2, '0');
@@ -581,44 +602,46 @@
         } else {
             const totalMinutes = (now.getHours() * 60) + now.getMinutes() + 1; nextPeriodId = `${yyyy}${mm}${dd}1000${String(totalMinutes).padStart(4, '0')}`;
         }
-        if(preparedNextPeriod !== nextPeriodId) {
-          preparedNextPeriod = nextPeriodId; preparedPredictionSize = Math.random() > 0.5 ? "BIG" : "SMALL"; preparedPredictionNumber = 9; isResultReady = true; updateFakeStats();
-          if(!systemIsLocked && !window.isHeld) { analyzeBtn.disabled = false; analyzeBtn.textContent = "SCAN NOW"; }
+        
+        if(internalLatestPeriod !== nextPeriodId) {
+          internalLatestPeriod = nextPeriodId;
+          document.getElementById('periodBadge').textContent = nextPeriodId;
+          internalPredictionSize = Math.random() > 0.5 ? "BIG" : "SMALL"; internalPredictionNum = 9; 
+          
+          if(!systemIsLocked && !window.isHeld) { 
+             analyzeBtn.disabled = false; 
+             analyzeBtn.textContent = "PREDICT"; 
+             if(!predictedPeriodId) {
+                 resBox.innerHTML = `<span class="res-word">READY</span>`;
+                 resBox.className = "res-text-box ready";
+                 expandedBox.classList.remove('anim-win', 'anim-loss');
+             }
+          }
         }
       } finally { fetchingLock = false; }
     }
 
     analyzeBtn.addEventListener('click', () => {
-      if(!isResultReady || systemIsLocked || window.isHeld) return; isResultReady = false;
-      analyzeBtn.disabled = true;
+      // Prevent click if system is locked, held, or user ALREADY clicked predict for this period
+      if(systemIsLocked || window.isHeld || predictedPeriodId === internalLatestPeriod) return; 
       
-      sizeBox.innerText = "SCANNING";
-      sizeBox.className = "res-text-box scanning";
-      ballBox.classList.remove('active');
-      statusIndicator.innerText = "DECRYPTING..."; statusIndicator.style.color = "var(--tc-magenta)";
+      analyzeBtn.disabled = true;
+      predictedPeriodId = internalLatestPeriod; 
+      
+      expandedBox.classList.remove('anim-win', 'anim-loss');
+
+      resBox.innerHTML = `<span class="res-word">SCANNING</span>`;
+      resBox.className = "res-text-box scanning";
 
       setTimeout(() => {
-        document.getElementById('periodBadge').textContent = preparedNextPeriod; currentShownPeriod = preparedNextPeriod;
-        statusIndicator.innerText = "ONLINE SUCCESS"; statusIndicator.style.color = "var(--tc-cyan)";
-        
-        if(preparedPredictionSize === "SKIP") {
-          sizeBox.innerText = `SKIP`; sizeBox.className = "res-text-box active-skip";
+        if(internalPredictionSize === "SKIP") {
+          resBox.innerHTML = `<span class="res-word" style="color:#555; border-color:#333; box-shadow:none;">SKIP</span> <span class="res-number" style="color:#555; border-color:#333;">-</span>`; 
+          resBox.className = "res-text-box ready"; 
         } else {
-          sizeBox.innerText = preparedPredictionSize;
-          sizeBox.className = preparedPredictionSize === 'SMALL' ? "res-text-box small" : "res-text-box big";
-          
-          ballNum.innerText = preparedPredictionNumber;
-          ballNum.className = "res-square-num"; 
-          
-          let num = parseInt(preparedPredictionNumber);
-          if(num === 0) ballNum.classList.add('bg-violet-red');
-          else if(num === 5) ballNum.classList.add('bg-violet-green');
-          else if([2,4,6,8].includes(num)) ballNum.classList.add('bg-red');
-          else ballNum.classList.add('bg-green');
-          
-          ballBox.classList.add('active'); 
+          resBox.innerHTML = `<span class="res-word">${internalPredictionSize}</span> <span class="res-number">${internalPredictionNum}</span>`;
+          resBox.className = internalPredictionSize === 'SMALL' ? "res-text-box small" : "res-text-box big";
         }
-        analyzeBtn.textContent = "WAITING...";
+        analyzeBtn.textContent = "PREDICTED";
       }, 1500); 
     });
 

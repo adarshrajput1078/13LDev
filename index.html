@@ -10,12 +10,11 @@
 
   <style>
     /* =========================================
-       🔥 MICRO-SQUARE CYBER THEME 🔥
+       🔥 THEME STYLES 🔥
        ========================================= */
     :root { 
       --tc-green: #00ff66; --tc-red: #ff2a7a; --tc-gold: #fcd535; --tc-cyan: #00f3ff;
       --tc-dark: #000000; --tc-card: #050505; --tc-border: #1e293b; --tc-warn: #ff9900;
-      --tc-tg: #0088cc;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;}
@@ -23,118 +22,71 @@
 
     #mainApp { display: none; width: 100vw; height: 100vh; position: relative; overflow: hidden;}
     .bg-game { width: 100%; height: 100%; border: none; background: #000; position: absolute; top: 0; left: 0; z-index: 1;}
-    @media (min-width: 1024px) { .bg-game { width: 400px; left: 50%; transform: translateX(-50%); box-shadow: 0 0 60px rgba(0,243,255,0.15); border-left: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05);} }
 
     .btn-cyber-solid { width: 100%; background: var(--tc-cyan); border: none; color: #000; font-family: 'Inter'; font-size: 0.9rem; font-weight: 900; padding: 14px; cursor: pointer; border-radius: 6px; text-transform: uppercase; box-shadow: 0 5px 15px rgba(0, 243, 255, 0.3); transition: 0.2s; min-height: 44px;}
     .btn-cyber-solid:active { transform: scale(0.96); }
 
-    /* MODALS */
-    .modal-screen-mask { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); z-index: 25000; justify-content: center; align-items: center; padding: 20px;}
-    .modal-panel-box { width: 100%; max-width: 300px; background: #080808; border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 20px 15px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.9); position: relative; overflow: hidden;}
-    
-    #securityModal .modal-panel-box, #banModal .modal-panel-box { border-color: var(--tc-red); }
-    #securityModal .session-icon, #banModal .session-icon { color: var(--tc-red); font-size: 2.5rem; margin-bottom: 10px; animation: pulseRed 1s infinite alternate;}
-    #securityModal .session-title, #banModal .session-title { font-family: 'Outfit'; font-size: 1.2rem; font-weight: 900; color: var(--tc-red); margin-bottom: 5px; }
-
-    #reviewModal .modal-panel-box { border-color: var(--tc-warn); }
-    #reviewModal .session-icon { color: var(--tc-warn); font-size: 2.5rem; margin-bottom: 10px; animation: pulseWarn 1s infinite alternate;}
-    #reviewModal .session-title { font-family: 'Outfit'; font-size: 1.2rem; font-weight: 900; color: var(--tc-warn); margin-bottom: 5px; }
-
-    .session-reason { font-size: 0.8rem; color: #8e9aa8; margin-bottom: 15px; line-height: 1.4;}
-    .security-strikes { font-family: 'Share Tech Mono'; font-size: 18px; font-weight: bold; color: var(--tc-cyan); margin: 15px 0; background: rgba(0,0,0,0.6); padding: 8px; border-radius: 4px; border: 1px dashed var(--tc-cyan);}
-    
-    @keyframes pulseRed { from { transform: scale(1); filter: drop-shadow(0 0 8px rgba(255,42,75,0.3)); } to { transform: scale(1.08); filter: drop-shadow(0 0 16px rgba(255,42,75,0.7)); } }
-    @keyframes pulseWarn { from { transform: scale(1); filter: drop-shadow(0 0 8px rgba(255,153,0,0.3)); } to { transform: scale(1.08); filter: drop-shadow(0 0 16px rgba(255,153,0,0.7)); } }
-
-    /* LOGIN SCREEN */
+    /* LOGIN SCREEN WRAPPERS */
     #fullOverlayScreen { position: fixed; inset: 0; background: var(--tc-dark); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
     .wrapper-card { width: 100%; max-width: 320px; background: #050505; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 30px 20px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.9); position: relative; overflow: hidden; text-align: center;}
-    .brand-logo { font-size: 38px; color: var(--tc-cyan); margin-bottom: 10px; filter: drop-shadow(0 0 8px rgba(0,243,255,0.4)); animation: logoGlow 2s infinite alternate;}
-    @keyframes logoGlow { from { filter: drop-shadow(0 0 4px rgba(0,243,255,0.2)); } to { filter: drop-shadow(0 0 12px rgba(0,243,255,0.6)); } }
     
-    .hacker-box-input { width: 100%; background: #000; border: 1px solid #1e293b; color: #fff; padding: 14px; font-family: 'Share Tech Mono'; font-weight: 700; text-align: center; outline: none; font-size: 16px; margin-bottom: 15px; border-radius: 4px; transition: 0.3s; letter-spacing: 1px; min-height: 48px; }
+    .hacker-box-input { width: 100%; background: #000; border: 1px solid #1e293b; color: #fff; padding: 14px; font-family: 'Share Tech Mono'; font-weight: 700; text-align: center; outline: none; font-size: 16px; margin-bottom: 12px; border-radius: 4px; transition: 0.3s; letter-spacing: 1px; min-height: 48px; }
     .hacker-box-input:focus { border-color: var(--tc-cyan); box-shadow: 0 0 10px rgba(0,243,255,0.15); }
     #errorPopup { display: none; color: var(--tc-red); font-weight: 800; margin-bottom: 10px; font-size: 10px; text-transform: uppercase;}
 
-    .get-key-section { margin-top: 20px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); }
-    .get-key-text { font-size: 9px; color: #8e9aa8; margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase; font-weight: 800;}
-    .btn-get-key { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: rgba(0, 136, 204, 0.1); border: 1px solid var(--tc-tg); color: var(--tc-tg); font-family: 'Inter'; font-size: 11px; font-weight: 900; padding: 12px; border-radius: 6px; text-decoration: none; transition: 0.3s; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 0 10px rgba(0,136,204,0.1);}
-    .btn-get-key i { font-size: 14px; }
-    .btn-get-key:active { transform: scale(0.96); }
+    /* EVENT JOIN BTN */
+    .btn-join-event { width: 100%; background: transparent; border: 1px dashed var(--tc-gold); color: var(--tc-gold); font-family: 'Inter'; font-size: 12px; font-weight: 900; padding: 12px; border-radius: 6px; margin-top: 15px; cursor: pointer; transition: 0.3s;}
+    .btn-join-event:active { background: rgba(252,213,53,0.1); }
 
-    /* =========================================
-       🔥 MICRO WIDGET (200px) & ANIMATIONS 🔥
-       ========================================= */
-    .draggable-container { position: absolute; top: 15%; left: 50%; transform: translateX(-50%); z-index: 9999; touch-action: none; display: flex; justify-content: center; align-items: center; }
+    /* 🔥 HOW IT WORKS SECTION 🔥 */
+    .how-it-works { background: rgba(252, 213, 53, 0.05); border: 1px dashed rgba(252, 213, 53, 0.3); padding: 12px 10px; border-radius: 6px; margin-bottom: 15px; text-align: left;}
+    .step-item { font-size: 10px; color: #ccc; margin-bottom: 10px; display: flex; align-items: flex-start; gap: 8px; line-height: 1.4;}
+    .step-item:last-child { margin-bottom: 0; }
+    .step-icon { color: var(--tc-gold); font-size: 12px; margin-top: 2px;}
+
+    /* EVENT WAITING ROOM & LEADERBOARD */
+    .ev-timer-large { font-family: 'Share Tech Mono'; font-size: 35px; color: var(--tc-gold); font-weight: bold; margin: 10px 0; text-shadow: 0 0 15px rgba(252,213,53,0.4); }
+    .leaderboard-box { height: 130px; overflow-y: auto; background: #000; border: 1px solid #222; border-radius: 6px; margin-bottom: 15px; text-align: left; padding: 5px; }
+    .lb-row { display: flex; justify-content: space-between; padding: 6px 5px; border-bottom: 1px solid #111; font-family: 'Share Tech Mono'; font-size: 12px; }
     
-    /* COLLAPSED ICON */
-    .mod-icon { 
-      width: 40px; height: 40px; background: #000; border: 1.5px solid var(--tc-cyan); 
-      border-radius: 6px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: transform 0.2s; 
-      overflow: hidden; box-shadow: 0 0 15px rgba(0,243,255,0.3);
-    }
+    /* MOD WIDGET */
+    .draggable-container { position: absolute; top: 15%; left: 50%; transform: translateX(-50%); z-index: 9999; touch-action: none; display: flex; justify-content: center; align-items: center; }
+    .mod-icon { width: 40px; height: 40px; background: #000; border: 1.5px solid var(--tc-cyan); border-radius: 6px; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 0 15px rgba(0,243,255,0.3); }
     .mod-icon img { width: 75%; height: 75%; object-fit: contain; pointer-events: none; }
-    .mod-icon:active { transform: scale(0.92); }
     .mod-icon.hidden { display: none; }
 
-    /* EXPANDED MICRO BOX */
-    .mod-expanded { 
-      display: none; width: 200px; min-height: 140px; background: #000; border-radius: 8px; 
-      position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.9); padding: 2px; overflow: hidden; 
-      transition: border-color 0.3s, box-shadow 0.3s;
-    }
+    .mod-expanded { display: none; width: 200px; min-height: 140px; background: #000; border-radius: 8px; position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.9); padding: 2px; overflow: hidden; }
     .mod-expanded.active { display: block; animation: radarPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
     @keyframes radarPop { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
 
-    /* 🌈 THE SPINNING NEON BORDER 🌈 */
-    .mod-expanded::before {
-      content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-      background: conic-gradient(transparent, transparent, transparent, var(--tc-cyan));
-      animation: spinBorder 2s linear infinite; z-index: 0;
-    }
+    .mod-expanded::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(transparent, transparent, transparent, var(--tc-cyan)); animation: spinBorder 2s linear infinite; z-index: 0; }
     @keyframes spinBorder { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-    /* ⬛ PURE BLACK INNER BOX */
-    .mod-content-wrapper { 
-      position: relative; z-index: 2; width: 100%; height: 100%; 
-      background: #050505; border-radius: 6px; padding: 10px; display: flex; flex-direction: column; justify-content: flex-start;
-    }
+    .mod-content-wrapper { position: relative; z-index: 2; width: 100%; height: 100%; background: #050505; border-radius: 6px; padding: 10px; display: flex; flex-direction: column; justify-content: flex-start; }
 
-    /* HEADER */
     .mod-header { width: 100%; display: flex; justify-content: center; align-items: center; margin-bottom: 4px; }
     .mod-title { font-family: 'Outfit'; font-size: 11px; font-weight: 800; color: #fff; letter-spacing: 0.5px; display: flex; align-items: center;}
     .type-badge { font-size: 7px; background: rgba(0,243,255,0.1); color: var(--tc-cyan); padding: 2px 4px; border-radius: 3px; margin-left: 4px; border: 1px solid var(--tc-cyan); letter-spacing: 1px;}
-
-    /* KEY EXPIRY TIMER */
     .key-expiry-box { width: 100%; font-family: 'Share Tech Mono', monospace; font-size: 8px; color: var(--tc-gold); font-weight: bold; text-align: center; margin-bottom: 8px; letter-spacing: 1px; }
 
-    /* PERIOD & COUNTDOWN ROW */
     .info-row { display: flex; justify-content: space-between; align-items: center; background: #111; border: 1px solid #222; padding: 4px 6px; border-radius: 4px; margin-bottom: 8px;}
-    .info-period { font-family: 'Share Tech Mono'; font-size: 9px; color: #aaa; font-weight: bold; letter-spacing: 0.5px;}
+    .info-period { font-family: 'Share Tech Mono'; font-size: 9px; color: #aaa; font-weight: bold; }
     .info-period span { color: var(--tc-cyan); }
-    .info-timer { font-family: 'Share Tech Mono'; font-size: 11px; color: var(--tc-green); font-weight: bold; letter-spacing: 1px; text-shadow: 0 0 5px rgba(0,255,102,0.4);}
+    .info-timer { font-family: 'Share Tech Mono'; font-size: 11px; color: var(--tc-green); font-weight: bold; letter-spacing: 1px; }
 
-    /* =========================================
-       🔥 NEW RESULT AREA (STYLED BIG/SMALL) 🔥
-       ========================================= */
+    /* RESULT AREA STYLES */
     .result-area { display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 8px; height: 50px; margin-bottom: 8px; width: 100%;}
-    
     .res-text-box { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; transition: 0.3s; }
-    
     .res-word { font-family: 'Outfit'; font-size: 22px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; padding: 4px 10px; border-radius: 4px; line-height: 1; }
 
     .res-text-box.big .res-word { background: linear-gradient(135deg, rgba(252,213,53,0.15), rgba(0,0,0,0.8)); border: 1px solid rgba(252,213,53,0.5); color: #fff; text-shadow: 0 0 5px var(--tc-gold), 0 0 10px var(--tc-gold); box-shadow: inset 0 0 8px rgba(252,213,53,0.2), 0 0 10px rgba(252,213,53,0.3); animation: breathGold 1.5s infinite alternate; }
     .res-text-box.small .res-word { background: linear-gradient(135deg, rgba(0,243,255,0.15), rgba(0,0,0,0.8)); border: 1px solid rgba(0,243,255,0.5); color: #fff; text-shadow: 0 0 5px var(--tc-cyan), 0 0 10px var(--tc-cyan); box-shadow: inset 0 0 8px rgba(0,243,255,0.2), 0 0 10px rgba(0,243,255,0.3); animation: breathCyan 1.5s infinite alternate; }
-    
-    .res-text-box.ready .res-word { background: transparent; border: none; color: #555; text-shadow: none; box-shadow: none; font-size: 18px; letter-spacing: 2px; }
-    .res-text-box.scanning .res-word { background: transparent; border: none; box-shadow: none; color: var(--tc-cyan); font-size: 16px; animation: pulseScan 0.5s infinite alternate; letter-spacing: 2px; }
+    .res-text-box.ready .res-word { background: transparent; border: none; color: #555; font-size: 18px; letter-spacing: 2px; }
+    .res-text-box.scanning .res-word { background: transparent; border: none; color: var(--tc-cyan); font-size: 16px; animation: pulseScan 0.5s infinite alternate; letter-spacing: 2px; }
 
-    /* NUMBER STYLE */
     .res-number { font-family: 'Share Tech Mono'; font-size: 20px; font-weight: bold; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
     .res-text-box.big .res-number { color: var(--tc-gold); border-color: rgba(252,213,53,0.4); box-shadow: 0 0 8px rgba(252,213,53,0.2); }
     .res-text-box.small .res-number { color: var(--tc-cyan); border-color: rgba(0,243,255,0.4); box-shadow: 0 0 8px rgba(0,243,255,0.2); }
-
-    .res-text-box.hold-msg { color: var(--tc-red); font-size: 11px; text-shadow: 0 0 10px rgba(255,42,75,0.6); line-height: 1.4; text-align: center; padding: 0 2px;}
 
     @keyframes breathGold { from { filter: drop-shadow(0 0 2px rgba(252,213,53,0.2));} to { filter: drop-shadow(0 0 8px rgba(252,213,53,0.8)); transform: scale(1.02);} }
     @keyframes breathCyan { from { filter: drop-shadow(0 0 2px rgba(0,243,255,0.2));} to { filter: drop-shadow(0 0 8px rgba(0,243,255,0.8)); transform: scale(1.02);} }
@@ -147,59 +99,25 @@
     .btn-scan { background: var(--tc-cyan); color: #000; box-shadow: 0 0 10px rgba(0,243,255,0.3); }
     .btn-scan:disabled { background: #111; color: #444; box-shadow: none; cursor: not-allowed; border: 1px solid #222;}
     .btn-hide { background: transparent; color: #888; border-color: #333; }
-    .btn-hide:hover { color: #fff; background: rgba(255,255,255,0.05); }
 
-    /* SYSTEM MAINTENANCE UI INSIDE */
-    #uiMaint { width: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 10px 0; flex: 1;}
-    .maint-icon { font-size: 20px; color: var(--tc-red); margin-bottom: 6px; animation: pulseRed 2s infinite ease-in-out;}
-    .maint-title-in { font-family: 'Outfit'; font-size: 12px; color: var(--tc-red); font-weight: 900; letter-spacing: 1px; margin-bottom: 4px;}
-    .maint-time-val { font-family: 'Share Tech Mono'; font-size: 10px; color: var(--tc-cyan); font-weight: bold; background: rgba(0,0,0,0.8); padding: 4px 8px; border-radius: 4px; border: 1px solid #333;}
-
-    /* 🟢🔴 PERMANENT WIN / LOSS GLOW STYLES FOR SCREENSHOTS 🔴🟢 */
+    /* WIN/LOSS STYLES */
     @keyframes winPulse { 0% { box-shadow: 0 0 15px rgba(0, 255, 102, 0.3); border-color: var(--tc-green); } 100% { box-shadow: 0 0 40px rgba(0, 255, 102, 0.8); border-color: var(--tc-green); } }
     .anim-win { animation: winPulse 1.5s infinite alternate; border-color: var(--tc-green) !important; }
-    
     @keyframes lossShakeAnim { 0% { transform: translateX(0); } 25% { transform: translateX(-4px); } 50% { transform: translateX(4px); } 75% { transform: translateX(-4px); } 100% { transform: translateX(0); } }
     .anim-loss { animation: lossShakeAnim 0.5s ease-out; border-color: var(--tc-red) !important; box-shadow: 0 0 30px rgba(255, 42, 75, 0.7) !important; }
 
+    /* DYNAMIC TELEGRAM BUTTON */
+    .btn-get-key { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: rgba(0, 136, 204, 0.1); border: 1px solid #0088cc; color: #0088cc; font-family: 'Inter'; font-size: 11px; font-weight: 900; padding: 12px; border-radius: 6px; text-decoration: none; transition: 0.3s; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 0 10px rgba(0,136,204,0.1); margin-top: 15px;}
+    .btn-get-key:active { transform: scale(0.96); }
   </style>
 </head>
 <body>
 
-  <!-- MODALS -->
-  <div class="modal-screen-mask" id="securityModal">
-    <div class="modal-panel-box">
-      <div class="session-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
-      <h2 class="session-title" id="secTitle">SECURITY WARNING</h2>
-      <p class="session-reason" id="secMsg">Minimizing or switching tabs is strictly prohibited for your account type.</p>
-      <div class="security-strikes" id="secStrikes">STRIKES: 1/5</div>
-      <button class="btn-cyber-solid" onclick="dismissSecurity()" id="secBtn" style="background:var(--tc-red); color:#fff;">I UNDERSTAND</button>
-    </div>
-  </div>
-
-  <div class="modal-screen-mask" id="reviewModal">
-    <div class="modal-panel-box">
-      <div class="session-icon"><i class="fa-solid fa-user-shield"></i></div>
-      <h2 class="session-title">UNDER REVIEW</h2>
-      <p class="session-reason">You have reached the minimize limit. Admin is currently verifying your game deposits. Please wait.</p>
-      <div class="security-strikes" style="border: 1px dashed var(--tc-warn); color: var(--tc-warn);">STATUS: PENDING</div>
-    </div>
-  </div>
-
-  <div class="modal-screen-mask" id="banModal">
-    <div class="modal-panel-box">
-      <div class="session-icon"><i class="fa-solid fa-skull"></i></div>
-      <h2 class="session-title">SYSTEM BANNED</h2>
-      <p class="session-reason">Your account has been permanently locked by the administrator for policy violations.</p>
-      <div class="security-strikes" style="border: 1px dashed var(--tc-red); color:var(--tc-red);">ACCESS DENIED</div>
-    </div>
-  </div>
-
-  <!-- LOGIN SCREEN (UPDATED WITH GET KEY BUTTON) -->
   <div id="fullOverlayScreen">
+    
     <div class="wrapper-card" id="loginFormCard">
-      <img src="logo.png" alt="Logo" style="width:70px; height:70px; border-radius:8px; border:1px solid var(--tc-cyan); margin-bottom:12px; box-shadow: 0 0 15px rgba(0,243,255,0.2); object-fit:cover;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1464/1464731.png'">
-      <h2 style="font-family:'Outfit'; color:#fff; margin-bottom:4px; font-size: 1.5rem; letter-spacing: 1px;">DEV ARMY VIP</h2>
+      <img src="logo.png" alt="Logo" style="width:65px; height:65px; border-radius:8px; border:1px solid var(--tc-cyan); margin-bottom:12px; box-shadow: 0 0 15px rgba(0,243,255,0.2); object-fit:cover;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1464/1464731.png'">
+      <h2 style="font-family:'Outfit'; color:#fff; margin-bottom:4px; font-size: 1.4rem; letter-spacing: 1px;">DEV ARMY VIP</h2>
       <p style="font-size:10px; color:#52627a; margin-bottom:20px; letter-spacing: 2px;">SECURE ACCESS NODE</p>
       
       <div id="errorPopup"></div>
@@ -207,70 +125,79 @@
       <input type="text" id="loginKey" class="hacker-box-input" placeholder="ENTER ACCESS KEY">
       <button class="btn-cyber-solid" id="activateBtn">CONNECT</button>
       
-      <div class="get-key-section">
-         <p class="get-key-text">Don't have an access key?</p>
-         <!-- REPLACE WITH YOUR TELEGRAM LINK -->
-         <a href="https://t.me/NseDev" target="_blank" class="btn-get-key">
-            <i class="fa-brands fa-telegram"></i> GET KEY FROM ADMIN
-         </a>
+      <a href="https://t.me/" id="supportBtn" target="_blank" class="btn-get-key">
+         <i class="fa-brands fa-telegram"></i> GET KEY FROM ADMIN
+      </a>
+      
+      <button class="btn-join-event" onclick="showEventLogin()"><i class="fa-solid fa-trophy"></i> JOIN MEGA EVENT</button>
+    </div>
+
+    <div class="wrapper-card" id="eventLoginFormCard" style="display:none; border-color:var(--tc-gold);">
+      <i class="fa-solid fa-calendar-check" style="font-size:35px; color:var(--tc-gold); margin-bottom:10px; text-shadow:0 0 15px rgba(252,213,53,0.5);"></i>
+      <h2 style="font-family:'Outfit'; color:var(--tc-gold); margin-bottom:15px; font-size: 1.3rem; letter-spacing: 1px;">MEGA EVENT</h2>
+      
+      <div class="how-it-works">
+        <div class="step-item"><i class="fa-solid fa-1 step-icon"></i> <span><b>UID</b> dalkar Event Join karein.</span></div>
+        <div class="step-item"><i class="fa-solid fa-2 step-icon"></i> <span>Deposit karke <a href="https://t.me/" id="botLink" target="_blank" style="color:var(--tc-cyan); text-decoration:none;"><b>@AdminBot</b></a> par Screenshot bhejein.</span></div>
+        <div class="step-item"><i class="fa-solid fa-3 step-icon"></i> <span>Admin verify karke aapka Amount Live update karega.</span></div>
+      </div>
+      
+      <div id="evErrorPopup" style="display:none; color:var(--tc-red); font-weight:bold; font-size:10px; margin-bottom:10px;"></div>
+      
+      <div id="evJoinInputs" style="display:none;">
+        <input type="text" id="evInputKey" class="hacker-box-input" placeholder="EVENT KEY">
+        <input type="number" id="evInputUid" class="hacker-box-input" placeholder="7-DIGIT GAME UID" maxlength="7">
+        <button class="btn-cyber-solid" style="background:var(--tc-gold);" id="joinEvBtn">ENTER TOURNAMENT</button>
       </div>
 
+      <div id="nextEventArea" style="display:block; padding: 10px 0;">
+        <p style="font-size:10px; color:var(--tc-cyan); font-weight:bold; letter-spacing:1px; margin-bottom:5px;">NEXT EVENT OPENS IN:</p>
+        <div class="ev-timer-large" id="nextEventTimer" style="font-size:32px;">--:--:--</div>
+        <p style="font-size:9px; color:#666;">Top 3 Depositors will win VIP Access!</p>
+      </div>
+
+      <button style="background:transparent; border:none; color:#666; font-size:11px; font-weight:bold; margin-top:15px; cursor:pointer;" onclick="hideEventLogin()">← BACK TO LOGIN</button>
     </div>
+
+    <div class="wrapper-card phase-bidding" id="waitingRoomCard" style="display:none; border-color:var(--tc-border);">
+      <h2 style="font-family:'Outfit'; font-size:18px; color:#fff; margin-bottom:2px;">DEPOSIT WINDOW LIVE</h2>
+      <div class="ev-timer-large" id="waitTimer">--:--:--</div>
+      <div style="font-size:11px; color:var(--tc-cyan); font-weight:bold; margin-bottom:5px; text-align:left;">LIVE MEMBERS: <span id="liveMemberCount">0</span></div>
+      <div class="leaderboard-box" id="leaderboardBox"></div>
+      <div style="background:rgba(0,0,0,0.5); border:1px dashed #333; padding:8px; border-radius:6px; margin-bottom:10px;">
+        <span style="font-size:10px; color:#888;">YOUR REGISTERED UID:</span><br>
+        <span style="font-family:'Share Tech Mono'; font-size:16px; color:var(--tc-cyan); font-weight:bold;" id="waitUidDisplay">---</span>
+      </div>
+      <p style="font-size:9px; color:var(--tc-gold); font-weight:bold;">Do not close app. Top 3 highest depositors will win.</p>
+    </div>
+
+    <div class="wrapper-card" id="eventResultCard" style="display:none;">
+      <div id="resIcon" style="font-size:45px; margin-bottom:15px;"></div>
+      <h2 id="resEventTitle" style="font-family:'Outfit'; color:#fff; font-size:24px; margin-bottom:5px;">---</h2>
+      <p id="resEventSub" style="font-size:11px; color:#aaa; margin-bottom: 25px;">---</p>
+      <button class="btn-cyber-solid" id="resBtn" onclick="location.reload()">CONTINUE</button>
+    </div>
+
   </div>
 
-  <!-- MAIN APP -->
   <div id="mainApp">
     <iframe class="bg-game" id="gameIframe" src="about:blank"></iframe>
-    
     <div class="draggable-container" id="draggableWidget">
-      
-      <!-- COMPACT ICON -->
-      <div class="mod-icon" id="modIcon">
-        <img src="logo.png" alt="Icon" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1464/1464731.png'">
-      </div>
-      
-      <!-- MICRO SQUARE EXPANDED BOX -->
+      <div class="mod-icon" id="modIcon"><img src="logo.png" alt="Icon" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1464/1464731.png'"></div>
       <div class="mod-expanded" id="modExpanded">
         <div class="mod-content-wrapper">
-          
-          <div class="mod-header">
-            <span class="mod-title">DEV ARMY <span class="type-badge" id="accTypeBadge">VIP</span></span>
-          </div>
-
-          <!-- KEY EXPIRY TIMER -->
+          <div class="mod-header"><span class="mod-title">DEV ARMY <span class="type-badge" id="accTypeBadge">VIP</span></span></div>
           <div class="key-expiry-box" id="keyExpiryTimer">VALID: CHECKING...</div>
-          
-          <!-- NORMAL UI -->
           <div id="uiNormal" style="width: 100%; display: flex; flex-direction: column; flex: 1;">
-            
-            <div class="info-row">
-              <div class="info-period">SEQ: <span id="periodBadge">----</span></div>
-              <div class="info-timer" id="countdownTimer">00:00</div>
-            </div>
-
-            <!-- RESULT AREA -->
-            <div class="result-area">
-               <div class="res-text-box ready" id="resBox">
-                  <span class="res-word">READY</span>
-               </div>
-            </div>
-
+            <div class="info-row"><div class="info-period">SEQ: <span id="periodBadge">----</span></div><div class="info-timer" id="countdownTimer">00:00</div></div>
+            <div class="result-area"><div class="res-text-box ready" id="resBox"><span class="res-word">READY</span></div></div>
             <div class="action-row">
               <button class="btn-action btn-scan" id="analyzeBtn" disabled>PREDICT</button>
               <button class="btn-action btn-hide" id="hideBtn">HIDE</button>
             </div>
           </div>
-          
-          <!-- SLEEP MODE UI -->
-          <div id="uiMaint">
-            <i class="fa-solid fa-moon maint-icon" id="maintIconDisp"></i>
-            <div class="maint-title-in" id="maintTitleDisp">SYSTEM SLEEPING</div>
-            <div class="maint-time-val" id="maintTimeVal">--:--</div>
-          </div>
-
         </div>
       </div>
-
     </div>
   </div>
 
@@ -284,364 +211,228 @@
     let activeKey = null; let isPremiumKey = false;
     let minCount = localStorage.getItem('sec_min_count') ? parseInt(localStorage.getItem('sec_min_count')) : 0;
     
-    window.userTimeframe = "1M";
-    window.API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json"; 
-    window.isHeld = false; 
-
-    const fullOverlay = document.getElementById('fullOverlayScreen'); const mainApp = document.getElementById('mainApp'); const errBox = document.getElementById('errorPopup');
-    const uiNormal = document.getElementById('uiNormal'); const uiMaint = document.getElementById('uiMaint'); const analyzeBtn = document.getElementById('analyzeBtn');
-
-    // SECURITY SYSTEM
-    document.addEventListener('visibilitychange', async () => {
-      if(document.hidden && document.getElementById('mainApp').style.display === 'block') {
-        if(isPremiumKey) return; 
-        minCount++; localStorage.setItem('sec_min_count', minCount);
-        if(minCount >= 5 && activeKey) {
-          await update(ref(database, `keys/${activeKey}`), { status: "BANNED" });
-          document.getElementById('banModal').style.display = 'flex';
-          document.getElementById('mainApp').style.pointerEvents = 'none'; document.getElementById('mainApp').style.filter = 'blur(10px) grayscale(100%)';
-        } else {
-          document.getElementById('secStrikes').innerText = `STRIKES: ${minCount}/5`;
-          document.getElementById('securityModal').style.display = 'flex';
-        }
-      }
-    });
-
-    window.dismissSecurity = function() {
-      if(minCount >= 5) { alert("YOUR UID HAS BEEN RESTRICTED."); return; }
-      document.getElementById('securityModal').style.display = 'none';
-    }
-
-    // 🔥 TIMER LOGIC: EXPIRY & COUNTDOWN 🔥
-    setInterval(() => {
-      // Periodic Countdown
-      const now = new Date();
-      let secLeft = window.userTimeframe === "30S" ? 30 - (now.getSeconds() % 30) : 60 - now.getSeconds();
-      if(secLeft === 60 || secLeft === 30) secLeft = 0;
-      
-      const timerEl = document.getElementById('countdownTimer');
-      if(timerEl) {
-        timerEl.innerText = `00:${secLeft < 10 ? '0'+secLeft : secLeft}`;
-      }
-    }, 1000);
-
-    // DYNAMIC EXPIRY UPDATER
-    function checkExpiry(expiryString) {
-      if(!expiryString) return;
-      setInterval(() => {
-         let left = new Date(expiryString).getTime() - Date.now();
-         if(left <= 0) { document.getElementById('keyExpiryTimer').innerText = "EXPIRED"; location.reload(); return; }
-         let h = Math.floor(left / (1000 * 60 * 60)); let m = Math.floor((left % (1000 * 60 * 60)) / (1000 * 60));
-         document.getElementById('keyExpiryTimer').innerText = `VALIDITY: ${h}H ${m}M`;
-      }, 1000);
-    }
-
-    // SYSTEM CONFIG
-    let sleepCheckInterval = null; let systemIsLocked = false;
-    onValue(ref(database, 'systemConfig'), (snapshot) => {
-      if(snapshot.exists()) {
-        const config = snapshot.val();
-        if(config.links && config.links.gameUrl) document.getElementById('gameIframe').src = config.links.gameUrl;
-        if(config.maintenance) {
-          const mode = config.maintenance.mode; clearInterval(sleepCheckInterval);
-          if(mode === 'LOCKED') {
-            systemIsLocked = true; uiNormal.style.display = 'none'; uiMaint.style.display = 'flex';
-            document.getElementById('maintTitleDisp').innerText = "SYSTEM LOCKED"; document.getElementById('maintTimeVal').innerText = config.maintenance.sessionTime || "STAY TUNED";
-            analyzeBtn.disabled = true; analyzeBtn.textContent = "OFFLINE";
-          } else if(mode === 'SLEEP') {
-            systemIsLocked = true; uiNormal.style.display = 'none'; uiMaint.style.display = 'flex';
-            document.getElementById('maintTitleDisp').innerText = "SYSTEM SLEEPING";
-            if(config.maintenance.autoWakeTime) {
-              sleepCheckInterval = setInterval(() => {
-                let left = config.maintenance.autoWakeTime - Date.now();
-                if(left <= 0) {
-                  clearInterval(sleepCheckInterval); systemIsLocked = false; uiNormal.style.display = 'flex'; uiMaint.style.display = 'none';
-                } else {
-                  let h = Math.floor(left / 3600000); let m = Math.floor((left % 3600000) / 60000); let s = Math.floor((left % 60000) / 1000);
-                  document.getElementById('maintTimeVal').innerText = `WAKES: ${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-                }
-              }, 1000);
-            } else { document.getElementById('maintTimeVal').innerText = "--:--"; }
-          } else {
-            systemIsLocked = false; uiNormal.style.display = 'flex'; uiMaint.style.display = 'none';
-          }
-        }
-      }
-    });
-
-    let currentPolarity = 'NORMAL'; onValue(ref(database, 'server/polarity'), (snap) => { currentPolarity = snap.val() || 'NORMAL'; });
-    let currentGodMode = { size: "AUTO" }; onValue(ref(database, 'server/override'), (snap) => { if(snap.exists()) currentGodMode = snap.val(); else currentGodMode = { size: "AUTO" }; });
+    window.userTimeframe = "1M"; window.API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json"; 
+    window.keyExpiryTime = 0;
 
     let myDeviceId = localStorage.getItem('predict_device_id') || ('DEV-' + Math.random().toString(36).substr(2, 9).toUpperCase()); localStorage.setItem('predict_device_id', myDeviceId);
 
-    // 🔥 ACTIVATION LOGIC (TIMER STARTS HERE) 🔥
+    // UI Toggles
+    window.showEventLogin = () => { document.getElementById('loginFormCard').style.display='none'; document.getElementById('eventLoginFormCard').style.display='block'; }
+    window.hideEventLogin = () => { document.getElementById('eventLoginFormCard').style.display='none'; document.getElementById('loginFormCard').style.display='block'; }
+
+    // 🔥 LIVE DYNAMIC URLs SYNC FROM FIREBASE 🔥
+    onValue(ref(database, 'systemConfig/links'), (snap) => {
+        if(snap.exists()) {
+            const links = snap.val();
+            
+            // Update Support (Get Key) Button
+            if(links.supportUrl && document.getElementById('supportBtn')) {
+                document.getElementById('supportBtn').href = links.supportUrl;
+            }
+            
+            // Update Bot (Event Deposit) Link & Name
+            if(links.botUrl && document.getElementById('botLink')) {
+                const botEl = document.getElementById('botLink');
+                botEl.href = links.botUrl;
+                try {
+                    // Extract bot username from t.me URL
+                    let botUsername = new URL(links.botUrl).pathname.replace('/', '@');
+                    if(botUsername === '@') botUsername = "@AdminBot"; // fallback
+                    botEl.innerHTML = `<b>${botUsername}</b>`;
+                } catch(e) {
+                    botEl.innerHTML = `<b>@AdminBot</b>`;
+                }
+            }
+        }
+    });
+
+    // 🔥 EVENT STATUS CHECKER (SHOWS COUNTDOWN OR INPUTS) 🔥
+    onValue(ref(database, 'events/live'), (snap) => {
+      const evJoinInputs = document.getElementById('evJoinInputs');
+      const nextEventArea = document.getElementById('nextEventArea');
+      if(snap.exists() && snap.val().status === 'RUNNING') {
+        if(evJoinInputs) evJoinInputs.style.display = 'block';
+        if(nextEventArea) nextEventArea.style.display = 'none';
+      } else {
+        if(evJoinInputs) evJoinInputs.style.display = 'none';
+        if(nextEventArea) nextEventArea.style.display = 'block';
+      }
+    });
+
+    // 🔥 DAILY COUNTDOWN TIMER (NEXT EVENT TARGET: 8:00 PM) 🔥
+    setInterval(() => {
+        let now = new Date();
+        let target = new Date();
+        target.setHours(20, 0, 0, 0); // Target: 8:00 PM Daily
+        if (now > target) { target.setDate(target.getDate() + 1); }
+        let diff = target - now;
+        let h = Math.floor(diff / 3600000); let m = Math.floor((diff % 3600000) / 60000); let s = Math.floor((diff % 60000) / 1000);
+        const nextEvEl = document.getElementById('nextEventTimer');
+        if(nextEvEl) nextEvEl.innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+    }, 1000);
+
+    // 🔥 NORMAL LOGIN FLOW 🔥
     document.getElementById('activateBtn').addEventListener('click', async () => {
-      const key = document.getElementById('loginKey').value.trim().toUpperCase();
+      const key = document.getElementById('loginKey').value.trim().toUpperCase(); const errBox = document.getElementById('errorPopup');
       if(!key) { errBox.style.display='block'; errBox.innerText="ENTER ACCESS KEY"; return; }
-      
       document.getElementById('activateBtn').innerText = "CONNECTING...";
       try {
         const snap = await get(child(ref(database), `keys/${key}`));
         if(snap.exists()) {
           const kData = snap.val();
-          if(kData.status === "BANNED") { document.getElementById('banModal').style.display='flex'; return; }
-          if(kData.status === "UNDER_REVIEW") { document.getElementById('reviewModal').style.display='flex'; return; }
-          if(kData.status === "INACTIVE") { errBox.style.display='block'; errBox.innerText="KEY PAUSED BY ADMIN"; document.getElementById('activateBtn').innerText="CONNECT"; return; }
-          
-          let finalExpiresAt = kData.expiresAt;
-          let isFirstUse = false;
-
-          // FIRST USE TRIGGER: Calculate expiry ONLY now
-          if(!kData.expiresAt || kData.status === "UNUSED") {
-             const exp = new Date();
-             exp.setHours(exp.getHours() + (kData.validityHours || 24));
-             finalExpiresAt = exp.toISOString();
-             isFirstUse = true;
-          } else if (new Date() > new Date(kData.expiresAt)) {
-             errBox.style.display='block'; errBox.innerText="KEY EXPIRED"; document.getElementById('activateBtn').innerText="CONNECT"; return;
+          if(kData.status === "BANNED" || kData.status === "INACTIVE" || (kData.expiresAt && new Date() > new Date(kData.expiresAt))) { 
+              errBox.style.display='block'; errBox.innerText="KEY UNAVAILABLE / EXPIRED"; document.getElementById('activateBtn').innerText="CONNECT"; return; 
           }
-
           if(kData.deviceId && kData.deviceId !== myDeviceId) { errBox.style.display='block'; errBox.innerText="HWID MISMATCH"; document.getElementById('activateBtn').innerText="CONNECT"; return; }
           
-          const updates = {};
-          if(!kData.deviceId) updates[`keys/${key}/deviceId`] = myDeviceId;
-          if(isFirstUse) {
-             updates[`keys/${key}/expiresAt`] = finalExpiresAt;
-             updates[`keys/${key}/status`] = "ACTIVE";
+          let finalExpiresAt = kData.expiresAt; let isFirstUse = false;
+          if(!kData.expiresAt || kData.status === "UNUSED") {
+             const exp = new Date(); exp.setHours(exp.getHours() + (kData.validityHours || 24));
+             finalExpiresAt = exp.toISOString(); isFirstUse = true;
           }
           
-          let kType = kData.type || 'VIP';
-          document.getElementById('accTypeBadge').innerText = kType;
-          isPremiumKey = (kType === 'VIP' || kType === 'PAID' || kType === 'AGENT' || kData.whitelist);
-          
-          window.userTimeframe = kData.timeframe || "1M";
-          if(window.userTimeframe === "30S") window.API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json";
-          else window.API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json";
-
-          if(kData.status === "ACTIVE" && minCount >= 5) { minCount = 0; localStorage.setItem('sec_min_count', 0); }
+          const updates = {}; if(!kData.deviceId) updates[`keys/${key}/deviceId`] = myDeviceId;
+          if(isFirstUse) { updates[`keys/${key}/expiresAt`] = finalExpiresAt; updates[`keys/${key}/status`] = "ACTIVE"; }
           if(Object.keys(updates).length > 0) await update(ref(database), updates);
           
-          activeKey = key;
-          checkExpiry(finalExpiresAt); // Start live countdown
-
-          onValue(ref(database, `keys/${activeKey}`), (kSnap) => {
-             if(kSnap.exists()){
-                let data = kSnap.val();
-                if(data.status === "BANNED" || data.status === "INACTIVE") location.reload();
-                if(data.holdMsg) {
-                   window.isHeld = true;
-                   document.getElementById('resBox').innerHTML = data.holdMsg;
-                   document.getElementById('resBox').className = "res-text-box hold-msg";
-                   analyzeBtn.disabled = true;
-                   analyzeBtn.textContent = "LOCKED";
-                } else {
-                   window.isHeld = false;
-                   document.getElementById('resBox').innerHTML = `<span class="res-word">READY</span>`;
-                   document.getElementById('resBox').className = "res-text-box ready";
-                   if(!systemIsLocked) { analyzeBtn.disabled = false; analyzeBtn.textContent = "PREDICT"; }
-                }
-             }
-          });
-          
-          if(minCount >= 5 && !isPremiumKey) {
-             document.getElementById('securityModal').style.display = 'flex'; document.getElementById('mainApp').style.pointerEvents = 'none';
-          } else {
-             fullOverlay.style.display = 'none'; mainApp.style.display = 'block'; initEngine(); 
-          }
-        } else { errBox.style.display = 'block'; errBox.innerText = "INVALID ACCESS KEY"; document.getElementById('activateBtn').innerText = "CONNECT"; }
-      } catch(e) { errBox.style.display = 'block'; errBox.innerText = "SERVER REFUSED Connection"; document.getElementById('activateBtn').innerText = "CONNECT"; }
+          activeKey = key; window.keyExpiryTime = new Date(finalExpiresAt).getTime();
+          document.getElementById('fullOverlayScreen').style.display = 'none'; document.getElementById('mainApp').style.display = 'block'; initEngine(); 
+        } else { errBox.style.display='block'; errBox.innerText="INVALID KEY"; document.getElementById('activateBtn').innerText="CONNECT"; }
+      } catch(e) { errBox.style.display='block'; errBox.innerText="SERVER ERROR"; document.getElementById('activateBtn').innerText="CONNECT"; }
     });
 
-    // DRAGGABLE CONTAINER
+    // 🔥 EVENT JOIN FLOW 🔥
+    document.getElementById('joinEvBtn').addEventListener('click', async () => {
+      const key = document.getElementById('evInputKey').value.trim().toUpperCase();
+      const uid = document.getElementById('evInputUid').value.trim();
+      const errBox = document.getElementById('evErrorPopup');
+      
+      if(!key) { errBox.style.display='block'; errBox.innerText="ENTER EVENT KEY"; return; }
+      if(uid.length !== 7) { errBox.style.display='block'; errBox.innerText="ENTER 7-DIGIT GAME UID"; return; }
+      
+      document.getElementById('joinEvBtn').innerText = "JOINING...";
+      try {
+        const evSnap = await get(child(ref(database), `events/live`));
+        if(evSnap.exists() && evSnap.val().status === 'RUNNING' && evSnap.val().key === key) {
+            await update(ref(database, `events/participants/${myDeviceId}`), { gameUid: uid, timestamp: Date.now(), deposit: 0 });
+            document.getElementById('eventLoginFormCard').style.display = 'none';
+            document.getElementById('waitingRoomCard').style.display = 'block';
+            document.getElementById('waitUidDisplay').innerText = uid;
+            
+            const evData = evSnap.val();
+            setInterval(() => {
+                let left = evData.targetTime - Date.now();
+                if(left <= 0) { document.getElementById('waitTimer').innerText = "00:00:00"; } 
+                else {
+                    let h = Math.floor(left/3600000); let m = Math.floor((left%3600000)/60000); let s = Math.floor((left%60000)/1000);
+                    document.getElementById('waitTimer').innerText = `${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+                }
+            }, 1000);
+
+            onValue(ref(database, `events/participants`), (pSnap) => {
+                if(pSnap.exists()){
+                    let parts = Object.values(pSnap.val());
+                    document.getElementById('liveMemberCount').innerText = parts.length;
+                    parts.sort((a,b) => (b.deposit || 0) - (a.deposit || 0));
+                    
+                    let html = '';
+                    parts.forEach((p, idx) => {
+                       let medal = idx===0?'🥇':(idx===1?'🥈':(idx===2?'🥉':'👤'));
+                       let uidMask = p.gameUid.toString().substring(0,2) + '***' + p.gameUid.toString().substring(5,7);
+                       html += `<div class="lb-row"><span style="color:#fff;">${medal} UID: ${uidMask}</span><span style="color:var(--tc-green);">₹${p.deposit || 0}</span></div>`;
+                    });
+                    document.getElementById('leaderboardBox').innerHTML = html;
+                }
+            });
+
+            onValue(ref(database, `events/live`), (liveSnap) => {
+                if(liveSnap.exists()) {
+                    const lData = liveSnap.val();
+                    if(lData.status === 'ENDED') {
+                        document.getElementById('waitingRoomCard').style.display = 'none'; document.getElementById('eventResultCard').style.display = 'block';
+                        if(lData.winners && lData.winners[myDeviceId]) {
+                            let rank = lData.winners[myDeviceId].rank;
+                            document.getElementById('resIcon').innerHTML = '<i class="fa-solid fa-trophy" style="color:var(--tc-gold); text-shadow:0 0 15px var(--tc-gold);"></i>';
+                            document.getElementById('resEventTitle').innerText = `YOU WON RANK ${rank}!`;
+                            document.getElementById('resEventTitle').style.color = "var(--tc-gold)";
+                            document.getElementById('resEventSub').innerHTML = "Your 24H VIP Key has been auto-activated.<br>Restart app & login with normal flow.<br>(Admin will DM you the Key).";
+                            document.getElementById('resBtn').innerText = "RESTART APP";
+                        } else {
+                            document.getElementById('resIcon').innerHTML = '<i class="fa-solid fa-circle-xmark" style="color:var(--tc-red); text-shadow:0 0 15px var(--tc-red);"></i>';
+                            document.getElementById('resEventTitle').innerText = "EVENT OVER"; document.getElementById('resEventTitle').style.color = "var(--tc-red)";
+                            document.getElementById('resEventSub').innerText = "You did not win this time. Better luck next time!";
+                            document.getElementById('resBtn').innerText = "BACK TO LOGIN";
+                        }
+                    } else if (lData.status === 'CANCELLED') { location.reload(); }
+                }
+            });
+        } else { errBox.style.display='block'; errBox.innerText="INVALID EVENT KEY OR OFFLINE"; document.getElementById('joinEvBtn').innerText = "ENTER TOURNAMENT"; }
+      } catch(e) { errBox.style.display='block'; errBox.innerText="SERVER ERROR"; document.getElementById('joinEvBtn').innerText = "ENTER TOURNAMENT"; }
+    });
+
+    // DRAGGABLE CONTAINER & OTHERS (Minified for brevity)
     const container = document.getElementById("draggableWidget"); const iconCollapsed = document.getElementById("modIcon"); const expandedBox = document.getElementById("modExpanded");
     let isDragging = false, hasMoved = false, startX, startY, initialX, initialY;
-    
-    function enforceScreenBounds() {
-      const rect = container.getBoundingClientRect();
-      const gameWidth = window.innerWidth > 1024 ? 400 : window.innerWidth;
-      const xOffset = window.innerWidth > 1024 ? (window.innerWidth - 400)/2 : 0;
-      const maxLeft = xOffset + gameWidth - rect.width;
-      const maxTop = window.innerHeight - rect.height;
-      let newLeft = Math.max(xOffset, Math.min(rect.left, maxLeft));
-      let newTop = Math.max(20, Math.min(rect.top, maxTop - 20));
-      container.style.transform = 'none'; container.style.left = newLeft + 'px'; container.style.top = newTop + 'px';
-    }
-
-    function toggleWidget() { 
-      if(expandedBox.classList.contains('active')) { expandedBox.classList.remove('active'); iconCollapsed.classList.remove('hidden'); } 
-      else { iconCollapsed.classList.add('hidden'); expandedBox.classList.add('active'); } 
-      setTimeout(enforceScreenBounds, 20); 
-    }
-    
-    iconCollapsed.addEventListener('click', () => { if(!hasMoved) toggleWidget(); });
-    document.getElementById('hideBtn').addEventListener('click', toggleWidget);
-    window.addEventListener('resize', enforceScreenBounds);
-
+    function enforceScreenBounds() { const rect = container.getBoundingClientRect(); let newLeft = Math.max(0, Math.min(rect.left, window.innerWidth - rect.width)); let newTop = Math.max(20, Math.min(rect.top, window.innerHeight - rect.height - 20)); container.style.transform = 'none'; container.style.left = newLeft + 'px'; container.style.top = newTop + 'px'; }
+    function toggleWidget() { if(expandedBox.classList.contains('active')) { expandedBox.classList.remove('active'); iconCollapsed.classList.remove('hidden'); } else { iconCollapsed.classList.add('hidden'); expandedBox.classList.add('active'); } setTimeout(enforceScreenBounds, 20); }
+    iconCollapsed.addEventListener('click', () => { if(!hasMoved) toggleWidget(); }); document.getElementById('hideBtn').addEventListener('click', toggleWidget); window.addEventListener('resize', enforceScreenBounds);
     function dragStart(e) { if(e.target.id === 'analyzeBtn' || e.target.id === 'hideBtn') return; initialX = (e.type === "touchstart") ? e.touches[0].clientX : e.clientX; initialY = (e.type === "touchstart") ? e.touches[0].clientY : e.clientY; const rect = container.getBoundingClientRect(); startX = initialX - rect.left; startY = initialY - rect.top; isDragging = true; hasMoved = false; }
-    function drag(e) { 
-      if (!isDragging) return; 
-      const currentX = (e.type === "touchmove") ? e.touches[0].clientX : e.clientX; const currentY = (e.type === "touchmove") ? e.touches[0].clientY : e.clientY; 
-      if (Math.abs(currentX - initialX) > 4 || Math.abs(currentY - initialY) > 4) { 
-        hasMoved = true; e.preventDefault(); 
-        let newLeft = currentX - startX; let newTop = currentY - startY; 
-        const gameWidth = window.innerWidth > 1024 ? 400 : window.innerWidth; const xOffset = window.innerWidth > 1024 ? (window.innerWidth - 400)/2 : 0;
-        newLeft = Math.max(xOffset, Math.min(newLeft, xOffset + gameWidth - container.offsetWidth)); newTop = Math.max(20, Math.min(newTop, window.innerHeight - container.offsetHeight - 20)); 
-        container.style.transform = 'none'; container.style.left = newLeft + 'px'; container.style.top = newTop + 'px'; 
-      } 
-    }
+    function drag(e) { if (!isDragging) return; const currentX = (e.type === "touchmove") ? e.touches[0].clientX : e.clientX; const currentY = (e.type === "touchmove") ? e.touches[0].clientY : e.clientY; if (Math.abs(currentX - initialX) > 4 || Math.abs(currentY - initialY) > 4) { hasMoved = true; e.preventDefault(); let newLeft = currentX - startX; let newTop = currentY - startY; newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - container.offsetWidth)); newTop = Math.max(20, Math.min(newTop, window.innerHeight - container.offsetHeight - 20)); container.style.transform = 'none'; container.style.left = newLeft + 'px'; container.style.top = newTop + 'px'; } }
     function dragEnd() { isDragging = false; enforceScreenBounds(); }
     container.addEventListener("touchstart", dragStart, { passive: false }); document.addEventListener("touchmove", drag, { passive: false }); document.addEventListener("touchend", dragEnd); container.addEventListener("mousedown", dragStart); document.addEventListener("mousemove", drag); document.addEventListener("mouseup", dragEnd);
 
-    // 🔥 ADVANCED INTELLIGENCE ENGINE 🔥
-    function getSizeFromNumber(num) { if (num === undefined || num === null) return null; return num >= 5 ? "BIG" : "SMALL"; }
+    setInterval(() => {
+      const now = new Date(); let secLeft = window.userTimeframe === "30S" ? 30 - (now.getSeconds() % 30) : 60 - now.getSeconds();
+      if(secLeft === 60 || secLeft === 30) secLeft = 0; const timerEl = document.getElementById('countdownTimer'); if(timerEl) timerEl.innerText = `00:${secLeft < 10 ? '0'+secLeft : secLeft}`;
+    }, 1000);
+
+    function getSizeFromNumber(num) { return num >= 5 ? "BIG" : "SMALL"; }
     function generateAIPrediction(historyArray) {
-      let predictedSize = "BIG"; let sure1 = 5;
       const validDraws = (historyArray || []).filter(d => d !== undefined && d.number !== undefined && !isNaN(d.number)).slice(0, 20);
       if (validDraws.length === 0) return { predictionSize: "BIG", sureNumber: 7 };
-      const recent = [...validDraws].slice(0, 12);
-      const recentSizes = recent.map(r => getSizeFromNumber(r.number)).filter(s => s !== null);
-      const recentNumbers = recent.map(r => r.number);
-      
-      if (recentSizes.length >= 3) {
-        let streakLength = 1;
-        for (let i = 1; i < recentSizes.length; i++) { if (recentSizes[i] === recentSizes[0]) streakLength++; else break; }
-        if (streakLength >= 3) { predictedSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG"; } 
-        else {
-          const last7 = recentSizes.slice(0, 7);
-          const bigCount = last7.filter(s => s === "BIG").length;
-          const smallCount = last7.filter(s => s === "SMALL").length;
-          if (bigCount > smallCount + 1) predictedSize = "SMALL";
-          else if (smallCount > bigCount + 1) predictedSize = "BIG";
-          else predictedSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG";
-        }
-      } else {
-        const lastSize = getSizeFromNumber(validDraws[0].number); predictedSize = lastSize === "BIG" ? "SMALL" : "BIG";
-      }
-      
-      const freqMap = new Map(); recentNumbers.forEach(n => freqMap.set(n, (freqMap.get(n) || 0) + 1));
-      let hotNumbers = [...freqMap.entries()].sort((a,b) => b[1] - a[1]).map(e => e[0]);
-      const targetPool = predictedSize === "BIG" ? [5,6,7,8,9] : [0,1,2,3,4];
-      let hotInPool = hotNumbers.filter(n => targetPool.includes(n));
-      sure1 = hotInPool.length > 0 ? hotInPool[0] : targetPool[Math.floor(Math.random() * 5)];
-      return { predictionSize: predictedSize, sureNumber: sure1 };
+      let predictedSize = validDraws[0].number >= 5 ? "SMALL" : "BIG"; 
+      return { predictionSize: predictedSize, sureNumber: predictedSize === "BIG" ? 7 : 3 };
     }
 
-    // THE "READY & SCREENSHOT" LOGIC VARIABLES
-    let fetchingLock = false;
-    let internalLatestPeriod = null; 
-    let internalPredictionSize = null; 
-    let internalPredictionNum = null;
-    let predictedPeriodId = null; 
-
+    let fetchingLock = false; let internalLatestPeriod = null; let internalPredictionSize = null; let internalPredictionNum = null; let predictedPeriodId = null; 
     const resBox = document.getElementById('resBox');
 
     async function fetchAndProcess() {
       if(fetchingLock) return; fetchingLock = true;
-      let nextPeriodId = "";
       try {
-        let API_URL_VAR = window.userTimeframe === "30S" ? "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json" : "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json";
-        const res = await fetch(`${API_URL_VAR}?ts=${Date.now()}`, { headers: {'Accept':'application/json'} }); const json = await res.json();
-        
+        const res = await fetch(`${window.API_URL}?ts=${Date.now()}`, { headers: {'Accept':'application/json'} }); const json = await res.json();
         const draws = json.data.list.map(i => ({ issueNumber: String(i.issueNumber), number: parseInt(i.number), size: parseInt(i.number) >= 5 ? "BIG" : "SMALL" })).filter(d => !isNaN(d.number));
-        const latest = draws[0]; nextPeriodId = (BigInt(latest.issueNumber) + 1n).toString();
+        const latest = draws[0]; let nextPeriodId = (BigInt(latest.issueNumber) + 1n).toString();
         
         let justEvaluated = false;
-
-        // 🔥 WIN/LOSS EVALUATION (STAYS ON SCREEN) 🔥
         if(predictedPeriodId === latest.issueNumber) {
-            const isSizeWin = (latest.size === internalPredictionSize);
-            
-            expandedBox.classList.remove('anim-win', 'anim-loss');
-            void expandedBox.offsetWidth; // Reflow to restart animation
-
-            if(isSizeWin) {
-                expandedBox.classList.add('anim-win');
-            } else {
-                expandedBox.classList.add('anim-loss');
-            }
-
-            predictedPeriodId = null; 
-            justEvaluated = true;
+            expandedBox.classList.remove('anim-win', 'anim-loss'); void expandedBox.offsetWidth; 
+            if(latest.size === internalPredictionSize) { expandedBox.classList.add('anim-win'); } else { expandedBox.classList.add('anim-loss'); }
+            predictedPeriodId = null; justEvaluated = true;
         }
 
-        // 🔥 NEW PERIOD ARRIVES 🔥
         if(internalLatestPeriod !== nextPeriodId) {
-          internalLatestPeriod = nextPeriodId;
-          document.getElementById('periodBadge').textContent = nextPeriodId;
-
-          // Generate next prediction in background
-          if(currentGodMode.size !== "AUTO") {
-            internalPredictionSize = currentGodMode.size; internalPredictionNum = internalPredictionSize === "BIG" ? 7 : 3;
-          } else {
-            const aiOut = generateAIPrediction(draws);
-            internalPredictionSize = aiOut.predictionSize; internalPredictionNum = aiOut.sureNumber;
-            if(currentPolarity === 'REVERSE' && internalPredictionSize !== "SKIP") {
-               internalPredictionSize = internalPredictionSize === "BIG" ? "SMALL" : "BIG"; internalPredictionNum = internalPredictionSize === "BIG" ? 6 : 2;
-            }
-          }
+          internalLatestPeriod = nextPeriodId; document.getElementById('periodBadge').textContent = nextPeriodId;
+          const aiOut = generateAIPrediction(draws); internalPredictionSize = aiOut.predictionSize; internalPredictionNum = aiOut.sureNumber;
           
-          if(!systemIsLocked && !window.isHeld) { 
-             analyzeBtn.disabled = false; 
-             analyzeBtn.textContent = "PREDICT"; 
-             
-             if(!justEvaluated && !predictedPeriodId) {
-                 resBox.innerHTML = `<span class="res-word">READY</span>`;
-                 resBox.className = "res-text-box ready";
-                 expandedBox.classList.remove('anim-win', 'anim-loss');
-             }
+          document.getElementById('analyzeBtn').disabled = false; document.getElementById('analyzeBtn').textContent = "PREDICT"; 
+          if(!justEvaluated && !predictedPeriodId) {
+              resBox.innerHTML = `<span class="res-word">READY</span>`; resBox.className = "res-text-box ready"; expandedBox.classList.remove('anim-win', 'anim-loss');
           }
         }
-      } catch(e) {
-        // Fallback Time Calculation
-        const now = new Date(); 
-        now.setMinutes(now.getMinutes() + now.getTimezoneOffset() + 330);
-        const yyyy = now.getFullYear(); const mm = String(now.getMonth() + 1).padStart(2, '0'); const dd = String(now.getDate()).padStart(2, '0');
-        if(window.userTimeframe === "30S") {
-            const totalSeconds = (now.getHours() * 3600) + (now.getMinutes() * 60) + now.getSeconds();
-            const totalPeriods = Math.floor(totalSeconds / 30) + 1; nextPeriodId = `${yyyy}${mm}${dd}3000${String(totalPeriods).padStart(4, '0')}`;
-        } else {
-            const totalMinutes = (now.getHours() * 60) + now.getMinutes() + 1; nextPeriodId = `${yyyy}${mm}${dd}1000${String(totalMinutes).padStart(4, '0')}`;
-        }
-        
-        if(internalLatestPeriod !== nextPeriodId) {
-          internalLatestPeriod = nextPeriodId;
-          document.getElementById('periodBadge').textContent = nextPeriodId;
-          internalPredictionSize = Math.random() > 0.5 ? "BIG" : "SMALL"; internalPredictionNum = 9; 
-          
-          if(!systemIsLocked && !window.isHeld) { 
-             analyzeBtn.disabled = false; 
-             analyzeBtn.textContent = "PREDICT"; 
-             if(!predictedPeriodId) {
-                 resBox.innerHTML = `<span class="res-word">READY</span>`;
-                 resBox.className = "res-text-box ready";
-                 expandedBox.classList.remove('anim-win', 'anim-loss');
-             }
-          }
-        }
-      } finally { fetchingLock = false; }
+      } catch(e) { } finally { fetchingLock = false; }
     }
 
-    analyzeBtn.addEventListener('click', () => {
-      // Prevent click if system is locked, held, or user ALREADY clicked predict for this period
-      if(systemIsLocked || window.isHeld || predictedPeriodId === internalLatestPeriod) return; 
-      
-      analyzeBtn.disabled = true;
-      predictedPeriodId = internalLatestPeriod; 
-      
+    document.getElementById('analyzeBtn').addEventListener('click', () => {
+      if(predictedPeriodId === internalLatestPeriod) return; 
+      document.getElementById('analyzeBtn').disabled = true; predictedPeriodId = internalLatestPeriod; 
       expandedBox.classList.remove('anim-win', 'anim-loss');
-
-      resBox.innerHTML = `<span class="res-word">SCANNING</span>`;
-      resBox.className = "res-text-box scanning";
+      resBox.innerHTML = `<span class="res-word">SCANNING</span>`; resBox.className = "res-text-box scanning";
 
       setTimeout(() => {
-        if(internalPredictionSize === "SKIP") {
-          resBox.innerHTML = `<span class="res-word" style="color:#555; border-color:#333; box-shadow:none;">SKIP</span> <span class="res-number" style="color:#555; border-color:#333;">-</span>`; 
-          resBox.className = "res-text-box ready"; 
-        } else {
-          resBox.innerHTML = `<span class="res-word">${internalPredictionSize}</span> <span class="res-number">${internalPredictionNum}</span>`;
-          resBox.className = internalPredictionSize === 'SMALL' ? "res-text-box small" : "res-text-box big";
-        }
-        analyzeBtn.textContent = "PREDICTED";
+        resBox.innerHTML = `<span class="res-word">${internalPredictionSize}</span> <span class="res-number">${internalPredictionNum}</span>`;
+        resBox.className = internalPredictionSize === 'SMALL' ? "res-text-box small" : "res-text-box big";
+        document.getElementById('analyzeBtn').textContent = "PREDICTED";
       }, 1500); 
     });
 

@@ -81,8 +81,8 @@
 
     .res-text-box.big .res-word { background: linear-gradient(135deg, rgba(252,213,53,0.15), rgba(0,0,0,0.8)); border: 1px solid rgba(252,213,53,0.5); color: #fff; text-shadow: 0 0 5px var(--tc-gold), 0 0 10px var(--tc-gold); box-shadow: inset 0 0 8px rgba(252,213,53,0.2), 0 0 10px rgba(252,213,53,0.3); animation: breathGold 1.5s infinite alternate; }
     .res-text-box.small .res-word { background: linear-gradient(135deg, rgba(0,243,255,0.15), rgba(0,0,0,0.8)); border: 1px solid rgba(0,243,255,0.5); color: #fff; text-shadow: 0 0 5px var(--tc-cyan), 0 0 10px var(--tc-cyan); box-shadow: inset 0 0 8px rgba(0,243,255,0.2), 0 0 10px rgba(0,243,255,0.3); animation: breathCyan 1.5s infinite alternate; }
-    .res-text-box.ready .res-word { background: transparent; border: none; color: #555; font-size: 18px; letter-spacing: 2px; }
-    .res-text-box.scanning .res-word { background: transparent; border: none; color: var(--tc-cyan); font-size: 16px; animation: pulseScan 0.5s infinite alternate; letter-spacing: 2px; }
+    .res-text-box.ready .res-word { background: transparent; border: none; color: #555; text-shadow: none; box-shadow: none; font-size: 18px; letter-spacing: 2px; }
+    .res-text-box.scanning .res-word { background: transparent; border: none; box-shadow: none; color: var(--tc-cyan); font-size: 16px; animation: pulseScan 0.5s infinite alternate; letter-spacing: 2px; }
 
     .res-number { font-family: 'Share Tech Mono'; font-size: 20px; font-weight: bold; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
     .res-text-box.big .res-number { color: var(--tc-gold); border-color: rgba(252,213,53,0.4); box-shadow: 0 0 8px rgba(252,213,53,0.2); }
@@ -113,8 +113,21 @@
 </head>
 <body>
 
+  <!-- MODALS -->
+  <div class="modal-screen-mask" id="securityModal">
+    <div class="modal-panel-box">
+      <div class="session-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+      <h2 class="session-title" id="secTitle">SECURITY WARNING</h2>
+      <p class="session-reason" id="secMsg">Minimizing or switching tabs is strictly prohibited for your account type.</p>
+      <div class="security-strikes" id="secStrikes">STRIKES: 1/5</div>
+      <button class="btn-cyber-solid" onclick="dismissSecurity()" id="secBtn" style="background:var(--tc-red); color:#fff;">I UNDERSTAND</button>
+    </div>
+  </div>
+
+  <!-- LOGIN SCREENS WRAPPER -->
   <div id="fullOverlayScreen">
     
+    <!-- 1. NORMAL LOGIN FORM -->
     <div class="wrapper-card" id="loginFormCard">
       <img src="logo.png" alt="Logo" style="width:65px; height:65px; border-radius:8px; border:1px solid var(--tc-cyan); margin-bottom:12px; box-shadow: 0 0 15px rgba(0,243,255,0.2); object-fit:cover;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1464/1464731.png'">
       <h2 style="font-family:'Outfit'; color:#fff; margin-bottom:4px; font-size: 1.4rem; letter-spacing: 1px;">DEV ARMY VIP</h2>
@@ -125,6 +138,7 @@
       <input type="text" id="loginKey" class="hacker-box-input" placeholder="ENTER ACCESS KEY">
       <button class="btn-cyber-solid" id="activateBtn">CONNECT</button>
       
+      <!-- 🔥 DYNAMIC SUPPORT BUTTON 🔥 -->
       <a href="https://t.me/" id="supportBtn" target="_blank" class="btn-get-key">
          <i class="fa-brands fa-telegram"></i> GET KEY FROM ADMIN
       </a>
@@ -132,10 +146,12 @@
       <button class="btn-join-event" onclick="showEventLogin()"><i class="fa-solid fa-trophy"></i> JOIN MEGA EVENT</button>
     </div>
 
+    <!-- 2. EVENT LOGIN FORM & HOW IT WORKS -->
     <div class="wrapper-card" id="eventLoginFormCard" style="display:none; border-color:var(--tc-gold);">
       <i class="fa-solid fa-calendar-check" style="font-size:35px; color:var(--tc-gold); margin-bottom:10px; text-shadow:0 0 15px rgba(252,213,53,0.5);"></i>
       <h2 style="font-family:'Outfit'; color:var(--tc-gold); margin-bottom:15px; font-size: 1.3rem; letter-spacing: 1px;">MEGA EVENT</h2>
       
+      <!-- 🔥 HOW IT WORKS GUIDE (DYNAMIC BOT LINK) 🔥 -->
       <div class="how-it-works">
         <div class="step-item"><i class="fa-solid fa-1 step-icon"></i> <span><b>UID</b> dalkar Event Join karein.</span></div>
         <div class="step-item"><i class="fa-solid fa-2 step-icon"></i> <span>Deposit karke <a href="https://t.me/" id="botLink" target="_blank" style="color:var(--tc-cyan); text-decoration:none;"><b>@AdminBot</b></a> par Screenshot bhejein.</span></div>
@@ -159,6 +175,7 @@
       <button style="background:transparent; border:none; color:#666; font-size:11px; font-weight:bold; margin-top:15px; cursor:pointer;" onclick="hideEventLogin()">← BACK TO LOGIN</button>
     </div>
 
+    <!-- 3. EVENT WAITING ROOM (LEADERBOARD) -->
     <div class="wrapper-card phase-bidding" id="waitingRoomCard" style="display:none; border-color:var(--tc-border);">
       <h2 style="font-family:'Outfit'; font-size:18px; color:#fff; margin-bottom:2px;">DEPOSIT WINDOW LIVE</h2>
       <div class="ev-timer-large" id="waitTimer">--:--:--</div>
@@ -171,6 +188,7 @@
       <p style="font-size:9px; color:var(--tc-gold); font-weight:bold;">Do not close app. Top 3 highest depositors will win.</p>
     </div>
 
+    <!-- 4. EVENT RESULT SCREEN -->
     <div class="wrapper-card" id="eventResultCard" style="display:none;">
       <div id="resIcon" style="font-size:45px; margin-bottom:15px;"></div>
       <h2 id="resEventTitle" style="font-family:'Outfit'; color:#fff; font-size:24px; margin-bottom:5px;">---</h2>
@@ -180,6 +198,7 @@
 
   </div>
 
+  <!-- MAIN APP WIDGET -->
   <div id="mainApp">
     <iframe class="bg-game" id="gameIframe" src="about:blank"></iframe>
     <div class="draggable-container" id="draggableWidget">
@@ -224,18 +243,15 @@
     onValue(ref(database, 'systemConfig/links'), (snap) => {
         if(snap.exists()) {
             const links = snap.val();
-            
             // Update Support (Get Key) Button
             if(links.supportUrl && document.getElementById('supportBtn')) {
                 document.getElementById('supportBtn').href = links.supportUrl;
             }
-            
             // Update Bot (Event Deposit) Link & Name
             if(links.botUrl && document.getElementById('botLink')) {
                 const botEl = document.getElementById('botLink');
                 botEl.href = links.botUrl;
                 try {
-                    // Extract bot username from t.me URL
                     let botUsername = new URL(links.botUrl).pathname.replace('/', '@');
                     if(botUsername === '@') botUsername = "@AdminBot"; // fallback
                     botEl.innerHTML = `<b>${botUsername}</b>`;
@@ -370,7 +386,7 @@
       } catch(e) { errBox.style.display='block'; errBox.innerText="SERVER ERROR"; document.getElementById('joinEvBtn').innerText = "ENTER TOURNAMENT"; }
     });
 
-    // DRAGGABLE CONTAINER & OTHERS (Minified for brevity)
+    // DRAGGABLE CONTAINER & OTHERS
     const container = document.getElementById("draggableWidget"); const iconCollapsed = document.getElementById("modIcon"); const expandedBox = document.getElementById("modExpanded");
     let isDragging = false, hasMoved = false, startX, startY, initialX, initialY;
     function enforceScreenBounds() { const rect = container.getBoundingClientRect(); let newLeft = Math.max(0, Math.min(rect.left, window.innerWidth - rect.width)); let newTop = Math.max(20, Math.min(rect.top, window.innerHeight - rect.height - 20)); container.style.transform = 'none'; container.style.left = newLeft + 'px'; container.style.top = newTop + 'px'; }
@@ -381,9 +397,29 @@
     function dragEnd() { isDragging = false; enforceScreenBounds(); }
     container.addEventListener("touchstart", dragStart, { passive: false }); document.addEventListener("touchmove", drag, { passive: false }); document.addEventListener("touchend", dragEnd); container.addEventListener("mousedown", dragStart); document.addEventListener("mousemove", drag); document.addEventListener("mouseup", dragEnd);
 
+    // 🔥 LIVE EXPIRY TIMER & COUNTDOWN 🔥
     setInterval(() => {
-      const now = new Date(); let secLeft = window.userTimeframe === "30S" ? 30 - (now.getSeconds() % 30) : 60 - now.getSeconds();
-      if(secLeft === 60 || secLeft === 30) secLeft = 0; const timerEl = document.getElementById('countdownTimer'); if(timerEl) timerEl.innerText = `00:${secLeft < 10 ? '0'+secLeft : secLeft}`;
+      // 1. Key Expiry Timer
+      if(window.keyExpiryTime > 0) {
+        let left = window.keyExpiryTime - Date.now();
+        if(left <= 0) { 
+            let kEl = document.getElementById('keyExpiryTimer');
+            if(kEl) kEl.innerText = "EXPIRED"; 
+            location.reload(); 
+            return; 
+        }
+        let h = Math.floor(left / (1000 * 60 * 60)); 
+        let m = Math.floor((left % (1000 * 60 * 60)) / (1000 * 60));
+        let kEl = document.getElementById('keyExpiryTimer');
+        if(kEl) kEl.innerText = `VALIDITY: ${h}H ${m}M`;
+      }
+      
+      // 2. Period Sequence Countdown
+      const now = new Date(); 
+      let secLeft = window.userTimeframe === "30S" ? 30 - (now.getSeconds() % 30) : 60 - now.getSeconds();
+      if(secLeft === 60 || secLeft === 30) secLeft = 0; 
+      const timerEl = document.getElementById('countdownTimer'); 
+      if(timerEl) timerEl.innerText = `00:${secLeft < 10 ? '0'+secLeft : secLeft}`;
     }, 1000);
 
     function getSizeFromNumber(num) { return num >= 5 ? "BIG" : "SMALL"; }

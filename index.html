@@ -3,649 +3,467 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>DEV ARMY • PREMIUM VIP MOD</title>
+  <title>DEV ARMY • VIP SYSTEM PRO</title>
   
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=Outfit:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
 
   <style>
     /* =========================================
-       🔥 MICRO-SQUARE CYBER THEME 🔥
+       🔥 1. GLOBAL VARIABLES & CORE
        ========================================= */
     :root { 
-      --tc-green: #00ff66; --tc-red: #ff2a7a; --tc-gold: #fcd535; --tc-cyan: #00f3ff;
-      --tc-dark: #000000; --tc-card: #050505; --tc-border: #1e293b; --tc-warn: #ff9900;
-      --tc-tg: #0088cc;
+      --tc-green: #00e676; --tc-red: #ff3366; --tc-gold: #fcd535; --tc-cyan: #00e5ff;
+      --tc-dark: #020617; --tc-border: #1e293b; 
+      --cyber-bg: rgba(2, 6, 23, 0.95);
     }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;}
-    body { background-color: var(--tc-dark); font-family: 'Inter', sans-serif; overflow: hidden; }
+    * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent;}
+    body { background-color: var(--tc-dark); font-family: 'Inter', sans-serif; overflow: hidden; color: #fff; }
 
     #mainApp { display: none; width: 100vw; height: 100vh; position: relative; overflow: hidden;}
     .bg-game { width: 100%; height: 100%; border: none; background: #000; position: absolute; top: 0; left: 0; z-index: 1;}
-    @media (min-width: 1024px) { .bg-game { width: 400px; left: 50%; transform: translateX(-50%); box-shadow: 0 0 60px rgba(0,243,255,0.15); border-left: 1px solid rgba(255,255,255,0.05); border-right: 1px solid rgba(255,255,255,0.05);} }
+    @media (min-width: 1024px) { .bg-game { width: 400px; left: 50%; transform: translateX(-50%); box-shadow: 0 0 60px rgba(0,229,255,0.1); border-left: 1px solid var(--tc-border); border-right: 1px solid var(--tc-border);} }
 
-    .btn-cyber-solid { width: 100%; background: var(--tc-cyan); border: none; color: #000; font-family: 'Inter'; font-size: 0.9rem; font-weight: 900; padding: 14px; cursor: pointer; border-radius: 6px; text-transform: uppercase; box-shadow: 0 5px 15px rgba(0, 243, 255, 0.3); transition: 0.2s; min-height: 44px;}
-    .btn-cyber-solid:active { transform: scale(0.96); }
-
-    /* MODALS */
-    .modal-screen-mask { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(0,0,0,0.85); backdrop-filter: blur(6px); z-index: 25000; justify-content: center; align-items: center; padding: 20px;}
-    .modal-panel-box { width: 100%; max-width: 300px; background: #080808; border: 1px solid rgba(255,255,255,0.05); border-radius: 8px; padding: 20px 15px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.9); position: relative; overflow: hidden;}
-    
-    #securityModal .modal-panel-box, #banModal .modal-panel-box { border-color: var(--tc-red); }
-    #securityModal .session-icon, #banModal .session-icon { color: var(--tc-red); font-size: 2.5rem; margin-bottom: 10px; animation: pulseRed 1s infinite alternate;}
-    #securityModal .session-title, #banModal .session-title { font-family: 'Outfit'; font-size: 1.2rem; font-weight: 900; color: var(--tc-red); margin-bottom: 5px; }
-
-    #reviewModal .modal-panel-box { border-color: var(--tc-warn); }
-    #reviewModal .session-icon { color: var(--tc-warn); font-size: 2.5rem; margin-bottom: 10px; animation: pulseWarn 1s infinite alternate;}
-    #reviewModal .session-title { font-family: 'Outfit'; font-size: 1.2rem; font-weight: 900; color: var(--tc-warn); margin-bottom: 5px; }
-
-    .session-reason { font-size: 0.8rem; color: #8e9aa8; margin-bottom: 15px; line-height: 1.4;}
-    .security-strikes { font-family: 'Share Tech Mono'; font-size: 18px; font-weight: bold; color: var(--tc-cyan); margin: 15px 0; background: rgba(0,0,0,0.6); padding: 8px; border-radius: 4px; border: 1px dashed var(--tc-cyan);}
-    
-    @keyframes pulseRed { from { transform: scale(1); filter: drop-shadow(0 0 8px rgba(255,42,75,0.3)); } to { transform: scale(1.08); filter: drop-shadow(0 0 16px rgba(255,42,75,0.7)); } }
-    @keyframes pulseWarn { from { transform: scale(1); filter: drop-shadow(0 0 8px rgba(255,153,0,0.3)); } to { transform: scale(1.08); filter: drop-shadow(0 0 16px rgba(255,153,0,0.7)); } }
-
-    /* LOGIN SCREEN */
-    #fullOverlayScreen { position: fixed; inset: 0; background: var(--tc-dark); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-    .wrapper-card { width: 100%; max-width: 320px; background: #050505; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 30px 20px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.9); position: relative; overflow: hidden; text-align: center;}
-    .brand-logo { font-size: 38px; color: var(--tc-cyan); margin-bottom: 10px; filter: drop-shadow(0 0 8px rgba(0,243,255,0.4)); animation: logoGlow 2s infinite alternate;}
-    @keyframes logoGlow { from { filter: drop-shadow(0 0 4px rgba(0,243,255,0.2)); } to { filter: drop-shadow(0 0 12px rgba(0,243,255,0.6)); } }
-    
-    .hacker-box-input { width: 100%; background: #000; border: 1px solid #1e293b; color: #fff; padding: 14px; font-family: 'Share Tech Mono'; font-weight: 700; text-align: center; outline: none; font-size: 16px; margin-bottom: 15px; border-radius: 4px; transition: 0.3s; letter-spacing: 1px; min-height: 48px; }
-    .hacker-box-input:focus { border-color: var(--tc-cyan); box-shadow: 0 0 10px rgba(0,243,255,0.15); }
-    #errorPopup { display: none; color: var(--tc-red); font-weight: 800; margin-bottom: 10px; font-size: 10px; text-transform: uppercase;}
-
-    .get-key-section { margin-top: 20px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.1); }
-    .get-key-text { font-size: 9px; color: #8e9aa8; margin-bottom: 8px; letter-spacing: 1px; text-transform: uppercase; font-weight: 800;}
-    .btn-get-key { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; background: rgba(0, 136, 204, 0.1); border: 1px solid var(--tc-tg); color: var(--tc-tg); font-family: 'Inter'; font-size: 11px; font-weight: 900; padding: 12px; border-radius: 6px; text-decoration: none; transition: 0.3s; letter-spacing: 1px; text-transform: uppercase; box-shadow: 0 0 10px rgba(0,136,204,0.1);}
-    .btn-get-key i { font-size: 14px; }
-    .btn-get-key:active { transform: scale(0.96); }
+    /* Corner Dots - Used in both Login and Widget */
+    .corner-decor { position: absolute; width: 4px; height: 4px; background: var(--tc-cyan); border-radius: 50%; box-shadow: 0 0 8px var(--tc-cyan); z-index: 10; }
 
     /* =========================================
-       🔥 MICRO WIDGET (200px) & ANIMATIONS 🔥
+       🔥 2. MODALS (MATCHED THEME)
+       ========================================= */
+    .modal-screen-mask { display: none; position: fixed; inset: 0; background: rgba(2,6,23,0.9); backdrop-filter: blur(12px); z-index: 25000; justify-content: center; align-items: center; padding: 20px;}
+    
+    .modal-panel-box { 
+      width: 100%; max-width: 320px; 
+      background: var(--cyber-bg); border: 1px solid var(--tc-cyan); 
+      clip-path: polygon(15px 0, calc(100% - 15px) 0, 100% 15px, 100% calc(100% - 20px), calc(100% - 15px) 100%, 15px 100%, 0 calc(100% - 20px), 0 15px);
+      padding: 25px 20px; text-align: center; box-shadow: 0 15px 30px rgba(0,229,255,0.1); 
+    }
+    
+    #rulesModal .modal-panel-box { max-width: 360px; text-align: left; padding: 30px 25px; }
+    .rules-list li { font-size: 12px; color: #cbd5e1; margin-bottom: 12px; line-height: 1.5; display: flex; align-items: flex-start; gap: 10px; }
+    .rules-list li span.step-num { color: #020617; font-weight: 900; background: var(--tc-cyan); border-radius: 4px; padding: 2px 6px; font-size: 11px; }
+
+    /* =========================================
+       🔥 3. LOGIN PORTAL (MATCHED THEME)
+       ========================================= */
+    #fullOverlayScreen { position: fixed; inset: 0; background: radial-gradient(circle at center, #0f172a 0%, #020617 100%); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; overflow-y: auto;}
+    
+    .perspective-grid { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; perspective: 1000px; overflow: hidden; z-index: -1; }
+    .perspective-grid-inner { position: absolute; width: 200%; height: 200%; bottom: -50%; left: -50%; background-image: linear-gradient(rgba(0, 229, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 229, 255, 0.1) 1px, transparent 1px); background-size: 40px 40px; transform: rotateX(70deg); animation: gridMove 4s linear infinite; }
+    @keyframes gridMove { 0% { transform: rotateX(70deg) translateY(0); } 100% { transform: rotateX(70deg) translateY(40px); } }
+
+    .wrapper-card { 
+      width: 100%; max-width: 340px; 
+      background: var(--cyber-bg); border: 1px solid var(--tc-cyan); 
+      clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 25px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 25px), 0 20px);
+      padding: 35px 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.9), inset 0 0 20px rgba(0,229,255,0.05); 
+      backdrop-filter: blur(10px); text-align: center; position: relative;
+    }
+    .wrapper-card::before {
+      content: ''; position: absolute; top: 1px; left: 1px; right: 1px; bottom: 1px;
+      background: linear-gradient(180deg, rgba(0,229,255,0.15) 0%, rgba(2,6,23,1) 30%);
+      clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 25px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 25px), 0 20px);
+      z-index: -1;
+    }
+
+    /* Login Corner Dots */
+    .cd-log-tl { top: 25px; left: 8px; } .cd-log-tr { top: 25px; right: 8px; }
+    .cd-log-bl { bottom: 45px; left: 8px; } .cd-log-br { bottom: 45px; right: 8px; }
+    
+    .brand-logo { width: 65px; height: 65px; border-radius: 12px; margin-bottom: 12px; box-shadow: 0 0 15px rgba(0,229,255,0.3); border: 1px solid var(--tc-cyan);}
+    .login-title { font-family: 'Outfit'; font-size: 1.5rem; font-weight: 900; letter-spacing: 2px; margin-bottom: 2px; color: #fff;}
+    .login-subtitle { font-size: 10px; color: var(--tc-cyan); letter-spacing: 2px; font-weight: 700; text-transform: uppercase; margin-bottom: 20px;}
+    
+    .hacker-box-input { width: 100%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(0,229,255,0.3); color: #fff; padding: 14px; font-family: 'Share Tech Mono'; font-weight: bold; text-align: center; outline: none; font-size: 13px; border-radius: 6px; letter-spacing: 1px; transition: 0.3s; }
+    .hacker-box-input:focus { border-color: var(--tc-cyan); box-shadow: 0 0 10px rgba(0,229,255,0.3); background: rgba(0,0,0,0.8); }
+    .hacker-box-input.readonly { background: rgba(0,229,255,0.05); color: var(--tc-cyan); border-color: rgba(0,229,255,0.5); }
+
+    .divider { display: flex; align-items: center; margin: 12px 0; color: #64748b; font-size: 10px; font-weight: bold; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: rgba(0,229,255,0.2); margin: 0 10px; }
+
+    .validity-badge { display: none; background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.3); color: var(--tc-green); font-family: 'Share Tech Mono'; font-size: 11px; padding: 8px; border-radius: 6px; margin-bottom: 15px; font-weight: bold; letter-spacing: 1px;}
+    #errorPopup { display: none; color: #fca5a5; font-size: 11px; font-weight: 700; padding: 10px; background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.2); border-radius: 6px; margin-bottom: 15px;}
+
+    /* Buttons matched to Hack Widget */
+    .btn-cyber-solid { width: 100%; background: linear-gradient(90deg, #005f73, #0a9396); border: 1px solid #0a9396; color: #fff; font-weight: 900; font-size: 13px; padding: 14px; border-radius: 6px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 15px rgba(0,229,255,0.2); transition: 0.2s;}
+    .btn-cyber-solid:active { transform: scale(0.96); }
+    .btn-cyber-solid:disabled { background: #0f172a; color: #475569; box-shadow: none; border-color: #1e293b; cursor: not-allowed;}
+    
+    .btn-outline { width: 100%; padding: 12px; background: linear-gradient(90deg, #001219, #005f73); border: 1px solid #0a9396; color: #cbd5e1; font-weight: 700; font-size: 10px; border-radius: 6px; cursor: pointer; letter-spacing: 1px; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none;}
+    .btn-outline:hover { color: #fff; box-shadow: 0 0 10px rgba(0,229,255,0.2); }
+
+    /* =========================================
+       🔥 4. ULTRA-COMPACT WIDGET (200x240)
        ========================================= */
     .draggable-container { position: absolute; top: 15%; left: 50%; transform: translateX(-50%); z-index: 9999; touch-action: none; display: flex; justify-content: center; align-items: center; }
     
-    /* COLLAPSED ICON */
-    .mod-icon { 
-      width: 40px; height: 40px; background: #000; border: 1.5px solid var(--tc-cyan); 
-      border-radius: 6px; display: flex; justify-content: center; align-items: center; cursor: pointer; transition: transform 0.2s; 
-      overflow: hidden; box-shadow: 0 0 15px rgba(0,243,255,0.3);
-    }
-    .mod-icon img { width: 75%; height: 75%; object-fit: contain; pointer-events: none; }
-    .mod-icon:active { transform: scale(0.92); }
+    .mod-icon { width: 45px; height: 45px; background: #000; border: 2px solid var(--tc-cyan); border-radius: 10px; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 0 15px rgba(0,229,255,0.4); }
+    .mod-icon img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; pointer-events: none; }
     .mod-icon.hidden { display: none; }
 
-    /* EXPANDED MICRO BOX */
+    /* ULTRA COMPACT SIZE */
     .mod-expanded { 
-      display: none; width: 200px; min-height: 140px; background: #000; border-radius: 8px; 
-      position: relative; box-shadow: 0 15px 40px rgba(0,0,0,0.9); padding: 2px; overflow: hidden; 
-      transition: border-color 0.3s, box-shadow 0.3s;
+      display: none; width: 200px; height: 240px; 
+      background: var(--cyber-bg); border: 1px solid var(--tc-cyan); 
+      clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 20px), calc(100% - 15px) 100%, 15px 100%, 0 calc(100% - 20px), 0 10px);
+      position: relative; flex-direction: column; 
+      box-shadow: 0 10px 30px rgba(0,0,0,0.9), inset 0 0 20px rgba(0,229,255,0.05);
+      backdrop-filter: blur(10px);
     }
-    .mod-expanded.active { display: block; animation: radarPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-    @keyframes radarPop { from { opacity: 0; transform: scale(0.85); } to { opacity: 1; transform: scale(1); } }
+    .mod-expanded.active { display: flex; animation: popWidget 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+    @keyframes popWidget { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
 
-    /* 🌈 THE SPINNING NEON BORDER 🌈 */
     .mod-expanded::before {
-      content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-      background: conic-gradient(transparent, transparent, transparent, var(--tc-cyan));
-      animation: spinBorder 2s linear infinite; z-index: 0;
-    }
-    @keyframes spinBorder { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-    /* ⬛ PURE BLACK INNER BOX */
-    .mod-content-wrapper { 
-      position: relative; z-index: 2; width: 100%; height: 100%; 
-      background: #050505; border-radius: 6px; padding: 10px; display: flex; flex-direction: column; justify-content: flex-start;
+      content: ''; position: absolute; top: 1px; left: 1px; right: 1px; bottom: 1px;
+      background: linear-gradient(180deg, rgba(0,229,255,0.2) 0%, rgba(2,6,23,1) 40%);
+      clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 20px), calc(100% - 15px) 100%, 15px 100%, 0 calc(100% - 20px), 0 10px);
+      z-index: -1;
     }
 
-    /* HEADER */
-    .mod-header { width: 100%; display: flex; justify-content: center; align-items: center; margin-bottom: 4px; }
-    .mod-title { font-family: 'Outfit'; font-size: 11px; font-weight: 800; color: #fff; letter-spacing: 0.5px; display: flex; align-items: center;}
-    .type-badge { font-size: 7px; background: rgba(0,243,255,0.1); color: var(--tc-cyan); padding: 2px 4px; border-radius: 3px; margin-left: 4px; border: 1px solid var(--tc-cyan); letter-spacing: 1px;}
+    /* Widget Corner Dots */
+    .cd-wid-tl { top: 15px; left: 4px; } .cd-wid-tr { top: 15px; right: 4px; } 
+    .cd-wid-bl { bottom: 35px; left: 4px; } .cd-wid-br { bottom: 35px; right: 4px; }
 
-    /* KEY EXPIRY TIMER */
-    .key-expiry-box { width: 100%; font-family: 'Share Tech Mono', monospace; font-size: 8px; color: var(--tc-gold); font-weight: bold; text-align: center; margin-bottom: 8px; letter-spacing: 1px; }
+    /* Header */
+    .hack-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px 6px 12px; border-bottom: 1px solid rgba(0,229,255,0.1); }
+    .hack-title { font-family: 'Outfit'; font-size: 13px; font-weight: 900; color: var(--tc-cyan); letter-spacing: 1px; text-shadow: 0 0 5px rgba(0,229,255,0.5); }
+    .hack-rctv { border: 1px solid rgba(0,229,255,0.4); border-radius: 4px; padding: 2px 4px; font-family: 'Share Tech Mono'; font-size: 8px; font-weight: bold; color: var(--tc-cyan); display: flex; align-items: center; gap: 4px; background: rgba(0,229,255,0.1); }
+    .rctv-dot { width: 4px; height: 4px; background: var(--tc-cyan); border-radius: 50%; animation: blink 1s infinite;}
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-    /* PERIOD & COUNTDOWN ROW */
-    .info-row { display: flex; justify-content: space-between; align-items: center; background: #111; border: 1px solid #222; padding: 4px 6px; border-radius: 4px; margin-bottom: 8px;}
-    .info-period { font-family: 'Share Tech Mono'; font-size: 9px; color: #aaa; font-weight: bold; letter-spacing: 0.5px;}
-    .info-period span { color: var(--tc-cyan); }
-    .info-timer { font-family: 'Share Tech Mono'; font-size: 11px; color: var(--tc-green); font-weight: bold; letter-spacing: 1px; text-shadow: 0 0 5px rgba(0,255,102,0.4);}
+    /* Info Strip */
+    .info-strip { display: flex; justify-content: space-between; padding: 6px 12px; background: rgba(0,0,0,0.3); align-items: center; }
+    .mod-period-pill { color: var(--tc-cyan); font-family: 'Share Tech Mono'; font-size: 10px; font-weight: bold; letter-spacing: 1px; }
+    .mod-period-pill span { color: #fff; }
+    .countdown-display { font-family: 'Share Tech Mono'; font-size: 15px; color: var(--tc-gold); font-weight: 900; text-shadow: 0 0 8px rgba(252,213,53,0.4); }
 
-    /* =========================================
-       🔥 NEW RESULT AREA (STYLED BIG/SMALL) 🔥
-       ========================================= */
-    .result-area { display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 8px; height: 50px; margin-bottom: 8px; width: 100%;}
+    /* Screen Area */
+    .hack-screen { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; padding: 10px;}
     
-    .res-text-box { display: flex; align-items: center; justify-content: center; gap: 6px; width: 100%; transition: 0.3s; }
+    /* DIGITAL DASHBOARD (Horizontal Result) */
+    .digital-result-board { display: none; align-items: center; justify-content: center; gap: 12px; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(0,229,255,0.3); border-radius: 8px; padding: 8px 15px; box-shadow: inset 0 0 15px rgba(0,229,255,0.1); width: 100%;}
+    .digital-result-board.active { display: flex; animation: digitalReveal 0.4s ease-out forwards; }
     
-    .res-word { font-family: 'Outfit'; font-size: 22px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; padding: 4px 10px; border-radius: 4px; line-height: 1; }
-
-    .res-text-box.big .res-word { background: linear-gradient(135deg, rgba(252,213,53,0.15), rgba(0,0,0,0.8)); border: 1px solid rgba(252,213,53,0.5); color: #fff; text-shadow: 0 0 5px var(--tc-gold), 0 0 10px var(--tc-gold); box-shadow: inset 0 0 8px rgba(252,213,53,0.2), 0 0 10px rgba(252,213,53,0.3); animation: breathGold 1.5s infinite alternate; }
-    .res-text-box.small .res-word { background: linear-gradient(135deg, rgba(0,243,255,0.15), rgba(0,0,0,0.8)); border: 1px solid rgba(0,243,255,0.5); color: #fff; text-shadow: 0 0 5px var(--tc-cyan), 0 0 10px var(--tc-cyan); box-shadow: inset 0 0 8px rgba(0,243,255,0.2), 0 0 10px rgba(0,243,255,0.3); animation: breathCyan 1.5s infinite alternate; }
+    .res-num-circle { width: 38px; height: 38px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-family: 'Share Tech Mono'; font-size: 18px; font-weight: 900; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.8); box-shadow: 0 0 10px rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.3); }
+    .res-size-text { font-family: 'Outfit'; font-size: 22px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; }
     
-    .res-text-box.ready .res-word { background: transparent; border: none; color: #555; text-shadow: none; box-shadow: none; font-size: 18px; letter-spacing: 2px; }
-    .res-text-box.scanning .res-word { background: transparent; border: none; box-shadow: none; color: var(--tc-cyan); font-size: 16px; animation: pulseScan 0.5s infinite alternate; letter-spacing: 2px; }
+    @keyframes digitalReveal { 0% { transform: scale(0.8) translateY(10px); opacity: 0; filter: blur(5px); } 100% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0); } }
 
-    /* NUMBER STYLE */
-    .res-number { font-family: 'Share Tech Mono'; font-size: 20px; font-weight: bold; background: rgba(255,255,255,0.05); padding: 4px 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1); }
-    .res-text-box.big .res-number { color: var(--tc-gold); border-color: rgba(252,213,53,0.4); box-shadow: 0 0 8px rgba(252,213,53,0.2); }
-    .res-text-box.small .res-number { color: var(--tc-cyan); border-color: rgba(0,243,255,0.4); box-shadow: 0 0 8px rgba(0,243,255,0.2); }
+    /* Sleek Scanning Loader */
+    .scan-container { display: flex; flex-direction: column; align-items: center; text-align: center;}
+    .scan-line { width: 120px; height: 2px; background: var(--tc-cyan); box-shadow: 0 0 10px var(--tc-cyan); margin-bottom: 10px; animation: scanWiden 0.8s infinite alternate ease-in-out;}
+    .scan-text { font-family: 'Share Tech Mono'; font-size: 13px; color: var(--tc-cyan); font-weight: bold; letter-spacing: 2px; text-shadow: 0 0 8px var(--tc-cyan); animation: pulseScan 0.5s infinite alternate;}
+    @keyframes scanWiden { 0% { width: 10px; opacity: 0.2; } 100% { width: 120px; opacity: 1; } }
+    @keyframes pulseScan { from { opacity: 0.5; } to { opacity: 1; } }
 
-    .res-text-box.hold-msg { color: var(--tc-red); font-size: 11px; text-shadow: 0 0 10px rgba(255,42,75,0.6); line-height: 1.4; text-align: center; padding: 0 2px;}
+    /* Win/Loss Tracker */
+    .win-loss-badge { font-family: 'Outfit'; font-size: 10px; font-weight: 900; padding: 4px 10px; border-radius: 4px; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px;}
+    .wl-wait { background: rgba(255,255,255,0.05); color: #64748b; }
+    .wl-win { background: rgba(0,230,118,0.1); color: var(--tc-green); border: 1px solid rgba(0,230,118,0.3); }
+    .wl-loss { background: rgba(255,51,102,0.1); color: var(--tc-red); border: 1px solid rgba(255,51,102,0.3); }
 
-    @keyframes breathGold { from { filter: drop-shadow(0 0 2px rgba(252,213,53,0.2));} to { filter: drop-shadow(0 0 8px rgba(252,213,53,0.8)); transform: scale(1.02);} }
-    @keyframes breathCyan { from { filter: drop-shadow(0 0 2px rgba(0,243,255,0.2));} to { filter: drop-shadow(0 0 8px rgba(0,243,255,0.8)); transform: scale(1.02);} }
-    @keyframes pulseScan { from { color: #444; } to { color: var(--tc-cyan); text-shadow: 0 0 8px var(--tc-cyan); } }
-
-    /* ACTION BUTTONS */
-    .action-row { display: flex; justify-content: center; gap: 6px; width: 100%; margin-top: auto;}
-    .btn-action { flex: 1; padding: 10px 0; border-radius: 4px; font-family: 'Inter'; font-size: 10px; font-weight: 900; text-transform: uppercase; cursor: pointer; transition: 0.2s; letter-spacing: 1px; border: 1px solid transparent; min-height: 36px; }
-    .btn-action:active { transform: scale(0.95); }
-    .btn-scan { background: var(--tc-cyan); color: #000; box-shadow: 0 0 10px rgba(0,243,255,0.3); }
-    .btn-scan:disabled { background: #111; color: #444; box-shadow: none; cursor: not-allowed; border: 1px solid #222;}
-    .btn-hide { background: transparent; color: #888; border-color: #333; }
-    .btn-hide:hover { color: #fff; background: rgba(255,255,255,0.05); }
-
-    /* SYSTEM MAINTENANCE UI INSIDE */
-    #uiMaint { width: 100%; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 10px 0; flex: 1;}
-    .maint-icon { font-size: 20px; color: var(--tc-red); margin-bottom: 6px; animation: pulseRed 2s infinite ease-in-out;}
-    .maint-title-in { font-family: 'Outfit'; font-size: 12px; color: var(--tc-red); font-weight: 900; letter-spacing: 1px; margin-bottom: 4px;}
-    .maint-time-val { font-family: 'Share Tech Mono'; font-size: 10px; color: var(--tc-cyan); font-weight: bold; background: rgba(0,0,0,0.8); padding: 4px 8px; border-radius: 4px; border: 1px solid #333;}
-
-    /* 🟢🔴 PERMANENT WIN / LOSS GLOW STYLES FOR SCREENSHOTS 🔴🟢 */
-    @keyframes winPulse { 0% { box-shadow: 0 0 15px rgba(0, 255, 102, 0.3); border-color: var(--tc-green); } 100% { box-shadow: 0 0 40px rgba(0, 255, 102, 0.8); border-color: var(--tc-green); } }
-    .anim-win { animation: winPulse 1.5s infinite alternate; border-color: var(--tc-green) !important; }
+    /* Action Buttons */
+    .hack-actions { display: flex; justify-content: space-between; gap: 8px; padding: 10px; border-top: 1px solid rgba(0,229,255,0.1); }
+    .btn-hack { flex: 1; height: 32px; border: none; font-family: 'Inter'; font-weight: 800; font-size: 10px; letter-spacing: 1px; cursor: pointer; border-radius: 4px; transition: 0.2s;}
+    .btn-hack:active { transform: scale(0.95); }
+    .btn-hack:disabled { filter: grayscale(100%); cursor: not-allowed; opacity: 0.5;}
     
-    @keyframes lossShakeAnim { 0% { transform: translateX(0); } 25% { transform: translateX(-4px); } 50% { transform: translateX(4px); } 75% { transform: translateX(-4px); } 100% { transform: translateX(0); } }
-    .anim-loss { animation: lossShakeAnim 0.5s ease-out; border-color: var(--tc-red) !important; box-shadow: 0 0 30px rgba(255, 42, 75, 0.7) !important; }
-
+    .btn-scan { background: linear-gradient(90deg, #005f73, #0a9396); color: #fff; box-shadow: 0 0 10px rgba(0,229,255,0.3); border: 1px solid #0a9396;}
+    .btn-hide { background: linear-gradient(90deg, #001219, #005f73); color: #94a3b8; border: 1px solid #0a9396;}
+    
+    .bg-red { background: #ff3366; } .bg-green { background: #00e676; }
+    .bg-violet-red { background: linear-gradient(135deg, #7700ff 50%, #ff3366 50%); } .bg-violet-green { background: linear-gradient(135deg, #7700ff 50%, #00e676 50%); }
   </style>
 </head>
 <body>
 
-  <!-- MODALS -->
-  <div class="modal-screen-mask" id="securityModal">
+  <div class="modal-screen-mask" id="securityModal"><div class="modal-panel-box"><h2 style="color:var(--tc-red); font-family:'Outfit';">WARNING</h2><p style="color:#cbd5e1; font-size:12px; margin:10px 0;">Minimizing is prohibited.</p><button class="btn-cyber-solid" onclick="document.getElementById('securityModal').style.display='none'" style="background:var(--tc-red); color:#fff; border:none;">UNDERSTOOD</button></div></div>
+  <div class="modal-screen-mask" id="banModal"><div class="modal-panel-box"><h2 style="color:var(--tc-red); font-family:'Outfit';">BANNED</h2><p style="color:#cbd5e1; font-size:12px; margin:10px 0;">Account locked.</p></div></div>
+  
+  <div class="modal-screen-mask" id="rulesModal">
     <div class="modal-panel-box">
-      <div class="session-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
-      <h2 class="session-title" id="secTitle">SECURITY WARNING</h2>
-      <p class="session-reason" id="secMsg">Minimizing or switching tabs is strictly prohibited for your account type.</p>
-      <div class="security-strikes" id="secStrikes">STRIKES: 1/5</div>
-      <button class="btn-cyber-solid" onclick="dismissSecurity()" id="secBtn" style="background:var(--tc-red); color:#fff;">I UNDERSTAND</button>
+      <h2 style="color:var(--tc-cyan); font-family:'Outfit'; font-size:1.2rem; margin-bottom:12px;"><i class="fa-solid fa-book"></i> SYSTEM RULES</h2>
+      <ul class="rules-list" style="list-style: none; padding: 0;">
+        <li><span class="step-num">1</span> <div>New ID banakar apna UID submit karein.</div></li>
+        <li><span class="step-num">2</span> <div>Verification aane ke baad hi deposit karein.</div></li>
+        <li><span class="step-num">3</span> <div>3 LOSS hone par trend follow karein (Dragon).</div></li>
+        <li><span class="step-num">4</span> <div>Level 4 Fund ke sath play karein. 5-Level Fund zaroori hai.</div></li>
+      </ul>
+      <button class="btn-cyber-solid" onclick="document.getElementById('rulesModal').style.display='none'" style="margin-top:10px; font-size:11px;">AGREE & CLOSE</button>
     </div>
   </div>
 
-  <div class="modal-screen-mask" id="reviewModal">
-    <div class="modal-panel-box">
-      <div class="session-icon"><i class="fa-solid fa-user-shield"></i></div>
-      <h2 class="session-title">UNDER REVIEW</h2>
-      <p class="session-reason">You have reached the minimize limit. Admin is currently verifying your game deposits. Please wait.</p>
-      <div class="security-strikes" style="border: 1px dashed var(--tc-warn); color: var(--tc-warn);">STATUS: PENDING</div>
-    </div>
-  </div>
-
-  <div class="modal-screen-mask" id="banModal">
-    <div class="modal-panel-box">
-      <div class="session-icon"><i class="fa-solid fa-skull"></i></div>
-      <h2 class="session-title">SYSTEM BANNED</h2>
-      <p class="session-reason">Your account has been permanently locked by the administrator for policy violations.</p>
-      <div class="security-strikes" style="border: 1px dashed var(--tc-red); color:var(--tc-red);">ACCESS DENIED</div>
-    </div>
-  </div>
-
-  <!-- LOGIN SCREEN (UPDATED WITH GET KEY BUTTON) -->
   <div id="fullOverlayScreen">
-    <div class="wrapper-card" id="loginFormCard">
-      <img src="logo.png" alt="Logo" style="width:70px; height:70px; border-radius:8px; border:1px solid var(--tc-cyan); margin-bottom:12px; box-shadow: 0 0 15px rgba(0,243,255,0.2); object-fit:cover;" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1464/1464731.png'">
-      <h2 style="font-family:'Outfit'; color:#fff; margin-bottom:4px; font-size: 1.5rem; letter-spacing: 1px;">DEV ARMY VIP</h2>
-      <p style="font-size:10px; color:#52627a; margin-bottom:20px; letter-spacing: 2px;">SECURE ACCESS NODE</p>
+    <div class="perspective-grid"><div class="perspective-grid-inner"></div></div>
+
+    <div class="wrapper-card">
+      <div class="corner-decor cd-log-tl"></div><div class="corner-decor cd-log-tr"></div>
+      <div class="corner-decor cd-log-bl"></div><div class="corner-decor cd-log-br"></div>
+
+      <img src="logo.png" alt="Logo" class="brand-logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1464/1464731.png'">
+      <h2 class="login-title">DEV ARMY</h2>
+      <p class="login-subtitle">Secure Access Node</p>
       
       <div id="errorPopup"></div>
       
-      <input type="text" id="loginKey" class="hacker-box-input" placeholder="ENTER ACCESS KEY">
-      <button class="btn-cyber-solid" id="activateBtn">CONNECT</button>
-      
-      <div class="get-key-section">
-         <p class="get-key-text">Don't have an access key?</p>
-         <!-- REPLACE WITH YOUR TELEGRAM LINK -->
-         <a href="https://t.me/YOUR_TELEGRAM_LINK" target="_blank" class="btn-get-key">
-            <i class="fa-brands fa-telegram"></i> GET KEY FROM ADMIN
-         </a>
+      <div id="verifyStep">
+        <input type="number" id="inpUid" class="hacker-box-input" placeholder="ENTER GAME UID">
+        <div class="divider">OR</div>
+        <input type="text" id="inpKey" class="hacker-box-input" placeholder="ENTER ACCESS KEY">
+        <button class="btn-cyber-solid" id="verifyCredsBtn" style="margin-top: 15px;">VERIFY CREDENTIALS</button>
       </div>
 
+      <div class="validity-badge" id="statusBadge">
+        <i class="fa-solid fa-check-circle"></i> ADMIN VERIFIED <br> <span id="keyTypeDisp" style="font-size: 9px; color:#fff; font-weight:normal;"></span>
+      </div>
+      
+      <button class="btn-cyber-solid" id="activateBtn" disabled style="margin-top: 15px; display:none;">INITIALIZE SYSTEM</button>
+      
+      <div style="margin-top: 20px;">
+        <button class="btn-outline" onclick="document.getElementById('rulesModal').style.display='flex'"><i class="fa-solid fa-book-open"></i> VIEW RULES</button>
+        <a href="https://t.me/" id="supportBtn" target="_blank" class="btn-outline"><i class="fa-brands fa-telegram"></i> GET KEY</a>
+      </div>
     </div>
   </div>
 
-  <!-- MAIN APP -->
   <div id="mainApp">
     <iframe class="bg-game" id="gameIframe" src="about:blank"></iframe>
     
     <div class="draggable-container" id="draggableWidget">
+      <div class="mod-icon" id="modIcon"><img src="logo.png" alt="Icon" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1464/1464731.png'"></div>
       
-      <!-- COMPACT ICON -->
-      <div class="mod-icon" id="modIcon">
-        <img src="logo.png" alt="Icon" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1464/1464731.png'">
-      </div>
-      
-      <!-- MICRO SQUARE EXPANDED BOX -->
       <div class="mod-expanded" id="modExpanded">
-        <div class="mod-content-wrapper">
-          
-          <div class="mod-header">
-            <span class="mod-title">DEV ARMY <span class="type-badge" id="accTypeBadge">VIP</span></span>
-          </div>
+        <div class="corner-decor cd-wid-tl"></div><div class="corner-decor cd-wid-tr"></div>
+        <div class="corner-decor cd-wid-bl"></div><div class="corner-decor cd-wid-br"></div>
 
-          <!-- KEY EXPIRY TIMER -->
-          <div class="key-expiry-box" id="keyExpiryTimer">VALID: CHECKING...</div>
-          
-          <!-- NORMAL UI -->
-          <div id="uiNormal" style="width: 100%; display: flex; flex-direction: column; flex: 1;">
-            
-            <div class="info-row">
-              <div class="info-period">SEQ: <span id="periodBadge">----</span></div>
-              <div class="info-timer" id="countdownTimer">00:00</div>
+        <div class="hack-header">
+            <div class="hack-title">DEV ARMY</div>
+            <div class="hack-rctv"><div class="rctv-dot"></div> RCTV</div>
+        </div>
+
+        <div class="info-strip">
+            <div class="mod-period-pill">ID: <span id="periodBadge">----</span></div>
+            <div class="countdown-display" id="liveCountdown">00s</div>
+        </div>
+
+        <div class="hack-screen">
+            <div class="digital-result-board" id="resultBoard">
+                <div class="res-num-circle" id="resNumCircle">-</div>
+                <div class="res-size-text" id="resSizeText">LOCKED</div>
             </div>
 
-            <!-- RESULT AREA -->
-            <div class="result-area">
-               <div class="res-text-box ready" id="resBox">
-                  <span class="res-word">READY</span>
-               </div>
+            <div class="scan-container" id="scanContainer">
+                <div class="scan-line"></div>
+                <div class="scan-text" id="scanMsgText">STANDBY...</div>
+                <div class="scan-line" style="margin-top:10px;"></div>
             </div>
+        </div>
 
-            <div class="action-row">
-              <button class="btn-action btn-scan" id="analyzeBtn" disabled>PREDICT</button>
-              <button class="btn-action btn-hide" id="hideBtn">HIDE</button>
-            </div>
-          </div>
-          
-          <!-- SLEEP MODE UI -->
-          <div id="uiMaint">
-            <i class="fa-solid fa-moon maint-icon" id="maintIconDisp"></i>
-            <div class="maint-title-in" id="maintTitleDisp">SYSTEM SLEEPING</div>
-            <div class="maint-time-val" id="maintTimeVal">--:--</div>
-          </div>
+        <div style="text-align: center;">
+            <div id="winLossBadge" class="win-loss-badge wl-wait">STATUS: WAITING</div>
+        </div>
 
+        <div class="hack-actions">
+            <button class="btn-hack btn-scan" id="analyzeBtn" disabled>SCAN NOW</button>
+            <button class="btn-hack btn-hide" id="hideBtn">HIDE</button>
         </div>
       </div>
-
     </div>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getDatabase, ref, get, child, update, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+    import { getDatabase, ref, get, child, update, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
     const firebaseConfig = { apiKey: "AIzaSyBNj71akpefcfEtn-SQfAcx-Pgwi8sUosg", authDomain: "teamdev-88676.firebaseapp.com", databaseURL: "https://teamdev-88676-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "teamdev-88676" };
     const app = initializeApp(firebaseConfig); const database = getDatabase(app);
 
-    let activeKey = null; let isPremiumKey = false;
-    let minCount = localStorage.getItem('sec_min_count') ? parseInt(localStorage.getItem('sec_min_count')) : 0;
-    
-    window.userTimeframe = "1M";
-    window.API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json"; 
-    window.isHeld = false; 
+    let activeKey = null; window.userTimeframe = "1M"; 
+    let myDeviceId = localStorage.getItem('predict_device_id') || ('DEV-' + Math.random().toString(36).substr(2, 9).toUpperCase()); 
 
-    const fullOverlay = document.getElementById('fullOverlayScreen'); const mainApp = document.getElementById('mainApp'); const errBox = document.getElementById('errorPopup');
-    const uiNormal = document.getElementById('uiNormal'); const uiMaint = document.getElementById('uiMaint'); const analyzeBtn = document.getElementById('analyzeBtn');
+    onValue(ref(database, 'systemConfig/links'), (snap) => { if(snap.exists() && snap.val().supportUrl) document.getElementById('supportBtn').href = snap.val().supportUrl; });
 
-    // SECURITY SYSTEM
-    document.addEventListener('visibilitychange', async () => {
-      if(document.hidden && document.getElementById('mainApp').style.display === 'block') {
-        if(isPremiumKey) return; 
-        minCount++; localStorage.setItem('sec_min_count', minCount);
-        if(minCount >= 5 && activeKey) {
-          await update(ref(database, `keys/${activeKey}`), { status: "BANNED" });
-          document.getElementById('banModal').style.display = 'flex';
-          document.getElementById('mainApp').style.pointerEvents = 'none'; document.getElementById('mainApp').style.filter = 'blur(10px) grayscale(100%)';
-        } else {
-          document.getElementById('secStrikes').innerText = `STRIKES: ${minCount}/5`;
-          document.getElementById('securityModal').style.display = 'flex';
+    // =========================================
+    // 🔥 REAL 2-WAY LOGIN LOGIC
+    // =========================================
+    const verifyCredsBtn = document.getElementById('verifyCredsBtn'); const activateBtn = document.getElementById('activateBtn');
+    const inpUid = document.getElementById('inpUid'); const inpKey = document.getElementById('inpKey');
+    const errBox = document.getElementById('errorPopup'); const statusBadge = document.getElementById('statusBadge');
+
+    verifyCredsBtn.addEventListener('click', async () => {
+        let uidVal = inpUid.value.trim(); let keyVal = inpKey.value.trim().toUpperCase();
+        if(!uidVal && !keyVal) { errBox.style.display = 'block'; errBox.innerText = "ENTER UID OR KEY"; return; }
+        errBox.style.display = 'none'; verifyCredsBtn.innerText = "VERIFYING DATABANKS...";
+        
+        try {
+            let foundKeyData = null; let finalKey = keyVal;
+            if(uidVal && !keyVal) {
+                const keysSnap = await get(ref(database, 'keys'));
+                if(keysSnap.exists()) { keysSnap.forEach((childSnap) => { let data = childSnap.val(); if(data.gameUid == uidVal) { foundKeyData = data; finalKey = childSnap.key; } }); }
+                if(!foundKeyData) throw new Error("UID_NOT_FOUND");
+            } else if (keyVal && !uidVal) {
+                const snap = await get(child(ref(database), `keys/${keyVal}`));
+                if(snap.exists()) foundKeyData = snap.val(); else throw new Error("KEY_NOT_FOUND");
+            }
+
+            if(foundKeyData) {
+                if(foundKeyData.status === "BANNED") { document.getElementById('banModal').style.display='flex'; return; }
+                inpKey.value = finalKey;
+                
+                if(foundKeyData.gameUid) { inpUid.value = foundKeyData.gameUid; } 
+                else { let kType = foundKeyData.type ? foundKeyData.type.toUpperCase() : "VIP"; inpUid.value = `[ ${kType} KEY - UNBOUND ]`; }
+
+                inpUid.classList.add('readonly'); inpUid.readOnly = true; inpKey.classList.add('readonly'); inpKey.readOnly = true;
+                activeKey = finalKey; verifyCredsBtn.style.display = 'none'; document.querySelector('.divider').style.display = 'none';
+                
+                if(foundKeyData.type) { document.getElementById('keyTypeDisp').innerText = `TYPE: ${foundKeyData.type.toUpperCase()}`; }
+                statusBadge.style.display = 'inline-block'; activateBtn.style.display = 'block'; activateBtn.disabled = false;
+            }
+        } catch(error) {
+            errBox.style.display = 'block'; 
+            if(error.message === "UID_NOT_FOUND") errBox.innerText = "UID NOT REGISTERED";
+            else if(error.message === "KEY_NOT_FOUND") errBox.innerText = "INVALID ACCESS KEY";
+            else errBox.innerText = "NETWORK ERROR";
+            verifyCredsBtn.innerText = "VERIFY CREDENTIALS";
         }
-      }
     });
 
-    window.dismissSecurity = function() {
-      if(minCount >= 5) { alert("YOUR UID HAS BEEN RESTRICTED."); return; }
-      document.getElementById('securityModal').style.display = 'none';
-    }
-
-    // 🔥 TIMER LOGIC: EXPIRY & COUNTDOWN 🔥
-    setInterval(() => {
-      // Periodic Countdown
-      const now = new Date();
-      let secLeft = window.userTimeframe === "30S" ? 30 - (now.getSeconds() % 30) : 60 - now.getSeconds();
-      if(secLeft === 60 || secLeft === 30) secLeft = 0;
-      
-      const timerEl = document.getElementById('countdownTimer');
-      if(timerEl) {
-        timerEl.innerText = `00:${secLeft < 10 ? '0'+secLeft : secLeft}`;
-      }
-    }, 1000);
-
-    // DYNAMIC EXPIRY UPDATER
-    function checkExpiry(expiryString) {
-      if(!expiryString) return;
-      setInterval(() => {
-         let left = new Date(expiryString).getTime() - Date.now();
-         if(left <= 0) { document.getElementById('keyExpiryTimer').innerText = "EXPIRED"; location.reload(); return; }
-         let h = Math.floor(left / (1000 * 60 * 60)); let m = Math.floor((left % (1000 * 60 * 60)) / (1000 * 60));
-         document.getElementById('keyExpiryTimer').innerText = `VALIDITY: ${h}H ${m}M`;
-      }, 1000);
-    }
-
-    // SYSTEM CONFIG
-    let sleepCheckInterval = null; let systemIsLocked = false;
-    onValue(ref(database, 'systemConfig'), (snapshot) => {
-      if(snapshot.exists()) {
-        const config = snapshot.val();
-        if(config.links && config.links.gameUrl) document.getElementById('gameIframe').src = config.links.gameUrl;
-        if(config.maintenance) {
-          const mode = config.maintenance.mode; clearInterval(sleepCheckInterval);
-          if(mode === 'LOCKED') {
-            systemIsLocked = true; uiNormal.style.display = 'none'; uiMaint.style.display = 'flex';
-            document.getElementById('maintTitleDisp').innerText = "SYSTEM LOCKED"; document.getElementById('maintTimeVal').innerText = config.maintenance.sessionTime || "STAY TUNED";
-            analyzeBtn.disabled = true; analyzeBtn.textContent = "OFFLINE";
-          } else if(mode === 'SLEEP') {
-            systemIsLocked = true; uiNormal.style.display = 'none'; uiMaint.style.display = 'flex';
-            document.getElementById('maintTitleDisp').innerText = "SYSTEM SLEEPING";
-            if(config.maintenance.autoWakeTime) {
-              sleepCheckInterval = setInterval(() => {
-                let left = config.maintenance.autoWakeTime - Date.now();
-                if(left <= 0) {
-                  clearInterval(sleepCheckInterval); systemIsLocked = false; uiNormal.style.display = 'flex'; uiMaint.style.display = 'none';
-                } else {
-                  let h = Math.floor(left / 3600000); let m = Math.floor((left % 3600000) / 60000); let s = Math.floor((left % 60000) / 1000);
-                  document.getElementById('maintTimeVal').innerText = `WAKES: ${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-                }
-              }, 1000);
-            } else { document.getElementById('maintTimeVal').innerText = "--:--"; }
-          } else {
-            systemIsLocked = false; uiNormal.style.display = 'flex'; uiMaint.style.display = 'none';
-          }
-        }
-      }
+    activateBtn.addEventListener('click', async () => {
+        activateBtn.innerText = "CONNECTING NODE...";
+        if(activeKey) { const snap = await get(child(ref(database), `keys/${activeKey}`)); if(snap.exists()) { const kData = snap.val(); const updates = {}; if(!kData.deviceId) updates[`keys/${activeKey}/deviceId`] = myDeviceId; if(Object.keys(updates).length > 0) await update(ref(database), updates); } }
+        setTimeout(() => { document.getElementById('fullOverlayScreen').style.display = 'none'; document.getElementById('mainApp').style.display = 'block'; initEngine(); }, 600);
     });
 
-    let currentPolarity = 'NORMAL'; onValue(ref(database, 'server/polarity'), (snap) => { currentPolarity = snap.val() || 'NORMAL'; });
-    let currentGodMode = { size: "AUTO" }; onValue(ref(database, 'server/override'), (snap) => { if(snap.exists()) currentGodMode = snap.val(); else currentGodMode = { size: "AUTO" }; });
-
-    let myDeviceId = localStorage.getItem('predict_device_id') || ('DEV-' + Math.random().toString(36).substr(2, 9).toUpperCase()); localStorage.setItem('predict_device_id', myDeviceId);
-
-    // 🔥 ACTIVATION LOGIC (TIMER STARTS HERE) 🔥
-    document.getElementById('activateBtn').addEventListener('click', async () => {
-      const key = document.getElementById('loginKey').value.trim().toUpperCase();
-      if(!key) { errBox.style.display='block'; errBox.innerText="ENTER ACCESS KEY"; return; }
-      
-      document.getElementById('activateBtn').innerText = "CONNECTING...";
-      try {
-        const snap = await get(child(ref(database), `keys/${key}`));
-        if(snap.exists()) {
-          const kData = snap.val();
-          if(kData.status === "BANNED") { document.getElementById('banModal').style.display='flex'; return; }
-          if(kData.status === "UNDER_REVIEW") { document.getElementById('reviewModal').style.display='flex'; return; }
-          if(kData.status === "INACTIVE") { errBox.style.display='block'; errBox.innerText="KEY PAUSED BY ADMIN"; document.getElementById('activateBtn').innerText="CONNECT"; return; }
-          
-          let finalExpiresAt = kData.expiresAt;
-          let isFirstUse = false;
-
-          // FIRST USE TRIGGER: Calculate expiry ONLY now
-          if(!kData.expiresAt || kData.status === "UNUSED") {
-             const exp = new Date();
-             exp.setHours(exp.getHours() + (kData.validityHours || 24));
-             finalExpiresAt = exp.toISOString();
-             isFirstUse = true;
-          } else if (new Date() > new Date(kData.expiresAt)) {
-             errBox.style.display='block'; errBox.innerText="KEY EXPIRED"; document.getElementById('activateBtn').innerText="CONNECT"; return;
-          }
-
-          if(kData.deviceId && kData.deviceId !== myDeviceId) { errBox.style.display='block'; errBox.innerText="HWID MISMATCH"; document.getElementById('activateBtn').innerText="CONNECT"; return; }
-          
-          const updates = {};
-          if(!kData.deviceId) updates[`keys/${key}/deviceId`] = myDeviceId;
-          if(isFirstUse) {
-             updates[`keys/${key}/expiresAt`] = finalExpiresAt;
-             updates[`keys/${key}/status`] = "ACTIVE";
-          }
-          
-          let kType = kData.type || 'VIP';
-          document.getElementById('accTypeBadge').innerText = kType;
-          isPremiumKey = (kType === 'VIP' || kType === 'PAID' || kType === 'AGENT' || kData.whitelist);
-          
-          window.userTimeframe = kData.timeframe || "1M";
-          if(window.userTimeframe === "30S") window.API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json";
-          else window.API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json";
-
-          if(kData.status === "ACTIVE" && minCount >= 5) { minCount = 0; localStorage.setItem('sec_min_count', 0); }
-          if(Object.keys(updates).length > 0) await update(ref(database), updates);
-          
-          activeKey = key;
-          checkExpiry(finalExpiresAt); // Start live countdown
-
-          onValue(ref(database, `keys/${activeKey}`), (kSnap) => {
-             if(kSnap.exists()){
-                let data = kSnap.val();
-                if(data.status === "BANNED" || data.status === "INACTIVE") location.reload();
-                if(data.holdMsg) {
-                   window.isHeld = true;
-                   document.getElementById('resBox').innerHTML = data.holdMsg;
-                   document.getElementById('resBox').className = "res-text-box hold-msg";
-                   analyzeBtn.disabled = true;
-                   analyzeBtn.textContent = "LOCKED";
-                } else {
-                   window.isHeld = false;
-                   document.getElementById('resBox').innerHTML = `<span class="res-word">READY</span>`;
-                   document.getElementById('resBox').className = "res-text-box ready";
-                   if(!systemIsLocked) { analyzeBtn.disabled = false; analyzeBtn.textContent = "PREDICT"; }
-                }
-             }
-          });
-          
-          if(minCount >= 5 && !isPremiumKey) {
-             document.getElementById('securityModal').style.display = 'flex'; document.getElementById('mainApp').style.pointerEvents = 'none';
-          } else {
-             fullOverlay.style.display = 'none'; mainApp.style.display = 'block'; initEngine(); 
-          }
-        } else { errBox.style.display = 'block'; errBox.innerText = "INVALID ACCESS KEY"; document.getElementById('activateBtn').innerText = "CONNECT"; }
-      } catch(e) { errBox.style.display = 'block'; errBox.innerText = "SERVER REFUSED Connection"; document.getElementById('activateBtn').innerText = "CONNECT"; }
-    });
-
-    // DRAGGABLE CONTAINER
-    const container = document.getElementById("draggableWidget"); const iconCollapsed = document.getElementById("modIcon"); const expandedBox = document.getElementById("modExpanded");
-    let isDragging = false, hasMoved = false, startX, startY, initialX, initialY;
+    // =========================================
+    // 🔥 STRICT BOUNDING BOX (100% FIXED)
+    // =========================================
+    const container = document.getElementById("draggableWidget"); const iconCollapsed = document.getElementById("modIcon"); const expandedWrapper = document.getElementById("modExpanded");
+    let isDragging = false, hasMoved = false, startX, startY;
     
-    function enforceScreenBounds() {
-      const rect = container.getBoundingClientRect();
-      const gameWidth = window.innerWidth > 1024 ? 400 : window.innerWidth;
-      const xOffset = window.innerWidth > 1024 ? (window.innerWidth - 400)/2 : 0;
-      const maxLeft = xOffset + gameWidth - rect.width;
-      const maxTop = window.innerHeight - rect.height;
-      let newLeft = Math.max(xOffset, Math.min(rect.left, maxLeft));
-      let newTop = Math.max(20, Math.min(rect.top, maxTop - 20));
-      container.style.transform = 'none'; container.style.left = newLeft + 'px'; container.style.top = newTop + 'px';
+    function enforceScreenBounds() { 
+        const rect = container.getBoundingClientRect(); 
+        let maxX = window.innerWidth - rect.width;
+        let maxY = window.innerHeight - rect.height;
+        let newX = Math.max(0, Math.min(rect.left, maxX)); 
+        let newY = Math.max(0, Math.min(rect.top, maxY)); 
+        container.style.left = newX + 'px'; container.style.top = newY + 'px'; 
     }
-
+    
     function toggleWidget() { 
-      if(expandedBox.classList.contains('active')) { expandedBox.classList.remove('active'); iconCollapsed.classList.remove('hidden'); } 
-      else { iconCollapsed.classList.add('hidden'); expandedBox.classList.add('active'); } 
-      setTimeout(enforceScreenBounds, 20); 
+        if(expandedWrapper.classList.contains('active')) { 
+            expandedWrapper.classList.remove('active'); iconCollapsed.classList.remove('hidden'); 
+        } else { 
+            enforceScreenBounds(); // Lock coordinates before expanding
+            iconCollapsed.classList.add('hidden'); expandedWrapper.classList.add('active'); 
+        } 
+        setTimeout(enforceScreenBounds, 20); 
     }
     
-    iconCollapsed.addEventListener('click', () => { if(!hasMoved) toggleWidget(); });
-    document.getElementById('hideBtn').addEventListener('click', toggleWidget);
+    iconCollapsed.addEventListener('click', () => { if(!hasMoved) toggleWidget(); }); document.getElementById('hideBtn').addEventListener('click', toggleWidget);
     window.addEventListener('resize', enforceScreenBounds);
+    
+    function dragStart(e) { 
+        if(e.target.tagName === 'BUTTON') return; 
+        const rect = container.getBoundingClientRect();
+        container.style.transform = 'none'; 
+        container.style.left = rect.left + 'px'; container.style.top = rect.top + 'px';
 
-    function dragStart(e) { if(e.target.id === 'analyzeBtn' || e.target.id === 'hideBtn') return; initialX = (e.type === "touchstart") ? e.touches[0].clientX : e.clientX; initialY = (e.type === "touchstart") ? e.touches[0].clientY : e.clientY; const rect = container.getBoundingClientRect(); startX = initialX - rect.left; startY = initialY - rect.top; isDragging = true; hasMoved = false; }
+        let clientX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX; 
+        let clientY = e.type === "touchstart" ? e.touches[0].clientY : e.clientY; 
+        startX = clientX - rect.left; startY = clientY - rect.top; 
+        isDragging = true; hasMoved = false; 
+    }
+    
     function drag(e) { 
-      if (!isDragging) return; 
-      const currentX = (e.type === "touchmove") ? e.touches[0].clientX : e.clientX; const currentY = (e.type === "touchmove") ? e.touches[0].clientY : e.clientY; 
-      if (Math.abs(currentX - initialX) > 4 || Math.abs(currentY - initialY) > 4) { 
-        hasMoved = true; e.preventDefault(); 
-        let newLeft = currentX - startX; let newTop = currentY - startY; 
-        const gameWidth = window.innerWidth > 1024 ? 400 : window.innerWidth; const xOffset = window.innerWidth > 1024 ? (window.innerWidth - 400)/2 : 0;
-        newLeft = Math.max(xOffset, Math.min(newLeft, xOffset + gameWidth - container.offsetWidth)); newTop = Math.max(20, Math.min(newTop, window.innerHeight - container.offsetHeight - 20)); 
-        container.style.transform = 'none'; container.style.left = newLeft + 'px'; container.style.top = newTop + 'px'; 
-      } 
+        if (!isDragging) return; 
+        let clientX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX; 
+        let clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY; 
+        if (Math.abs(clientX - (startX + container.getBoundingClientRect().left)) > 4 || Math.abs(clientY - (startY + container.getBoundingClientRect().top)) > 4) { 
+            hasMoved = true; e.preventDefault(); 
+            let proposedX = clientX - startX; let proposedY = clientY - startY;
+            let maxX = window.innerWidth - container.offsetWidth; let maxY = window.innerHeight - container.offsetHeight;
+            container.style.left = Math.max(0, Math.min(proposedX, maxX)) + 'px'; container.style.top = Math.max(0, Math.min(proposedY, maxY)) + 'px'; 
+        } 
     }
     function dragEnd() { isDragging = false; enforceScreenBounds(); }
+    
     container.addEventListener("touchstart", dragStart, { passive: false }); document.addEventListener("touchmove", drag, { passive: false }); document.addEventListener("touchend", dragEnd); container.addEventListener("mousedown", dragStart); document.addEventListener("mousemove", drag); document.addEventListener("mouseup", dragEnd);
 
-    // 🔥 ADVANCED INTELLIGENCE ENGINE 🔥
-    function getSizeFromNumber(num) { if (num === undefined || num === null) return null; return num >= 5 ? "BIG" : "SMALL"; }
-    function generateAIPrediction(historyArray) {
-      let predictedSize = "BIG"; let sure1 = 5;
-      const validDraws = (historyArray || []).filter(d => d !== undefined && d.number !== undefined && !isNaN(d.number)).slice(0, 20);
-      if (validDraws.length === 0) return { predictionSize: "BIG", sureNumber: 7 };
-      const recent = [...validDraws].slice(0, 12);
-      const recentSizes = recent.map(r => getSizeFromNumber(r.number)).filter(s => s !== null);
-      const recentNumbers = recent.map(r => r.number);
-      
-      if (recentSizes.length >= 3) {
-        let streakLength = 1;
-        for (let i = 1; i < recentSizes.length; i++) { if (recentSizes[i] === recentSizes[0]) streakLength++; else break; }
-        if (streakLength >= 3) { predictedSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG"; } 
-        else {
-          const last7 = recentSizes.slice(0, 7);
-          const bigCount = last7.filter(s => s === "BIG").length;
-          const smallCount = last7.filter(s => s === "SMALL").length;
-          if (bigCount > smallCount + 1) predictedSize = "SMALL";
-          else if (smallCount > bigCount + 1) predictedSize = "BIG";
-          else predictedSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG";
-        }
-      } else {
-        const lastSize = getSizeFromNumber(validDraws[0].number); predictedSize = lastSize === "BIG" ? "SMALL" : "BIG";
-      }
-      
-      const freqMap = new Map(); recentNumbers.forEach(n => freqMap.set(n, (freqMap.get(n) || 0) + 1));
-      let hotNumbers = [...freqMap.entries()].sort((a,b) => b[1] - a[1]).map(e => e[0]);
-      const targetPool = predictedSize === "BIG" ? [5,6,7,8,9] : [0,1,2,3,4];
-      let hotInPool = hotNumbers.filter(n => targetPool.includes(n));
-      sure1 = hotInPool.length > 0 ? hotInPool[0] : targetPool[Math.floor(Math.random() * 5)];
-      return { predictionSize: predictedSize, sureNumber: sure1 };
-    }
+    // =========================================
+    // 🔥 AI ENGINE, TIMER & SCANNING
+    // =========================================
+    let fetchingLock = false, preparedNextPeriod = null, preparedPredictionSize = null, preparedPredictionNumber = null, isResultReady = false;
+    let lastPredictedPeriodId = null, lastPredictedResultSize = null;
 
-    // THE "READY & SCREENSHOT" LOGIC VARIABLES
-    let fetchingLock = false;
-    let internalLatestPeriod = null; 
-    let internalPredictionSize = null; 
-    let internalPredictionNum = null;
-    let predictedPeriodId = null; 
-
-    const resBox = document.getElementById('resBox');
+    setInterval(() => {
+        let s = new Date().getSeconds(); let rem = (60 - s - 3 + 60) % 60; 
+        if(window.userTimeframe === "30S") rem = (30 - (s % 30) - 3 + 30) % 30;
+        const timerEl = document.getElementById('liveCountdown');
+        if(timerEl) { timerEl.innerText = rem.toString().padStart(2, '0') + 's'; timerEl.style.color = (rem <= 5) ? "var(--tc-red)" : "var(--tc-gold)"; }
+    }, 1000);
 
     async function fetchAndProcess() {
-      if(fetchingLock) return; fetchingLock = true;
-      let nextPeriodId = "";
+      if(fetchingLock) return; fetchingLock = true; let nextPeriodId = "";
       try {
         let API_URL_VAR = window.userTimeframe === "30S" ? "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json" : "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json";
         const res = await fetch(`${API_URL_VAR}?ts=${Date.now()}`, { headers: {'Accept':'application/json'} }); const json = await res.json();
-        
         const draws = json.data.list.map(i => ({ issueNumber: String(i.issueNumber), number: parseInt(i.number), size: parseInt(i.number) >= 5 ? "BIG" : "SMALL" })).filter(d => !isNaN(d.number));
         const latest = draws[0]; nextPeriodId = (BigInt(latest.issueNumber) + 1n).toString();
         
-        let justEvaluated = false;
-
-        // 🔥 WIN/LOSS EVALUATION (STAYS ON SCREEN) 🔥
-        if(predictedPeriodId === latest.issueNumber) {
-            const isSizeWin = (latest.size === internalPredictionSize);
-            
-            expandedBox.classList.remove('anim-win', 'anim-loss');
-            void expandedBox.offsetWidth; // Reflow to restart animation
-
-            if(isSizeWin) {
-                expandedBox.classList.add('anim-win');
-            } else {
-                expandedBox.classList.add('anim-loss');
-            }
-
-            predictedPeriodId = null; 
-            justEvaluated = true;
+        if(lastPredictedPeriodId === latest.issueNumber) {
+            const wlBadge = document.getElementById('winLossBadge');
+            if(latest.size === lastPredictedResultSize) { wlBadge.className = "win-loss-badge wl-win"; wlBadge.innerText = "LAST: WIN 🏆"; } 
+            else { wlBadge.className = "win-loss-badge wl-loss"; wlBadge.innerText = "LAST: LOSS ❌"; }
         }
 
-        // 🔥 NEW PERIOD ARRIVES 🔥
-        if(internalLatestPeriod !== nextPeriodId) {
-          internalLatestPeriod = nextPeriodId;
-          document.getElementById('periodBadge').textContent = nextPeriodId;
-
-          // Generate next prediction in background
-          if(currentGodMode.size !== "AUTO") {
-            internalPredictionSize = currentGodMode.size; internalPredictionNum = internalPredictionSize === "BIG" ? 7 : 3;
-          } else {
-            const aiOut = generateAIPrediction(draws);
-            internalPredictionSize = aiOut.predictionSize; internalPredictionNum = aiOut.sureNumber;
-            if(currentPolarity === 'REVERSE' && internalPredictionSize !== "SKIP") {
-               internalPredictionSize = internalPredictionSize === "BIG" ? "SMALL" : "BIG"; internalPredictionNum = internalPredictionSize === "BIG" ? 6 : 2;
-            }
-          }
-          
-          if(!systemIsLocked && !window.isHeld) { 
-             analyzeBtn.disabled = false; 
-             analyzeBtn.textContent = "PREDICT"; 
-             
-             if(!justEvaluated && !predictedPeriodId) {
-                 resBox.innerHTML = `<span class="res-word">READY</span>`;
-                 resBox.className = "res-text-box ready";
-                 expandedBox.classList.remove('anim-win', 'anim-loss');
-             }
-          }
+        if(preparedNextPeriod !== nextPeriodId) {
+          preparedNextPeriod = nextPeriodId;
+          preparedPredictionSize = Math.random() > 0.5 ? "BIG" : "SMALL"; 
+          preparedPredictionNumber = preparedPredictionSize === "BIG" ? 7 : 2;
+          lastPredictedPeriodId = nextPeriodId; lastPredictedResultSize = preparedPredictionSize;
+          isResultReady = true; document.getElementById('analyzeBtn').disabled = false; 
         }
-      } catch(e) {
-        // Fallback Time Calculation
-        const now = new Date(); 
-        now.setMinutes(now.getMinutes() + now.getTimezoneOffset() + 330);
-        const yyyy = now.getFullYear(); const mm = String(now.getMonth() + 1).padStart(2, '0'); const dd = String(now.getDate()).padStart(2, '0');
-        if(window.userTimeframe === "30S") {
-            const totalSeconds = (now.getHours() * 3600) + (now.getMinutes() * 60) + now.getSeconds();
-            const totalPeriods = Math.floor(totalSeconds / 30) + 1; nextPeriodId = `${yyyy}${mm}${dd}3000${String(totalPeriods).padStart(4, '0')}`;
-        } else {
-            const totalMinutes = (now.getHours() * 60) + now.getMinutes() + 1; nextPeriodId = `${yyyy}${mm}${dd}1000${String(totalMinutes).padStart(4, '0')}`;
-        }
-        
-        if(internalLatestPeriod !== nextPeriodId) {
-          internalLatestPeriod = nextPeriodId;
-          document.getElementById('periodBadge').textContent = nextPeriodId;
-          internalPredictionSize = Math.random() > 0.5 ? "BIG" : "SMALL"; internalPredictionNum = 9; 
-          
-          if(!systemIsLocked && !window.isHeld) { 
-             analyzeBtn.disabled = false; 
-             analyzeBtn.textContent = "PREDICT"; 
-             if(!predictedPeriodId) {
-                 resBox.innerHTML = `<span class="res-word">READY</span>`;
-                 resBox.className = "res-text-box ready";
-                 expandedBox.classList.remove('anim-win', 'anim-loss');
-             }
-          }
-        }
-      } finally { fetchingLock = false; }
+      } catch(e) {} finally { fetchingLock = false; }
     }
 
+    const analyzeBtn = document.getElementById('analyzeBtn'); 
+    const resultBoard = document.getElementById('resultBoard');
+    const scanContainer = document.getElementById('scanContainer');
+    const scanMsgText = document.getElementById('scanMsgText');
+    const resSizeText = document.getElementById('resSizeText'); 
+    const resNumCircle = document.getElementById('resNumCircle'); 
+    
     analyzeBtn.addEventListener('click', () => {
-      // Prevent click if system is locked, held, or user ALREADY clicked predict for this period
-      if(systemIsLocked || window.isHeld || predictedPeriodId === internalLatestPeriod) return; 
+      if(!isResultReady) return; isResultReady = false; analyzeBtn.disabled = true;
       
-      analyzeBtn.disabled = true;
-      predictedPeriodId = internalLatestPeriod; 
+      scanMsgText.innerText = "DECRYPTING NODE...";
+      let seq = 0; let texts = ["DECRYPTING...", "ANALYZING...", "SUCCESS"];
+      let txtIntv = setInterval(() => { seq++; if(seq < texts.length) scanMsgText.innerText = texts[seq]; }, 600);
       
-      expandedBox.classList.remove('anim-win', 'anim-loss');
-
-      resBox.innerHTML = `<span class="res-word">SCANNING</span>`;
-      resBox.className = "res-text-box scanning";
-
+      scanContainer.style.display = 'flex';
+      resultBoard.classList.remove('active'); resultBoard.style.display = 'none';
+      
       setTimeout(() => {
-        if(internalPredictionSize === "SKIP") {
-          resBox.innerHTML = `<span class="res-word" style="color:#555; border-color:#333; box-shadow:none;">SKIP</span> <span class="res-number" style="color:#555; border-color:#333;">-</span>`; 
-          resBox.className = "res-text-box ready"; 
-        } else {
-          resBox.innerHTML = `<span class="res-word">${internalPredictionSize}</span> <span class="res-number">${internalPredictionNum}</span>`;
-          resBox.className = internalPredictionSize === 'SMALL' ? "res-text-box small" : "res-text-box big";
-        }
-        analyzeBtn.textContent = "PREDICTED";
-      }, 1500); 
+        clearInterval(txtIntv);
+        scanContainer.style.display = 'none';
+        
+        let shortPeriod = preparedNextPeriod.substring(preparedNextPeriod.length - 4);
+        document.getElementById('periodBadge').innerText = shortPeriod; 
+        
+        resSizeText.innerText = preparedPredictionSize; 
+        resSizeText.style.color = preparedPredictionSize === 'SMALL' ? "var(--tc-cyan)" : "var(--tc-gold)";
+        resSizeText.style.textShadow = preparedPredictionSize === 'SMALL' ? "0 0 10px rgba(0,229,255,0.4)" : "0 0 10px rgba(252,213,53,0.4)";
+        
+        resNumCircle.innerText = preparedPredictionNumber; 
+        let num = parseInt(preparedPredictionNumber); let ballClass = "";
+        if(num === 0) ballClass = 'bg-violet-red'; else if(num === 5) ballClass = 'bg-violet-green'; else if([2,4,6,8].includes(num)) ballClass = 'bg-red'; else ballClass = 'bg-green';
+        resNumCircle.className = `res-num-circle ${ballClass}`; 
+        
+        resultBoard.style.display = 'flex'; resultBoard.classList.add('active'); 
+      }, 2000); 
     });
 
-    function initEngine() { fetchAndProcess(); setInterval(fetchAndProcess, 5000); toggleWidget(); }
+    function initEngine() { fetchAndProcess(); setInterval(fetchAndProcess, 3000); toggleWidget(); }
   </script>
 </body>
 </html>

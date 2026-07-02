@@ -57,7 +57,6 @@
     .mobile-menu-btn { display: none; background: transparent; border: none; color: #fff; font-size: 22px; cursor: pointer; }
     .topbar-title { font-family: 'Outfit'; font-size: 18px; font-weight: 800; color: #fff; letter-spacing: 0.5px; flex: 1; display: flex; align-items: center; gap: 10px;}
     .admin-profile { display: flex; align-items: center; gap: 10px; background: #000; padding: 6px 12px; border-radius: 30px; border: 1px solid var(--border-light); font-size: 11px; font-weight: bold;}
-    .admin-profile img { width: 24px; height: 24px; border-radius: 50%; }
     
     .dashboard-scroll { flex: 1; overflow-y: auto; padding: 30px; }
 
@@ -147,13 +146,11 @@
 </head>
 <body>
 
-  <!-- MOBILE SIDEBAR OVERLAY -->
   <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
-  <!-- LOGIN SCREEN -->
   <div id="adminLoginOverlay">
     <div class="auth-card">
-      <img src="https://cdn-icons-png.flaticon.com/512/1464/1464731.png" alt="Admin" style="width: 70px;">
+      <i class="fa-solid fa-server" style="font-size: 50px; color: var(--tc-cyan); margin-bottom: 15px; text-shadow: 0 0 15px rgba(0,243,255,0.4);"></i>
       <h2 style="font-family: 'Outfit'; font-weight: 900; margin-bottom: 5px; color: #fff; letter-spacing: 1px;">SYSTEM ACCESS</h2>
       <p style="font-size: 10px; color: var(--tc-muted); letter-spacing: 2px;">AUTHENTICATION REQUIRED</p>
       <input type="password" id="adminPass" class="auth-input" placeholder="••••••••">
@@ -161,7 +158,6 @@
     </div>
   </div>
 
-  <!-- SIDEBAR NAVIGATION -->
   <div class="sidebar" id="appSidebar">
     <div class="brand">
       <i class="fa-solid fa-crosshairs"></i> DEV ARMY
@@ -176,7 +172,6 @@
     </div>
   </div>
 
-  <!-- MAIN CONTENT AREA -->
   <div class="main-content">
     <div class="topbar">
       <button class="mobile-menu-btn" onclick="toggleSidebar()"><i class="fa-solid fa-bars-staggered"></i></button>
@@ -188,9 +183,6 @@
 
     <div class="dashboard-scroll">
       
-      <!-- ==================================
-           1. DASHBOARD TAB
-      ================================== -->
       <div id="tab-dashboard" class="tab-content">
         <div class="stats-grid">
           <div class="stat-card c-cyan">
@@ -216,9 +208,6 @@
         </div>
       </div>
 
-      <!-- ==================================
-           2. LIVE TOURNAMENT TAB
-      ================================== -->
       <div id="tab-event" class="tab-content" style="display: none;">
         <div class="grid-2">
           
@@ -255,9 +244,6 @@
         </div>
       </div>
 
-      <!-- ==================================
-           3. SMART KEY MANAGER TAB
-      ================================== -->
       <div id="tab-keys" class="tab-content" style="display: none;">
         
         <div class="panel" style="margin-bottom: 25px;">
@@ -302,9 +288,6 @@
         </div>
       </div>
 
-      <!-- ==================================
-           4. GOD MODE TAB
-      ================================== -->
       <div id="tab-godmode" class="tab-content" style="display: none;">
          <div class="grid-2">
            <div class="panel" style="border-color: rgba(255, 42, 122, 0.3);">
@@ -313,9 +296,9 @@
                 <p style="font-size:11px; color:var(--tc-muted); margin-bottom:15px;">Force the AI to output a specific result on all connected client apps.</p>
                 <select id="godModeSize" class="form-control" style="font-size: 14px; margin-bottom: 20px; font-weight:bold;">
                    <option value="AUTO">🤖 AUTO (Normal AI Pattern)</option>
-                   <option value="BIG">🟡 FORCE BIG (Gold)</option>
-                   <option value="SMALL">🔵 FORCE SMALL (Cyan)</option>
-                   <option value="SKIP">⚪ FORCE SKIP (Wait)</option>
+                   <option value="BIG">🟡 FORCE BIG</option>
+                   <option value="SMALL">🔵 FORCE SMALL</option>
+                   <option value="SKIP">⚪ FORCE SKIP</option>
                 </select>
                 <button class="btn btn-red-outline btn-block" onclick="setGodMode()"><i class="fa-solid fa-satellite-dish"></i> INJECT TO SERVERS</button>
               </div>
@@ -334,9 +317,6 @@
          </div>
       </div>
 
-      <!-- ==================================
-           5. APP SETTINGS TAB
-      ================================== -->
       <div id="tab-settings" class="tab-content" style="display: none;">
          <div class="grid-2-asym">
            <div class="panel">
@@ -374,9 +354,6 @@
     </div>
   </div>
 
-  <!-- ==================================
-       🔥 FIREBASE & JAVASCRIPT LOGIC 🔥
-  ================================== -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getDatabase, ref, set, get, child, update, remove, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";

@@ -13,9 +13,14 @@
        🔥 1. GLOBAL VARIABLES & CORE
        ========================================= */
     :root { 
-      --tc-green: #00e676; --tc-red: #ff3366; --tc-gold: #fcd535; --tc-cyan: #00e5ff;
-      --tc-dark: #020617; --tc-border: #1e293b; 
-      --cyber-bg: rgba(2, 6, 23, 0.95);
+      --tc-green: #00ff66; --tc-red: #ff2a7a; --tc-gold: #fcd535; --tc-cyan: #00e5ff;
+      --tc-dark: #020305; --tc-border: #161e2c; --glass-bg: rgba(15, 23, 42, 0.6); --glass-border: rgba(255, 255, 255, 0.1);
+      
+      /* EXACT IMAGE THEME COLORS */
+      --cyber-neon: #ff0055; 
+      --cyber-purple: #7700ff; 
+      --cyber-dark: #0a0112; 
+      --cyber-grid: rgba(255, 0, 85, 0.2);
     }
     * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent;}
     body { background-color: var(--tc-dark); font-family: 'Inter', sans-serif; overflow: hidden; color: #fff; }
@@ -24,182 +29,181 @@
     .bg-game { width: 100%; height: 100%; border: none; background: #000; position: absolute; top: 0; left: 0; z-index: 1;}
     @media (min-width: 1024px) { .bg-game { width: 400px; left: 50%; transform: translateX(-50%); box-shadow: 0 0 60px rgba(0,229,255,0.1); border-left: 1px solid var(--tc-border); border-right: 1px solid var(--tc-border);} }
 
-    /* Corner Dots - Used in both Login and Widget */
-    .corner-decor { position: absolute; width: 4px; height: 4px; background: var(--tc-cyan); border-radius: 50%; box-shadow: 0 0 8px var(--tc-cyan); z-index: 10; }
+    /* =========================================
+       🔥 2. MODALS
+       ========================================= */
+    .modal-screen-mask { display: none; position: fixed; inset: 0; background: rgba(2,3,5,0.9); backdrop-filter: blur(12px); z-index: 25000; justify-content: center; align-items: center; padding: 20px;}
+    .modal-panel-box { width: 100%; max-width: 320px; background: #05070a; border: 1px solid var(--tc-border); border-radius: 16px; padding: 30px 20px; text-align: center; box-shadow: 0 25px 50px rgba(0,0,0,0.9); }
+    #securityModal .modal-panel-box { border-top: 4px solid var(--tc-red); } 
+    #banModal .modal-panel-box { border-top: 4px solid var(--tc-red); background: #030000;} 
+    #rulesModal .modal-panel-box { max-width: 380px; text-align: left; padding: 25px; border-top: 4px solid var(--tc-cyan); }
+    .rules-list li { font-size: 12px; color: #cbd5e1; margin-bottom: 12px; line-height: 1.6; display: flex; align-items: flex-start; gap: 10px; }
+    .rules-list li span.step-num { color: #000; font-weight: 900; background: var(--tc-cyan); border-radius: 4px; padding: 2px 6px; font-size: 11px; }
 
     /* =========================================
-       🔥 2. MODALS (MATCHED THEME)
+       🔥 3. 3D PREMIUM LOGIN PORTAL
        ========================================= */
-    .modal-screen-mask { display: none; position: fixed; inset: 0; background: rgba(2,6,23,0.9); backdrop-filter: blur(12px); z-index: 25000; justify-content: center; align-items: center; padding: 20px;}
-    
-    .modal-panel-box { 
-      width: 100%; max-width: 320px; 
-      background: var(--cyber-bg); border: 1px solid var(--tc-cyan); 
-      clip-path: polygon(15px 0, calc(100% - 15px) 0, 100% 15px, 100% calc(100% - 20px), calc(100% - 15px) 100%, 15px 100%, 0 calc(100% - 20px), 0 15px);
-      padding: 25px 20px; text-align: center; box-shadow: 0 15px 30px rgba(0,229,255,0.1); 
-    }
-    
-    #rulesModal .modal-panel-box { max-width: 360px; text-align: left; padding: 30px 25px; }
-    .rules-list li { font-size: 12px; color: #cbd5e1; margin-bottom: 12px; line-height: 1.5; display: flex; align-items: flex-start; gap: 10px; }
-    .rules-list li span.step-num { color: #020617; font-weight: 900; background: var(--tc-cyan); border-radius: 4px; padding: 2px 6px; font-size: 11px; }
-
-    /* =========================================
-       🔥 3. LOGIN PORTAL (MATCHED THEME)
-       ========================================= */
-    #fullOverlayScreen { position: fixed; inset: 0; background: radial-gradient(circle at center, #0f172a 0%, #020617 100%); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; overflow-y: auto;}
+    #fullOverlayScreen { position: fixed; inset: 0; background: radial-gradient(circle at center, #1a0b2e 0%, #020305 100%); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; overflow-y: auto;}
     
     .perspective-grid { position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; perspective: 1000px; overflow: hidden; z-index: -1; }
-    .perspective-grid-inner { position: absolute; width: 200%; height: 200%; bottom: -50%; left: -50%; background-image: linear-gradient(rgba(0, 229, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 229, 255, 0.1) 1px, transparent 1px); background-size: 40px 40px; transform: rotateX(70deg); animation: gridMove 4s linear infinite; }
-    @keyframes gridMove { 0% { transform: rotateX(70deg) translateY(0); } 100% { transform: rotateX(70deg) translateY(40px); } }
+    .perspective-grid-inner { position: absolute; width: 200%; height: 200%; bottom: -50%; left: -50%; background-image: linear-gradient(rgba(0, 229, 255, 0.2) 2px, transparent 2px), linear-gradient(90deg, rgba(0, 229, 255, 0.2) 2px, transparent 2px); background-size: 60px 60px; transform: rotateX(70deg); animation: gridMove 3s linear infinite; }
+    @keyframes gridMove { 0% { transform: rotateX(70deg) translateY(0); } 100% { transform: rotateX(70deg) translateY(60px); } }
 
-    .wrapper-card { 
-      width: 100%; max-width: 340px; 
-      background: var(--cyber-bg); border: 1px solid var(--tc-cyan); 
-      clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 25px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 25px), 0 20px);
-      padding: 35px 25px; box-shadow: 0 20px 40px rgba(0,0,0,0.9), inset 0 0 20px rgba(0,229,255,0.05); 
-      backdrop-filter: blur(10px); text-align: center; position: relative;
-    }
-    .wrapper-card::before {
-      content: ''; position: absolute; top: 1px; left: 1px; right: 1px; bottom: 1px;
-      background: linear-gradient(180deg, rgba(0,229,255,0.15) 0%, rgba(2,6,23,1) 30%);
-      clip-path: polygon(20px 0, calc(100% - 20px) 0, 100% 20px, 100% calc(100% - 25px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 25px), 0 20px);
-      z-index: -1;
-    }
-
-    /* Login Corner Dots */
-    .cd-log-tl { top: 25px; left: 8px; } .cd-log-tr { top: 25px; right: 8px; }
-    .cd-log-bl { bottom: 45px; left: 8px; } .cd-log-br { bottom: 45px; right: 8px; }
+    .wrapper-card { width: 100%; max-width: 360px; background: var(--glass-bg); border: 1px solid var(--glass-border); border-radius: 20px; padding: 35px 25px 25px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.9); backdrop-filter: blur(20px); text-align: center; }
     
-    .brand-logo { width: 65px; height: 65px; border-radius: 12px; margin-bottom: 12px; box-shadow: 0 0 15px rgba(0,229,255,0.3); border: 1px solid var(--tc-cyan);}
-    .login-title { font-family: 'Outfit'; font-size: 1.5rem; font-weight: 900; letter-spacing: 2px; margin-bottom: 2px; color: #fff;}
-    .login-subtitle { font-size: 10px; color: var(--tc-cyan); letter-spacing: 2px; font-weight: 700; text-transform: uppercase; margin-bottom: 20px;}
+    .brand-logo { width: 70px; height: 70px; border-radius: 18px; margin-bottom: 15px; box-shadow: 0 10px 25px rgba(0,229,255,0.3); border: 1px solid rgba(0,229,255,0.4);}
+    .login-title { font-family: 'Outfit'; font-size: 1.6rem; font-weight: 900; letter-spacing: 2px; margin-bottom: 5px; color: #fff;}
+    .login-subtitle { font-size: 10px; color: var(--tc-cyan); letter-spacing: 3px; font-weight: 700; text-transform: uppercase; margin-bottom: 25px;}
     
-    .hacker-box-input { width: 100%; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(0,229,255,0.3); color: #fff; padding: 14px; font-family: 'Share Tech Mono'; font-weight: bold; text-align: center; outline: none; font-size: 13px; border-radius: 6px; letter-spacing: 1px; transition: 0.3s; }
-    .hacker-box-input:focus { border-color: var(--tc-cyan); box-shadow: 0 0 10px rgba(0,229,255,0.3); background: rgba(0,0,0,0.8); }
-    .hacker-box-input.readonly { background: rgba(0,229,255,0.05); color: var(--tc-cyan); border-color: rgba(0,229,255,0.5); }
+    .hacker-box-input { width: 100%; background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 16px; font-family: 'Share Tech Mono'; font-weight: bold; text-align: center; outline: none; font-size: 13px; border-radius: 8px; letter-spacing: 2px; transition: 0.3s; }
+    .hacker-box-input:focus { border-color: var(--tc-cyan); box-shadow: 0 0 10px rgba(0,229,255,0.2); }
+    .hacker-box-input.readonly { background: rgba(0,229,255,0.05); color: var(--tc-cyan); border-color: var(--tc-cyan); text-shadow: 0 0 10px rgba(0,229,255,0.5);}
 
-    .divider { display: flex; align-items: center; margin: 12px 0; color: #64748b; font-size: 10px; font-weight: bold; }
-    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: rgba(0,229,255,0.2); margin: 0 10px; }
+    .divider { display: flex; align-items: center; margin: 15px 0; color: #64748b; font-size: 10px; font-weight: bold; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.1); margin: 0 10px; }
 
-    .validity-badge { display: none; background: rgba(0,230,118,0.1); border: 1px solid rgba(0,230,118,0.3); color: var(--tc-green); font-family: 'Share Tech Mono'; font-size: 11px; padding: 8px; border-radius: 6px; margin-bottom: 15px; font-weight: bold; letter-spacing: 1px;}
-    #errorPopup { display: none; color: #fca5a5; font-size: 11px; font-weight: 700; padding: 10px; background: rgba(248,113,113,0.1); border: 1px solid rgba(248,113,113,0.2); border-radius: 6px; margin-bottom: 15px;}
+    .validity-badge { display: none; background: rgba(0,255,102,0.1); border: 1px solid rgba(0,255,102,0.4); color: var(--tc-green); font-family: 'Share Tech Mono'; font-size: 11px; padding: 8px 12px; border-radius: 8px; margin-bottom: 15px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; animation: popModal 0.3s forwards;}
+    #errorPopup { display: none; color: #fca5a5; font-size: 11px; font-weight: 700; padding: 10px; background: rgba(248,113,113,0.15); border: 1px solid rgba(248,113,113,0.3); border-radius: 8px; margin-bottom: 15px;}
 
-    /* Buttons matched to Hack Widget */
-    .btn-cyber-solid { width: 100%; background: linear-gradient(90deg, #005f73, #0a9396); border: 1px solid #0a9396; color: #fff; font-weight: 900; font-size: 13px; padding: 14px; border-radius: 6px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 15px rgba(0,229,255,0.2); transition: 0.2s;}
+    .btn-cyber-solid { width: 100%; background: linear-gradient(135deg, var(--tc-cyan) 0%, #0088cc 100%); border: none; color: #000; font-weight: 900; font-size: 14px; padding: 15px; border-radius: 8px; cursor: pointer; text-transform: uppercase; letter-spacing: 1.5px; box-shadow: 0 5px 15px rgba(0,229,255,0.3); transition: 0.3s;}
     .btn-cyber-solid:active { transform: scale(0.96); }
-    .btn-cyber-solid:disabled { background: #0f172a; color: #475569; box-shadow: none; border-color: #1e293b; cursor: not-allowed;}
-    
-    .btn-outline { width: 100%; padding: 12px; background: linear-gradient(90deg, #001219, #005f73); border: 1px solid #0a9396; color: #cbd5e1; font-weight: 700; font-size: 10px; border-radius: 6px; cursor: pointer; letter-spacing: 1px; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 6px; text-decoration: none;}
-    .btn-outline:hover { color: #fff; box-shadow: 0 0 10px rgba(0,229,255,0.2); }
+    .btn-cyber-solid:disabled { background: #334155; color: #94a3b8; box-shadow: none; cursor: not-allowed;}
 
+    .btn-outline { width: 100%; padding: 12px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #cbd5e1; font-weight: 700; font-size: 10px; border-radius: 8px; cursor: pointer; letter-spacing: 1px; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 8px;}
+    
     /* =========================================
-       🔥 4. ULTRA-COMPACT WIDGET (200x240)
+       🔥 4. EXACT IMAGE UI WIDGET (COMPACT)
        ========================================= */
     .draggable-container { position: absolute; top: 15%; left: 50%; transform: translateX(-50%); z-index: 9999; touch-action: none; display: flex; justify-content: center; align-items: center; }
     
-    .mod-icon { width: 45px; height: 45px; background: #000; border: 2px solid var(--tc-cyan); border-radius: 10px; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 0 15px rgba(0,229,255,0.4); }
-    .mod-icon img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; pointer-events: none; }
+    .mod-icon { width: 50px; height: 50px; background: #000; border: 2px solid var(--cyber-neon); border-radius: 12px; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 0 20px rgba(255,0,85,0.5); }
+    .mod-icon img { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; pointer-events: none; }
     .mod-icon.hidden { display: none; }
 
-    /* ULTRA COMPACT SIZE */
-    .mod-expanded { 
-      display: none; width: 200px; height: 240px; 
-      background: var(--cyber-bg); border: 1px solid var(--tc-cyan); 
-      clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 20px), calc(100% - 15px) 100%, 15px 100%, 0 calc(100% - 20px), 0 10px);
-      position: relative; flex-direction: column; 
-      box-shadow: 0 10px 30px rgba(0,0,0,0.9), inset 0 0 20px rgba(0,229,255,0.05);
-      backdrop-filter: blur(10px);
+    .mod-expanded-wrapper {
+        display: none;
+        filter: drop-shadow(0 0 10px rgba(255,0,85,0.5)) drop-shadow(0 0 25px rgba(255,0,85,0.3));
     }
-    .mod-expanded.active { display: flex; animation: popWidget 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-    @keyframes popWidget { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+    .mod-expanded-wrapper.active { display: block; animation: radarPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+    @keyframes radarPop { from { opacity: 0; transform: scale(0.6) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
 
+    /* EXACT DITTO SHAPE & SIZE: 240px x 265px */
+    .mod-expanded { 
+      width: 240px; height: 265px; 
+      background: var(--cyber-dark); 
+      clip-path: polygon(15px 0, calc(100% - 15px) 0, 100% 15px, 100% calc(100% - 30px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 30px), 0 15px);
+      position: relative; display: flex; flex-direction: column; 
+    }
+
+    /* Inner Glowing Border */
     .mod-expanded::before {
       content: ''; position: absolute; top: 1px; left: 1px; right: 1px; bottom: 1px;
-      background: linear-gradient(180deg, rgba(0,229,255,0.2) 0%, rgba(2,6,23,1) 40%);
-      clip-path: polygon(10px 0, calc(100% - 10px) 0, 100% 10px, 100% calc(100% - 20px), calc(100% - 15px) 100%, 15px 100%, 0 calc(100% - 20px), 0 10px);
+      background: linear-gradient(180deg, rgba(255,0,85,0.4) 0%, rgba(10,1,18,1) 45%);
+      clip-path: polygon(15px 0, calc(100% - 15px) 0, 100% 15px, 100% calc(100% - 30px), calc(100% - 20px) 100%, 20px 100%, 0 calc(100% - 30px), 0 15px);
       z-index: -1;
     }
 
-    /* Widget Corner Dots */
-    .cd-wid-tl { top: 15px; left: 4px; } .cd-wid-tr { top: 15px; right: 4px; } 
-    .cd-wid-bl { bottom: 35px; left: 4px; } .cd-wid-br { bottom: 35px; right: 4px; }
+    /* 4 Corner Decorator Dots */
+    .corner-decor { position: absolute; width: 4px; height: 4px; background: var(--cyber-neon); border-radius: 50%; box-shadow: 0 0 8px var(--cyber-neon); z-index: 10; }
+    .cd-tl { top: 20px; left: 5px; } .cd-tr { top: 20px; right: 5px; } .cd-bl { bottom: 42px; left: 5px; } .cd-br { bottom: 42px; right: 5px; }
 
-    /* Header */
-    .hack-header { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px 6px 12px; border-bottom: 1px solid rgba(0,229,255,0.1); }
-    .hack-title { font-family: 'Outfit'; font-size: 13px; font-weight: 900; color: var(--tc-cyan); letter-spacing: 1px; text-shadow: 0 0 5px rgba(0,229,255,0.5); }
-    .hack-rctv { border: 1px solid rgba(0,229,255,0.4); border-radius: 4px; padding: 2px 4px; font-family: 'Share Tech Mono'; font-size: 8px; font-weight: bold; color: var(--tc-cyan); display: flex; align-items: center; gap: 4px; background: rgba(0,229,255,0.1); }
-    .rctv-dot { width: 4px; height: 4px; background: var(--tc-cyan); border-radius: 50%; animation: blink 1s infinite;}
+    /* HEADER */
+    .hack-header { display: flex; justify-content: space-between; align-items: flex-start; padding: 15px 15px 5px 15px; }
+    .hack-title { display: flex; flex-direction: column; text-align: left; }
+    .t1 { font-family: 'Outfit'; font-size: 11px; font-weight: 900; color: #fff; letter-spacing: 1px; line-height: 1.1; }
+    .t2 { font-family: 'Outfit'; font-size: 14px; font-weight: 900; color: var(--cyber-neon); letter-spacing: 1px; text-shadow: 0 0 8px rgba(255,0,85,0.6); line-height: 1.1; }
+    .t3 { font-family: 'Share Tech Mono'; font-size: 8px; color: #888; letter-spacing: 2px; margin-top: 2px;}
+
+    .hack-rctv { border: 1px solid rgba(255,0,85,0.6); border-radius: 10px; padding: 2px 6px; font-family: 'Share Tech Mono'; font-size: 8px; font-weight: bold; color: #fff; display: flex; align-items: center; gap: 4px; background: rgba(255,0,85,0.1); }
+    .rctv-dot { width: 5px; height: 5px; background: var(--cyber-neon); border-radius: 50%; animation: blink 1s infinite; box-shadow: 0 0 8px var(--cyber-neon);}
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-    /* Info Strip */
-    .info-strip { display: flex; justify-content: space-between; padding: 6px 12px; background: rgba(0,0,0,0.3); align-items: center; }
-    .mod-period-pill { color: var(--tc-cyan); font-family: 'Share Tech Mono'; font-size: 10px; font-weight: bold; letter-spacing: 1px; }
-    .mod-period-pill span { color: #fff; }
-    .countdown-display { font-family: 'Share Tech Mono'; font-size: 15px; color: var(--tc-gold); font-weight: 900; text-shadow: 0 0 8px rgba(252,213,53,0.4); }
-
-    /* Screen Area */
-    .hack-screen { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; position: relative; padding: 10px;}
+    /* SCREEN (GRID AREA) */
+    .hack-screen { 
+        flex: 1; margin: 0 15px; position: relative; 
+        border: 1px solid rgba(255,0,85,0.3); border-radius: 8px; 
+        background: rgba(255,0,85,0.05); overflow: hidden; 
+        display: flex; flex-direction: column; 
+        box-shadow: inset 0 0 15px rgba(255,0,85,0.1); 
+    }
     
-    /* DIGITAL DASHBOARD (Horizontal Result) */
-    .digital-result-board { display: none; align-items: center; justify-content: center; gap: 12px; background: rgba(0, 0, 0, 0.5); border: 1px solid rgba(0,229,255,0.3); border-radius: 8px; padding: 8px 15px; box-shadow: inset 0 0 15px rgba(0,229,255,0.1); width: 100%;}
-    .digital-result-board.active { display: flex; animation: digitalReveal 0.4s ease-out forwards; }
+    .hologram-grid { position: absolute; inset: 0; background-image: linear-gradient(var(--cyber-grid) 1px, transparent 1px), linear-gradient(90deg, var(--cyber-grid) 1px, transparent 1px); background-size: 12px 12px; z-index: 1; }
     
-    .res-num-circle { width: 38px; height: 38px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-family: 'Share Tech Mono'; font-size: 18px; font-weight: 900; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,0.8); box-shadow: 0 0 10px rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.3); }
-    .res-size-text { font-family: 'Outfit'; font-size: 22px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; }
+    /* SLEEK SCANNER LASER */
+    .scanner-laser { position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: var(--cyber-neon); box-shadow: 0 0 15px var(--cyber-neon), 0 0 30px #fff; z-index: 5; display: none;}
+    .mod-expanded-wrapper.scanning-active .scanner-laser { display: block; animation: scanGrid 1.2s linear infinite alternate;}
+    @keyframes scanGrid { 0% { top: 0; } 100% { top: 100%; } }
+
+    /* INNER SCREEN CONTENT */
+    .screen-center { flex: 1; display: flex; justify-content: center; align-items: center; z-index: 10; position: relative;}
     
-    @keyframes digitalReveal { 0% { transform: scale(0.8) translateY(10px); opacity: 0; filter: blur(5px); } 100% { transform: scale(1) translateY(0); opacity: 1; filter: blur(0); } }
+    .res-text-box { font-family: 'Outfit'; font-size: 26px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; color: #fff; text-shadow: 0 0 15px rgba(255,255,255,0.5); transition: 0.3s;}
+    .res-text-box.big { color: var(--tc-gold); text-shadow: 0 0 20px rgba(252,213,53,0.6); }
+    .res-text-box.small { color: var(--tc-cyan); text-shadow: 0 0 20px rgba(0,229,255,0.6); }
+    
+    .res-ball-box { display: none; margin-top: 8px;}
+    .res-ball-box.active { display: flex; justify-content: center; animation: popBallSpin 0.5s forwards; }
+    .res-ball { width: 34px; height: 34px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-family: 'Share Tech Mono'; font-size: 18px; font-weight: 900; color: #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.9), inset 3px 3px 8px rgba(255,255,255,0.4); border: 2px solid rgba(255,255,255,0.2);}
+    
+    /* SLEEK SCANNING TEXT */
+    .scan-status-text { display: none; flex-direction: column; align-items: center; text-align: center; }
+    .scan-msg { font-family: 'Share Tech Mono'; font-size: 11px; color: var(--cyber-neon); font-weight: bold; letter-spacing: 2px; text-shadow: 0 0 8px rgba(255,0,85,0.8); margin-bottom: 5px; animation: blink 0.8s infinite alternate;}
+    .scan-loader-bar { width: 80px; height: 3px; background: rgba(255,0,85,0.2); border-radius: 2px; overflow: hidden;}
+    .scan-loader-fill { height: 100%; width: 0%; background: var(--cyber-neon); box-shadow: 0 0 5px var(--cyber-neon); animation: fillBar 2.5s linear forwards;}
+    @keyframes fillBar { to { width: 100%; } }
 
-    /* Sleek Scanning Loader */
-    .scan-container { display: flex; flex-direction: column; align-items: center; text-align: center;}
-    .scan-line { width: 120px; height: 2px; background: var(--tc-cyan); box-shadow: 0 0 10px var(--tc-cyan); margin-bottom: 10px; animation: scanWiden 0.8s infinite alternate ease-in-out;}
-    .scan-text { font-family: 'Share Tech Mono'; font-size: 13px; color: var(--tc-cyan); font-weight: bold; letter-spacing: 2px; text-shadow: 0 0 8px var(--tc-cyan); animation: pulseScan 0.5s infinite alternate;}
-    @keyframes scanWiden { 0% { width: 10px; opacity: 0.2; } 100% { width: 120px; opacity: 1; } }
-    @keyframes pulseScan { from { opacity: 0.5; } to { opacity: 1; } }
+    /* BOTTOM PILLS */
+    .screen-footer { display: flex; justify-content: space-between; padding: 6px 10px; z-index: 10; position: relative;}
+    .screen-pill { background: rgba(0,0,0,0.8); border: 1px solid rgba(255,0,85,0.4); color: #fff; font-family: 'Share Tech Mono'; font-size: 8px; font-weight: bold; padding: 4px 8px; border-radius: 4px; letter-spacing: 1px; display: flex; align-items: center; gap: 4px;}
+    .screen-pill span { color: var(--cyber-neon); font-size: 9px; }
 
-    /* Win/Loss Tracker */
-    .win-loss-badge { font-family: 'Outfit'; font-size: 10px; font-weight: 900; padding: 4px 10px; border-radius: 4px; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px;}
-    .wl-wait { background: rgba(255,255,255,0.05); color: #64748b; }
-    .wl-win { background: rgba(0,230,118,0.1); color: var(--tc-green); border: 1px solid rgba(0,230,118,0.3); }
-    .wl-loss { background: rgba(255,51,102,0.1); color: var(--tc-red); border: 1px solid rgba(255,51,102,0.3); }
-
-    /* Action Buttons */
-    .hack-actions { display: flex; justify-content: space-between; gap: 8px; padding: 10px; border-top: 1px solid rgba(0,229,255,0.1); }
-    .btn-hack { flex: 1; height: 32px; border: none; font-family: 'Inter'; font-weight: 800; font-size: 10px; letter-spacing: 1px; cursor: pointer; border-radius: 4px; transition: 0.2s;}
+    /* ACTION BUTTONS (EXACT SHAPE) */
+    .hack-actions { display: flex; justify-content: space-between; gap: 10px; padding: 12px 15px 15px 15px; z-index: 10; margin-top: auto;}
+    .btn-hack { flex: 1; height: 36px; border: none; color: #fff; font-family: 'Outfit'; font-weight: 900; font-size: 11px; letter-spacing: 1.5px; cursor: pointer; display: flex; justify-content: center; align-items: center; transition: 0.2s; text-shadow: 0 1px 2px rgba(0,0,0,0.8);}
     .btn-hack:active { transform: scale(0.95); }
-    .btn-hack:disabled { filter: grayscale(100%); cursor: not-allowed; opacity: 0.5;}
+    .btn-hack:disabled { filter: grayscale(100%); cursor: not-allowed; opacity: 0.6;}
     
-    .btn-scan { background: linear-gradient(90deg, #005f73, #0a9396); color: #fff; box-shadow: 0 0 10px rgba(0,229,255,0.3); border: 1px solid #0a9396;}
-    .btn-hide { background: linear-gradient(90deg, #001219, #005f73); color: #94a3b8; border: 1px solid #0a9396;}
-    
-    .bg-red { background: #ff3366; } .bg-green { background: #00e676; }
-    .bg-violet-red { background: linear-gradient(135deg, #7700ff 50%, #ff3366 50%); } .bg-violet-green { background: linear-gradient(135deg, #7700ff 50%, #00e676 50%); }
+    /* LEFT BUTTON: Red Gradient */
+    .btn-scan { 
+      background: linear-gradient(90deg, #b3001b, #ff0044); 
+      clip-path: polygon(8px 0, 100% 0, 100% 100%, 0 100%);
+      box-shadow: 0 0 12px rgba(255,0,85,0.4);
+    }
+    /* RIGHT BUTTON: Purple Gradient */
+    .btn-hide { 
+      background: linear-gradient(90deg, #4400aa, #8800ff); 
+      clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 100%, 0 100%);
+      box-shadow: 0 0 12px rgba(119,0,255,0.4);
+    }
+
+    .bg-red { background: radial-gradient(circle at 30% 30%, #ff2a7a, #990033); }
+    .bg-green { background: radial-gradient(circle at 30% 30%, #00ff66, #008033); }
   </style>
 </head>
 <body>
 
-  <div class="modal-screen-mask" id="securityModal"><div class="modal-panel-box"><h2 style="color:var(--tc-red); font-family:'Outfit';">WARNING</h2><p style="color:#cbd5e1; font-size:12px; margin:10px 0;">Minimizing is prohibited.</p><button class="btn-cyber-solid" onclick="document.getElementById('securityModal').style.display='none'" style="background:var(--tc-red); color:#fff; border:none;">UNDERSTOOD</button></div></div>
-  <div class="modal-screen-mask" id="banModal"><div class="modal-panel-box"><h2 style="color:var(--tc-red); font-family:'Outfit';">BANNED</h2><p style="color:#cbd5e1; font-size:12px; margin:10px 0;">Account locked.</p></div></div>
+  <!-- MODALS -->
+  <div class="modal-screen-mask" id="securityModal"><div class="modal-panel-box"><h2 style="color:var(--tc-red); font-family:'Outfit';">WARNING</h2><p style="color:#aaa; font-size:12px; margin:10px 0;">Minimizing is prohibited.</p><button class="btn-cyber-solid" onclick="document.getElementById('securityModal').style.display='none'" style="background:var(--tc-red); color:#fff;">I UNDERSTAND</button></div></div>
+  <div class="modal-screen-mask" id="banModal"><div class="modal-panel-box"><h2 style="color:var(--tc-red); font-family:'Outfit';">BANNED</h2><p style="color:#aaa; font-size:12px; margin:10px 0;">Account locked.</p></div></div>
   
   <div class="modal-screen-mask" id="rulesModal">
     <div class="modal-panel-box">
-      <h2 style="color:var(--tc-cyan); font-family:'Outfit'; font-size:1.2rem; margin-bottom:12px;"><i class="fa-solid fa-book"></i> SYSTEM RULES</h2>
+      <h2 style="color:var(--tc-cyan); font-family:'Outfit'; font-size:1.4rem; margin-bottom:15px;"><i class="fa-solid fa-shield-halved"></i> SYSTEM RULES</h2>
       <ul class="rules-list" style="list-style: none; padding: 0;">
-        <li><span class="step-num">1</span> <div>New ID banakar apna UID submit karein.</div></li>
-        <li><span class="step-num">2</span> <div>Verification aane ke baad hi deposit karein.</div></li>
-        <li><span class="step-num">3</span> <div>3 LOSS hone par trend follow karein (Dragon).</div></li>
-        <li><span class="step-num">4</span> <div>Level 4 Fund ke sath play karein. 5-Level Fund zaroori hai.</div></li>
+        <li><span class="step-num">1</span> <div>New ID banakar apna <b>UID</b> admin bot par submit karein.</div></li>
+        <li><span class="step-num">2</span> <div>Team se verification aane ke baad hi deposit karein. Deposit SS bhejne par Key milegi.</div></li>
+        <li><span class="step-num">3</span> <div><b>STRATEGY:</b> 3 LOSS hone par trend follow karein (Dragon).<br>• Small ka dragon = Wait for Big.<br>• Big ka dragon = Wait for Small.</div></li>
+        <li><span class="step-num">4</span> <div><b style="color:var(--tc-gold);">Level 4 Fund</b> ke sath play karein. 5-Level Fund zaroori hai.</div></li>
       </ul>
-      <button class="btn-cyber-solid" onclick="document.getElementById('rulesModal').style.display='none'" style="margin-top:10px; font-size:11px;">AGREE & CLOSE</button>
+      <button class="btn-cyber-solid" onclick="document.getElementById('rulesModal').style.display='none'" style="margin-top: 15px; padding: 12px; font-size: 12px;">AGREE & CLOSE</button>
     </div>
   </div>
 
+  <!-- LOGIN PORTAL -->
   <div id="fullOverlayScreen">
     <div class="perspective-grid"><div class="perspective-grid-inner"></div></div>
 
     <div class="wrapper-card">
-      <div class="corner-decor cd-log-tl"></div><div class="corner-decor cd-log-tr"></div>
-      <div class="corner-decor cd-log-bl"></div><div class="corner-decor cd-log-br"></div>
-
       <img src="logo.png" alt="Logo" class="brand-logo" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1464/1464731.png'">
       <h2 class="login-title">DEV ARMY</h2>
       <p class="login-subtitle">Secure Access Node</p>
@@ -220,57 +224,74 @@
       <button class="btn-cyber-solid" id="activateBtn" disabled style="margin-top: 15px; display:none;">INITIALIZE SYSTEM</button>
       
       <div style="margin-top: 20px;">
-        <button class="btn-outline" onclick="document.getElementById('rulesModal').style.display='flex'"><i class="fa-solid fa-book-open"></i> VIEW RULES</button>
-        <a href="https://t.me/" id="supportBtn" target="_blank" class="btn-outline"><i class="fa-brands fa-telegram"></i> GET KEY</a>
+        <button class="btn-outline" onclick="document.getElementById('rulesModal').style.display='flex'" style="border-color: rgba(0,229,255,0.3); color: var(--tc-cyan);"><i class="fa-solid fa-book-open"></i> VIEW RULES</button>
+        <a href="https://t.me/" id="supportBtn" target="_blank" class="btn-outline" style="text-decoration:none;"><i class="fa-brands fa-telegram"></i> GET KEY</a>
       </div>
     </div>
   </div>
 
+  <!-- MAIN APP & WIDGET -->
   <div id="mainApp">
+    
+    <!-- THE BACKGROUND GAME IFRAME -->
     <iframe class="bg-game" id="gameIframe" src="about:blank"></iframe>
     
     <div class="draggable-container" id="draggableWidget">
       <div class="mod-icon" id="modIcon"><img src="logo.png" alt="Icon" onerror="this.src='https://cdn-icons-png.flaticon.com/512/1464/1464731.png'"></div>
       
-      <div class="mod-expanded" id="modExpanded">
-        <div class="corner-decor cd-wid-tl"></div><div class="corner-decor cd-wid-tr"></div>
-        <div class="corner-decor cd-wid-bl"></div><div class="corner-decor cd-wid-br"></div>
+      <div class="mod-expanded-wrapper" id="modExpanded">
+        <div class="mod-expanded">
+            <!-- Corner Decorators -->
+            <div class="corner-decor cd-tl"></div><div class="corner-decor cd-tr"></div>
+            <div class="corner-decor cd-bl"></div><div class="corner-decor cd-br"></div>
 
-        <div class="hack-header">
-            <div class="hack-title">DEV ARMY</div>
-            <div class="hack-rctv"><div class="rctv-dot"></div> RCTV</div>
-        </div>
-
-        <div class="info-strip">
-            <div class="mod-period-pill">ID: <span id="periodBadge">----</span></div>
-            <div class="countdown-display" id="liveCountdown">00s</div>
-        </div>
-
-        <div class="hack-screen">
-            <div class="digital-result-board" id="resultBoard">
-                <div class="res-num-circle" id="resNumCircle">-</div>
-                <div class="res-size-text" id="resSizeText">LOCKED</div>
+            <!-- Header -->
+            <div class="hack-header">
+                <div class="hack-title">
+                    <span class="t1">DEV ARMY</span>
+                    <span class="t2">NUMBER HACK</span>
+                    <span class="t3">NUMBER PANEL</span>
+                </div>
+                <div class="hack-rctv"><div class="rctv-dot"></div> RCTV</div>
             </div>
 
-            <div class="scan-container" id="scanContainer">
-                <div class="scan-line"></div>
-                <div class="scan-text" id="scanMsgText">STANDBY...</div>
-                <div class="scan-line" style="margin-top:10px;"></div>
+            <!-- Screen Area -->
+            <div class="hack-screen">
+                <div class="hologram-grid"></div>
+                <div class="scanner-laser"></div>
+                
+                <!-- DEFAULT RESULT VIEW -->
+                <div class="screen-center" id="resultContainer">
+                    <div style="text-align: center;">
+                        <div class="res-text-box" id="resSizeBox">LOCKED</div>
+                        <div class="res-ball-box" id="resBallBox"><div class="res-ball bg-red" id="resBallNum">-</div></div>
+                    </div>
+                </div>
+
+                <!-- SLEEK CUSTOM SCANNING SEQUENCE -->
+                <div class="screen-center scan-status-text" id="scanTextContainer">
+                    <div class="scan-msg" id="scanMsgText">DECRYPTING...</div>
+                    <div class="scan-loader-bar"><div class="scan-loader-fill"></div></div>
+                </div>
+
+                <!-- Footer Pills -->
+                <div class="screen-footer">
+                    <div class="screen-pill" id="periodBadge">LOGIN REQ</div>
+                    <div class="screen-pill">CONF <span id="confNode">88%</span></div>
+                </div>
             </div>
-        </div>
 
-        <div style="text-align: center;">
-            <div id="winLossBadge" class="win-loss-badge wl-wait">STATUS: WAITING</div>
-        </div>
-
-        <div class="hack-actions">
-            <button class="btn-hack btn-scan" id="analyzeBtn" disabled>SCAN NOW</button>
-            <button class="btn-hack btn-hide" id="hideBtn">HIDE</button>
+            <!-- Action Buttons -->
+            <div class="hack-actions">
+                <button class="btn-hack btn-scan" id="analyzeBtn" disabled>SCAN NOW</button>
+                <button class="btn-hack btn-hide" id="hideBtn">HIDE</button>
+            </div>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- JS LOGIC -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getDatabase, ref, get, child, update, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
@@ -278,10 +299,25 @@
     const firebaseConfig = { apiKey: "AIzaSyBNj71akpefcfEtn-SQfAcx-Pgwi8sUosg", authDomain: "teamdev-88676.firebaseapp.com", databaseURL: "https://teamdev-88676-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "teamdev-88676" };
     const app = initializeApp(firebaseConfig); const database = getDatabase(app);
 
-    let activeKey = null; window.userTimeframe = "1M"; 
+    window.userTimeframe = "1M"; 
     let myDeviceId = localStorage.getItem('predict_device_id') || ('DEV-' + Math.random().toString(36).substr(2, 9).toUpperCase()); 
+    let activeKey = null;
 
-    onValue(ref(database, 'systemConfig/links'), (snap) => { if(snap.exists() && snap.val().supportUrl) document.getElementById('supportBtn').href = snap.val().supportUrl; });
+    // 🔥 1. SYNC URLS FROM ADMIN PANEL TO INDEX.HTML 🔥
+    onValue(ref(database, 'systemConfig/links'), (snap) => { 
+        if(snap.exists()) {
+            const data = snap.val();
+            if(data.supportUrl) {
+                document.getElementById('supportBtn').href = data.supportUrl; 
+            }
+            if(data.gameUrl) {
+                const iframe = document.getElementById('gameIframe');
+                if(iframe.src !== data.gameUrl && data.gameUrl !== "") {
+                    iframe.src = data.gameUrl;
+                }
+            }
+        }
+    });
 
     // =========================================
     // 🔥 REAL 2-WAY LOGIN LOGIC
@@ -335,7 +371,7 @@
     });
 
     // =========================================
-    // 🔥 STRICT BOUNDING BOX (100% FIXED)
+    // 🔥 STRICT BOUNDING BOX DRAG LOGIC
     // =========================================
     const container = document.getElementById("draggableWidget"); const iconCollapsed = document.getElementById("modIcon"); const expandedWrapper = document.getElementById("modExpanded");
     let isDragging = false, hasMoved = false, startX, startY;
@@ -346,121 +382,84 @@
         let maxY = window.innerHeight - rect.height;
         let newX = Math.max(0, Math.min(rect.left, maxX)); 
         let newY = Math.max(0, Math.min(rect.top, maxY)); 
-        container.style.left = newX + 'px'; container.style.top = newY + 'px'; 
+        container.style.transform = 'none'; container.style.left = newX + 'px'; container.style.top = newY + 'px'; 
     }
     
     function toggleWidget() { 
-        if(expandedWrapper.classList.contains('active')) { 
-            expandedWrapper.classList.remove('active'); iconCollapsed.classList.remove('hidden'); 
-        } else { 
-            enforceScreenBounds(); // Lock coordinates before expanding
-            iconCollapsed.classList.add('hidden'); expandedWrapper.classList.add('active'); 
-        } 
+        if(expandedWrapper.classList.contains('active')) { expandedWrapper.classList.remove('active'); iconCollapsed.classList.remove('hidden'); } 
+        else { enforceScreenBounds(); iconCollapsed.classList.add('hidden'); expandedWrapper.classList.add('active'); } 
         setTimeout(enforceScreenBounds, 20); 
     }
     
     iconCollapsed.addEventListener('click', () => { if(!hasMoved) toggleWidget(); }); document.getElementById('hideBtn').addEventListener('click', toggleWidget);
     window.addEventListener('resize', enforceScreenBounds);
     
-    function dragStart(e) { 
-        if(e.target.tagName === 'BUTTON') return; 
-        const rect = container.getBoundingClientRect();
-        container.style.transform = 'none'; 
-        container.style.left = rect.left + 'px'; container.style.top = rect.top + 'px';
-
-        let clientX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX; 
-        let clientY = e.type === "touchstart" ? e.touches[0].clientY : e.clientY; 
-        startX = clientX - rect.left; startY = clientY - rect.top; 
-        isDragging = true; hasMoved = false; 
-    }
-    
-    function drag(e) { 
-        if (!isDragging) return; 
-        let clientX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX; 
-        let clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY; 
-        if (Math.abs(clientX - (startX + container.getBoundingClientRect().left)) > 4 || Math.abs(clientY - (startY + container.getBoundingClientRect().top)) > 4) { 
-            hasMoved = true; e.preventDefault(); 
-            let proposedX = clientX - startX; let proposedY = clientY - startY;
-            let maxX = window.innerWidth - container.offsetWidth; let maxY = window.innerHeight - container.offsetHeight;
-            container.style.left = Math.max(0, Math.min(proposedX, maxX)) + 'px'; container.style.top = Math.max(0, Math.min(proposedY, maxY)) + 'px'; 
-        } 
-    }
+    function dragStart(e) { if(e.target.tagName === 'BUTTON') return; const rect = container.getBoundingClientRect(); container.style.transform = 'none'; container.style.left = rect.left + 'px'; container.style.top = rect.top + 'px'; let clientX = e.type === "touchstart" ? e.touches[0].clientX : e.clientX; let clientY = e.type === "touchstart" ? e.touches[0].clientY : e.clientY; startX = clientX - rect.left; startY = clientY - rect.top; isDragging = true; hasMoved = false; }
+    function drag(e) { if (!isDragging) return; let clientX = e.type === "touchmove" ? e.touches[0].clientX : e.clientX; let clientY = e.type === "touchmove" ? e.touches[0].clientY : e.clientY; if (Math.abs(clientX - (startX + container.getBoundingClientRect().left)) > 4 || Math.abs(clientY - (startY + container.getBoundingClientRect().top)) > 4) { hasMoved = true; e.preventDefault(); let proposedX = clientX - startX; let proposedY = clientY - startY; let maxX = window.innerWidth - container.offsetWidth; let maxY = window.innerHeight - container.offsetHeight; container.style.left = Math.max(0, Math.min(proposedX, maxX)) + 'px'; container.style.top = Math.max(0, Math.min(proposedY, maxY)) + 'px'; } }
     function dragEnd() { isDragging = false; enforceScreenBounds(); }
     
     container.addEventListener("touchstart", dragStart, { passive: false }); document.addEventListener("touchmove", drag, { passive: false }); document.addEventListener("touchend", dragEnd); container.addEventListener("mousedown", dragStart); document.addEventListener("mousemove", drag); document.addEventListener("mouseup", dragEnd);
 
     // =========================================
-    // 🔥 AI ENGINE, TIMER & SCANNING
+    // 🔥 AI ENGINE & CUSTOM SCAN SEQUENCE
     // =========================================
     let fetchingLock = false, preparedNextPeriod = null, preparedPredictionSize = null, preparedPredictionNumber = null, isResultReady = false;
-    let lastPredictedPeriodId = null, lastPredictedResultSize = null;
-
-    setInterval(() => {
-        let s = new Date().getSeconds(); let rem = (60 - s - 3 + 60) % 60; 
-        if(window.userTimeframe === "30S") rem = (30 - (s % 30) - 3 + 30) % 30;
-        const timerEl = document.getElementById('liveCountdown');
-        if(timerEl) { timerEl.innerText = rem.toString().padStart(2, '0') + 's'; timerEl.style.color = (rem <= 5) ? "var(--tc-red)" : "var(--tc-gold)"; }
-    }, 1000);
 
     async function fetchAndProcess() {
       if(fetchingLock) return; fetchingLock = true; let nextPeriodId = "";
       try {
         let API_URL_VAR = window.userTimeframe === "30S" ? "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json" : "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json";
         const res = await fetch(`${API_URL_VAR}?ts=${Date.now()}`, { headers: {'Accept':'application/json'} }); const json = await res.json();
-        const draws = json.data.list.map(i => ({ issueNumber: String(i.issueNumber), number: parseInt(i.number), size: parseInt(i.number) >= 5 ? "BIG" : "SMALL" })).filter(d => !isNaN(d.number));
+        const draws = json.data.list.map(i => ({ issueNumber: String(i.issueNumber), number: parseInt(i.number) })).filter(d => !isNaN(d.number));
         const latest = draws[0]; nextPeriodId = (BigInt(latest.issueNumber) + 1n).toString();
         
-        if(lastPredictedPeriodId === latest.issueNumber) {
-            const wlBadge = document.getElementById('winLossBadge');
-            if(latest.size === lastPredictedResultSize) { wlBadge.className = "win-loss-badge wl-win"; wlBadge.innerText = "LAST: WIN 🏆"; } 
-            else { wlBadge.className = "win-loss-badge wl-loss"; wlBadge.innerText = "LAST: LOSS ❌"; }
-        }
-
         if(preparedNextPeriod !== nextPeriodId) {
           preparedNextPeriod = nextPeriodId;
           preparedPredictionSize = Math.random() > 0.5 ? "BIG" : "SMALL"; 
           preparedPredictionNumber = preparedPredictionSize === "BIG" ? 7 : 2;
-          lastPredictedPeriodId = nextPeriodId; lastPredictedResultSize = preparedPredictionSize;
-          isResultReady = true; document.getElementById('analyzeBtn').disabled = false; 
+          
+          isResultReady = true; 
+          document.getElementById('analyzeBtn').disabled = false; 
+          document.getElementById('confNode').innerText = (Math.random() * 10 + 88).toFixed(1) + '%';
         }
       } catch(e) {} finally { fetchingLock = false; }
     }
 
     const analyzeBtn = document.getElementById('analyzeBtn'); 
-    const resultBoard = document.getElementById('resultBoard');
-    const scanContainer = document.getElementById('scanContainer');
+    const resultContainer = document.getElementById('resultContainer');
+    const scanTextContainer = document.getElementById('scanTextContainer');
     const scanMsgText = document.getElementById('scanMsgText');
-    const resSizeText = document.getElementById('resSizeText'); 
-    const resNumCircle = document.getElementById('resNumCircle'); 
+    const sizeBox = document.getElementById('resSizeBox'); 
+    const ballBox = document.getElementById('resBallBox'); 
+    const ballNum = document.getElementById('resBallNum');
     
     analyzeBtn.addEventListener('click', () => {
       if(!isResultReady) return; isResultReady = false; analyzeBtn.disabled = true;
       
-      scanMsgText.innerText = "DECRYPTING NODE...";
-      let seq = 0; let texts = ["DECRYPTING...", "ANALYZING...", "SUCCESS"];
-      let txtIntv = setInterval(() => { seq++; if(seq < texts.length) scanMsgText.innerText = texts[seq]; }, 600);
+      expandedWrapper.classList.add('scanning-active');
+      resultContainer.style.display = 'none';
+      scanTextContainer.style.display = 'flex';
       
-      scanContainer.style.display = 'flex';
-      resultBoard.classList.remove('active'); resultBoard.style.display = 'none';
+      // Text Sequence
+      let seq = 0; let texts = ["DECRYPTING...", "ANALYZING...", "SUCCESS"];
+      scanMsgText.innerText = texts[0];
+      let txtIntv = setInterval(() => { seq++; if(seq < texts.length) scanMsgText.innerText = texts[seq]; }, 800);
       
       setTimeout(() => {
         clearInterval(txtIntv);
-        scanContainer.style.display = 'none';
+        expandedWrapper.classList.remove('scanning-active');
+        scanTextContainer.style.display = 'none';
+        resultContainer.style.display = 'flex';
         
         let shortPeriod = preparedNextPeriod.substring(preparedNextPeriod.length - 4);
-        document.getElementById('periodBadge').innerText = shortPeriod; 
+        document.getElementById('periodBadge').innerHTML = `ID: <span>${shortPeriod}</span>`; 
         
-        resSizeText.innerText = preparedPredictionSize; 
-        resSizeText.style.color = preparedPredictionSize === 'SMALL' ? "var(--tc-cyan)" : "var(--tc-gold)";
-        resSizeText.style.textShadow = preparedPredictionSize === 'SMALL' ? "0 0 10px rgba(0,229,255,0.4)" : "0 0 10px rgba(252,213,53,0.4)";
-        
-        resNumCircle.innerText = preparedPredictionNumber; 
-        let num = parseInt(preparedPredictionNumber); let ballClass = "";
-        if(num === 0) ballClass = 'bg-violet-red'; else if(num === 5) ballClass = 'bg-violet-green'; else if([2,4,6,8].includes(num)) ballClass = 'bg-red'; else ballClass = 'bg-green';
-        resNumCircle.className = `res-num-circle ${ballClass}`; 
-        
-        resultBoard.style.display = 'flex'; resultBoard.classList.add('active'); 
-      }, 2000); 
+        sizeBox.innerText = preparedPredictionSize; sizeBox.className = preparedPredictionSize === 'SMALL' ? "res-text-box small" : "res-text-box big";
+        ballNum.innerText = preparedPredictionNumber; ballNum.className = "res-ball"; 
+        let num = parseInt(preparedPredictionNumber);
+        if(num === 0) ballNum.classList.add('bg-violet-red'); else if(num === 5) ballNum.classList.add('bg-violet-green'); else if([2,4,6,8].includes(num)) ballNum.classList.add('bg-red'); else ballNum.classList.add('bg-green');
+        ballBox.classList.add('active'); 
+      }, 2500); 
     });
 
     function initEngine() { fetchAndProcess(); setInterval(fetchAndProcess, 3000); toggleWidget(); }

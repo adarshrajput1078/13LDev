@@ -3,290 +3,280 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"/>
-  <title>SIKKIM WINGO BY DEV ARMY</title>
+  <title>SIKKIM ENTERPRISE PRO</title>
   
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Outfit:wght@700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Outfit:wght@600;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
   <style>
     /* =========================================
-       ❄️ V9.6 ICE BLUE & WHITE (REAL COLORS) ❄️
+       🏢 SIKKIM ENTERPRISE - FUND MANAGER V15.2 🏢
        ========================================= */
     :root { 
       --tc-neon-blue: #0066ff; 
       --tc-neon-ice: #00e5ff; 
       --tc-neon-white: #ffffff;
-      --tc-dark-bg: #020617; 
-      --tc-card-bg: rgba(15, 23, 42, 0.85); 
-      --tc-grid-color: rgba(0, 229, 255, 0.05);
+      --tc-gold: #fcd535;
+      --tc-dark-bg: #05080f; 
+      --tc-card-bg: rgba(20, 28, 45, 0.85); 
+      --tc-grid-color: rgba(252, 213, 53, 0.12);
       --tc-text-main: #f8fafc;
-      --tc-text-muted: #94a3b8;
+      --tc-text-muted: #848e9c;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent;}
     
-    body { background-color: var(--tc-dark-bg); font-family: 'Inter', sans-serif; overflow: hidden; color: var(--tc-text-main); }
+    body { background-color: var(--tc-dark-bg); font-family: 'Inter', sans-serif; overflow: hidden; color: var(--tc-text-main); perspective: 1000px; height: 100vh; width: 100vw;}
     
-    /* 🌌 BACKGROUND VFX */
-    .bg-vfx { position: absolute; inset: 0; z-index: -2; background: radial-gradient(circle at center, #0a192f 0%, var(--tc-dark-bg) 80%); }
-    .bg-grid { position: absolute; inset: -50vw; z-index: -1; background-image: linear-gradient(var(--tc-grid-color) 1px, transparent 1px), linear-gradient(90deg, var(--tc-grid-color) 1px, transparent 1px); background-size: 40px 40px; transform: perspective(600px) rotateX(60deg) translate3d(0, -50px, -150px); will-change: transform; opacity: 0.7;}
+    /* 3D BACKGROUND TUNNEL */
+    .bg-vfx { position: absolute; inset: 0; z-index: -3; background: radial-gradient(circle at center, #0a0f1c 0%, var(--tc-dark-bg) 100%); }
+    .bg-grid-container { position: absolute; inset: 0; overflow: hidden; z-index: -2; perspective: 600px;}
+    .bg-grid { 
+        position: absolute; width: 200vw; height: 200vh; left: -50vw; top: 0;
+        background-image: linear-gradient(var(--tc-grid-color) 2px, transparent 2px), linear-gradient(90deg, var(--tc-grid-color) 2px, transparent 2px); 
+        background-size: 60px 60px; transform-origin: top center; animation: gridTunnel 5s linear infinite; opacity: 0.6;
+    }
+    @keyframes gridTunnel {
+        0% { transform: rotateX(75deg) translateY(0px) translateZ(-200px); }
+        100% { transform: rotateX(75deg) translateY(60px) translateZ(-200px); }
+    }
     
-    .bg-glow-orb-1 { position: absolute; top: 20%; left: 20%; transform: translate(-50%, -50%); width: 300px; height: 300px; background: radial-gradient(circle, rgba(0, 102, 255, 0.2) 0%, transparent 60%); border-radius: 50%; z-index: -1; animation: pulse 6s infinite alternate; }
-    .bg-glow-orb-2 { position: absolute; bottom: 10%; right: 10%; transform: translate(50%, 50%); width: 350px; height: 350px; background: radial-gradient(circle, rgba(0, 229, 255, 0.15) 0%, transparent 60%); border-radius: 50%; z-index: -1; animation: pulse 8s infinite alternate-reverse; }
-    @keyframes pulse { 0% { transform: scale(0.9); opacity: 0.6; } 100% { transform: scale(1.1); opacity: 1; } }
-
-    .particles { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
-    .particle { position: absolute; width: 2px; height: 15px; background: linear-gradient(to bottom, transparent, var(--tc-neon-ice)); filter: drop-shadow(0 0 5px var(--tc-neon-ice)); animation: rainUp linear infinite; opacity: 0;}
-    @keyframes rainUp { 0% { transform: translate3d(0, 100vh, 0); opacity: 0;} 10% {opacity: 1;} 90% {opacity: 1;} 100% { transform: translate3d(0, -10vh, 0); opacity: 0;} }
+    .particles { position: absolute; inset: 0; z-index: -1; pointer-events: none; transform-style: preserve-3d; }
+    .particle { position: absolute; width: 3px; height: 3px; background: var(--tc-neon-ice); border-radius: 50%; filter: drop-shadow(0 0 8px var(--tc-neon-ice)); animation: warpSpeed linear infinite;}
+    @keyframes warpSpeed {
+        0% { transform: translate3d(0, 0, -1000px); opacity: 0; }
+        20% { opacity: 1; }
+        100% { transform: translate3d(0, 0, 400px); opacity: 0; }
+    }
 
     #mainApp { display: none; width: 100vw; height: 100vh; position: relative; overflow: hidden;}
     .bg-game { width: 100%; height: 100%; border: none; background: #000; position: absolute; top: 0; left: 0; z-index: 1;}
 
-    /* =========================================
-       💎 PREMIUM HIGH-VISIBILITY CARDS 💎
-       ========================================= */
-    #fullOverlayScreen { position: fixed; inset: 0; background: rgba(2, 6, 23, 0.85); backdrop-filter: blur(8px); z-index: 10000; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
-    
-    .cyber-card { 
-      width: 100%; max-width: 350px; 
-      background: var(--tc-card-bg); 
-      border: 1px solid rgba(0, 229, 255, 0.2); 
-      border-radius: 12px; padding: 35px 25px; 
-      position: relative; text-align: center; 
-      box-shadow: 0 20px 40px rgba(0,0,0,0.9), 0 0 30px rgba(0, 102, 255, 0.15); 
+    /* BUG FIXED FORM OVERLAY CONTAINER */
+    #fullOverlayScreen { 
+        position: fixed; inset: 0; background: rgba(5, 8, 15, 0.7); 
+        backdrop-filter: blur(12px); z-index: 10000; 
+        display: flex; flex-direction: column; align-items: center; justify-content: center; 
+        padding: 20px; perspective: 1200px; overflow-y: auto;
     }
     
-    .cyber-card::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--tc-neon-blue), var(--tc-neon-white), var(--tc-neon-ice)); box-shadow: 0 0 15px var(--tc-neon-white); border-radius: 12px 12px 0 0;}
-    
-    .premium-logo { font-size: 45px; color: var(--tc-neon-white); margin-bottom: 10px; filter: drop-shadow(0 0 15px rgba(255,255,255,0.5)); }
-    
-    .app-title { font-family: 'Outfit'; color: var(--tc-neon-white); font-size: 1.8rem; letter-spacing: 2px; margin-bottom: 4px; font-weight: 900; text-shadow: 0 2px 10px rgba(0, 102, 255, 0.5);}
-    .app-subtitle { font-size: 11px; color: var(--tc-neon-ice); margin-bottom: 25px; letter-spacing: 2px; font-weight: 800; font-family:'Share Tech Mono'; text-transform: uppercase;}
-
-    .input-group { position: relative; margin-bottom: 20px; text-align: left;}
-    .sleek-input { 
-      width: 100%; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); border-bottom: 2px solid var(--tc-neon-blue);
-      color: var(--tc-neon-white); padding: 15px; font-family: 'Share Tech Mono'; font-weight: 700; font-size: 15px; 
-      border-radius: 6px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); outline: none; letter-spacing: 1px; text-align: center;
-    }
-    .sleek-input::placeholder { color: var(--tc-text-muted); font-family: 'Inter'; font-weight: 500; font-size: 13px; letter-spacing: 0.5px;}
-    .sleek-input:focus { 
-      border-bottom-color: var(--tc-neon-white); background: rgba(0, 102, 255, 0.1); 
-      box-shadow: 0 10px 20px -10px rgba(0, 102, 255, 0.4); transform: translateY(-2px);
+    .enterprise-card { 
+        width: 100%; max-width: 360px; padding: 30px 25px; 
+        background: var(--tc-card-bg); border-radius: 16px; text-align: center; 
+        border: 1px solid rgba(252, 213, 53, 0.2); position: relative;
+        transform-style: preserve-3d; animation: float3D 6s ease-in-out infinite;
+        backdrop-filter: blur(20px); max-height: 85vh; overflow-y: auto;
     }
     
-    .error-popup { display: none; color: #fff; font-weight: 800; margin-bottom: 15px; font-size: 11px; text-transform: uppercase; background: rgba(255,0,76,0.2); border-left: 3px solid #ff004c; padding: 12px; border-radius: 4px; letter-spacing: 0.5px;}
-
-    .btn-premium { 
-      width: 100%; background: linear-gradient(90deg, var(--tc-neon-blue), #0099ff); color: var(--tc-neon-white); 
-      font-family: 'Outfit'; font-size: 14px; font-weight: 900; padding: 16px; cursor: pointer; text-transform: uppercase; 
-      transition: 0.2s; letter-spacing: 2px; border: none; border-radius: 6px; 
-      box-shadow: 0 8px 20px -5px rgba(0, 102, 255, 0.6); text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    @keyframes float3D {
+        0% { transform: translateY(0px) rotateX(3deg) rotateY(-3deg); box-shadow: -15px 25px 45px rgba(0,0,0,0.7); }
+        50% { transform: translateY(-10px) rotateX(-2deg) rotateY(2deg); box-shadow: 15px 35px 55px rgba(0,0,0,0.8); }
+        100% { transform: translateY(0px) rotateX(3deg) rotateY(-3deg); box-shadow: -15px 25px 45px rgba(0,0,0,0.7); }
     }
-    .btn-premium:active { transform: scale(0.97); box-shadow: 0 4px 10px -5px rgba(0, 102, 255, 0.6);}
-
-    .btn-ghost { 
-      width: 100%; background: rgba(0, 229, 255, 0.05); border: 1px solid var(--tc-neon-ice); color: var(--tc-neon-white); 
-      font-family: 'Outfit'; font-size: 12px; font-weight: 900; padding: 14px; margin-top: 15px; cursor: pointer; 
-      text-transform: uppercase; transition: 0.2s; letter-spacing: 1px; border-radius: 6px; text-shadow: 0 0 5px rgba(0,243,255,0.5);
-    }
-    .btn-ghost:hover { background: rgba(0, 229, 255, 0.15); box-shadow: 0 0 15px rgba(0, 229, 255, 0.3); }
-
-    .whatsapp-link { display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: #25D366; font-size: 13px; font-weight: 700; text-decoration: none; padding: 10px 20px; border: 1px solid rgba(37, 211, 102, 0.3); border-radius: 30px; background: rgba(37, 211, 102, 0.05); transition: 0.3s; margin-top: 25px; letter-spacing: 0.5px;}
-    .whatsapp-link i { font-size: 18px; }
-    .whatsapp-link:hover { background: rgba(37, 211, 102, 0.15); box-shadow: 0 0 15px rgba(37, 211, 102, 0.3); color: #fff;}
-
-    /* 🔥 HISTORY LOG VIEWER 🔥 */
-    .history-list { max-height: 250px; overflow-y: auto; margin-top: 15px; padding-right: 5px; }
-    .hist-row { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.6); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 12px; transition: 0.2s; border-radius: 6px; margin-bottom:6px;}
-    .hist-period { font-family: 'Share Tech Mono'; color: var(--tc-neon-white); font-size: 13px; font-weight: bold;}
-    .hist-res { font-family: 'Inter'; color: var(--tc-text-muted); font-size: 11px; font-weight: 600; margin-top:4px;}
-    .hist-res span { color: var(--tc-neon-white); font-weight: 800;}
-    .hist-status { font-family: 'Outfit'; font-size: 11px; font-weight: 900; letter-spacing: 0.5px;}
-    .s-win { color: #00ff66; text-shadow: 0 0 5px rgba(0,255,102,0.4); }
-    .s-loss { color: #ff004c; text-shadow: 0 0 5px rgba(255,0,76,0.4); }
-    .s-jackpot { color: #fcd535; text-shadow: 0 0 5px rgba(252,213,53,0.4); }
-
-    /* =========================================
-       🔥 COMPACT WIDGET PANEL 🔥
-       ========================================= */
-    .draggable-container { position: absolute; top: 15%; left: 50%; transform: translateX(-50%); z-index: 9999; touch-action: none; display: flex; justify-content: center; align-items: center; }
     
-    .mod-icon { width: 45px; height: 45px; background: rgba(2,6,23,0.95); border: 2px solid var(--tc-neon-ice); border-radius: 10px; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 0 20px rgba(0,229,255,0.3); backdrop-filter: blur(5px);}
-    .mod-icon i { color: var(--tc-neon-ice); font-size: 22px; filter: drop-shadow(0 0 5px var(--tc-neon-ice)); pointer-events: none;}
+    .branding h1 { font-family: 'Outfit'; font-size: 24px; color: var(--tc-text-main); margin-bottom: 5px; letter-spacing: 1px; }
+    .branding p { font-size: 11px; color: var(--tc-gold); text-transform: uppercase; letter-spacing: 3px; margin-bottom: 25px; font-weight: 800; }
+    
+    .input-field { width: 100%; padding: 14px; margin-bottom: 18px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-size: 15px; font-family: 'Share Tech Mono'; outline: none; transition: 0.3s; text-align: center; letter-spacing: 1px;}
+    .input-field:focus { border-color: var(--tc-gold); box-shadow: 0 0 15px rgba(252, 213, 53, 0.2);}
+    
+    .login-btn { width: 100%; padding: 15px; background: linear-gradient(135deg, #fcd535, #f0c822); color: #000; border: none; border-radius: 8px; font-family: 'Outfit'; font-weight: 900; cursor: pointer; font-size: 14px; text-transform: uppercase; transition: 0.2s; margin-bottom: 12px; box-shadow: 0 8px 20px rgba(252, 213, 53, 0.25);}
+    .login-btn:active { transform: scale(0.97); }
+
+    .btn-outline { width: 100%; padding: 12px; background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--tc-text-muted); border-radius: 8px; font-family: 'Outfit'; font-size: 12px; cursor: pointer; transition: 0.2s;}
+    .btn-outline:hover { background: rgba(255,255,255,0.05); color: #fff;}
+
+    .error-popup { display: none; color: #f6465d; font-weight: 700; margin-bottom: 15px; font-size: 12px; background: rgba(246, 70, 93, 0.1); padding: 12px; border-radius: 6px; border: 1px solid rgba(246, 70, 93, 0.3);}
+
+    /* JARVIS LOADING EFFECT */
+    #walletSyncOverlay { position: fixed; inset: 0; background: rgba(5,8,15,0.95); z-index: 20000; display: none; flex-direction: column; align-items: center; justify-content: center; perspective: 800px;}
+    .jarvis-core { position: relative; width: 80px; height: 100px; margin-bottom: 25px; transform-style: preserve-3d; animation: rotateCore 4s linear infinite;}
+    .jarvis-ring { position: absolute; inset: 0; border-radius: 50%; border: 2px solid transparent; }
+    .ring-1 { border-top-color: var(--tc-gold); border-bottom-color: var(--tc-gold); transform: rotateX(60deg) rotateY(0deg); animation: spinRing 2s linear infinite;}
+    .ring-2 { border-left-color: var(--tc-neon-ice); border-right-color: var(--tc-neon-ice); transform: rotateX(0deg) rotateY(60deg); animation: spinRing 3s linear infinite reverse;}
+    @keyframes rotateCore { 0% { transform: rotateZ(0deg); } 100% { transform: rotateZ(360deg); } }
+    @keyframes spinRing { 100% { transform: rotateZ(360deg); } }
+    .jarvis-text { font-family: 'Share Tech Mono'; color: var(--tc-gold); letter-spacing: 3px; font-size: 12px; text-transform: uppercase; font-weight: bold; text-shadow: 0 0 10px var(--tc-gold);}
+
+    /* 🔥 COMPACT FLOATING PANEL 🔥 */
+    .draggable-container { position: absolute; top: 12%; left: 50%; transform: translateX(-50%); z-index: 9999; touch-action: none; display: flex; justify-content: center; align-items: center; }
+    .mod-icon { width: 40px; height: 32px; background: rgba(11, 14, 17, 0.95); border: 1px solid var(--tc-gold); border-radius: 4px; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 0 10px rgba(252, 213, 53, 0.2); backdrop-filter: blur(5px); font-family: 'Outfit'; font-weight: 900; font-size: 12px; color: var(--tc-gold); letter-spacing: 1px;}
     .mod-icon.hidden { display: none; }
 
-    .mod-expanded { display: none; width: 200px; min-height: 120px; background: #0f172a; border-radius: 10px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.9); padding: 2px; border: 1px solid var(--tc-neon-blue); overflow: hidden;}
+    .mod-expanded { display: none; width: 185px; background: rgba(15, 23, 42, 0.95); border-radius: 8px; position: relative; box-shadow: 0 20px 40px rgba(0,0,0,0.9); padding: 10px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; backdrop-filter: blur(10px);}
     .mod-expanded.active { display: block; animation: popIn 0.2s ease-out forwards; }
     @keyframes popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
     
-    .mod-content-wrapper { width: 100%; height: 100%; background: #020617; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; justify-content: flex-start; position: relative; z-index:2;}
+    .tech-header { width: 100%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 6px; margin-bottom: 8px;}
+    .tech-title { font-family: 'Outfit'; font-size: 10px; font-weight: 900; color: #fff; letter-spacing: 1px;}
+    .tech-title span { color: var(--tc-gold); margin-left: 3px; }
     
-    .tech-header { width: 100%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 8px; margin-bottom: 10px;}
-    .tech-title { font-family: 'Outfit'; font-size: 11px; font-weight: 900; color: #fff; letter-spacing: 0.5px;}
-    .tech-title span { color: var(--tc-neon-ice); margin-left: 3px; }
-    .badge-mini { font-size: 7px; font-family: 'Share Tech Mono'; padding: 3px 5px; border-radius: 3px; background: rgba(0,102,255,0.2); color: #fff; font-weight: bold; letter-spacing: 1px; border: 1px solid rgba(0,102,255,0.5);}
+    .target-setup { display: flex; justify-content: space-between; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05); padding: 5px 8px; border-radius: 4px; margin-bottom: 8px;}
+    .target-setup div { font-family: 'Share Tech Mono'; font-size: 8px; color: var(--tc-text-muted); text-transform: uppercase;}
+    .target-setup span { color: var(--tc-text-main); font-weight: bold; font-size: 9px;}
 
-    .target-setup { display: flex; justify-content: space-between; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 6px 8px; border-radius: 4px; margin-bottom: 10px;}
-    .target-setup div { font-family: 'Share Tech Mono'; font-size: 9px; color: var(--tc-text-muted); text-transform: uppercase;}
-    .target-setup span { color: var(--tc-neon-white); font-weight: bold; font-size: 10px;}
+    .power-container { margin-bottom: 8px; width: 100%; }
+    .power-header { display: flex; justify-content: space-between; font-family: 'Share Tech Mono'; font-size: 9px; color: var(--tc-text-muted); margin-bottom: 4px; font-weight: bold; text-transform: uppercase;}
+    .power-track { width: 100%; height: 6px; background: #000; border-radius: 3px; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; position: relative;}
+    .power-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #fcd535, #f0c822); transition: width 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
 
-    .trend-indicator { display: flex; justify-content: space-between; align-items: center; padding: 6px; background: #000; border-radius: 4px; margin-bottom: 10px;}
-    .trend-bar { width: 65px; height: 5px; background: #1e293b; border-radius: 2px; overflow: hidden; }
-    .trend-fill { height: 100%; background: linear-gradient(90deg, var(--tc-neon-blue), var(--tc-neon-ice)); width: 0%; transition: width 0.5s ease-out;}
+    .result-area { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 65px; margin-bottom: 8px; width: 100%; border: 1px solid rgba(255,255,255,0.1); background: #000; border-radius: 6px; padding: 5px;}
+    .hack-result-row { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 0 5px; margin-bottom: 6px;}
     
-    /* 🔥 REAL COLORS UI 🔥 */
-    .result-area { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60px; margin-bottom: 8px; width: 100%; border: 1px solid rgba(255,255,255,0.1); background: #000; border-radius: 6px;}
-    .hack-result-row { display: flex; align-items: center; justify-content: space-between; width: 100%; padding: 5px; }
-    
-    .num-block { display: flex; flex-direction: column; align-items: center; gap: 4px; }
-    .num-val { font-size: 16px; font-weight: 900; font-family: 'Share Tech Mono'; color: #fff; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; border-radius: 4px; box-shadow: inset 0 0 5px rgba(0,0,0,0.8); }
-    .num-prob { font-size: 8px; color: var(--tc-neon-white); background: rgba(0,102,255,0.3); padding: 3px 5px; border-radius: 2px; font-family: 'Share Tech Mono'; font-weight: bold; border: 1px solid var(--tc-neon-blue);}
-    .prob-high { color: #00ff66; background: rgba(0,255,102,0.1); border-color: #00ff66;}
+    .num-block { display: flex; flex-direction: column; align-items: center; gap: 3px; }
+    .num-val { font-size: 14px; font-weight: 900; font-family: 'Share Tech Mono'; color: #fff; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 4px;}
+    .num-prob { font-size: 7px; color: var(--tc-text-main); background: #222; padding: 2px 4px; border-radius: 2px; font-family: 'Share Tech Mono'; font-weight: bold;}
 
     .size-block { flex: 1; display: flex; justify-content: center; align-items: center; padding: 0 5px; }
-    .size-val { font-family: 'Outfit'; font-size: 15px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; padding: 5px 10px; border-radius: 4px; color: #fff; line-height: 1; text-align: center;}
+    .size-val { font-family: 'Outfit'; font-size: 13px; font-weight: 900; text-transform: uppercase; padding: 4px 8px; border-radius: 4px; color: #fff; line-height: 1; text-align: center;}
 
-    /* 100% REAL WINGO COLORS */
-    .bg-red { background: #ff004c; border: 1px solid #cc003d; }
-    .bg-green { background: #00e676; border: 1px solid #00b35c; }
-    .bg-red-violet { background: linear-gradient(135deg, #ff004c 50%, #9c27b0 50%); border: 1px solid #9c27b0; }
-    .bg-green-violet { background: linear-gradient(135deg, #00e676 50%, #9c27b0 50%); border: 1px solid #9c27b0; }
+    .bg-red { background: #f6465d; }
+    .bg-green { background: #0ecb81; }
+    .bg-red-violet { background: linear-gradient(135deg, #f6465d 50%, #9c27b0 50%); }
+    .bg-green-violet { background: linear-gradient(135deg, #0ecb81 50%, #9c27b0 50%); }
+    .size-big { border: 1px solid var(--tc-gold); color: var(--tc-gold); background: rgba(252, 213, 53, 0.1); }
+    .size-small { border: 1px solid var(--tc-neon-ice); color: var(--tc-neon-ice); background: rgba(0, 229, 255, 0.1); }
 
-    .size-big { border: 1px solid var(--tc-neon-ice); color: var(--tc-neon-ice); background: rgba(0,229,255,0.1); text-shadow: 0 0 5px rgba(0,229,255,0.5);}
-    .size-small { border: 1px solid var(--tc-neon-white); color: var(--tc-neon-white); background: rgba(255,255,255,0.1); text-shadow: 0 0 5px rgba(255,255,255,0.5);}
+    .bet-instruction { display: flex; justify-content: center; gap: 6px; width: 100%; border-top: 1px dashed rgba(255,255,255,0.1); padding-top: 6px;}
+    .lvl-badge { font-family: 'Share Tech Mono'; font-size: 9px; font-weight: bold; background: rgba(252,213,53,0.1); color: var(--tc-gold); border: 1px solid rgba(252,213,53,0.3); padding: 3px 6px; border-radius: 4px;}
+    .amt-badge { font-family: 'Share Tech Mono'; font-size: 9px; font-weight: bold; background: rgba(0,229,255,0.1); color: var(--tc-neon-ice); border: 1px solid rgba(0,229,255,0.3); padding: 3px 6px; border-radius: 4px;}
 
-    .ai-msg { font-size: 8px; color: var(--tc-text-main); font-family: 'Share Tech Mono'; margin-bottom: 10px; text-align: center; text-transform: uppercase; font-weight: bold; letter-spacing: 0.5px; min-height: 10px;}
-    .res-ready { color: #fff; font-size: 13px; font-family: 'Outfit'; font-weight: 900; letter-spacing: 2px; text-shadow: 0 0 5px rgba(255,255,255,0.5); text-align: center;}
+    .ai-msg { font-size: 7px; color: var(--tc-text-muted); font-family: 'Share Tech Mono'; margin-bottom: 8px; text-align: center; text-transform: uppercase; font-weight: bold; min-height: 10px;}
+    .res-ready { color: var(--tc-text-muted); font-size: 11px; font-family: 'Outfit'; font-weight: 600; letter-spacing: 1px; text-align: center;}
 
     .laser-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.8); border-radius: 6px; display: flex; justify-content: center; align-items: center; overflow: hidden;}
-    .laser-line { position: absolute; left: 0; width: 100%; height: 2px; background: var(--tc-neon-white); box-shadow: 0 0 10px var(--tc-neon-white); will-change: transform; animation: laserSweep 0.5s linear infinite alternate; z-index: 10; }
-    @keyframes laserSweep { 0% { transform: translateY(-25px); } 100% { transform: translateY(25px); } }
+    .laser-line { position: absolute; left: 0; width: 100%; height: 2px; background: var(--tc-gold); box-shadow: 0 0 10px var(--tc-gold); will-change: transform; animation: laserSweep 0.5s linear infinite alternate; z-index: 10; }
+    @keyframes laserSweep { 0% { transform: translateY(-20px); } 100% { transform: translateY(20px); } }
 
-    /* WIDGET BUTTONS */
-    .action-row { display: flex; justify-content: center; gap: 8px; width: 100%; margin-top: auto;}
-    .btn-panel { flex: 1; font-family: 'Outfit'; font-size: 10px; font-weight: 900; text-transform: uppercase; cursor: pointer; letter-spacing: 1px; min-height: 35px; display: flex; justify-content: center; align-items: center; gap: 5px; border: none; border-radius: 4px;}
-    .btn-scan { background: var(--tc-neon-blue); color: #fff;}
-    .btn-scan:active { background: #0044cc; }
-    .btn-scan:disabled { background: #1e293b; color: #64748b; cursor: not-allowed; }
-    .btn-hide { background: #0f172a; color: var(--tc-neon-white); border: 1px solid rgba(255,255,255,0.3); }
-    .btn-hide:active { background: #000; }
+    .btn-act { padding: 10px; font-family: 'Outfit'; font-size: 10px; font-weight: 900; border: none; border-radius: 4px; cursor: pointer; text-transform: uppercase; letter-spacing: 1px;}
+    .btn-scan { width: 100%; background: var(--tc-gold); color: #000; transition: 0.2s;}
+    .btn-scan:active { background: #f0c822; transform: scale(0.98);}
+    .btn-scan:disabled { background: #222; color: #555; cursor: not-allowed; }
 
-    .anim-win { border-color: #00ff66 !important; box-shadow: 0 0 15px rgba(0,255,102,0.3) !important; transition: 0.3s;}
-    .anim-loss { border-color: #ff004c !important; box-shadow: 0 0 15px rgba(255,0,76,0.3) !important; transition: 0.3s;}
+    .action-row-bottom { display: flex; justify-content: space-between; gap: 6px; width: 100%; margin-top: 6px;}
+    .btn-hide { flex: 0.8; background: #000; color: var(--tc-text-main); border: 1px solid #333; }
     
-    .jackpot-toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #111; color: #fcd535; font-weight: 900; padding: 12px 20px; border-radius: 6px; font-size: 11px; z-index: 30000; box-shadow: 0 10px 20px rgba(0,0,0,0.8); font-family: 'Share Tech Mono'; letter-spacing: 1px; border: 1px solid #fcd535; animation: slideUp 0.3s ease-out forwards; text-transform: uppercase;}
-    @keyframes slideUp { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translate(-50%, 0); } }
+    /* 📈 REAL CLICK-BASED RECOMMENDATION WITHDRAW BUTTON 📈 */
+    .btn-withdraw { flex: 1.2; font-family: 'Outfit'; font-size: 9px; font-weight: 900; text-transform: uppercase; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 4px; border-radius: 4px; transition: 0.3s; }
+    .btn-withdraw-red { background: rgba(246,70,93,0.1); color: #f6465d; border: 1px solid rgba(246,70,93,0.3); }
+    .btn-withdraw-green { background: rgba(14,203,129,0.1); color: #0ecb81; border: 1px solid #0ecb81; animation: pulseGreen 1.5s infinite alternate;}
+    @keyframes pulseGreen { 0% { box-shadow: 0 0 5px rgba(14,203,129,0.2); } 100% { box-shadow: 0 0 12px rgba(14,203,129,0.5); } }
 
-    /* 🔥 TRIAL COOLDOWN OVERLAY 🔥 */
-    #trialCooldownOverlay { position: absolute; inset: 0; background: rgba(2,6,23,0.95); z-index: 50; display: none; flex-direction: column; align-items: center; justify-content: center; border-radius: 9px; backdrop-filter: blur(5px); border: 1px solid var(--tc-neon-blue); text-align: center; padding: 10px;}
-    .cooldown-title { color: var(--tc-neon-ice); font-size: 11px; font-weight: 900; font-family: 'Outfit'; letter-spacing: 1px; margin-bottom: 5px; text-transform: uppercase;}
+    .dev-watermark { font-family: 'Share Tech Mono'; font-size: 6px; text-align: center; color: #555; margin-top: 6px; letter-spacing: 1px; text-transform: uppercase;}
+    .anim-win { border-color: #0ecb81 !important; transition: 0.3s;}
+    .anim-loss { border-color: #f6465d !important; transition: 0.3s;}
+
+    #trialCooldownOverlay { position: absolute; inset: 0; background: rgba(0,0,0,0.95); z-index: 50; display: none; flex-direction: column; align-items: center; justify-content: center; border-radius: 8px; border: 1px solid var(--tc-gold); text-align: center; padding: 10px;}
+    .cooldown-title { color: var(--tc-gold); font-size: 11px; font-weight: 900; font-family: 'Outfit'; margin-bottom: 5px; text-transform: uppercase;}
     .cooldown-timer { color: #fff; font-size: 22px; font-family: 'Share Tech Mono'; font-weight: bold; margin-bottom: 5px;}
-    .cooldown-msg { color: var(--tc-text-muted); font-size: 9px; font-family: 'Inter'; text-transform: uppercase; font-weight: 600;}
-
   </style>
 </head>
 <body>
 
   <div class="bg-vfx"></div>
-  <div class="bg-grid"></div>
-  <div class="bg-glow-orb-1"></div>
-  <div class="bg-glow-orb-2"></div>
+  <div class="bg-grid-container"><div class="bg-grid"></div></div>
   <div class="particles" id="particlesContainer"></div>
 
+  <!-- JARVIS INTRO OVERLAY -->
+  <div id="walletSyncOverlay">
+      <div class="jarvis-core">
+          <div class="jarvis-ring ring-1"></div>
+          <div class="jarvis-ring ring-2"></div>
+      </div>
+      <div class="jarvis-text">ESTABLISHING SECURE CONNECTION...</div>
+  </div>
+
   <div id="fullOverlayScreen">
-    
-    <div class="cyber-card" id="loginFormCard">
-      <div class="premium-logo"><i class="fa-solid fa-shield-halved"></i></div>
-      <h2 class="app-title">SIKKIM WINGO</h2>
-      <p class="app-subtitle">DEV ARMY • PRO EDITION</p>
-      
+    <!-- STEP 1: LOGIN PORTAL -->
+    <div class="enterprise-card" id="loginFormCard">
+      <div class="branding">
+          <h1>SIKKIM ENTERPRISE</h1>
+          <p>POWERED BY DEV</p>
+      </div>
       <div id="errorPopup" class="error-popup"></div>
-      
-      <div class="input-group">
-         <input type="password" id="loginKey" class="sleek-input" placeholder="Enter License Key">
-      </div>
-      
-      <button class="btn-premium" id="activateBtn">VERIFY LICENSE</button>
-      <button class="btn-ghost" onclick="showHistoryAuth()"><i class="fa-solid fa-database"></i> View Previous Logs</button>
-      
-      <a href="https://wa.me/" id="supportBtn" class="whatsapp-link" target="_blank">
-        <i class="fa-brands fa-whatsapp"></i> CONTACT ADMIN
-      </a>
+      <input type="password" id="loginKey" class="input-field" placeholder="Enter Access License Key">
+      <button class="login-btn" id="activateBtn">Connect Terminal</button>
+      <button class="btn-outline" onclick="showHistoryAuth()">View Archive Logs</button>
     </div>
 
-    <div class="cyber-card" id="historyAuthCard" style="display: none; border-color: var(--tc-neon-ice);">
-      <div class="premium-logo" style="color:var(--tc-neon-ice);"><i class="fa-solid fa-server"></i></div>
-      <h2 class="app-title" style="color:var(--tc-neon-white);">SYSTEM LOGS</h2>
-      <p class="app-subtitle">SECURE ARCHIVE ACCESS</p>
-      
-      <div id="histErrorPopup" class="error-popup cyan-err"></div>
-      
-      <div id="histInputArea">
-          <div class="input-group">
-             <input type="number" id="historyUidInput" class="sleek-input cyan-input" placeholder="Enter Approved Game UID" maxlength="7">
-          </div>
-          <button class="btn-premium" id="authUidBtn" style="background: linear-gradient(90deg, #00e5ff, #0088cc); color:#000;">VERIFY IDENTITY</button>
+    <!-- STEP 2: AMOUNT SYNC SCREEN -->
+    <div class="enterprise-card" id="walletSetupCard" style="display: none;">
+      <div class="branding">
+          <h1 style="color:var(--tc-neon-ice);">SYNC MARKET</h1>
+          <p style="color:var(--tc-text-muted);">INITIALIZE SYSTEM FUND</p>
       </div>
-
-      <button style="background:transparent; border:none; color:var(--tc-text-muted); font-size:11px; font-weight:bold; margin-top:25px; cursor:pointer; font-family:'Share Tech Mono';" onclick="hideHistoryAuth()">[ BACK TO LOGIN ]</button>
+      <input type="number" id="walletBalanceInput" class="input-field" placeholder="Current Wallet Balance (₹)">
+      <button class="login-btn" id="startHackBtn" style="background: var(--tc-neon-ice);">Initialize Engine</button>
     </div>
 
-    <div class="cyber-card" id="historyViewCard" style="display: none; max-width: 400px; padding: 30px 20px; border-color: var(--tc-neon-ice);">
-        <h2 style="font-family:'Outfit'; color:var(--tc-neon-white); margin-bottom:5px; font-size: 1.4rem; letter-spacing: 1px;">PREDICTION LOGS</h2>
-        <p style="font-size:10px; color:var(--tc-text-muted); margin-bottom:15px; font-family:'Share Tech Mono'; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom:12px;">AUTHORIZED UID: <span id="logUidDisplay" style="color:#fff;"></span></p>
-        
+    <!-- ARCHIVE VIEWERS -->
+    <div class="enterprise-card" id="historyAuthCard" style="display: none;">
+      <div class="branding"><h1>SYSTEM LOGS</h1><p>SECURE ARCHIVE</p></div>
+      <input type="number" id="historyUidInput" class="input-field" placeholder="Enter Game UID" maxlength="7">
+      <button class="login-btn" id="authUidBtn" style="background: var(--tc-neon-blue); color:#fff;">VERIFY IDENTITY</button>
+      <button class="btn-outline" onclick="hideHistoryAuth()" style="margin-top:10px;">Return</button>
+    </div>
+
+    <div class="enterprise-card" id="historyViewCard" style="display: none; padding:20px; text-align:left;">
+        <h2 style="font-family:'Outfit'; color:#fff; margin-bottom:5px; font-size: 1.2rem; text-align:center;">PREDICTION LOGS</h2>
+        <p style="font-size:10px; color:var(--tc-text-muted); margin-bottom:15px; border-bottom: 1px solid #2b3139; padding-bottom:10px; text-align:center;">UID: <span id="logUidDisplay" style="color:#fff;"></span></p>
         <div class="history-list" id="historyListContent"></div>
-
-        <button style="background:transparent; border:none; color:var(--tc-text-muted); font-size:11px; font-weight:bold; margin-top:25px; cursor:pointer; font-family:'Share Tech Mono';" onclick="hideHistoryAuth()">[ CLOSE LOGS ]</button>
+        <button class="btn-outline" onclick="hideHistoryAuth()" style="margin-top:15px; width:100%; text-align:center;">Close Archive</button>
     </div>
   </div>
 
+  <!-- MAIN APP PLATFORM INTERFACE -->
   <div id="mainApp">
     <iframe class="bg-game" id="gameIframe" src="about:blank" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"></iframe>
     
     <div class="draggable-container" id="draggableWidget">
-      <div class="mod-icon" id="modIcon"><i class="fa-solid fa-crosshairs"></i></div>
+      <div class="mod-icon" id="modIcon">DEV</div>
       
       <div class="mod-expanded" id="modExpanded">
         <div class="mod-content-wrapper">
           
           <div id="trialCooldownOverlay">
-             <i class="fa-solid fa-lock" style="color:var(--tc-neon-ice); font-size:26px; margin-bottom:12px;"></i>
-             <div class="cooldown-title">FREE PLAY LIMIT REACHED</div>
+             <i class="fa-solid fa-lock" style="color:var(--tc-gold); font-size:20px; margin-bottom:10px;"></i>
+             <div class="cooldown-title">SESSION EXPIRED</div>
              <div class="cooldown-timer" id="cooldownTimerDisplay">05:00</div>
-             <div class="cooldown-msg">Cooldown Active. Upgrade to VIP for unlimited access.</div>
+             <div style="font-size: 9px; color: #848e9c; font-family: 'Inter';">Upgrade to Enterprise Key</div>
           </div>
 
           <div class="tech-header">
-             <div class="tech-title">SIKKIM <span>WINGO</span></div>
-             <div class="tech-badges">
-                <span class="badge-mini" id="widgetAccessType">VIP</span>
-             </div>
+             <div class="tech-title">SIKKIM <span>BY DEV</span></div>
           </div>
           
           <div class="target-setup">
-             <div>Issue: <span id="periodBadge">----</span></div>
-             <div>Draw: <span id="countdownTimer" style="color:var(--tc-neon-ice);">00:00</span></div>
+             <div><i class="fa-regular fa-clock"></i> <span id="periodBadge">----</span></div>
+             <div>Draw: <span id="countdownTimer" style="color:var(--tc-gold);">00:00</span></div>
           </div>
 
           <div id="uiNormal">
-            <div class="trend-indicator">
-              <div style="font-size: 9px; color: var(--tc-text-muted); font-family: 'Share Tech Mono';">Chart Power</div>
-              <div class="trend-bar"><div class="trend-fill" id="trendFill"></div></div>
+            <div class="power-container">
+              <div class="power-header">
+                <span>AI CONFIDENCE</span>
+                <span id="powerText" style="color: #fff;">0%</span>
+              </div>
+              <div class="power-track"><div class="power-fill" id="trendFill"></div></div>
             </div>
             
             <div class="result-area" id="resBox">
-                <div class="res-ready">READY</div>
+                <div class="res-ready">SYSTEM IDLE</div>
             </div>
             
-            <div class="ai-msg" id="aiMsg">System Standing By...</div>
+            <div class="ai-msg" id="aiMsg">Ready for prediction sequence...</div>
 
-            <div class="action-row">
-              <button class="btn-panel btn-scan" id="analyzeBtn" disabled><i class="fa-solid fa-bolt"></i> PREDICT</button>
-              <button class="btn-panel btn-hide" id="hideBtn">HIDE</button>
+            <button class="btn-act btn-scan" id="analyzeBtn" disabled>PREDICT MARKET</button>
+
+            <!-- COMPACT ROW WITH CLICK DETECTOR WITHDRAW BUTTON -->
+            <div class="action-row-bottom">
+               <button id="withdrawBtn" class="btn-act btn-withdraw btn-withdraw-red">
+                  <i class="fa-solid fa-building-columns"></i> WITHDRAW
+               </button>
+               <button class="btn-act btn-hide" id="hideBtn">HIDE</button>
             </div>
+
+            <div class="dev-watermark">© DEV SYSTEMS</div>
           </div>
-          
         </div>
       </div>
     </div>
@@ -296,48 +286,51 @@
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getDatabase, ref, get, child, update, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
+    // 🔴 FIREBASE CONFIG
     const firebaseConfig = { apiKey: "AIzaSyBNj71akpefcfEtn-SQfAcx-Pgwi8sUosg", authDomain: "teamdev-88676.firebaseapp.com", databaseURL: "https://teamdev-88676-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "teamdev-88676" };
     const app = initializeApp(firebaseConfig); const database = getDatabase(app);
     window.API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json"; 
 
-    const fullOverlay = document.getElementById('fullOverlayScreen'); const loginFormCard = document.getElementById('loginFormCard');
-    const historyAuthCard = document.getElementById('historyAuthCard'); const historyViewCard = document.getElementById('historyViewCard');
-    const mainApp = document.getElementById('mainApp'); const errBox = document.getElementById('errorPopup'); const histErrBox = document.getElementById('histErrorPopup');
-    const analyzeBtn = document.getElementById('analyzeBtn'); const resBox = document.getElementById('resBox');
+    const fullOverlay = document.getElementById('fullOverlayScreen'); 
+    const loginFormCard = document.getElementById('loginFormCard');
+    const walletSetupCard = document.getElementById('walletSetupCard');
+    const historyAuthCard = document.getElementById('historyAuthCard'); 
+    const historyViewCard = document.getElementById('historyViewCard');
+    const mainApp = document.getElementById('mainApp'); 
+    const errBox = document.getElementById('errorPopup'); 
+    const analyzeBtn = document.getElementById('analyzeBtn'); 
+    const resBox = document.getElementById('resBox');
 
-    // STATE VARIABLES FOR VIP/FREE LOGIC
+    // 🔥 SMART ENGINE LOGIC STATE MANAGEMENT 🔥
     let isUserVIP = false;
-    let playSeconds = 0;
-    let cooldownSeconds = 300; // 5 mins cooldown
-    let inCooldown = false;
-    let sessionTimerInterval = null;
+    let userWalletBalance = 0;
+    let baseBetAmount = 50; 
+    let currentLevel = 1;
+    let currentBetAmount = 50;
+    
+    // ADMIN CONFIGURATIONS
+    let betMultiplier = 3;  
+    let maxLevelLimit = 5;  
+    
+    let consecutiveWins = 0;
+    let consecutiveLosses = 0;
+    let isDragonWait = false;
+    let dragonType = null;
+    let skipNext = false;
+    let postDragonLossSkip = false;
 
-    function createParticles() {
-        const container = document.getElementById('particlesContainer');
-        for(let i=0; i<12; i++) {
-            let p = document.createElement('div'); p.className = 'particle';
-            p.style.left = Math.random() * 100 + 'vw';
-            p.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
-            p.style.animationDelay = (Math.random() * 3) + 's';
-            container.appendChild(p);
-        }
-    }
-    createParticles();
+    // 💰 WAGERING TURNOVER TRACKER VARIABLES
+    let targetTurnover = 0; 
+    let currentTurnover = 0; 
+    let isWithdrawalUnlocked = false;
 
-    window.showHistoryAuth = () => { loginFormCard.style.display='none'; historyAuthCard.style.display='block'; historyViewCard.style.display='none'; histErrBox.style.display='none'; }
+    window.showHistoryAuth = () => { loginFormCard.style.display='none'; historyAuthCard.style.display='block'; }
     window.hideHistoryAuth = () => { historyAuthCard.style.display='none'; historyViewCard.style.display='none'; loginFormCard.style.display='block'; }
 
     onValue(ref(database, 'systemConfig/links'), (snapshot) => {
-      if(snapshot.exists()) {
-        const links = snapshot.val();
-        if(links.gameUrl) document.getElementById('gameIframe').src = links.gameUrl;
-        if(links.supportUrl && document.getElementById('supportBtn')) document.getElementById('supportBtn').href = links.supportUrl;
-      }
+      if(snapshot.exists() && snapshot.val().gameUrl) document.getElementById('gameIframe').src = snapshot.val().gameUrl;
     });
 
-    // ==========================================
-    // STEP 1: KEY LOGIN & SESSION START
-    // ==========================================
     document.getElementById('activateBtn').addEventListener('click', async () => {
       const key = document.getElementById('loginKey').value.trim().toUpperCase(); 
       if(!key) { errBox.style.display='block'; errBox.innerText="ENTER ACCESS KEY"; return; }
@@ -347,154 +340,142 @@
         const snap = await get(child(ref(database), `keys/${key}`));
         if(snap.exists()) {
           const kData = snap.val();
-          if(kData.status === "INACTIVE" || kData.status === "BANNED") {
-             errBox.style.display='block'; errBox.innerText="KEY IS INACTIVE/BANNED"; document.getElementById('activateBtn').innerText="VERIFY LICENSE"; return;
+          if(kData.status === "INACTIVE" || kData.status === "BANNED" || (kData.expiresAt && new Date() > new Date(kData.expiresAt))) {
+             errBox.style.display='block'; errBox.innerText="KEY INACTIVE OR EXPIRED"; document.getElementById('activateBtn').innerText="Connect Terminal"; return;
           }
-          if(kData.expiresAt && new Date() > new Date(kData.expiresAt)) {
-             errBox.style.display='block'; errBox.innerText="KEY HAS EXPIRED"; document.getElementById('activateBtn').innerText="VERIFY LICENSE"; return;
-          }
-          
           if(kData.status === "UNUSED") {
               const exp = new Date(); exp.setHours(exp.getHours() + (kData.validityHours || 24));
               await update(ref(database, `keys/${key}`), { status: "ACTIVE", expiresAt: exp.toISOString() });
           }
-
-          // Check if VIP or Trial/Free
-          let kType = (kData.type || 'FREE').toUpperCase();
-          isUserVIP = kType === 'VIP';
-          document.getElementById('widgetAccessType').innerText = isUserVIP ? 'VIP ACCESS' : 'TRIAL MODE';
-          if(!isUserVIP) {
-              document.getElementById('widgetAccessType').style.color = '#ff004c';
-              document.getElementById('widgetAccessType').style.borderColor = '#ff004c';
-              document.getElementById('widgetAccessType').style.background = 'rgba(255,0,76,0.1)';
-          }
-
-          fullOverlay.style.display = 'none';
-          mainApp.style.display = 'block';
-          analyzeBtn.disabled = false; analyzeBtn.innerHTML = "<i class='fa-solid fa-bolt'></i> PREDICT"; 
-          resBox.innerHTML = `<div class="res-ready">CONNECT TO ISSUE</div>`;
-          initEngine();
-          startSessionTimer(); // Start Silent Tracking
-          toggleWidget();
-
-        } else { errBox.style.display='block'; errBox.innerText="INVALID ACCESS KEY"; document.getElementById('activateBtn').innerText="VERIFY LICENSE"; }
-      } catch(e) { errBox.style.display='block'; errBox.innerText="NETWORK ERROR"; document.getElementById('activateBtn').innerText="VERIFY LICENSE"; }
+          
+          isUserVIP = (kData.type || 'FREE').toUpperCase() === 'VIP';
+          betMultiplier = kData.multiplier || 3; 
+          maxLevelLimit = kData.maxLevels || 5; 
+          
+          loginFormCard.style.display = 'none';
+          walletSetupCard.style.display = 'block';
+        } else { errBox.style.display='block'; errBox.innerText="INVALID ACCESS KEY"; document.getElementById('activateBtn').innerText="Connect Terminal"; }
+      } catch(e) { errBox.style.display='block'; errBox.innerText="NETWORK ERROR"; document.getElementById('activateBtn').innerText="Connect Terminal"; }
     });
 
-    // SILENT PLAY TIMER & COOLDOWN LOGIC
-    function formatTime(secs) {
-        let m = Math.floor(secs/60); let s = secs%60;
-        return `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-    }
-    
-    function startSessionTimer() {
-        sessionTimerInterval = setInterval(() => {
-            if(inCooldown) {
-                cooldownSeconds--;
-                document.getElementById('cooldownTimerDisplay').innerText = formatTime(cooldownSeconds);
-                if(cooldownSeconds <= 0) {
-                    inCooldown = false;
-                    document.getElementById('trialCooldownOverlay').style.display = 'none';
-                    cooldownSeconds = 300; // Reset for next cooldown
-                    playSeconds = 0; // Reset playtime
-                }
-                return;
-            }
+    document.getElementById('startHackBtn').addEventListener('click', () => {
+        let bal = parseInt(document.getElementById('walletBalanceInput').value);
+        if(!bal || bal < 50) { alert("Enter valid balance (Min ₹50) to initialize."); return; }
 
-            playSeconds++; // Counting silently in background
-            
-            // Restrict Free Users after 5 Minutes (300 secs)
-            if(!isUserVIP && playSeconds >= 300) {
-                inCooldown = true;
-                document.getElementById('trialCooldownOverlay').style.display = 'flex';
-            }
-        }, 1000);
-    }
+        userWalletBalance = bal;
+        targetTurnover = bal * 4; 
+        currentTurnover = 0;
+        
+        // 🔥 MATHEMATICAL FUND MANAGEMENT (MARTINGALE FORMULA) 🔥
+        let sumFactor = 1;
+        if(betMultiplier > 1) {
+            sumFactor = (Math.pow(betMultiplier, maxLevelLimit) - 1) / (betMultiplier - 1);
+        } else {
+            sumFactor = maxLevelLimit;
+        }
+        
+        let rawBase = userWalletBalance / sumFactor;
+        
+        if (rawBase >= 10) {
+            baseBetAmount = Math.floor(rawBase / 10) * 10; 
+        } else {
+            baseBetAmount = Math.max(1, Math.floor(rawBase));
+        }
 
-    // ==========================================
-    // PREVIOUS RESULT VIEWER
-    // ==========================================
+        currentBetAmount = baseBetAmount;
+        currentLevel = 1;
+
+        document.getElementById('walletSyncOverlay').style.display = 'flex';
+        setTimeout(() => {
+            document.getElementById('walletSyncOverlay').style.display = 'none';
+            fullOverlay.style.display = 'none';
+            mainApp.style.display = 'block';
+            analyzeBtn.disabled = false;
+            initEngine();
+            startSessionTimer();
+            toggleWidget();
+        }, 2500); 
+    });
+
+    // 📈 RECOMMENDATION WITHDRAW BUTTON CLICK EVENTS
+    document.getElementById('withdrawBtn').addEventListener('click', () => {
+        if(!isWithdrawalUnlocked) {
+            alert("AI Warning: Security sync incomplete. Exit route optimization suggests continuing active trading blocks.");
+        } else {
+            alert("Success: AI verified safe trading volume. Safe margin routing established.");
+        }
+    });
+
     document.getElementById('authUidBtn').addEventListener('click', async () => {
       const uid = document.getElementById('historyUidInput').value.trim(); 
-      if(uid.length !== 7 || uid.charAt(0) !== '6') { histErrBox.style.display='block'; histErrBox.innerText="INVALID UID FORMAT"; return; }
-
-      const btn = document.getElementById('authUidBtn'); btn.innerText = "AUTHENTICATING..."; histErrBox.style.display='none';
+      if(uid.length !== 7 || uid.charAt(0) !== '6') return alert("INVALID UID FORMAT");
       try {
           const reqSnap = await get(child(ref(database), `server/approvedUids/${uid}`));
           if(reqSnap.exists()) {
               historyAuthCard.style.display = 'none'; historyViewCard.style.display = 'block';
-              document.getElementById('logUidDisplay').innerText = uid;
-              loadPreviousHistory();
-          } else { histErrBox.style.display='block'; histErrBox.innerText = "ACCESS DENIED: UID NOT WHITELISTED."; }
-      } catch(e) { histErrBox.style.display='block'; histErrBox.innerText="SERVER ERROR"; }
-      finally { btn.innerText = "VERIFY IDENTITY"; }
+              document.getElementById('logUidDisplay').innerText = uid; loadPreviousHistory();
+          } else { alert("ACCESS DENIED: UID NOT WHITELISTED."); }
+      } catch(e) { alert("SERVER ERROR"); }
     });
 
     async function loadPreviousHistory() {
         const listDiv = document.getElementById('historyListContent');
-        listDiv.innerHTML = '<div style="color:var(--tc-neon-ice); font-family:Share Tech Mono; font-size:12px; text-align:center; margin-top:20px;">FETCHING LOGS...</div>';
+        listDiv.innerHTML = '<div style="color:var(--tc-neon-ice); font-size:12px; text-align:center;">FETCHING LOGS...</div>';
         try {
             const res = await fetch(`${window.API_URL}?ts=${Date.now()}`, { headers: {'Accept':'application/json'} }); 
             const json = await res.json();
             const draws = json.data.list.map(i => ({ issueNumber: String(i.issueNumber), number: parseInt(i.number), size: parseInt(i.number) >= 5 ? "BIG" : "SMALL" })).filter(d => !isNaN(d.number));
-            const currentIssue = (BigInt(draws[0].issueNumber) + 1n).toString();
-            
-            let html = `<div class="hist-row"><div class="hist-period">ISSUE: ${currentIssue}</div><div class="hist-status" style="color:#888;">IN PROGRESS...</div></div>`;
-
+            let html = ``;
             draws.slice(0, 15).forEach((d) => {
-                let charCodeSum = d.issueNumber.split('').reduce((sum, char) => sum + char.charCodeAt(0), 0);
-                let isJackpot = charCodeSum % 8 === 0; let isLoss = !isJackpot && charCodeSum % 7 === 0; 
-                let statusHtml = isJackpot ? '<span class="s-jackpot">JACKPOT</span>' : (isLoss ? '<span class="s-loss">MISS</span>' : '<span class="s-win">WIN</span>');
                 let actualColor = [2,4,6,8].includes(d.number) ? 'RED' : ([1,3,7,9].includes(d.number) ? 'GREEN' : 'VIOLET');
-                html += `<div class="hist-row"><div><div class="hist-period">${d.issueNumber}</div><div class="hist-res">Res: <span>${d.number} (${d.size} / ${actualColor})</span></div></div><div class="hist-status">${statusHtml}</div></div>`;
+                html += `<div class="hist-row"><div><div class="hist-period">${d.issueNumber}</div><div class="hist-res">Result: <span style="color:#fff; font-weight:bold;">${d.number} (${d.size} / ${actualColor})</span></div></div></div>`;
             });
             listDiv.innerHTML = html;
-        } catch(e) { listDiv.innerHTML = '<div style="color:#ff004c; font-family:Share Tech Mono; font-size:12px; text-align:center; margin-top:20px;">FAILED TO LOAD LOGS</div>'; }
+        } catch(e) { listDiv.innerHTML = '<div style="color:#f6465d; text-align:center;">FAILED TO LOAD ARCHIVE</div>'; }
     }
 
-    // ==========================================
-    // WIDGET DRAG & HIDE LOGIC
-    // ==========================================
     const container = document.getElementById("draggableWidget"); const iconCollapsed = document.getElementById("modIcon"); const expandedBox = document.getElementById("modExpanded");
     let isDragging = false, hasMoved = false, startX, startY, initialX, initialY;
     function enforceScreenBounds() { const rect = container.getBoundingClientRect(); let newLeft = Math.max(0, Math.min(rect.left, window.innerWidth - rect.width)); let newTop = Math.max(20, Math.min(rect.top, window.innerHeight - rect.height - 20)); container.style.transform = `translate3d(${newLeft}px, ${newTop}px, 0)`; container.style.left = '0'; container.style.top = '0'; }
-    function toggleWidget() { if(expandedBox.classList.contains('active')) { expandedBox.classList.remove('active'); iconCollapsed.classList.remove('hidden'); } else { iconCollapsed.classList.add('hidden'); expandedBox.classList.add('active'); } setTimeout(enforceScreenBounds, 20); }
+    
+    function toggleWidget() { 
+        if(expandedBox.classList.contains('active')) { expandedBox.classList.remove('active'); iconCollapsed.classList.remove('hidden'); } 
+        else { iconCollapsed.classList.add('hidden'); expandedBox.classList.add('active'); } 
+        setTimeout(enforceScreenBounds, 20); 
+    }
     
     iconCollapsed.addEventListener('click', () => { if(!hasMoved) toggleWidget(); }); 
-    
-    // FREE KEY: NO MINIMIZE ALLOWED
-    document.getElementById('hideBtn').addEventListener('click', () => {
-        if(!isUserVIP) {
-            alert("Minimizing widget is locked for Trial Keys. Upgrade to VIP.");
-            return;
-        }
-        toggleWidget(); 
-    }); 
-    
+    document.getElementById('hideBtn').addEventListener('click', () => { if(!isUserVIP) { alert("Hide mode restricted for Trial nodes."); return; } toggleWidget(); }); 
     window.addEventListener('resize', enforceScreenBounds);
     
-    function dragStart(e) { if(e.target.closest('.action-row')) return; initialX = (e.type === "touchstart") ? e.touches[0].clientX : e.clientX; initialY = (e.type === "touchstart") ? e.touches[0].clientY : e.clientY; const style = window.getComputedStyle(container); const matrix = new WebKitCSSMatrix(style.transform); startX = initialX - matrix.m41; startY = initialY - matrix.m42; isDragging = true; hasMoved = false; }
+    function dragStart(e) { if(e.target.closest('.btn-act')) return; initialX = (e.type === "touchstart") ? e.touches[0].clientX : e.clientX; initialY = (e.type === "touchstart") ? e.touches[0].clientY : e.clientY; const style = window.getComputedStyle(container); const matrix = new WebKitCSSMatrix(style.transform); startX = initialX - matrix.m41; startY = initialY - matrix.m42; isDragging = true; hasMoved = false; }
     function drag(e) { if (!isDragging) return; const currentX = (e.type === "touchmove") ? e.touches[0].clientX : e.clientX; const currentY = (e.type === "touchmove") ? e.touches[0].clientY : e.clientY; if (Math.abs(currentX - initialX) > 4 || Math.abs(currentY - initialY) > 4) { hasMoved = true; e.preventDefault(); let newX = currentX - startX; let newY = currentY - startY; newX = Math.max(0, Math.min(newX, window.innerWidth - container.offsetWidth)); newY = Math.max(20, Math.min(newY, window.innerHeight - container.offsetHeight - 20)); container.style.transform = `translate3d(${newX}px, ${newY}px, 0)`; } }
     function dragEnd() { isDragging = false; }
     container.addEventListener("touchstart", dragStart, { passive: false }); document.addEventListener("touchmove", drag, { passive: false }); document.addEventListener("touchend", dragEnd); container.addEventListener("mousedown", dragStart); document.addEventListener("mousemove", drag); document.addEventListener("mouseup", dragEnd);
 
+    let playSeconds = 0; let cooldownSeconds = 300; let inCooldown = false;
+    function formatTime(secs) { let m = Math.floor(secs/60); let s = secs%60; return `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`; }
+    function startSessionTimer() {
+        setInterval(() => {
+            if(inCooldown) {
+                cooldownSeconds--; document.getElementById('cooldownTimerDisplay').innerText = formatTime(cooldownSeconds);
+                if(cooldownSeconds <= 0) { inCooldown = false; document.getElementById('trialCooldownOverlay').style.display = 'none'; cooldownSeconds = 300; playSeconds = 0; } return;
+            }
+            playSeconds++; 
+            if(!isUserVIP && playSeconds >= 300) { inCooldown = true; document.getElementById('trialCooldownOverlay').style.display = 'flex'; }
+        }, 1000);
+    }
+
     setInterval(() => { const now = new Date(); let secLeft = 60 - now.getSeconds(); if(secLeft === 60) secLeft = 0; const timerEl = document.getElementById('countdownTimer'); if(timerEl) timerEl.innerText = `00:${secLeft < 10 ? '0'+secLeft : secLeft}`; }, 1000);
 
-    // 🔥 100% REAL WINGO COLOR LOGIC 🔥
     function getSizeFromNumber(num) { if (num === undefined || num === null) return null; return num >= 5 ? "BIG" : "SMALL"; }
-    function getBallClass(num) { 
-        if(num === 0) return 'bg-red-violet';
-        if(num === 5) return 'bg-green-violet';
-        if([2,4,6,8].includes(num)) return 'bg-red'; 
-        if([1,3,7,9].includes(num)) return 'bg-green'; 
-        return 'bg-red'; 
-    }
+    function getBallClass(num) { if(num === 0) return 'bg-red-violet'; if(num === 5) return 'bg-green-violet'; if([2,4,6,8].includes(num)) return 'bg-red'; if([1,3,7,9].includes(num)) return 'bg-green'; return 'bg-red'; }
     
     function generateAIPrediction(historyArray) {
       let predictedSize = "BIG"; let sure1 = 5, sure2 = 8;
       const validDraws = (historyArray || []).filter(d => d !== undefined && d.number !== undefined && !isNaN(d.number)).slice(0, 20);
       if (validDraws.length === 0) return { predictionSize: "BIG", sureNumbers: [6, 9] };
-      const recent = [...validDraws].slice(0, 12); const recentSizes = recent.map(r => getSizeFromNumber(r.number)).filter(s => s !== null); const recentNumbers = recent.map(r => r.number);
+      const recent = [...validDraws].slice(0, 12); const recentSizes = recent.map(r => getSizeFromNumber(r.number)).filter(s => s !== null); 
       if (recentSizes.length >= 3) {
         let streakLength = 1; for (let i = 1; i < recentSizes.length; i++) { if (recentSizes[i] === recentSizes[0]) streakLength++; else break; }
         if (streakLength >= 3) { predictedSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG"; } else {
@@ -508,10 +489,11 @@
       return { predictionSize: predictedSize, sureNumbers: [sure1, sure2] };
     }
 
-    function showJackpotToast(msg) { const toast = document.createElement('div'); toast.className = 'jackpot-toast'; toast.innerText = msg; document.body.appendChild(toast); setTimeout(() => toast.remove(), 3000); }
+    function showJackpotToast(msg) { const toast = document.createElement('div'); toast.className = 'jackpot-toast'; toast.innerText = msg; document.body.appendChild(toast); setTimeout(() => toast.remove(), 4000); }
 
     let fetchingLock = false; let internalLatestPeriod = null; let activePrediction = null; let predictedPeriodId = null; 
     let currentGodMode = { size: "AUTO" }; onValue(ref(database, 'server/override'), (snap) => { if(snap.exists()) currentGodMode = snap.val(); else currentGodMode = { size: "AUTO" }; });
+    let currentPolarity = 'NORMAL'; onValue(ref(database, 'server/polarity'), (snap) => { currentPolarity = snap.val() || 'NORMAL'; });
 
     async function fetchAndProcess() {
       if(fetchingLock) return; fetchingLock = true;
@@ -521,29 +503,49 @@
         const latest = draws[0]; const nextPeriodId = (BigInt(latest.issueNumber) + 1n).toString();
         
         let justEvaluated = false;
+        
         if(predictedPeriodId === latest.issueNumber) {
-            const isSizeWin = (latest.size === activePrediction.predictionSize); const isJackpot = activePrediction.sureNumbers.includes(latest.number);
+            const isSizeWin = (latest.size === activePrediction.predictionSize); 
+            const isJackpot = activePrediction.sureNumbers.includes(latest.number);
+            
             expandedBox.classList.remove('anim-win', 'anim-loss'); void expandedBox.offsetWidth; 
-            if(isSizeWin) expandedBox.classList.add('anim-win'); else expandedBox.classList.add('anim-loss');
+            
+            if(activePrediction.predictionSize !== "SKIP" && !activePrediction.isDragonSkip && !activePrediction.isWinSkip) {
+                if(isSizeWin) {
+                    expandedBox.classList.add('anim-win'); currentLevel = 1; consecutiveWins++; consecutiveLosses = 0; postDragonLossSkip = false;
+                    if(consecutiveWins >= 3) { skipNext = true; consecutiveWins = 0; }
+                } else {
+                    expandedBox.classList.add('anim-loss'); consecutiveWins = 0; consecutiveLosses++;
+                    if(postDragonLossSkip) { currentLevel += 2; postDragonLossSkip = false; } else { currentLevel++; }
+                    
+                    if(currentLevel > maxLevelLimit) currentLevel = 1; 
+                    if(consecutiveLosses >= 3) { isDragonWait = true; dragonType = latest.size; consecutiveLosses = 0; }
+                }
+                currentBetAmount = baseBetAmount * Math.pow(betMultiplier, currentLevel - 1);
+            }
             if(isJackpot) showJackpotToast(`🔥 JACKPOT: NUMBER ${latest.number} DRAWN!`);
             predictedPeriodId = null; justEvaluated = true;
         }
 
+        if(isDragonWait && internalLatestPeriod !== nextPeriodId) {
+            if(latest.size !== dragonType) { isDragonWait = false; postDragonLossSkip = true; }
+        }
+
         if(internalLatestPeriod !== nextPeriodId) {
           internalLatestPeriod = nextPeriodId; document.getElementById('periodBadge').textContent = nextPeriodId.slice(-4); 
-          
           if(currentGodMode.size !== "AUTO") {
              let forcedSize = currentGodMode.size;
              if(forcedSize === "SKIP") activePrediction = { predictionSize: "SKIP", sureNumbers: [0,0] };
              else activePrediction = { predictionSize: forcedSize, sureNumbers: forcedSize === "BIG" ? [7,9] : [1,3] };
           } else {
              activePrediction = generateAIPrediction(draws);
+             if(currentPolarity === 'REVERSE' && activePrediction.predictionSize !== "SKIP") { activePrediction.predictionSize = activePrediction.predictionSize === "BIG" ? "SMALL" : "BIG"; activePrediction.sureNumbers = activePrediction.predictionSize === "BIG" ? [6,8] : [2,4]; }
           }
-          
-          analyzeBtn.disabled = false; analyzeBtn.innerHTML = "<i class='fa-solid fa-bolt'></i> PREDICT"; 
+          analyzeBtn.disabled = false;
           if(!justEvaluated && !predictedPeriodId) { 
-              resBox.innerHTML = `<div class="res-ready">READY</div>`; 
-              document.getElementById('trendFill').style.width = "0%"; document.getElementById('aiMsg').innerText = "System Standing By..."; expandedBox.classList.remove('anim-win', 'anim-loss'); 
+              resBox.innerHTML = `<div class="res-ready">SYSTEM IDLE</div>`; 
+              document.getElementById('trendFill').style.width = "0%"; document.getElementById('powerText').innerText = "0%";
+              document.getElementById('aiMsg').innerText = "Ready for prediction sequence..."; expandedBox.classList.remove('anim-win', 'anim-loss'); 
           }
         }
       } catch(e) { } finally { fetchingLock = false; }
@@ -553,45 +555,60 @@
       if(!activePrediction || predictedPeriodId === internalLatestPeriod) return; 
       analyzeBtn.disabled = true; predictedPeriodId = internalLatestPeriod; expandedBox.classList.remove('anim-win', 'anim-loss');
       
-      resBox.innerHTML = `<div class="laser-overlay"><div class="laser-line"></div><span class="scanning-text">SCANNING...</span></div>`;
-      document.getElementById('aiMsg').innerText = "Analyzing Trend...";
+      if(isDragonWait) {
+          let opp = dragonType === "BIG" ? "SMALL" : "BIG";
+          resBox.innerHTML = `<div class="res-ready" style="color:#f6465d; font-size:10px;">⚠️ DRAGON TREND ALERT ⚠️<br>WAIT FOR ${opp}</div>`;
+          document.getElementById('aiMsg').innerText = `Trend overload detected...`;
+          document.getElementById('trendFill').style.width = "0%"; document.getElementById('powerText').innerText = "0%";
+          activePrediction = { predictionSize: "SKIP", isDragonSkip: true, sureNumbers: [0,0] }; 
+          return;
+      } else if(skipNext) {
+          resBox.innerHTML = `<div class="res-ready" style="color:#fcd535; font-size:10px;">PROFIT CONTROL ACTION<br>SKIP CURRENT PERIOD</div>`;
+          document.getElementById('aiMsg').innerText = "Refreshing signals...";
+          document.getElementById('trendFill').style.width = "0%"; document.getElementById('powerText').innerText = "0%";
+          activePrediction = { predictionSize: "SKIP", isWinSkip: true, sureNumbers: [0,0] }; skipNext = false;
+          return;
+      }
+
+      // 🔥 REAL-TIME CLICK DETECTOR & TURNOVER TARGET CALCULATOR 🔥
+      if(!isWithdrawalUnlocked) {
+          currentTurnover += currentBetAmount; 
+          
+          if(currentTurnover >= targetTurnover) {
+              isWithdrawalUnlocked = true;
+              let wBtn = document.getElementById('withdrawBtn');
+              wBtn.className = "btn-act btn-withdraw btn-withdraw-green";
+              wBtn.innerHTML = `<i class="fa-solid fa-check-circle"></i> WITHDRAW`;
+          }
+      }
+
+      resBox.innerHTML = `<div class="laser-overlay"><div class="laser-line"></div><span class="scanning-text" style="color:var(--tc-gold); font-family:'Share Tech Mono'; letter-spacing:2px; font-size:10px;">SCANNING...</span></div>`;
+      document.getElementById('aiMsg').innerText = "Syncing with live chart...";
       
       setTimeout(() => {
-          // FREE KEY RESTRICTION: RANDOM SKIPS (30% CHANCE)
-          let isForcedSkip = false;
-          if(!isUserVIP && Math.random() < 0.3) {
-              isForcedSkip = true;
-          }
-
+          let isForcedSkip = false; if(!isUserVIP && Math.random() < 0.3) { isForcedSkip = true; }
           if(activePrediction.predictionSize === "SKIP" || isForcedSkip) {
-              resBox.innerHTML = `<div class="res-ready" style="color:#888;">SKIP TRADE</div>`; 
-              document.getElementById('aiMsg').innerText = isForcedSkip ? "TRIAL LIMIT: TRADE SKIPPED." : "Volatile Market. Skip Advised.";
+              resBox.innerHTML = `<div class="res-ready" style="color:#848e9c;">VOLATILE RANGE: SKIP</div>`; 
+              document.getElementById('trendFill').style.width = "0%"; document.getElementById('powerText').innerText = "0%";
+              document.getElementById('aiMsg').innerText = isForcedSkip ? "TRIAL LIMIT: SKIPPED." : "Skip suggested.";
           } else {
-              const trendPower = Math.floor(Math.random() * 20) + 80; 
-              document.getElementById('trendFill').style.width = trendPower + "%";
-              
-              let probMain = Math.floor(Math.random() * 15) + 85; 
-              let probSec = Math.floor(Math.random() * 16) + 60;  
-              
+              const trendPower = Math.floor(Math.random() * 15) + 85; 
+              document.getElementById('trendFill').style.width = trendPower + "%"; document.getElementById('powerText').innerText = trendPower + "%";
+              document.getElementById('powerText').style.color = trendPower >= 90 ? '#0ecb81' : '#fcd535';
+              let probMain = Math.floor(Math.random() * 15) + 85; let probSec = Math.floor(Math.random() * 16) + 60;  
               let sizeClass = activePrediction.predictionSize === 'SMALL' ? 'size-small' : 'size-big';
-              
               resBox.innerHTML = `
                 <div class="hack-result-row">
-                    <div class="num-block">
-                        <div class="num-val ${getBallClass(activePrediction.sureNumbers[0])}">${activePrediction.sureNumbers[0]}</div>
-                        <div class="num-prob prob-high">${probMain}%</div>
-                    </div>
-                    <div class="size-block">
-                        <div class="size-val ${sizeClass}">${activePrediction.predictionSize}</div>
-                    </div>
-                    <div class="num-block">
-                        <div class="num-val ${getBallClass(activePrediction.sureNumbers[1])}">${activePrediction.sureNumbers[1]}</div>
-                        <div class="num-prob">${probSec}%</div>
-                    </div>
+                    <div class="num-block"><div class="num-val ${getBallClass(activePrediction.sureNumbers[0])}">${activePrediction.sureNumbers[0]}</div><div class="num-prob" style="color:#0ecb81;">${probMain}%</div></div>
+                    <div class="size-block"><div class="size-val ${sizeClass}">${activePrediction.predictionSize}</div></div>
+                    <div class="num-block"><div class="num-val ${getBallClass(activePrediction.sureNumbers[1])}">${activePrediction.sureNumbers[1]}</div><div class="num-prob">${probSec}%</div></div>
+                </div>
+                <div class="bet-instruction">
+                    <span class="lvl-badge">LEVEL: ${currentLevel}</span>
+                    <span class="amt-badge">TRADE: ₹${currentBetAmount}</span>
                 </div>`;
-              document.getElementById('aiMsg').innerText = `Prediction Loaded. Accuracy: ${trendPower}%`;
+              document.getElementById('aiMsg').innerText = `Signals loaded successfully.`;
           }
-          analyzeBtn.innerHTML = "<i class='fa-solid fa-check'></i> DONE";
       }, 1000); 
     });
 

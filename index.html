@@ -13,100 +13,55 @@
        🎛️ DEV AMRY - DJ VIJAY EDITION V5.0 🎛️
        ========================================= */
     :root { 
-      --dj-magenta: #ff00ff;
-      --dj-cyan: #00ffff;
-      --dj-lime: #39ff14;
-      --dj-gold: #ffd700;
-      --dj-red: #ff003c;
-      --dark-bg: #050505; 
-      --panel-bg: rgba(10, 10, 15, 0.9); 
-      --text-main: #ffffff;
-      --text-muted: #6b7280;
+      --dj-magenta: #ff00ff; --dj-cyan: #00ffff; --dj-lime: #39ff14; 
+      --dj-gold: #ffd700; --dj-red: #ff003c; --dark-bg: #050505; 
+      --panel-bg: rgba(10, 10, 15, 0.9); --text-main: #ffffff; --text-muted: #6b7280;
     }
     
     * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent;}
     body { background-color: var(--dark-bg); font-family: 'Outfit', sans-serif; overflow: hidden; color: var(--text-main); height: 100vh; width: 100vw; perspective: 1000px;}
     
-    /* 🎵 DJ VIBE BACKGROUND & EQUALIZERS 🎵 */
     .bg-vfx { position: absolute; inset: 0; z-index: -5; background: radial-gradient(circle at 50% 50%, #1a0033 0%, var(--dark-bg) 100%); }
-    
     .equalizer-bg { position: absolute; bottom: 0; left: 0; width: 100%; height: 30vh; display: flex; align-items: flex-end; justify-content: space-around; z-index: -4; opacity: 0.2; pointer-events: none;}
     .eq-bar { width: 3%; background: linear-gradient(to top, var(--dj-magenta), var(--dj-cyan)); border-radius: 5px 5px 0 0; animation: eqBounce 1s infinite alternate ease-in-out;}
     .eq-bar:nth-child(even) { background: linear-gradient(to top, var(--dj-cyan), var(--dj-lime)); }
-    
     @keyframes eqBounce { 0% { height: 10%; } 50% { height: 60%; } 100% { height: 30%; } }
 
-    /* PARTICLES */
     .particle-layer { position: absolute; inset: 0; z-index: -3; pointer-events: none; }
     .stardust { position: absolute; width: 4px; height: 4px; background: #fff; border-radius: 50%; box-shadow: 0 0 10px #fff; animation: floatUp linear infinite;}
     @keyframes floatUp { 0% { transform: translateY(100vh) scale(0); opacity: 0;} 50% { opacity: 1; } 100% { transform: translateY(-10vh) scale(1.5); opacity: 0;} }
 
-    #mainApp { display: none; width: 100vw; height: 100vh; position: relative; overflow: hidden;}
+    #mainApp { display: block; width: 100vw; height: 100vh; position: relative; overflow: hidden;}
     .bg-game { width: 100%; height: 100%; border: none; background: #000; position: absolute; top: 0; left: 0; z-index: 1;}
 
-    /* =========================================
-       🔥 FULL PAGE LOGIN SCREEN 🔥
-       ========================================= */
-    #fullOverlayScreen { 
-        position: fixed; inset: 0; background: rgba(5, 5, 5, 0.95); 
-        backdrop-filter: blur(20px); z-index: 10000; display: flex; 
-        flex-direction: column; align-items: center; justify-content: center;
-        animation: djStrobeIntro 2s forwards;
-    }
-    
-    @keyframes djStrobeIntro { 0% { background: #fff; } 10% { background: var(--dark-bg); } 20% { background: var(--dj-magenta); } 30% { background: var(--dark-bg); } 100% { background: rgba(5, 5, 5, 0.95); } }
-
-    .login-container { width: 100%; max-width: 400px; padding: 40px; background: rgba(0,0,0,0.7); border: 2px solid var(--dj-cyan); border-radius: 20px; text-align: center; box-shadow: 0 0 50px rgba(0, 255, 255, 0.2), inset 0 0 20px rgba(255, 0, 255, 0.2); position: relative; overflow: hidden; transform: scale(0.9); animation: popInCard 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;}
-    @keyframes popInCard { to { transform: scale(1); } }
-
-    .login-container::before { content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: conic-gradient(transparent, var(--dj-magenta), transparent 30%); animation: radarScan 4s linear infinite; z-index: -1; }
-    .login-container::after { content: ''; position: absolute; inset: 4px; background: var(--dark-bg); border-radius: 16px; z-index: -1; }
-    @keyframes radarScan { 100% { transform: rotate(360deg); } }
-
-    .branding-huge h1 { font-family: 'Black Ops One', cursive; font-size: 42px; background: linear-gradient(90deg, var(--dj-cyan), var(--dj-magenta)); -webkit-background-clip: text; color: transparent; margin-bottom: 5px; text-shadow: 0px 0px 20px rgba(255,0,255,0.5); letter-spacing: 2px;}
-    .branding-huge p { font-family: 'Share Tech Mono'; font-size: 14px; color: var(--dj-lime); text-transform: uppercase; letter-spacing: 8px; margin-bottom: 40px; font-weight: 900; animation: pulseText 1.5s infinite;}
-    @keyframes pulseText { 0%, 100% { opacity: 1; text-shadow: 0 0 10px var(--dj-lime); } 50% { opacity: 0.5; text-shadow: none; } }
-
-    .input-field-dj { width: 100%; padding: 18px; margin-bottom: 25px; background: rgba(255,255,255,0.05); border: 2px solid var(--dj-cyan); border-radius: 10px; color: #fff; font-size: 16px; text-align: center; font-family: 'Share Tech Mono'; outline: none; transition: 0.3s; letter-spacing: 3px;}
-    .input-field-dj:focus { border-color: var(--dj-magenta); box-shadow: 0 0 25px rgba(255, 0, 255, 0.5); transform: scale(1.05);}
-    
-    .btn-dj-primary { width: 100%; padding: 18px; background: linear-gradient(45deg, var(--dj-magenta), var(--dj-cyan)); color: #fff; border: none; border-radius: 10px; font-family: 'Outfit'; font-weight: 900; cursor: pointer; font-size: 18px; text-transform: uppercase; letter-spacing: 2px; box-shadow: 0 10px 30px rgba(0, 255, 255, 0.4); transition: 0.2s; position: relative; overflow: hidden;}
-    .btn-dj-primary:active { transform: translateY(4px) scale(0.95); box-shadow: 0 5px 15px rgba(0, 255, 255, 0.4);}
-    .btn-dj-primary::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: rgba(255,255,255,0.3); transform: skewX(-20deg); animation: shineBtn 3s infinite;}
-    @keyframes shineBtn { 20% { left: 200%; } 100% { left: 200%; } }
-
-    .error-popup { display: none; color: #000; font-family: 'Share Tech Mono'; font-weight: 900; font-size: 14px; margin-bottom: 20px; background: var(--dj-red); padding: 12px; border-radius: 8px; box-shadow: 0 0 20px var(--dj-red); animation: shake 0.4s;}
-    @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-10px); } 75% { transform: translateX(10px); } }
-
-    /* =========================================
-       🎧 DRAGGABLE MOD WIDGET (SQUARE SHAPE) 🎧
-       ========================================= */
     .draggable-container { position: absolute; top: 10%; left: 50%; transform: translateX(-50%); z-index: 9999; touch-action: none; display: flex; justify-content: center; align-items: center; perspective: 1000px;}
-    
-    /* Icon */
     .mod-icon { width: 45px; height: 45px; background: radial-gradient(circle, var(--dj-magenta) 0%, #000 80%); border: 2px solid var(--dj-cyan); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; box-shadow: 0 0 20px var(--dj-cyan); font-family: 'Black Ops One'; font-size: 13px; color: #fff; text-shadow: 0 0 8px #fff; animation: djSpinIcon 4s linear infinite;}
     @keyframes djSpinIcon { 100% { transform: rotate(360deg); border-color: var(--dj-magenta); box-shadow: 0 0 20px var(--dj-magenta);} }
     .mod-icon.hidden { display: none; }
 
-    /* Menu Scaled for Square Shape (Width increased, Height optimized) */
     .mod-expanded { display: none; width: 180px; background: var(--panel-bg); border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.9), 0 0 15px rgba(0,255,255,0.2); padding: 12px; border: 2px solid var(--dj-magenta); backdrop-filter: blur(20px); transform-style: preserve-3d; position: relative;}
     .mod-expanded.active { display: block; animation: modPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
     @keyframes modPop { from { opacity: 0; transform: scale(0.7) rotateX(-20deg); } to { opacity: 1; transform: scale(1) rotateX(0deg); } }
 
-    /* Fonts & Structure */
     .widget-header { text-align: center; font-family: 'Black Ops One'; font-size: 15px; color: #fff; letter-spacing: 1px; margin-bottom: 8px; border-bottom: 2px dashed rgba(255,255,255,0.2); padding-bottom: 6px; text-shadow: 0 0 8px var(--dj-magenta);}
     .widget-header span { color: var(--dj-cyan); text-shadow: 0 0 8px var(--dj-cyan);}
+
+    .uid-section { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+    .input-uid { width: 100%; padding: 8px; background: rgba(255,255,255,0.05); border: 1px solid var(--dj-cyan); border-radius: 6px; color: #fff; font-size: 11px; text-align: center; font-family: 'Share Tech Mono'; outline: none;}
+    .input-uid:focus { border-color: var(--dj-magenta); box-shadow: 0 0 10px rgba(255, 0, 255, 0.5);}
+    .btn-verify { padding: 8px; background: linear-gradient(45deg, var(--dj-magenta), var(--dj-cyan)); color: #fff; border: none; border-radius: 6px; font-family: 'Outfit'; font-weight: 900; cursor: pointer; font-size: 11px; text-transform: uppercase;}
+    .btn-urgent { display: none; padding: 8px; background: var(--dj-red); color: #fff; border: none; border-radius: 6px; font-family: 'Outfit'; font-weight: 900; cursor: pointer; font-size: 11px; animation: pulse 1s infinite; text-transform: uppercase;}
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 0, 60, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(255, 0, 60, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 0, 60, 0); } }
+    .uid-status { font-family: 'Share Tech Mono'; font-size: 9px; color: var(--dj-lime); text-align: center; text-transform: uppercase; min-height: 12px; margin-bottom: 4px; line-height: 1.2;}
     
-    /* Period box side-by-side to save vertical space */
+    #predictionSection { display: none; }
     .period-box { display: flex; flex-direction: row; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); padding: 6px 10px; border-radius: 6px; margin-bottom: 8px; border: 1px solid rgba(0, 255, 255, 0.3); font-family: 'Share Tech Mono'; font-size: 11px;}
     .period-box .label { color: var(--dj-cyan); text-transform: uppercase; font-weight: bold;}
     .period-box .value { color: var(--dj-lime); font-weight: 900; font-size: 13px; text-shadow: 0 0 8px var(--dj-lime);}
 
-    /* PREDICTION AREA */
     .result-display { position: relative; background: #000; border: 2px solid #333; border-radius: 8px; padding: 10px 6px; text-align: center; margin-bottom: 8px; min-height: 70px; display: flex; flex-direction: column; justify-content: center; align-items: center; overflow: hidden; box-shadow: inset 0 0 10px rgba(0,0,0,1);}
     .idle-text { font-family: 'Share Tech Mono'; font-size: 11px; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase;}
     
-    /* SCALED DOWN FIDGET SPINNER */
     .fidget-spinner { display: none; position: absolute; inset: 0; background: rgba(0,0,0,0.9); justify-content: center; align-items: center; z-index: 5;}
     .fidget-core { width: 32px; height: 32px; border: 3px solid transparent; border-top-color: var(--dj-cyan); border-bottom-color: var(--dj-magenta); border-radius: 50%; animation: spinCore 0.5s linear infinite; position: relative;}
     .fidget-core::before, .fidget-core::after { content: ''; position: absolute; width: 8px; height: 8px; background: var(--dj-lime); border-radius: 50%; top: -5px; left: 9px; box-shadow: 0 0 10px var(--dj-lime);}
@@ -116,40 +71,27 @@
     .decrypt-text { position: absolute; bottom: 4px; width: 100%; text-align: center; font-family: 'Share Tech Mono'; font-size: 9px; color: var(--dj-cyan); letter-spacing: 2px; animation: glitchText 0.2s infinite;}
     @keyframes glitchText { 0% { transform: translate(1px, 1px); } 50% { transform: translate(-1px, -1px); } 100% { transform: translate(1px, -1px); } }
 
-    /* PREDICTION RESULT */
     .pred-wrapper { display: none; flex-direction: column; align-items: center; animation: bassDrop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
     @keyframes bassDrop { 0% { transform: scale(2); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-
     .pred-size { font-family: 'Black Ops One'; font-size: 24px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4px; line-height: 1;}
     .pred-numbers { font-family: 'Share Tech Mono'; font-size: 11px; color: #fff; background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.2);}
-    
     .color-big { color: var(--dj-gold); text-shadow: 0 0 15px var(--dj-gold); }
     .color-small { color: var(--dj-cyan); text-shadow: 0 0 15px var(--dj-cyan); }
 
-    /* ACTION BUTTONS: Side-by-Side to create Square Look */
     .action-buttons { display: flex; flex-direction: row; gap: 6px; justify-content: space-between;}
     .btn-predict { flex: 1.5; padding: 10px; background: linear-gradient(90deg, var(--dj-lime), #00cc00); color: #000; border: none; border-radius: 6px; font-family: 'Black Ops One'; font-weight: 900; cursor: pointer; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 15px rgba(57, 255, 20, 0.5); transition: 0.2s;}
     .btn-predict:active { transform: scale(0.95); }
     .btn-predict:disabled { background: #333; color: #555; box-shadow: none; cursor: not-allowed; }
-    
     .btn-hide { flex: 1; padding: 10px; background: rgba(0,0,0,0.5); color: #fff; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; font-family: 'Outfit'; font-size: 11px; font-weight: 900; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.3s;}
     .btn-hide:hover { background: var(--dj-red); border-color: var(--dj-red); box-shadow: 0 0 10px var(--dj-red);}
 
-    /* =========================================
-       🏆 WIN / LOSS / JACKPOT SCALED DOWN 🏆
-       ========================================= */
     .eval-overlay { position: absolute; inset: 0; display: none; justify-content: center; align-items: center; z-index: 20; border-radius: 10px; backdrop-filter: blur(5px);}
     .eval-text { font-family: 'Black Ops One'; font-size: 22px; transform: rotate(-10deg); letter-spacing: 2px; padding: 6px 14px; border-radius: 8px; border: 3px solid; animation: stampIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;}
-    
     @keyframes stampIn { 0% { transform: scale(4) rotate(-30deg); opacity: 0; } 100% { transform: scale(1) rotate(-10deg); opacity: 1; } }
-
     .eval-win { background: rgba(57, 255, 20, 0.2); color: var(--dj-lime); border-color: var(--dj-lime); box-shadow: 0 0 20px var(--dj-lime); text-shadow: 0 0 8px var(--dj-lime);}
     .eval-loss { background: rgba(255, 0, 60, 0.2); color: var(--dj-red); border-color: var(--dj-red); box-shadow: 0 0 20px var(--dj-red); text-shadow: 0 0 8px var(--dj-red);}
     .eval-jackpot { background: rgba(255, 215, 0, 0.2); color: var(--dj-gold); border-color: var(--dj-gold); box-shadow: 0 0 30px var(--dj-gold); text-shadow: 0 0 15px var(--dj-gold); animation: jackpotShake 0.1s infinite;}
-    
     @keyframes jackpotShake { 0% { transform: translate(1px, 1px) rotate(0deg); } 50% { transform: translate(-1px, -1px) rotate(3deg); } 100% { transform: translate(1px, -1px) rotate(-3deg); } }
-
-    /* CONFETTI SYSTEM FOR JACKPOT */
     .confetti { position: fixed; width: 8px; height: 8px; z-index: 99999; pointer-events: none; }
   </style>
 </head>
@@ -158,18 +100,6 @@
   <div class="bg-vfx"></div>
   <div class="particle-layer" id="particleLayer"></div>
   <div class="equalizer-bg" id="eqContainer"></div>
-
-  <div id="fullOverlayScreen">
-    <div class="login-container" id="loginFormCard">
-      <div class="branding-huge">
-          <h1>DEV AMRY</h1>
-          <p>PRO AI ENGINE V5</p>
-      </div>
-      <div id="errorPopup" class="error-popup"></div>
-      <input type="password" id="loginKey" class="input-field-dj" placeholder="ENTER LICENSE KEY">
-      <button class="btn-dj-primary" id="activateBtn">INITIALIZE ENGINE</button>
-    </div>
-  </div>
 
   <div id="mainApp">
     <iframe class="bg-game" id="gameIframe" src="about:blank" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"></iframe>
@@ -182,285 +112,273 @@
 
         <div class="widget-header">DEV <span>AMRY</span></div>
         
-        <div class="period-box">
-            <span class="label">LIVE PERIOD</span>
-            <span class="value" id="periodBadge">----</span>
+        <div class="uid-section" id="uidSection">
+            <input type="number" id="gameUidInput" class="input-uid" placeholder="ENTER GAME UID">
+            <button class="btn-verify" id="verifyUidBtn">VERIFY UID</button>
+            <button class="btn-urgent" id="urgentBtn">MARK URGENT</button>
+            <div class="uid-status" id="uidStatus"></div>
         </div>
 
-        <div class="result-display" id="resBox">
-            <div class="idle-text" id="idleText">SYSTEM READY</div>
-            
-            <div class="fidget-spinner" id="fidgetSpinner">
-                <div class="fidget-core"></div>
-                <div class="decrypt-text" id="decryptTxt">DECRYPTING...</div>
+        <div id="predictionSection">
+            <div class="period-box">
+                <span class="label">LIVE PERIOD</span>
+                <span class="value" id="periodBadge">----</span>
             </div>
-
-            <div class="pred-wrapper" id="predWrapper">
-                <div class="pred-size" id="predSizeVal">BIG</div>
-                <div class="pred-numbers" id="predNumVal">SURE: [ 7, 9 ]</div>
+            <div class="result-display" id="resBox">
+                <div class="idle-text" id="idleText">SYSTEM READY</div>
+                <div class="fidget-spinner" id="fidgetSpinner">
+                    <div class="fidget-core"></div>
+                    <div class="decrypt-text" id="decryptTxt">DECRYPTING...</div>
+                </div>
+                <div class="pred-wrapper" id="predWrapper">
+                    <div class="pred-size" id="predSizeVal">BIG</div>
+                    <div class="pred-numbers" id="predNumVal">SURE: [ 7, 9 ]</div>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="btn-predict" id="analyzeBtn" disabled>HACK</button>
+                <button class="btn-hide" id="hideBtn">HIDE</button>
             </div>
         </div>
-
-        <div class="action-buttons">
-            <button class="btn-predict" id="analyzeBtn" disabled>HACK</button>
-            <button class="btn-hide" id="hideBtn">HIDE</button>
-        </div>
+        
+        <button class="btn-hide" id="globalHideBtn" style="width: 100%; margin-top: 5px;">MINIMIZE</button>
       </div>
     </div>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getDatabase, ref, get, child, update, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+    import { getDatabase, ref, get, child, update, onValue, set } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-    // --- SETUP BACKGROUND EFFECTS ---
+    // --- DEVICE FINGERPRINTING LOGIC ---
+    function getDeviceID() {
+        let did = localStorage.getItem('dev_amry_device_id');
+        if(!did) {
+            did = 'dev-' + Math.random().toString(36).substr(2, 9) + '-' + Date.now();
+            localStorage.setItem('dev_amry_device_id', did);
+        }
+        return did;
+    }
+    const currentDeviceID = getDeviceID();
+
     const eqContainer = document.getElementById('eqContainer');
     for(let i=0; i<30; i++) {
         let bar = document.createElement('div'); bar.className = 'eq-bar';
-        bar.style.animationDuration = (0.5 + Math.random()) + 's';
-        bar.style.animationDelay = Math.random() + 's';
+        bar.style.animationDuration = (0.5 + Math.random()) + 's'; bar.style.animationDelay = Math.random() + 's';
         eqContainer.appendChild(bar);
     }
     const pLayer = document.getElementById('particleLayer');
     setInterval(() => {
-        let p = document.createElement('div'); p.className = 'stardust';
-        p.style.left = Math.random() * 100 + 'vw';
-        p.style.animationDuration = (3 + Math.random() * 3) + 's';
-        pLayer.appendChild(p);
-        setTimeout(() => p.remove(), 6000);
+        let p = document.createElement('div'); p.className = 'stardust'; p.style.left = Math.random() * 100 + 'vw';
+        p.style.animationDuration = (3 + Math.random() * 3) + 's'; pLayer.appendChild(p); setTimeout(() => p.remove(), 6000);
     }, 200);
 
-    // --- FIREBASE INIT ---
     const firebaseConfig = { apiKey: "AIzaSyBNj71akpefcfEtn-SQfAcx-Pgwi8sUosg", authDomain: "teamdev-88676.firebaseapp.com", databaseURL: "https://teamdev-88676-default-rtdb.asia-southeast1.firebasedatabase.app", projectId: "teamdev-88676" };
     const app = initializeApp(firebaseConfig); const database = getDatabase(app);
     window.API_URL = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json"; 
 
-    // --- DOM ELEMENTS ---
-    const fullOverlay = document.getElementById('fullOverlayScreen'); 
-    const errBox = document.getElementById('errorPopup'); 
+    const uidSection = document.getElementById('uidSection');
+    const predictionSection = document.getElementById('predictionSection');
+    const uidStatus = document.getElementById('uidStatus');
+    const urgentBtn = document.getElementById('urgentBtn');
+    const globalHideBtn = document.getElementById('globalHideBtn');
     const analyzeBtn = document.getElementById('analyzeBtn'); 
     
-    // Prediction Elements
-    const idleText = document.getElementById('idleText');
-    const fidgetSpinner = document.getElementById('fidgetSpinner');
-    const predWrapper = document.getElementById('predWrapper');
-    const predSizeVal = document.getElementById('predSizeVal');
-    const predNumVal = document.getElementById('predNumVal');
-    const decryptTxt = document.getElementById('decryptTxt');
-    
-    // Eval Elements
-    const evalOverlay = document.getElementById('evalOverlay');
-    const evalText = document.getElementById('evalText');
+    let currentUid = null, engineInterval = null, reverseMode = false, fetchingLock = false; 
+    let internalLatestPeriod = null, activePrediction = null, predictedPeriodId = null; 
 
-    // --- LOAD IFRAME ---
-    onValue(ref(database, 'systemConfig/links'), (snapshot) => {
-      if(snapshot.exists() && snapshot.val().gameUrl) document.getElementById('gameIframe').src = snapshot.val().gameUrl;
+    onValue(ref(database, 'systemConfig/links/gameUrl'), (snapshot) => {
+      if(snapshot.exists()) document.getElementById('gameIframe').src = snapshot.val();
     });
 
-    // --- LOGIN LOGIC ---
-    document.getElementById('activateBtn').addEventListener('click', async () => {
-      const key = document.getElementById('loginKey').value.trim().toUpperCase(); 
-      if(!key) { errBox.style.display='block'; errBox.innerText="ENTER ACCESS KEY"; return; }
-
-      document.getElementById('activateBtn').innerText = "CONNECTING...";
-      try {
-        const snap = await get(child(ref(database), `keys/${key}`));
-        if(snap.exists()) {
-          const kData = snap.val();
-          if(kData.status === "INACTIVE" || kData.status === "BANNED" || (kData.expiresAt && new Date() > new Date(kData.expiresAt))) {
-             errBox.style.display='block'; errBox.innerText="LICENSE INACTIVE/EXPIRED"; document.getElementById('activateBtn').innerText="INITIALIZE ENGINE"; return;
-          }
-          if(kData.status === "UNUSED") {
-              const exp = new Date(); exp.setHours(exp.getHours() + (kData.validityHours || 24));
-              await update(ref(database, `keys/${key}`), { status: "ACTIVE", expiresAt: exp.toISOString() });
-          }
-          
-          // Flash effect before entering main app
-          fullOverlay.style.animation = "djStrobeIntro 0.5s reverse forwards";
-          setTimeout(() => {
-              fullOverlay.style.display = 'none';
-              document.getElementById('mainApp').style.display = 'block';
-              initEngine();
-              toggleWidget();
-          }, 500);
-        } else { errBox.style.display='block'; errBox.innerText="INVALID LICENSE"; document.getElementById('activateBtn').innerText="INITIALIZE ENGINE"; }
-      } catch(e) { errBox.style.display='block'; errBox.innerText="SERVER ERROR"; document.getElementById('activateBtn').innerText="INITIALIZE ENGINE"; }
+    onValue(ref(database, 'systemConfig/settings/reverseMode'), (snapshot) => {
+      reverseMode = snapshot.exists() ? snapshot.val() : false;
     });
 
-    // --- DRAG & DROP LOGIC ---
-    const container = document.getElementById("draggableWidget"); const iconCollapsed = document.getElementById("modIcon"); const expandedBox = document.getElementById("modExpanded");
-    let isDragging = false, hasMoved = false, startX, startY, initialX, initialY;
-    
-    function enforceScreenBounds() { const rect = container.getBoundingClientRect(); let newLeft = Math.max(0, Math.min(rect.left, window.innerWidth - rect.width)); let newTop = Math.max(20, Math.min(rect.top, window.innerHeight - rect.height - 20)); container.style.transform = `translate3d(${newLeft}px, ${newTop}px, 0)`; container.style.left = '0'; container.style.top = '0'; }
-    function toggleWidget() { 
-        if(expandedBox.classList.contains('active')) { 
-            expandedBox.classList.remove('active'); iconCollapsed.classList.remove('hidden'); 
-        } else { 
-            iconCollapsed.classList.add('hidden'); expandedBox.classList.add('active'); 
-        } 
-        setTimeout(enforceScreenBounds, 20); 
+    function monitorUserStatus(uid) {
+        onValue(ref(database, `users/${uid}`), (snapshot) => {
+            if(snapshot.exists()) {
+                const userData = snapshot.val();
+                
+                // Live check for device ID change (if admin resets it)
+                if(userData.deviceId && userData.deviceId !== currentDeviceID) {
+                    forceCrash("DEVICE BOUND TO ANOTHER PHONE");
+                    return;
+                }
+
+                if(userData.status === "ACTIVE" && userData.expiresAt) {
+                    if(new Date() > new Date(userData.expiresAt)) {
+                        forceCrash("TIME EXPIRED. RENEW LICENSE."); 
+                    } else {
+                        uidSection.style.display = 'none'; predictionSection.style.display = 'block'; globalHideBtn.style.display = 'none';
+                        if(!engineInterval) { initEngine(); }
+                    }
+                } else if(userData.status === "BLOCKED") {
+                    const blockRes = userData.blockReason || "VIOLATION OF RULES";
+                    forceCrash(`BLOCKED: ${blockRes}`);
+                }
+            }
+        });
     }
-    
-    iconCollapsed.addEventListener('click', () => { if(!hasMoved) toggleWidget(); }); 
-    document.getElementById('hideBtn').addEventListener('click', toggleWidget); 
-    window.addEventListener('resize', enforceScreenBounds);
-    
-    function dragStart(e) { if(e.target.closest('button')) return; initialX = (e.type === "touchstart") ? e.touches[0].clientX : e.clientX; initialY = (e.type === "touchstart") ? e.touches[0].clientY : e.clientY; const style = window.getComputedStyle(container); const matrix = new WebKitCSSMatrix(style.transform); startX = initialX - matrix.m41; startY = initialY - matrix.m42; isDragging = true; hasMoved = false; }
+
+    function forceCrash(msg) {
+        clearInterval(engineInterval); engineInterval = null;
+        predictionSection.style.display = 'none'; uidSection.style.display = 'flex';
+        uidStatus.innerText = msg; uidStatus.style.color = "var(--dj-red)";
+        globalHideBtn.style.display = 'block';
+    }
+
+    document.getElementById('verifyUidBtn').addEventListener('click', async () => {
+        const uid = document.getElementById('gameUidInput').value.trim();
+        if(!/^6\d{6}$/.test(uid)) { uidStatus.innerText = "INVALID UID FORMAT"; uidStatus.style.color = "var(--dj-red)"; return; }
+        currentUid = uid; uidStatus.innerText = "CHECKING DATABASE..."; uidStatus.style.color = "var(--dj-cyan)";
+        
+        try {
+            const snap = await get(child(ref(database), `users/${uid}`));
+            if(snap.exists()) {
+                const userData = snap.val();
+                
+                // DEVICE BINDING CHECK
+                if(userData.deviceId && userData.deviceId !== currentDeviceID) {
+                    uidStatus.innerText = "UID BOUND TO ANOTHER PHONE"; uidStatus.style.color = "var(--dj-red)";
+                    return;
+                }
+                if(!userData.deviceId) {
+                    // Bind immediately if deviceId is empty
+                    await update(ref(database, `users/${uid}`), { deviceId: currentDeviceID });
+                }
+
+                if(userData.status === "ACTIVE") {
+                    if(userData.expiresAt && new Date() > new Date(userData.expiresAt)) {
+                        uidStatus.innerText = "ACCESS EXPIRED."; uidStatus.style.color = "var(--dj-red)";
+                    } else {
+                        uidStatus.innerText = "VERIFIED!"; uidStatus.style.color = "var(--dj-lime)"; monitorUserStatus(uid); 
+                    }
+                } else if(userData.status === "PENDING") {
+                    uidStatus.innerText = "PENDING ADMIN APPROVAL."; uidStatus.style.color = "var(--dj-gold)"; startUrgentTimer();
+                } else if(userData.status === "BLOCKED") {
+                    const blockRes = userData.blockReason || "VIOLATION OF RULES";
+                    uidStatus.innerText = `BLOCKED: ${blockRes}`; uidStatus.style.color = "var(--dj-red)";
+                }
+            } else {
+                // New User - Save Device ID
+                await set(ref(database, `users/${uid}`), { status: "PENDING", isUrgent: false, createdAt: new Date().toISOString(), expiresAt: null, deviceId: currentDeviceID });
+                uidStatus.innerText = "SENT TO ADMIN FOR APPROVAL."; uidStatus.style.color = "var(--dj-gold)"; startUrgentTimer();
+            }
+        } catch(e) { uidStatus.innerText = "SERVER ERROR."; }
+    });
+
+    let urgentTimeout;
+    function startUrgentTimer() {
+        clearTimeout(urgentTimeout);
+        urgentTimeout = setTimeout(() => {
+            urgentBtn.style.display = 'block'; document.getElementById('verifyUidBtn').style.display = 'none';
+            uidStatus.innerText = "TAKING TOO LONG? MARK URGENT.";
+        }, 1800000); 
+    }
+
+    urgentBtn.addEventListener('click', async () => {
+        if(!currentUid) return;
+        await update(ref(database, `users/${currentUid}`), { isUrgent: true });
+        urgentBtn.style.display = 'none'; uidStatus.innerText = "MARKED URGENT. PLEASE WAIT."; uidStatus.style.color = "var(--dj-lime)";
+    });
+
+    const container = document.getElementById("draggableWidget"), iconCollapsed = document.getElementById("modIcon"), expandedBox = document.getElementById("modExpanded");
+    let isDragging = false, hasMoved = false, startX, startY, initialX, initialY;
+    function enforceScreenBounds() { const rect = container.getBoundingClientRect(); let newLeft = Math.max(0, Math.min(rect.left, window.innerWidth - rect.width)); let newTop = Math.max(20, Math.min(rect.top, window.innerHeight - rect.height - 20)); container.style.transform = `translate3d(${newLeft}px, ${newTop}px, 0)`; container.style.left = '0'; container.style.top = '0'; }
+    function toggleWidget() { if(expandedBox.classList.contains('active')) { expandedBox.classList.remove('active'); iconCollapsed.classList.remove('hidden'); } else { iconCollapsed.classList.add('hidden'); expandedBox.classList.add('active'); } setTimeout(enforceScreenBounds, 20); }
+    iconCollapsed.addEventListener('click', () => { if(!hasMoved) toggleWidget(); }); document.getElementById('hideBtn').addEventListener('click', toggleWidget); globalHideBtn.addEventListener('click', toggleWidget); window.addEventListener('resize', enforceScreenBounds);
+    function dragStart(e) { if(e.target.closest('button') || e.target.closest('input')) return; initialX = (e.type === "touchstart") ? e.touches[0].clientX : e.clientX; initialY = (e.type === "touchstart") ? e.touches[0].clientY : e.clientY; const style = window.getComputedStyle(container); const matrix = new WebKitCSSMatrix(style.transform); startX = initialX - matrix.m41; startY = initialY - matrix.m42; isDragging = true; hasMoved = false; }
     function drag(e) { if (!isDragging) return; const currentX = (e.type === "touchmove") ? e.touches[0].clientX : e.clientX; const currentY = (e.type === "touchmove") ? e.touches[0].clientY : e.clientY; if (Math.abs(currentX - initialX) > 4 || Math.abs(currentY - initialY) > 4) { hasMoved = true; e.preventDefault(); let newX = currentX - startX; let newY = currentY - startY; newX = Math.max(0, Math.min(newX, window.innerWidth - container.offsetWidth)); newY = Math.max(20, Math.min(newY, window.innerHeight - container.offsetHeight - 20)); container.style.transform = `translate3d(${newX}px, ${newY}px, 0)`; } }
     function dragEnd() { isDragging = false; }
     container.addEventListener("touchstart", dragStart, { passive: false }); document.addEventListener("touchmove", drag, { passive: false }); document.addEventListener("touchend", dragEnd); container.addEventListener("mousedown", dragStart); document.addEventListener("mousemove", drag); document.addEventListener("mouseup", dragEnd);
 
-    // --- CORE ENGINE VARIABLES ---
-    let fetchingLock = false; 
-    let internalLatestPeriod = null; 
-    let activePrediction = null; 
-    let predictedPeriodId = null; 
-
-    function getSizeFromNumber(num) { if (num === undefined || num === null) return null; return num >= 5 ? "BIG" : "SMALL"; }
-
+    function getSizeFromNumber(num) { return num >= 5 ? "BIG" : "SMALL"; }
     function generateAIPrediction(historyArray) {
-      let predictedSize = "BIG"; let sure1 = 5, sure2 = 8;
+      let predictedSize = "BIG", sure1 = 5, sure2 = 8;
       const validDraws = (historyArray || []).filter(d => d !== undefined && d.number !== undefined && !isNaN(d.number)).slice(0, 20);
       if (validDraws.length > 0) {
-          const recent = [...validDraws].slice(0, 12); const recentSizes = recent.map(r => getSizeFromNumber(r.number)).filter(s => s !== null); 
+          const recent = [...validDraws].slice(0, 12), recentSizes = recent.map(r => getSizeFromNumber(r.number)).filter(s => s !== null); 
           if (recentSizes.length >= 3) {
             let streakLength = 1; for (let i = 1; i < recentSizes.length; i++) { if (recentSizes[i] === recentSizes[0]) streakLength++; else break; }
             if (streakLength >= 3) { predictedSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG"; } else {
-              const last7 = recentSizes.slice(0, 7); const bigCount = last7.filter(s => s === "BIG").length; const smallCount = last7.filter(s => s === "SMALL").length;
-              if (bigCount > smallCount + 1) predictedSize = "SMALL"; else if (smallCount > bigCount + 1) predictedSize = "BIG"; else { predictedSize = recentSizes[0] === "BIG" ? "SMALL" : "BIG"; }
+              const last7 = recentSizes.slice(0, 7), bigCount = last7.filter(s => s === "BIG").length, smallCount = last7.filter(s => s === "SMALL").length;
+              predictedSize = (bigCount > smallCount + 1) ? "SMALL" : (smallCount > bigCount + 1) ? "BIG" : (recentSizes[0] === "BIG" ? "SMALL" : "BIG");
             }
           } else { predictedSize = Math.random() > 0.5 ? "BIG" : "SMALL"; }
       }
+      if(reverseMode) { predictedSize = predictedSize === "BIG" ? "SMALL" : "BIG"; }
       const targetPool = predictedSize === "BIG" ? [5,6,7,8,9] : [0,1,2,3,4];
       sure1 = targetPool[Math.floor(Math.random()*targetPool.length)]; sure2 = targetPool[Math.floor(Math.random()*targetPool.length)];
       if(sure1 === sure2) sure2 = targetPool[(targetPool.indexOf(sure1)+1)%5];
       return { predictionSize: predictedSize, sureNumbers: [sure1, sure2] };
     }
 
-    // --- JACKPOT CONFETTI ---
     function triggerConfetti() {
         const colors = ['#ffd700', '#ff00ff', '#00ffff', '#39ff14'];
         for (let i = 0; i < 50; i++) {
-            let conf = document.createElement('div');
-            conf.className = 'confetti';
+            let conf = document.createElement('div'); conf.className = 'confetti';
             conf.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
-            conf.style.left = '50%';
-            conf.style.top = '50%';
-            document.body.appendChild(conf);
-            
-            let angle = Math.random() * Math.PI * 2;
-            let velocity = 10 + Math.random() * 20;
-            let x = Math.cos(angle) * velocity;
-            let y = Math.sin(angle) * velocity;
-            let rot = Math.random() * 360;
-            
-            let frame = 0;
+            conf.style.left = '50%'; conf.style.top = '50%'; document.body.appendChild(conf);
+            let angle = Math.random() * Math.PI * 2, velocity = 10 + Math.random() * 20;
+            let x = Math.cos(angle) * velocity, y = Math.sin(angle) * velocity, rot = Math.random() * 360, frame = 0;
             function animateConf() {
-                frame++;
-                x *= 0.95; y += 1; 
-                rot += 10;
-                let currentX = window.innerWidth/2 + (x * frame);
-                let currentY = window.innerHeight/2 + (y * frame);
-                conf.style.transform = `translate(${currentX - window.innerWidth/2}px, ${currentY - window.innerHeight/2}px) rotate(${rot}deg)`;
-                
-                if (frame < 100) requestAnimationFrame(animateConf);
-                else conf.remove();
+                frame++; x *= 0.95; y += 1; rot += 10;
+                conf.style.transform = `translate(${window.innerWidth/2 + (x*frame) - window.innerWidth/2}px, ${window.innerHeight/2 + (y*frame) - window.innerHeight/2}px) rotate(${rot}deg)`;
+                if (frame < 100) requestAnimationFrame(animateConf); else conf.remove();
             }
             requestAnimationFrame(animateConf);
         }
     }
 
-    // --- EVALUATE PREVIOUS PREDICTION ---
     function evaluateResult(latestDraw) {
         if(!activePrediction || !predictedPeriodId) return;
-        
-        let isSizeWin = (latestDraw.size === activePrediction.predictionSize);
-        let isJackpot = activePrediction.sureNumbers.includes(latestDraw.number);
-
+        const isSizeWin = (latestDraw.size === activePrediction.predictionSize), isJackpot = activePrediction.sureNumbers.includes(latestDraw.number);
+        const evalOverlay = document.getElementById('evalOverlay'), evalText = document.getElementById('evalText');
         evalOverlay.style.display = 'flex';
-        
-        if(isJackpot) {
-            evalText.innerText = "JACKPOT";
-            evalText.className = "eval-text eval-jackpot";
-            triggerConfetti();
-        } else if (isSizeWin) {
-            evalText.innerText = "WIN";
-            evalText.className = "eval-text eval-win";
-        } else {
-            evalText.innerText = "LOSS";
-            evalText.className = "eval-text eval-loss";
-        }
-
-        setTimeout(() => {
-            evalOverlay.style.display = 'none';
-        }, 3000);
+        if(isJackpot) { evalText.innerText = "JACKPOT"; evalText.className = "eval-text eval-jackpot"; triggerConfetti(); } 
+        else if (isSizeWin) { evalText.innerText = "WIN"; evalText.className = "eval-text eval-win"; } 
+        else { evalText.innerText = "LOSS"; evalText.className = "eval-text eval-loss"; }
+        setTimeout(() => { evalOverlay.style.display = 'none'; }, 3000);
     }
 
-    // --- MAIN ENGINE LOOP ---
     async function fetchAndProcess() {
       if(fetchingLock) return; fetchingLock = true;
       try {
         const res = await fetch(`${window.API_URL}?ts=${Date.now()}`, { headers: {'Accept':'application/json'} }); 
         const json = await res.json();
         const draws = json.data.list.map(i => ({ issueNumber: String(i.issueNumber), number: parseInt(i.number), size: parseInt(i.number) >= 5 ? "BIG" : "SMALL" })).filter(d => !isNaN(d.number));
-        const latest = draws[0]; const nextPeriodId = (BigInt(latest.issueNumber) + 1n).toString();
-        
-        if(predictedPeriodId === latest.issueNumber) {
-            evaluateResult(latest);
-            predictedPeriodId = null;
-        }
-
+        const latest = draws[0], nextPeriodId = (BigInt(latest.issueNumber) + 1n).toString();
+        if(predictedPeriodId === latest.issueNumber) { evaluateResult(latest); predictedPeriodId = null; }
         if(internalLatestPeriod !== nextPeriodId) {
-          internalLatestPeriod = nextPeriodId; 
-          document.getElementById('periodBadge').textContent = nextPeriodId.slice(-4); 
+          internalLatestPeriod = nextPeriodId; document.getElementById('periodBadge').textContent = nextPeriodId.slice(-4); 
           activePrediction = generateAIPrediction(draws);
-          analyzeBtn.disabled = false;
-          analyzeBtn.innerText = "HACK";
-          analyzeBtn.style.background = "linear-gradient(90deg, var(--dj-lime), #00cc00)";
-          
-          if(!predictedPeriodId) { 
-              predWrapper.style.display = 'none';
-              idleText.style.display = 'block';
-              idleText.innerText = "SYSTEM READY";
-          }
+          analyzeBtn.disabled = false; analyzeBtn.innerText = "HACK"; analyzeBtn.style.background = "linear-gradient(90deg, var(--dj-lime), #00cc00)";
+          if(!predictedPeriodId) { document.getElementById('predWrapper').style.display = 'none'; document.getElementById('idleText').style.display = 'block'; document.getElementById('idleText').innerText = "SYSTEM READY"; }
         }
-      } catch(e) { console.error("Sync Error"); } finally { fetchingLock = false; }
+      } catch(e) { } finally { fetchingLock = false; }
     }
 
-    // --- FIDGET CLICK ANIMATION & REVEAL ---
     analyzeBtn.addEventListener('click', () => {
       if(!activePrediction || predictedPeriodId === internalLatestPeriod) return; 
-      analyzeBtn.disabled = true; 
-      analyzeBtn.innerText = "HACKING...";
-      analyzeBtn.style.background = "#333";
+      analyzeBtn.disabled = true; analyzeBtn.innerText = "HACKING..."; analyzeBtn.style.background = "#333";
       predictedPeriodId = internalLatestPeriod;
-      
-      // Hide old elements, show fidget spinner
-      idleText.style.display = 'none';
-      predWrapper.style.display = 'none';
-      fidgetSpinner.style.display = 'flex';
-      
-      // Glitch text effect
+      document.getElementById('idleText').style.display = 'none'; document.getElementById('predWrapper').style.display = 'none'; document.getElementById('fidgetSpinner').style.display = 'flex';
       let glitchInterval = setInterval(() => {
           let texts = ["BYPASS...", "INJECT...", "DECRYPT..."];
-          decryptTxt.innerText = texts[Math.floor(Math.random() * texts.length)];
+          document.getElementById('decryptTxt').innerText = texts[Math.floor(Math.random() * texts.length)];
       }, 300);
-      
-      // Reveal Prediction after High-Level Animation
       setTimeout(() => {
-          clearInterval(glitchInterval);
-          fidgetSpinner.style.display = 'none';
-          
-          let sizeClass = activePrediction.predictionSize === 'SMALL' ? 'color-small' : 'color-big';
-          predSizeVal.className = `pred-size ${sizeClass}`;
-          predSizeVal.innerText = activePrediction.predictionSize;
-          predNumVal.innerText = `SURE: [ ${activePrediction.sureNumbers[0]}, ${activePrediction.sureNumbers[1]} ]`;
-          
-          predWrapper.style.display = 'flex';
-      }, 2500); // 2.5 seconds of fidget spinning
+          clearInterval(glitchInterval); document.getElementById('fidgetSpinner').style.display = 'none';
+          document.getElementById('predSizeVal').className = `pred-size ${activePrediction.predictionSize === 'SMALL' ? 'color-small' : 'color-big'}`;
+          document.getElementById('predSizeVal').innerText = activePrediction.predictionSize;
+          document.getElementById('predNumVal').innerText = `SURE: [ ${activePrediction.sureNumbers[0]}, ${activePrediction.sureNumbers[1]} ]`;
+          document.getElementById('predWrapper').style.display = 'flex';
+      }, 2500); 
     });
 
-    function initEngine() { fetchAndProcess(); setInterval(fetchAndProcess, 4000); }
+    function initEngine() { fetchAndProcess(); engineInterval = setInterval(fetchAndProcess, 4000); }
+    setTimeout(() => { toggleWidget(); }, 500);
   </script>
 </body>
 </html>

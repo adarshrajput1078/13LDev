@@ -8,12 +8,13 @@
     
     <title>DEV PRO | V53 CYBER CORE</title>
     
+    <!-- Ultra Professional Monospace & High-Tech Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Space+Mono:wght@400;700&family=Outfit:wght@500;700;900&family=Black+Ops+One&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
 
     <style>
         /* ==========================================================================
-           1. CORE CYBERPUNK VARIABLES & COLOR TRADING PATHS
+           1. CORE CYBERPUNK VARIABLES
            ========================================================================== */
         :root { 
             --primary: #00ffcc; 
@@ -44,21 +45,18 @@
         .game-section { width: 100%; height: calc(100vh - 145px); position: relative; z-index: 1; background: #000; order: 2;}
         .game-iframe { width: 100%; height: 100%; border: none; }
 
-        /* 🔥 FIXED: SIZE REDUCED TO 145px FOR MAXIMUM COMPACTNESS 🔥 */
         .console-section { 
             width: 100%; height: 145px; background: var(--console-bg); position: relative; z-index: 10; order: 1;
             border-bottom: 2px solid var(--primary); box-shadow: 0 8px 30px rgba(0,255,204,0.15);
             display: flex; flex-direction: column; overflow: hidden;
         }
 
-        /* Scanline VFX Overlay */
         .console-vfx-overlay {
             position: absolute; inset: 0; pointer-events: none; z-index: 0;
             background-image: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 255, 204, 0.03) 2px, rgba(0, 255, 204, 0.03) 4px);
             opacity: 0.6;
         }
 
-        /* Dashboard Grid Layout (Optimized Spacing) */
         .dashboard-grid { 
             display: grid; grid-template-columns: 1fr 1.3fr 1fr; gap: 6px; 
             padding: 8px; flex: 1; z-index: 2; height: 100%;
@@ -67,7 +65,7 @@
         .col-left, .col-right { display: flex; flex-direction: column; justify-content: space-between; gap: 4px;}
 
         /* ==========================================================================
-           3. LEFT COLUMN: LIVE SERVER SYNC MATRIX (REPLACED LOGIN/AUTH)
+           3. LEFT COLUMN: LIVE SERVER SYNC MATRIX
            ========================================================================== */
         .server-sync-panel {
             background: rgba(0,0,0,0.7); border: 1px solid var(--panel-border);
@@ -79,18 +77,16 @@
         .sync-status { font-family: 'Space Mono'; font-size: 7px; color: var(--ct-green); font-weight: bold; animation: pulseGlow 1s infinite alternate;}
         @keyframes pulseGlow { 100% { opacity: 0.4; } }
 
-        /* Real-Time Live Server Packets Stream */
         .server-data-stream { font-family: 'Space Mono'; font-size: 7px; color: var(--text-muted); line-height: 1.2; overflow: hidden; height: 35px; white-space: nowrap; text-overflow: ellipsis;}
         .stream-line { animation: streamScroll 0.3s ease-out forwards; }
         @keyframes streamScroll { from { transform: translateY(5px); opacity: 0; } to { transform: translateY(0); opacity: 0.8; } }
 
-        /* Target Period Sub-Box */
         .target-sub-box { display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.03); padding: 4px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.05);}
         .target-lbl { font-family: 'Space Mono'; font-size: 7px; color: #fff; opacity: 0.6;}
         .target-val { font-family: 'Orbitron'; font-size: 11px; font-weight: 900; color: #fff; letter-spacing: 1px;}
 
         /* ==========================================================================
-           4. 🔥 CENTER COLUMN: THE PROFESSIONAL DECRYPTOR BOX 🔥
+           4. CENTER COLUMN: THE DECRYPTOR BOX
            ========================================================================== */
         .col-center { 
             position: relative; background: #000; border-radius: 6px; 
@@ -103,34 +99,28 @@
 
         .telemetry-header { position: absolute; top: 3px; left: 6px; right: 6px; display: flex; justify-content: space-between; font-family: 'Space Mono'; font-size: 7px; color: rgba(255,255,255,0.3); z-index: 5;}
         
-        /* Laser Scanner Strip */
         .laser-sweep { position: absolute; left: 0; width: 100%; height: 2px; background: var(--primary); box-shadow: 0 0 8px var(--primary); display: none; z-index: 3; animation: laserMove 1s linear infinite alternate; }
         @keyframes laserMove { 0% { top: 0; } 100% { top: 100%; } }
 
-        /* Idle State (Clean Monospace Loader) */
         .idle-view { display: flex; flex-direction: column; align-items: center; z-index: 2;}
         .idle-txt { font-family: 'Space Mono'; font-size: 9px; color: var(--primary); letter-spacing: 1px; font-weight: bold; text-shadow: 0 0 5px var(--primary-glow);}
 
-        /* Result View (Ultra Professional Font Alignment) */
         .result-view { display: none; flex-direction: column; align-items: center; justify-content: center; width: 100%; height: 100%; z-index: 2;}
         .res-size { font-family: 'Black Ops One'; font-size: 28px; font-weight: 900; letter-spacing: 2px; line-height: 1; margin-bottom: 2px; text-transform: uppercase;}
         .res-nums { font-family: 'Space Mono'; font-size: 10px; color: #fff; background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.15); font-weight: bold; letter-spacing: 1px;}
         
-        /* High Tech Color Flash Classes during Calculation */
         .c-red-flash { color: var(--ct-red); text-shadow: 0 0 15px var(--ct-red); }
         .c-green-flash { color: var(--ct-green); text-shadow: 0 0 15px var(--ct-green); }
         .c-violet-flash { color: var(--ct-violet); text-shadow: 0 0 15px var(--ct-violet); }
         .c-stable-big { color: var(--warning); text-shadow: 0 0 20px rgba(255,215,0,0.8); }
         .c-stable-small { color: var(--primary); text-shadow: 0 0 20px var(--primary-glow); }
 
-        /* Screenshot Friendly Stamp Overlay */
         .win-stamp { display: none; width: 100%; height: 100%; position: absolute; inset: 0; z-index: 10; border-radius: 6px; flex-direction: column; justify-content: center; align-items: center; font-family: 'Black Ops One'; font-size: 16px; line-height: 1.2; letter-spacing: 1px; text-transform: uppercase; animation: popStamp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; backdrop-filter: blur(4px);}
         @keyframes popStamp { 0% { transform: scale(1.3); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         .s-win { background: rgba(0, 255, 135, 0.12); border: 2px solid var(--ct-green); color: var(--ct-green); text-shadow: 0 0 8px var(--ct-green); }
         .s-loss { background: rgba(255, 8, 68, 0.12); border: 2px solid var(--ct-red); color: var(--ct-red); text-shadow: 0 0 8px var(--ct-red); }
         .s-jackpot { background: rgba(255, 215, 0, 0.12); border: 2px solid var(--warning); color: var(--warning); text-shadow: 0 0 8px var(--warning); }
 
-        /* Live Color Matrix Blinking Nodes */
         .ct-matrix-nodes { position: absolute; bottom: 4px; display: flex; gap: 6px; z-index: 4; }
         .node-dot { width: 4px; height: 4px; border-radius: 50%; opacity: 0.3; }
         .n-red { background: var(--ct-red); box-shadow: 0 0 4px var(--ct-red); animation: bNode 0.5s infinite alternate; }
@@ -141,14 +131,12 @@
         /* ==========================================================================
            5. RIGHT COLUMN: ANALYTICS & EXECUTION
            ========================================================================== */
-        /* T-W-L-J Tracker Box */
         .analytics-sub-grid { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 3px; background: rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; padding: 4px; flex: 1;}
         .st-box { display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255,255,255,0.03); border-radius: 4px;}
         .st-lbl { font-family: 'Black Ops One'; font-size: 7px; color: var(--text-muted); }
         .st-val { font-family: 'Space Mono'; font-size: 11px; font-weight: bold; color: #fff;}
         .c-w { color: var(--ct-green); } .c-l { color: var(--ct-red); } .c-j { color: var(--warning); }
 
-        /* Decrypt Button */
         .btn-predict { width: 100%; padding: 10px 0; background: linear-gradient(90deg, var(--primary), #00b38f); color: #000; border: none; border-radius: 6px; font-family: 'Orbitron'; font-weight: 900; cursor: pointer; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 10px var(--primary-glow); transition: 0.2s;}
         .btn-predict:active { transform: scale(0.96); }
         .btn-predict:disabled { background: rgba(255,255,255,0.05); color: rgba(255,255,255,0.2); box-shadow: none; cursor: not-allowed; border: 1px solid rgba(255,255,255,0.03); }
@@ -177,14 +165,22 @@
         .lock-title { font-family: 'Orbitron'; font-size: 22px; color: #fff; margin-bottom: 8px;}
 
         .console-lock { position: absolute; inset: 0; background: rgba(5,7,12,0.92); z-index: 20; display: none; flex-direction: column; justify-content: center; align-items: center; border: 1px solid var(--danger); backdrop-filter: blur(4px);}
+        
+        .admin-ticker { 
+            width: 100%; background: rgba(255, 0, 255, 0.12); border-bottom: 1px solid rgba(255,0,255,0.3); 
+            color: #fff; font-family: 'Space Mono'; font-size: 10px; font-weight: bold; 
+            display: none; align-items: center; padding: 5px 10px; z-index: 2; text-shadow: 0 0 5px var(--magenta);
+        }
     </style>
 </head>
 <body>
 
+    <!-- 1. GAME IFRAME -->
     <div class="game-section">
         <iframe class="game-iframe" id="gameIframe" src="https://sikkim.com"></iframe>
     </div>
 
+    <!-- 2. FIXED SERVER SYNC CONSOLE -->
     <div class="console-section" id="hackConsole">
         
         <div class="console-vfx-overlay"></div>
@@ -201,6 +197,7 @@
 
         <div class="dashboard-grid">
             
+            <!-- SERVER MATRIX SYNC -->
             <div class="col-left">
                 <div class="server-sync-panel">
                     <div class="sync-header">
@@ -218,10 +215,11 @@
                 </div>
             </div>
 
+            <!-- HIGH-TECH DECRYPTOR BOX -->
             <div class="col-center" id="decryptorBox">
                 <div class="telemetry-header"><span id="periodBadge">TARGET: ----</span><span id="pingValue">PING: 14ms</span></div>
                 
-                <div class="laser-line-vfx" id="laserScan"></div>
+                <div class="laser-sweep" id="laserScan"></div>
 
                 <div class="idle-view" id="uiIdle">
                     <div class="idle-txt"><i class="fa-solid fa-circle-notch fa-spin" style="font-size:10px; margin-right:4px;"></i> ENGINE READY</div>
@@ -241,6 +239,7 @@
                 </div>
             </div>
 
+            <!-- ANALYTICS & EXECUTE -->
             <div class="col-right">
                 <div class="stats-grid">
                     <div class="analytics-sub-grid">
@@ -252,10 +251,10 @@
                 </div>
                 <button class="btn-predict" id="analyzeBtn" disabled>GET PREDICTION</button>
             </div>
-
         </div>
     </div>
 
+    <!-- 3. OVERLAYS -->
     <div class="overlay-screen" id="loginOverlay">
         <div class="login-box" id="uidFormPanel">
             <h1 class="login-title">DEV <span>PRO</span></h1>
@@ -285,6 +284,9 @@
         <p style="font-family:'Space Mono'; font-size:12px; color:var(--text-muted);">Platform matrix synchronization in progress.<br>Please maintain idle state.</p>
     </div>
 
+    <!-- ==========================================================================
+         JAVASCRIPT FIREBASE & ENGINE
+         ========================================================================== -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getDatabase, ref, set, update, get, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
@@ -296,7 +298,6 @@
         let AppState = { currentUid: null, isApproved: false, internalPeriod: null, activePred: null, evalPeriod: null, fetchingLock: false, godMode: "AUTO", engineStarted: false };
         let stats = { T: 0, W: 0, L: 0, J: 0 };
 
-        // Live Server Packets Stream Effect
         const streamContainer = document.getElementById('serverStream');
         function addStreamLog(msg) {
             let line = document.createElement('div'); line.className = 'stream-line'; line.innerText = `> ${msg}`;
@@ -309,7 +310,6 @@
             document.getElementById('pingValue').innerText = `PING: ${Math.floor(Math.random() * (26 - 11 + 1) + 11)}ms`;
         }, 2000);
 
-        // --- HARDWARE BINDING SCHEME ---
         function getHardwareID() {
             let token = localStorage.getItem('dev_pro_v5_device');
             if(!token) { token = 'HW-' + Math.random().toString(36).substr(2, 9).toUpperCase(); localStorage.setItem('dev_pro_v5_device', token); }
@@ -317,14 +317,12 @@
         }
         const HARDWARE_ID = getHardwareID();
 
-        // --- GLOBAL OVERRIDES ---
         onValue(ref(database, 'systemConfig/links/gameUrl'), (s) => { if(s.exists() && s.val() !== "") document.getElementById('gameIframe').src = s.val(); });
         onValue(ref(database, 'server/override/size'), (s) => { if(s.exists()) AppState.godMode = s.val(); });
         onValue(ref(database, 'systemConfig/maintenance/mode'), (s) => {
             document.getElementById('maintenanceOverlay').style.display = (s.exists() && s.val() === "LOCKED") ? 'flex' : 'none';
         });
 
-        // --- AUTH PIPELINE (STRICT 7-DIGIT STARTING WITH 6) ---
         document.getElementById('submitUidBtn').addEventListener('click', async () => {
             const uidInput = document.getElementById('uidInput');
             const submitBtn = document.getElementById('submitUidBtn');
@@ -402,7 +400,6 @@
 
         function terminateNode() { AppState.isApproved = false; document.getElementById('expiryOverlay').style.display = 'flex'; }
 
-        // --- REVERSE MATH ENGINE ---
         function executeReverseHash(period) {
             let raw = period.replace(/[^0-9]/g, ''); if(raw.length < 8) raw = "20260630100010538";
             let deltaSum = raw.split('').map(Number).reduce((x, y) => x + y, 0);
@@ -437,11 +434,11 @@
 
                     let stampNode = document.getElementById('winStamp');
                     stampNode.style.display = 'flex';
-                    if(targetJackpot && targetWin) { stampNode.innerHTML = `JACKPOT<br>${realSize} [ ${realNum} ]`; stampNode.className = 'win-stamp s-jackpot'; }
-                    else if(targetWin) { stampNode.innerHTML = `WIN<br>${realSize} [ ${realNum} ]`; stampNode.className = 'win-stamp s-win'; }
-                    else { stampNode.innerHTML = `LOSS<br>${realSize} [ ${realNum} ]`; stampNode.className = 'win-stamp s-loss'; }
+                    if(targetJackpot && targetWin) { stampNode.innerHTML = `JACKPOT<br><span style="font-size:12px;">${realSize} [ ${realNum} ]</span>`; stampNode.className = 'win-stamp s-jackpot'; }
+                    else if(targetWin) { stampNode.innerHTML = `WIN<br><span style="font-size:12px;">${realSize} [ ${realNum} ]</span>`; stampNode.className = 'win-stamp s-win'; }
+                    else { stampNode.innerHTML = `LOSS<br><span style="font-size:12px;">${realSize} [ ${realNum} ]</span>`; stampNode.className = 'win-stamp s-loss'; }
                     
-                    document.getElementById('resBox').style.display = 'none';
+                    document.getElementById('uiResult').style.display = 'none';
                     AppState.evalPeriod = null; 
                 }
 
@@ -464,7 +461,6 @@
             } catch(e) {} finally { AppState.fetchingLock = false; setTimeout(runDataPolling, 3000); }
         }
 
-        // --- COLOUR STROBE SEQUENCE MECHANISM ---
         document.getElementById('analyzeBtn').addEventListener('click', () => {
             if(!AppState.activePred) return; 
             
@@ -499,10 +495,10 @@
                 document.getElementById('decryptorBox').className = "col-center";
                 
                 if(AppState.activePred.size === "SKIP") {
-                    sizeBoxNode.innerText = "SKIP"; sizeBoxNode.className = `res-size c-lock-small`; numbersBoxNode.innerText = "VOLATILE LOCK";
+                    sizeBoxNode.innerText = "SKIP"; sizeBoxNode.className = `res-size c-stable-small`; numbersBoxNode.innerText = "VOLATILE LOCK";
                 } else {
                     sizeBoxNode.innerText = AppState.activePred.size;
-                    sizeBoxNode.className = `res-size ${AppState.activePred.size === 'SMALL' ? 'c-lock-small' : 'c-lock-big'}`;
+                    sizeBoxNode.className = `res-size ${AppState.activePred.size === 'SMALL' ? 'c-stable-small' : 'c-stable-big'}`;
                     numbersBoxNode.innerText = `[ ${AppState.activePred.num1} , ${AppState.activePred.num2} ]`;
                 }
             }, 1200);

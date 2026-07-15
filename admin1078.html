@@ -1,582 +1,535 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MASTER ADMIN | GOD CONTROL V53</title>
+    <title>DEV ARMY | CYBER ADMIN COMMAND</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Rajdhani:wght@700;900&family=JetBrains+Mono:wght@700;800&display=swap" rel="stylesheet">
     
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Rajdhani:wght@500;600;700&family=Space+Mono:wght@400;700&family=Black+Ops+One&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <!-- 📄 PDF EXPORT LIBRARIES -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
 
     <style>
-        /* ==========================================================================
-           1. ENTERPRISE ADMIN THEME VARIABLES
-           ========================================================================== */
-        :root {
-            --bg-deep: #030408;
-            --glass-bg: rgba(10, 14, 20, 0.95);
-            --primary: #00ffcc;
-            --primary-glow: rgba(0, 255, 204, 0.3);
-            --magenta: #ff00ff;
-            --danger: #ff003c;
-            --danger-glow: rgba(255, 0, 60, 0.3);
-            --success: #39ff14;
-            --warning: #ffd700;
-            --panel-border: rgba(0, 255, 204, 0.15);
-            --text-main: #ffffff;
-            --text-muted: #526b82;
-            --sidebar-width: 80px;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Rajdhani', sans-serif;}
-        body { background-color: var(--bg-deep); color: var(--text-main); display: flex; height: 100vh; overflow: hidden;}
-
-        /* ==========================================================================
-           2. SIDEBAR NAVIGATION
-           ========================================================================== */
-        .sidebar { 
-            width: var(--sidebar-width); 
-            background: rgba(5,7,12,0.95); 
-            border-right: 1px solid var(--panel-border); 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            padding: 20px 0; 
-            box-shadow: 5px 0 20px rgba(0,0,0,0.8); 
-            z-index: 10;
-        }
-        .nav-brand { 
-            font-size: 26px; 
-            color: var(--magenta); 
-            margin-bottom: 40px; 
-            text-shadow: 0 0 10px var(--magenta); 
-            animation: pulseBrand 2s infinite alternate;
-        }
-        @keyframes pulseBrand { 100% { filter: drop-shadow(0 0 15px var(--magenta)); transform: scale(1.05); } }
-
-        .nav-btn { 
-            width: 50px; height: 50px; 
-            border-radius: 12px; background: transparent; 
-            border: 1px solid transparent; color: var(--text-muted); 
-            font-size: 20px; cursor: pointer; transition: 0.3s; 
-            margin-bottom: 15px; display: flex; justify-content: center; align-items: center;
-        }
-        .nav-btn.active { 
-            background: rgba(0,255,204,0.1); 
-            border-color: var(--primary); 
-            color: var(--primary); 
-            box-shadow: inset 0 0 15px rgba(0,255,204,0.2);
-        }
-        .nav-btn:hover:not(.active) { color: #fff; background: rgba(255,255,255,0.05); }
-
-        /* ==========================================================================
-           3. MAIN DASHBOARD CONTENT AREA
-           ========================================================================== */
-        .main-content { 
-            flex: 1; overflow-y: auto; padding: 30px; 
-            background: radial-gradient(circle at top right, rgba(26,0,51,0.5) 0%, var(--bg-deep) 100%); 
-            scrollbar-width: none;
-            position: relative;
-        }
-        .main-content::-webkit-scrollbar { display: none; }
-        
-        .tab-panel { display: none; animation: fadeIn 0.4s ease; max-width: 1100px; margin: 0 auto;}
-        .tab-panel.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .page-header { 
-            font-family: 'Orbitron'; font-size: 26px; font-weight: 900; 
-            margin-bottom: 25px; text-transform: uppercase; 
-            border-bottom: 1px dashed rgba(255,255,255,0.1); 
-            padding-bottom: 15px; color: #fff; letter-spacing: 2px;
-        }
-        .page-header i { color: var(--primary); margin-right: 12px;}
-
-        /* Glassmorphism Panels */
-        .glass-panel { 
-            background: var(--glass-bg); 
-            border: 1px solid var(--panel-border); 
-            border-radius: 16px; padding: 25px; margin-bottom: 25px; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 15px rgba(0,255,204,0.02); 
-            position: relative;
-        }
-        .panel-title { 
-            font-family: 'Space Mono'; font-size: 15px; color: var(--primary); 
-            margin-bottom: 20px; font-weight: bold; letter-spacing: 2px;
-        }
-
-        /* Forms & Inputs */
-        .input-group { margin-bottom: 20px;}
-        .input-group label { 
-            display: block; font-family: 'Orbitron'; font-size: 11px; 
-            color: var(--text-muted); margin-bottom: 8px; letter-spacing: 1px;
-        }
-        .form-control { 
-            width: 100%; background: rgba(0,0,0,0.6); 
-            border: 1px solid rgba(255,255,255,0.1); color: #fff; 
-            padding: 15px; border-radius: 8px; font-family: 'Space Mono'; 
-            font-size: 14px; outline: none; transition: 0.3s;
-        }
-        .form-control:focus { border-color: var(--primary); box-shadow: inset 0 0 10px var(--primary-glow);}
-        
-        .btn-massive { 
-            width: 100%; padding: 16px; 
-            background: linear-gradient(90deg, var(--primary), #00b38f); 
-            color: #000; border: none; border-radius: 8px; 
-            font-family: 'Orbitron'; font-weight: 900; font-size: 14px; 
-            cursor: pointer; text-transform: uppercase; letter-spacing: 1px;
-            box-shadow: 0 0 15px var(--primary-glow); transition: 0.2s;
-        }
-        .btn-massive:active { transform: scale(0.98); }
-        .btn-danger { background: linear-gradient(90deg, var(--danger), #8b0000); color: #fff; box-shadow: 0 0 15px var(--danger-glow);}
-
-        /* ==========================================================================
-           4. UID MATRIX (CARDS & ACTIONS)
-           ========================================================================== */
-        .uid-card { 
-            background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.05); 
-            border-left: 4px solid var(--text-muted); border-radius: 10px; 
-            padding: 18px; margin-bottom: 12px; display: flex; 
-            justify-content: space-between; align-items: center;
-            box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
-            transition: all 0.3s ease;
-        }
-        .uid-card:hover { background: rgba(255,255,255,0.02); }
-        
-        /* Status Colors */
-        .uid-card.PENDING { border-left-color: var(--warning); }
-        .uid-card.ACTIVE { border-left-color: var(--success); }
-        .uid-card.BANNED { border-left-color: var(--danger); opacity: 0.6;}
-
-        .uid-info h2 { font-family: 'Space Mono'; font-size: 20px; color: #fff; margin-bottom: 6px; letter-spacing: 2px;}
-        .uid-info p { font-size: 12px; color: var(--text-muted); font-weight: bold; letter-spacing: 1px;}
-        
-        .device-tag { 
-            font-size: 10px; color: var(--primary); background: rgba(0,255,204,0.1); 
-            padding: 3px 8px; border-radius: 4px; display: inline-block; 
-            margin-top: 6px; border: 1px solid rgba(0,255,204,0.2); font-family: 'Space Mono';
+        /* 🔵⚡ DEV ARMY CYBER THEME */
+        :root { 
+            --neon-blue: #00f0ff; 
+            --neon-blue-glow: rgba(0, 240, 255, 0.4);
+            --bg-base: #030712; 
+            --bg-panel: rgba(5, 10, 25, 0.95);
+            --gold: #ffd700; 
+            --gold-glow: rgba(255, 215, 0, 0.4);
+            --green: #00ff66; 
+            --red: #ff003c; 
+            --border-blue: #0f2b5b;
+            --text-main: #f8fafc;
+            --text-muted: #64748b;
         }
         
-        .uid-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; justify-content: flex-end;}
-        .uid-actions select { 
-            background: #000; border: 1px solid var(--primary); color: #fff; 
-            padding: 10px; border-radius: 6px; outline: none; 
-            font-family: 'Space Mono'; font-size: 12px;
-        }
-        .action-btn { 
-            padding: 10px 16px; border: none; border-radius: 6px; 
-            font-family: 'Orbitron'; font-weight: bold; cursor: pointer; 
-            font-size: 12px; letter-spacing: 1px; transition: 0.2s;
-        }
-        .action-btn:active { transform: scale(0.95); }
-        .btn-appr { background: var(--success); color: #000; box-shadow: 0 0 10px rgba(57,255,20,0.3);}
-        .btn-ban { background: var(--danger); color: #fff; box-shadow: 0 0 10px var(--danger-glow);}
-        .btn-del { background: #222; color: #fff; border: 1px solid rgba(255,255,255,0.1);}
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-base); color: var(--text-main); height: 100dvh; overflow: hidden; display: flex; flex-direction: column; background-image: radial-gradient(circle at center, #0a1128 0%, #030712 100%); }
+        
+        /* 📱 MOBILE HEADER */
+        .mobile-header { display: none; justify-content: space-between; align-items: center; padding: 15px 20px; background: var(--bg-panel); border-bottom: 2px solid var(--neon-blue); box-shadow: 0 4px 20px var(--neon-blue-glow); z-index: 100;}
+        .mobile-header h2 { font-family: 'Rajdhani'; font-size: 22px; color: var(--neon-blue); margin: 0; letter-spacing: 2px;}
+        .mobile-header h2 span { color: var(--gold); }
+        .menu-btn { background: rgba(0, 240, 255, 0.1); border: 1px solid var(--neon-blue); color: var(--neon-blue); padding: 8px 12px; border-radius: 6px; font-size: 18px; cursor: pointer; font-family: 'JetBrains Mono';}
+        
+        .app-container { display: flex; flex: 1; overflow: hidden; position: relative;}
+        
+        /* 📋 SIDEBAR */
+        .sidebar { width: 260px; background: var(--bg-panel); border-right: 1px solid var(--border-blue); padding: 20px 0; display: flex; flex-direction: column; z-index: 999; transition: transform 0.3s ease; box-shadow: inset -5px 0 20px rgba(0,0,0,0.5);}
+        .brand { font-family: 'Rajdhani'; font-size: 26px; font-weight: 900; color: #fff; text-align: center; margin-bottom: 25px; letter-spacing: 2px; text-shadow: 0 0 10px var(--neon-blue);}
+        .brand span.win { background: linear-gradient(to right, #ffd700, #b8860b); -webkit-background-clip: text; color: transparent; }
+        .brand span.core { color: var(--neon-blue); font-size: 14px; display: block; letter-spacing: 4px; font-weight: bold; margin-top: -2px; font-family: 'JetBrains Mono';}
+        
+        .nav-item { padding: 14px 20px; margin: 5px 15px; border-radius: 8px; cursor: pointer; font-size: 13px; font-weight: 700; color: var(--text-muted); display: flex; align-items: center; gap: 10px; transition: 0.2s; font-family: 'Inter'; text-transform: uppercase; letter-spacing: 1px;}
+        .nav-item.active, .nav-item:hover { background: rgba(0, 240, 255, 0.1); color: var(--neon-blue); border-left: 3px solid var(--neon-blue); box-shadow: inset 0 0 10px var(--neon-blue-glow);}
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 998; display: none; backdrop-filter: blur(5px);}
 
-        /* Empty State */
-        .empty-state { text-align: center; color: var(--text-muted); font-family: 'Space Mono'; padding: 60px 20px; font-size: 14px; letter-spacing: 2px;}
+        /* MAIN CONTENT AREA */
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative;}
+        .view-section { padding: 20px; display: none; overflow-y: auto; height: 100%; -webkit-overflow-scrolling: touch;}
+        .view-section.active { display: block; animation: fadeIn 0.3s forwards;}
+        @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to {opacity:1; transform:translateY(0);} }
 
-        /* ==========================================================================
-           5. SYSTEM TOAST ALERTS
-           ========================================================================== */
-        #toast { 
-            position: fixed; top: -100px; left: 50%; transform: translateX(-50%); 
-            background: rgba(10,14,20,0.95); border: 1px solid var(--primary); 
-            padding: 15px 30px; border-radius: 30px; color: #fff; 
-            font-family: 'Space Mono'; font-size: 12px; font-weight: bold; 
-            z-index: 99999; transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-            text-transform: uppercase; box-shadow: 0 10px 30px var(--primary-glow);
-            display: flex; align-items: center; gap: 10px;
+        /* 📊 STATS GRID */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 25px;}
+        .stat-card { background: rgba(0, 240, 255, 0.02); border: 1px solid var(--border-blue); padding: 20px; border-radius: 12px; border-left: 4px solid var(--neon-blue); box-shadow: inset 0 0 15px rgba(0,0,0,0.5);}
+        
+        /* 📱 RESPONSIVE TABLES */
+        .table-wrapper { width: 100%; overflow-x: auto; border-radius: 12px; border: 1px solid var(--border-blue); background: rgba(5, 10, 25, 0.8); box-shadow: 0 10px 30px rgba(0,0,0,0.8); -webkit-overflow-scrolling: touch;}
+        table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: left; min-width: 800px; font-family: 'JetBrains Mono';}
+        th { background: rgba(0, 240, 255, 0.05); padding: 15px; color: var(--neon-blue); border-bottom: 1px solid var(--border-blue); white-space: nowrap; font-family: 'Rajdhani'; font-size: 15px; letter-spacing: 1px; text-transform: uppercase;}
+        td { padding: 15px; border-bottom: 1px dashed #1e293b; vertical-align: middle; color: #cbd5e1;}
+        
+        /* 🎛️ BUTTONS & INPUTS */
+        button { font-family: 'Rajdhani'; cursor: pointer; border: none; padding: 12px 16px; border-radius: 8px; font-weight: 900; color: #fff; font-size: 13px; transition: 0.2s; white-space: nowrap; letter-spacing: 1px; text-transform: uppercase;}
+        button:active { transform: scale(0.95); }
+        .btn-primary { background: linear-gradient(135deg, #00f0ff, #008b99); color: #000; box-shadow: 0 4px 15px var(--neon-blue-glow); border: 1px solid var(--neon-blue);} 
+        .btn-warning { background: linear-gradient(135deg, #ffd700, #b8860b); color: #000; box-shadow: 0 4px 15px var(--gold-glow); border: 1px solid #ffea00;}
+        .btn-success { background: linear-gradient(135deg, #00ff66, #008f39); color: #000; box-shadow: 0 4px 15px rgba(0,255,102,0.4); border: 1px solid #00ff66;} 
+        .btn-danger { background: linear-gradient(135deg, #ff003c, #990024); box-shadow: 0 4px 15px rgba(255,0,60,0.4); border: 1px solid #ff003c;}
+        .btn-dark { background: rgba(0,0,0,0.8); color: var(--neon-blue); border: 1px solid var(--neon-blue);}
+        .action-group { display: flex; gap: 8px; flex-wrap: wrap; }
+        
+        input, select { padding: 14px; background: rgba(0,0,0,0.6); border: 1px solid var(--border-blue); color: var(--neon-blue); border-radius: 8px; outline: none; width: 100%; font-family: 'JetBrains Mono'; transition: 0.3s; margin-bottom: 10px;}
+        input:focus, select:focus { border-color: var(--neon-blue); box-shadow: 0 0 15px var(--neon-blue-glow); }
+        
+        .msg-box { background: rgba(0,0,0,0.4); border: 1px solid var(--border-blue); padding: 20px; border-radius: 12px; margin-bottom: 20px; box-shadow: inset 0 0 20px rgba(0,0,0,0.8);}
+        .flex-wrap-gap { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; margin-top: 10px;}
+        .flex-wrap-gap > * { flex: 1 1 100%; }
+        
+        .tag { padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 800; display: inline-block; font-family: 'Inter';}
+        .tag-vip { background: rgba(255,215,0,0.1); color: var(--gold); border: 1px solid rgba(255,215,0,0.5);}
+        .tag-trial { background: rgba(0,240,255,0.1); color: var(--neon-blue); border: 1px solid rgba(0,240,255,0.5);}
+        .tag-expired { background: rgba(255,0,60,0.1); color: var(--red); border: 1px solid rgba(255,0,60,0.5);}
+
+        /* 🔐 LOGIN SCREEN */
+        .login-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-base); display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 20px; background-image: radial-gradient(circle at center, #0f2b5b 0%, #030712 100%);}
+        .login-card { background: var(--bg-panel); border: 1px solid var(--neon-blue); padding: 40px 30px; border-radius: 16px; text-align: center; width: 100%; max-width: 380px; box-shadow: 0 0 40px var(--neon-blue-glow), inset 0 0 20px rgba(0,0,0,0.8);}
+        
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 99999; display: none; justify-content: center; align-items: center; backdrop-filter: blur(10px); padding: 15px;}
+        .modal-box { background: linear-gradient(145deg, #0a1128, #030712); border: 1px solid var(--neon-blue); padding: 25px; border-radius: 16px; width: 100%; max-width: 380px; box-shadow: 0 0 30px var(--neon-blue-glow); animation: popIn 0.3s forwards;}
+        @keyframes popIn { 0% { transform: scale(0.9); opacity: 0;} 100% { transform: scale(1); opacity: 1;} }
+
+        .hidden { display: none !important; }
+        #toast { position:fixed; bottom:25px; left:50%; transform:translateX(-50%) translateY(150%); background:var(--green); color:#000; padding:12px 25px; border-radius:30px; font-weight:800; font-size:13px; z-index:99999; transition:0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow:0 10px 30px rgba(0,255,102,0.4); white-space:nowrap; font-family:'Inter'; border: 1px solid #00ff66;}
+        #toast.show { transform:translateX(-50%) translateY(0); }
+
+        @media (min-width: 768px) {
+            .mobile-header { display: none; }
+            .sidebar { transform: translateX(0) !important; position: relative;}
+            .flex-wrap-gap > input, .flex-wrap-gap > select { flex: 1 1 auto; margin-bottom: 0;}
+            .flex-wrap-gap > button { flex: 0 0 auto; }
         }
-        #toast i { font-size: 16px; color: var(--primary); }
-        #toast.show { top: 40px; }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .uid-card { flex-direction: column; align-items: flex-start; gap: 15px;}
-            .uid-actions { width: 100%; justify-content: flex-start;}
+        @media (max-width: 767px) {
+            .mobile-header { display: flex; }
+            .sidebar { position: absolute; height: 100%; transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); }
+            .view-section { padding: 15px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="sidebar">
-        <div class="nav-brand"><i class="fa-solid fa-microchip"></i></div>
-        <button class="nav-btn active" onclick="AdminCore.switchTab('tabUids')" title="Node Manager"><i class="fa-solid fa-users"></i></button>
-        <button class="nav-btn" onclick="AdminCore.switchTab('tabComm')" title="Command Center"><i class="fa-solid fa-tower-broadcast"></i></button>
-        <button class="nav-btn" onclick="AdminCore.switchTab('tabConfig')" title="System Config"><i class="fa-solid fa-gears"></i></button>
-    </div>
+    <div id="toast">Action Successful!</div>
 
-    <div class="main-content">
-        <div id="toast"><i class="fa-solid fa-check-circle"></i> <span id="toastMsg">SYSTEM UPDATED</span></div>
-
-        <div class="tab-panel active" id="tabUids">
-            <div class="page-header"><i class="fa-solid fa-users"></i> LIVE NODE MATRIX</div>
-            
-            <div class="glass-panel" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 25px; flex-wrap: wrap; gap: 15px;">
-                <span style="font-family: 'Space Mono'; color: var(--warning); font-size: 12px; display: flex; align-items: center; gap: 10px;">
-                    <i class="fa-solid fa-broom" style="font-size: 16px;"></i> Deep clean server cache. Removes banned/expired nodes.
-                </span>
-                <button class="action-btn btn-del" onclick="AdminCore.purgeDatabase()" style="padding: 12px 25px;">
-                    <i class="fa-solid fa-trash-can"></i> PURGE DATABASE
-                </button>
-            </div>
-
-            <div class="glass-panel">
-                <div class="panel-title"><i class="fa-solid fa-server"></i> PENDING & ACTIVE CONNECTIONS</div>
-                <div id="uidListContainer">
-                    <div class="empty-state"><i class="fa-solid fa-circle-notch fa-spin" style="margin-bottom:15px; font-size:24px;"></i><br>SYNCING DATABASE...</div>
-                </div>
+    <!-- TIME MODAL -->
+    <div id="timeModal" class="modal-overlay">
+        <div class="modal-box">
+            <h3 style="color: var(--neon-blue); margin-bottom: 5px; font-family:'Rajdhani'; font-size: 24px; letter-spacing:1px;">MODIFY ACCESS</h3>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px;">TARGET UID: <span id="timeTargetUid" style="color:#fff; font-family:'JetBrains Mono'; font-weight:bold;"></span></p>
+            <select id="editTimeDuration" style="margin-bottom: 15px; font-weight:bold; background:#000;">
+                <option value="1">+ Add 1 Day</option><option value="3">+ Add 3 Days</option><option value="7">+ Add 7 Days</option><option value="30">+ Add 30 Days</option>
+                <option value="999">Grant LIFETIME</option><option value="-1" style="color:var(--red);">☠️ TERMINATE (Kick)</option>
+            </select>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn-primary" style="flex: 1;" onclick="confirmTimeUpdate()">UPDATE</button>
+                <button class="btn-dark" style="flex: 1;" onclick="document.getElementById('timeModal').style.display='none'">CANCEL</button>
             </div>
         </div>
+    </div>
 
-        <div class="tab-panel" id="tabComm">
-            <div class="page-header"><i class="fa-solid fa-tower-broadcast"></i> COMMAND CENTER</div>
+    <!-- 🔐 CYBER LOGIN PANEL -->
+    <div class="login-wrapper" id="loginBox">
+        <div class="login-card">
+            <h2 style="font-family:'Rajdhani'; font-size: 32px; margin-bottom: 5px; color: #fff;">DEV <span style="color:var(--gold);">ARMY</span></h2>
+            <p style="font-size: 11px; color: var(--neon-blue); margin-bottom: 25px; letter-spacing: 3px; font-weight:bold; font-family:'JetBrains Mono';">SECURE ADMIN NODE</p>
+            <input type="password" id="pass" placeholder="ENTER AUTH KEY" style="text-align:center; letter-spacing:3px; font-weight:bold; font-size:16px;">
+            <button class="btn-primary" id="loginBtn" style="width: 100%; padding: 16px; font-size: 14px;" onclick="login()">ESTABLISH CONNECTION</button>
+        </div>
+    </div>
+
+    <div class="mobile-header">
+        <h2>DEV <span>ARMY</span></h2>
+        <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+    </div>
+
+    <div class="app-container">
+        <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+        <div class="sidebar" id="sidebar">
+            <div class="brand">DEV <span class="win">ARMY</span><span class="core">COMMAND</span></div>
+            <div class="nav-item active" onclick="switchView('v-dashboard', this); closeMobileSidebar();">📊 Network Status</div>
+            <div class="nav-item" onclick="switchView('v-req', this); closeMobileSidebar();">⚡ Auth Queue</div>
+            <div class="nav-item" onclick="switchView('v-usr', this); closeMobileSidebar();">🛡️ Node Manager</div>
+            <div class="nav-item" onclick="switchView('v-mat', this); closeMobileSidebar();">🔮 Prediction Engine</div>
+            <div class="nav-item" onclick="switchView('v-msg', this); closeMobileSidebar();">📩 Comms Array</div>
+            <div class="nav-item" style="color:var(--gold); border-top: 1px solid var(--border-blue); margin-top: 10px; padding-top: 15px;" onclick="switchView('v-settings', this); closeMobileSidebar();">⚙️ Core Settings</div>
+        </div>
+
+        <div class="main-content hidden" id="mainContent">
             
-            <div class="glass-panel">
-                <div class="panel-title"><i class="fa-solid fa-terminal"></i> DIRECT IN-APP COMMANDS</div>
+            <!-- DASHBOARD -->
+            <div id="v-dashboard" class="view-section active">
+                <h2 style="margin-bottom: 20px; font-family:'Rajdhani'; color:var(--neon-blue); letter-spacing:1px;">NETWORK OVERVIEW</h2>
                 
-                <div class="input-group">
-                    <label>TARGET NODE (AUDIENCE)</label>
-                    <select id="msgTarget" class="form-control">
-                        <option value="ALL">📢 GLOBAL BROADCAST (ALL ACTIVE USERS)</option>
-                    </select>
+                <div class="stats-grid">
+                    <div class="stat-card" style="border-left-color: var(--neon-blue);"><div style="font-size:11px; color:var(--text-muted); font-weight:bold; font-family:'JetBrains Mono';">ACTIVE NODES</div><div id="statTotal" style="font-size:26px; font-family:'JetBrains Mono'; font-weight:bold; color:#fff;">0</div></div>
+                    <div class="stat-card" style="border-left-color: var(--gold);"><div style="font-size:11px; color:var(--text-muted); font-weight:bold; font-family:'JetBrains Mono';">VIP PROTOCOL</div><div id="statVip" style="font-size:26px; font-family:'JetBrains Mono'; font-weight:bold; color:var(--gold);">0</div></div>
+                    <div class="stat-card" style="border-left-color: var(--red);"><div style="font-size:11px; color:var(--text-muted); font-weight:bold; font-family:'JetBrains Mono';">TERMINATED</div><div id="statExpired" style="font-size:26px; font-family:'JetBrains Mono'; font-weight:bold; color:var(--red);">0</div></div>
                 </div>
 
-                <div class="input-group">
-                    <label>EXECUTION TYPE</label>
-                    <select id="msgType" class="form-control" style="border-color: var(--warning);">
-                        <option value="INFO">🟢 INFO: Floating Scrolling Marquee</option>
-                        <option value="LOCK">🔴 FREEZE: Lock Prediction UI (Forces Deposit/Action)</option>
-                    </select>
+                <div class="msg-box" style="border-top: 3px solid var(--gold);">
+                    <h3 style="color:var(--gold); margin-bottom:8px; font-family:'Rajdhani'; font-size:20px; letter-spacing:1px;">☢️ MASS OVERRIDE</h3>
+                    <p style="font-size:11px; color:var(--text-muted);">Execute global commands on all active client nodes.</p>
+                    <div class="flex-wrap-gap">
+                        <select id="massActionSelect" style="font-weight:bold;">
+                            <option value="reset_all">🔄 Reset Free Trials (0/5)</option>
+                            <option value="add_7_days">⏳ Inject +7 Days to All</option>
+                            <option value="make_all_vip">⭐ Force VIP Mode (30 Days)</option>
+                            <option value="expire_all_free" style="color:var(--red);">☠️ Terminate All Free/Trials</option>
+                        </select>
+                        <button class="btn-warning" onclick="executeMassAction()">⚡ EXECUTE DIRECTIVE</button>
+                    </div>
                 </div>
 
-                <div class="input-group">
-                    <label>PAYLOAD CONTENT (MESSAGE)</label>
-                    <input type="text" id="msgText" class="form-control" placeholder="e.g. Action required. Please re-deposit and send screenshot.">
-                </div>
-
-                <div class="input-group">
-                    <label>PAYLOAD DURATION (AUTO-DESTRUCT)</label>
-                    <select id="msgDuration" class="form-control">
-                        <option value="5">5 MINUTES</option>
-                        <option value="60">1 HOUR</option>
-                        <option value="999999">PERMANENT (UNTIL MANUALLY CLEARED)</option>
-                    </select>
-                </div>
-
-                <div style="display: flex; gap: 15px; margin-top: 30px;">
-                    <button class="btn-massive" onclick="AdminCore.sendCustomMessage()">
-                        <i class="fa-solid fa-paper-plane"></i> DEPLOY COMMAND
-                    </button>
-                    <button class="btn-massive btn-danger" onclick="AdminCore.clearCustomMessage()">
-                        <i class="fa-solid fa-eraser"></i> CLEAR (UNLOCK NODE)
-                    </button>
+                <div class="msg-box" style="border-top: 3px solid var(--neon-blue);">
+                    <h3 style="color:var(--neon-blue); margin-bottom:8px; font-family:'Rajdhani'; font-size:20px; letter-spacing:1px;">⚡ MANUAL INJECTION</h3>
+                    <p style="font-size:11px; color:var(--text-muted);">Bypass queue and grant access dynamically.</p>
+                    <div class="flex-wrap-gap">
+                        <input type="number" id="manualUid" placeholder="Target UID" style="font-weight:bold;">
+                        <select id="manualVipDuration">
+                            <option value="1">1 Day</option><option value="3">3 Days</option><option value="7">7 Days</option><option value="30">30 Days</option><option value="999" selected>Lifetime</option>
+                        </select>
+                        <button class="btn-dark" onclick="addManualUser(false)">GRANT TRIAL</button>
+                        <button class="btn-primary" onclick="addManualUser(true)">AUTHORIZE VIP</button>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div class="tab-panel" id="tabConfig">
-            <div class="page-header"><i class="fa-solid fa-gears"></i> SYSTEM CONFIGURATION</div>
-
-            <div class="glass-panel">
-                <div class="panel-title"><i class="fa-solid fa-globe"></i> BACKGROUND GAME ROUTING</div>
-                <div class="input-group">
-                    <input type="text" id="gameUrlInput" class="form-control" placeholder="https://sikkim.com">
-                </div>
-                <button class="btn-massive" onclick="AdminCore.updateGameLink()">
-                    <i class="fa-solid fa-cloud-arrow-up"></i> UPDATE GAME URL
-                </button>
+            <!-- QUEUE -->
+            <div id="v-req" class="view-section">
+                <h2 style="margin-bottom: 20px; font-family:'Rajdhani'; color:var(--neon-blue); letter-spacing:1px;">AUTHORIZATION QUEUE</h2>
+                <div class="table-wrapper"><table><thead><tr><th>UID IDENTIFIER</th><th>HARDWARE FINGERPRINT</th><th>COMMANDS</th></tr></thead><tbody id="req-list"></tbody></table></div>
             </div>
 
-            <div class="glass-panel" style="border-color: var(--danger); box-shadow: inset 0 0 20px rgba(255,0,60,0.05);">
-                <div class="panel-title" style="color: var(--danger);"><i class="fa-solid fa-triangle-exclamation"></i> GLOBAL MAINTENANCE LOCK</div>
-                <div class="input-group">
-                    <select id="sysMode" class="form-control" style="border-color: var(--danger);">
-                        <option value="OPEN">🟢 SERVER ONLINE (OPERATIONAL)</option>
-                        <option value="LOCKED">🔴 SERVER LOCKED (UNDER MAINTENANCE)</option>
-                    </select>
+            <!-- USER DATA -->
+            <div id="v-usr" class="view-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap:wrap; gap:10px;">
+                    <h2 style="font-family:'Rajdhani'; color:var(--neon-blue); margin:0; letter-spacing:1px;">NODE DATABASE</h2>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn-primary" style="padding: 10px 15px; font-size: 11px;" onclick="downloadPDF()">📄 EXPORT BACKUP</button>
+                        <button class="btn-danger" style="padding: 10px 15px; font-size: 11px;" onclick="purgeDeadNodes()">🧹 PURGE DEAD NODES</button>
+                    </div>
                 </div>
-                <button class="btn-massive btn-danger" onclick="AdminCore.updateMaintenance()">
-                    <i class="fa-solid fa-power-off"></i> APPLY SERVER STATE
-                </button>
+                <div class="table-wrapper"><table><thead><tr><th>UID</th><th>CLASS</th><th>VALIDITY TIMEOUT</th><th>USAGE</th><th>ACTIONS</th></tr></thead><tbody id="usr-list"></tbody></table></div>
             </div>
-            
-            <div class="glass-panel" style="border-color: var(--warning); box-shadow: inset 0 0 20px rgba(255,215,0,0.05);">
-                <div class="panel-title" style="color: var(--warning);"><i class="fa-solid fa-crosshairs"></i> ALGORITHM OVERRIDE (GOD MODE)</div>
-                <div class="input-group">
-                    <select id="godModeSize" class="form-control">
-                        <option value="AUTO">AUTO (NATURAL MACHINE CALCULATION)</option>
-                        <option value="BIG">FORCE ALL PREDICTIONS TO: BIG</option>
-                        <option value="SMALL">FORCE ALL PREDICTIONS TO: SMALL</option>
-                        <option value="SKIP">FORCE MARKET TO: VOLATILE (SKIP)</option>
-                    </select>
+
+            <!-- MATRIX -->
+            <div id="v-mat" class="view-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap:wrap; gap:10px;">
+                    <h2 style="font-family:'Rajdhani'; color:var(--neon-blue); margin:0; letter-spacing:1px;">PREDICTION ALGORITHM</h2>
+                    
+                    <!-- 🔥 COPY PASTE MATRIX BUTTONS 🔥 -->
+                    <div style="display: flex; gap: 8px;">
+                        <button class="btn-warning" style="padding: 10px 15px; font-size: 11px;" onclick="copyMatrix()">📋 COPY MATRIX</button>
+                        <button class="btn-success" style="padding: 10px 15px; font-size: 11px;" onclick="pasteMatrix()">📥 PASTE MATRIX</button>
+                    </div>
                 </div>
-                <button class="btn-massive" style="background: linear-gradient(90deg, var(--warning), #b39700); color: #000;" onclick="AdminCore.updateGodMode()">
-                    <i class="fa-solid fa-satellite-dish"></i> DEPLOY OVERRIDES
-                </button>
+                
+                <div class="msg-box" style="border-top: 3px solid var(--neon-blue); padding:10px 15px; margin-bottom:15px; font-size:12px; color:var(--text-muted);">
+                    <strong>💡 PRO TIP:</strong> Click "Copy Matrix" to generate a hash code of all your set patterns. Go to another Admin Panel and click "Paste Matrix" to transfer all results instantly!
+                </div>
+
+                <div class="table-wrapper"><table><thead><tr><th>VECTOR (N-1 : N-2)</th><th>OUTCOME PARAMETER</th><th>ACTION</th></tr></thead><tbody id="mat-list"></tbody></table></div>
             </div>
+
+            <!-- BROADCAST -->
+            <div id="v-msg" class="view-section">
+                <h2 style="margin-bottom: 20px; font-family:'Rajdhani'; color:var(--neon-blue); letter-spacing:1px;">COMMUNICATIONS ARRAY</h2>
+                <div class="msg-box" style="border-top: 3px solid var(--green);">
+                    <h3 style="color:var(--green); margin-bottom:10px; font-family:'Rajdhani'; font-size:20px; letter-spacing:1px;">🌐 GLOBAL BROADCAST</h3>
+                    <input type="text" id="globalText" placeholder="Transmit message to all active nodes...">
+                    <button class="btn-success" style="width:100%; padding:14px;" onclick="sendGlobalMessage()">INITIATE BROADCAST</button>
+                </div>
+                <div class="msg-box" style="border-top: 3px solid var(--gold);">
+                    <h3 style="color:var(--gold); margin-bottom:10px; font-family:'Rajdhani'; font-size:20px; letter-spacing:1px;">🎯 DISCRETE MESSAGE (DM)</h3>
+                    <input type="number" id="dmUid" placeholder="Target UID">
+                    <input type="text" id="dmText" placeholder="Encrypted payload message...">
+                    <button class="btn-warning" style="width:100%; padding:14px;" onclick="sendDirectMessage()">TRANSMIT DM</button>
+                </div>
+            </div>
+
+            <!-- ⚙️ SETTINGS -->
+            <div id="v-settings" class="view-section">
+                <h2 style="margin-bottom: 20px; font-family:'Rajdhani'; color:var(--gold); letter-spacing:1px;">SYSTEM CONFIGURATION</h2>
+                
+                <div class="msg-box" style="border-top: 3px solid var(--neon-blue);">
+                    <h3 style="color:var(--neon-blue); margin-bottom:5px; font-family:'Rajdhani'; font-size:20px;">🔗 TARGET GAME URL OVERRIDE</h3>
+                    <p style="font-size:11px; color:var(--text-muted); margin-bottom:12px;">Force push a new live game link to all connected clients.</p>
+                    <input type="text" id="adminGameLink" placeholder="e.g. https://sikkim.com">
+                    <button class="btn-primary" style="width:100%; padding:14px;" onclick="updateGameLink()">⚡ OVERRIDE LIVE LINK</button>
+                </div>
+
+                <div class="msg-box" style="border-top: 3px solid var(--red);">
+                    <h3 style="color:var(--red); margin-bottom:5px; font-family:'Rajdhani'; font-size:20px;">🔑 MASTER AUTH KEY (PIN)</h3>
+                    <p style="font-size:11px; color:var(--text-muted); margin-bottom:12px;">Change the password required to access this Command Center.</p>
+                    <input type="text" id="adminNewPin" placeholder="Enter New Secure PIN">
+                    <button class="btn-danger" style="width:100%; padding:14px;" onclick="updateAdminPin()">🔐 UPDATE AUTH KEY</button>
+                </div>
+            </div>
+
         </div>
     </div>
 
+    <!-- ⚡ CORE JAVASCRIPT ENGINE ⚡ -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getDatabase, ref, onValue, update, remove, get } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+        import { getDatabase, ref, get, set, update, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-        /**
-         * ----------------------------------------------------------------------
-         * FIREBASE CONFIGURATION
-         * Ensure these credentials exactly match the User App
-         * ----------------------------------------------------------------------
-         */
-        const FIREBASE_CONFIG = { 
-            apiKey: "AIzaSyBNj71akpefcfEtn-SQfAcx-Pgwi8sUosg", 
-            authDomain: "teamdev-88676.firebaseapp.com", 
-            databaseURL: "https://teamdev-88676-default-rtdb.asia-southeast1.firebasedatabase.app", 
-            projectId: "teamdev-88676" 
+        // 🔥 DEV ARMY DATABASE CONFIG
+        const firebaseConfig = {
+            apiKey: "AIzaSyBNj71akpefcfEtn-SQfAcx-Pgwi8sUosg",
+            authDomain: "teamdev-88676.firebaseapp.com",
+            databaseURL: "https://teamdev-88676-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "teamdev-88676"
         };
-        const app = initializeApp(FIREBASE_CONFIG); 
-        const database = getDatabase(app);
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
 
-        /**
-         * ----------------------------------------------------------------------
-         * CORE ADMIN CONTROLLER NAMESPACE
-         * Grouping functions under window.AdminCore to access them from HTML inline onclicks
-         * ----------------------------------------------------------------------
-         */
-        window.AdminCore = {
-            
-            // UI Helpers
-            switchTab: function(tabId) {
-                document.querySelectorAll('.tab-panel').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-                document.getElementById(tabId).classList.add('active');
-                event.currentTarget.classList.add('active');
-            },
+        let currentTimeUID = ""; let expiredUsersList = [];
 
-            showToast: function(msg) {
-                const toast = document.getElementById('toast');
-                document.getElementById('toastMsg').innerText = msg;
-                toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), 3000);
-            },
+        window.showToast = (msg) => { let t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); };
+        window.switchView = (id, el) => { document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active')); document.querySelectorAll('.nav-item').forEach(v => v.classList.remove('active')); document.getElementById(id).classList.add('active'); el.classList.add('active'); };
+        window.toggleSidebar = () => { document.getElementById('sidebar').classList.toggle('open'); let overlay = document.getElementById('sidebarOverlay'); overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block'; };
+        window.closeMobileSidebar = () => { if(window.innerWidth < 768) { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebarOverlay').style.display='none'; }};
 
-            // ==========================================
-            // MODULE: NODE (UID) MANAGEMENT
-            // ==========================================
-            initUidListener: function() {
-                const container = document.getElementById('uidListContainer');
-                const targetDropdown = document.getElementById('msgTarget');
+        // 🔐 DYNAMIC LOGIN
+        window.login = async () => { 
+            let pinInput = document.getElementById('pass').value;
+            let btn = document.getElementById('loginBtn');
+            btn.innerText = "AUTHENTICATING..."; btn.disabled = true;
 
-                onValue(ref(database, 'live_uids'), (snapshot) => {
-                    container.innerHTML = '';
-                    targetDropdown.innerHTML = '<option value="ALL">📢 GLOBAL BROADCAST (ALL ACTIVE USERS)</option>';
+            try {
+                let snap = await get(ref(db, 'settings/admin_pin'));
+                let realPin = snap.exists() ? snap.val() : "SIKKIMADMIN"; // Default PIN
 
-                    if(snapshot.exists()) {
-                        const data = snapshot.val();
-                        // Sort by request time descending
-                        const uidsArray = Object.values(data).sort((a,b) => b.requestTime - a.requestTime);
-                        
-                        uidsArray.forEach(uData => {
-                            let status = uData.status;
-                            let timeRemaining = "WAITING FOR APPROVAL";
-                            
-                            // Check Expiry Logic for UI
-                            if(status === "ACTIVE" && uData.expiresAt) {
-                                if(Date.now() > uData.expiresAt) {
-                                    status = "EXPIRED";
-                                } else {
-                                    timeRemaining = `EXPIRES: ${new Date(uData.expiresAt).toLocaleString()}`;
-                                }
-                            }
-
-                            // Add ACTIVE users to Command Center dropdown
-                            if(status === "ACTIVE") {
-                                let opt = document.createElement('option');
-                                opt.value = uData.uid;
-                                opt.innerText = `👤 TARGET: UID ${uData.uid}`;
-                                targetDropdown.appendChild(opt);
-                            }
-
-                            // Build the UI Card
-                            const card = document.createElement('div');
-                            card.className = `uid-card ${status}`;
-                            
-                            // Determine color based on status
-                            let statusColor = status === 'ACTIVE' ? 'var(--success)' : (status === 'PENDING' ? 'var(--warning)' : 'var(--danger)');
-
-                            card.innerHTML = `
-                                <div class="uid-info">
-                                    <h2>${uData.uid}</h2>
-                                    <p>STATUS: <span style="color:${statusColor}">${status}</span> | ${timeRemaining}</p>
-                                    ${uData.deviceID ? `<span class="device-tag"><i class="fa-solid fa-mobile-screen-button"></i> DEVICE BOUND</span>` : ''}
-                                </div>
-                                <div class="uid-actions">
-                                    ${status !== 'ACTIVE' ? `
-                                    <select id="time_${uData.uid}">
-                                        <option value="2">2 HOURS</option>
-                                        <option value="12">12 HOURS</option>
-                                        <option value="24">24 HOURS</option>
-                                        <option value="720">30 DAYS</option>
-                                    </select>
-                                    <button class="action-btn btn-appr" onclick="AdminCore.approveUID('${uData.uid}')"><i class="fa-solid fa-check"></i> APPROVE</button>
-                                    ` : `
-                                    <button class="action-btn btn-ban" onclick="AdminCore.banUID('${uData.uid}')"><i class="fa-solid fa-ban"></i> BAN NODE</button>
-                                    `}
-                                    <button class="action-btn btn-del" title="Delete & Unbind Device" onclick="AdminCore.deleteUID('${uData.uid}')"><i class="fa-solid fa-trash"></i> UNBIND</button>
-                                </div>
-                            `;
-                            container.appendChild(card);
-                        });
-                    } else { 
-                        container.innerHTML = '<div class="empty-state"><i class="fa-solid fa-database" style="font-size:30px; margin-bottom:15px; opacity:0.5;"></i><br>DATABASE IS EMPTY</div>'; 
-                    }
-                });
-            },
-
-            approveUID: function(uid) {
-                const hours = parseInt(document.getElementById(`time_${uid}`).value);
-                const expiryTime = Date.now() + (hours * 60 * 60 * 1000);
-                update(ref(database, `live_uids/${uid}`), { status: "ACTIVE", expiresAt: expiryTime });
-                this.showToast("NODE APPROVED & ALLOCATED");
-            },
-            
-            banUID: function(uid) { 
-                if(confirm(`Ban UID ${uid}? User will be locked out immediately.`)) { 
-                    update(ref(database, `live_uids/${uid}`), { status: "BANNED" }); 
-                    this.showToast("NODE BANNED"); 
-                } 
-            },
-            
-            deleteUID: function(uid) { 
-                if(confirm(`Permanently Delete UID ${uid}? This will also unbind their hardware device.`)) { 
-                    remove(ref(database, `live_uids/${uid}`)); 
-                    this.showToast("NODE DELETED & DEVICE UNBOUND"); 
-                } 
-            },
-            
-            purgeDatabase: async function() {
-                if(!confirm("CRITICAL WARNING: This will delete ALL Banned and Expired UIDs to clean up the database. Continue?")) return;
-                
-                try {
-                    const snap = await get(ref(database, 'live_uids'));
-                    if(snap.exists()) {
-                        let updates = {};
-                        Object.keys(snap.val()).forEach(uid => { 
-                            let u = snap.val()[uid]; 
-                            if(u.status === "BANNED" || (u.status === "ACTIVE" && u.expiresAt < Date.now())) {
-                                updates[uid] = null; // Mark for deletion
-                            }
-                        });
-                        await update(ref(database, 'live_uids'), updates); 
-                        this.showToast("DATABASE CACHE CLEARED");
-                    }
-                } catch(e) {
-                    this.showToast("ERROR DURING PURGE");
+                if(pinInput === realPin) { 
+                    document.getElementById('loginBox').style.display='none'; 
+                    document.getElementById('mainContent').classList.remove('hidden'); 
+                    initSystem(); 
+                } else {
+                    alert("❌ AUTH FAILED: Invalid PIN"); 
+                    btn.innerText = "ESTABLISH CONNECTION"; btn.disabled = false;
                 }
-            },
-
-            // ==========================================
-            // MODULE: COMMAND CENTER (MESSAGES)
-            // ==========================================
-            sendCustomMessage: async function() {
-                const target = document.getElementById('msgTarget').value;
-                const type = document.getElementById('msgType').value;
-                const text = document.getElementById('msgText').value.trim();
-                const durationMins = parseInt(document.getElementById('msgDuration').value);
-                
-                if(!text) return alert("Message payload cannot be empty.");
-                
-                const payload = { 
-                    type: type, 
-                    text: text, 
-                    expiresAt: Date.now() + (durationMins * 60000) 
-                };
-
-                try {
-                    if(target === "ALL") {
-                        const snap = await get(ref(database, 'live_uids'));
-                        if(snap.exists()) {
-                            const updates = {};
-                            Object.keys(snap.val()).forEach(uid => { 
-                                updates[`${uid}/customMsg`] = payload; 
-                            });
-                            await update(ref(database, 'live_uids'), updates); 
-                            this.showToast("GLOBAL PAYLOAD DEPLOYED");
-                        }
-                    } else { 
-                        await update(ref(database, `live_uids/${target}/customMsg`), payload); 
-                        this.showToast(`PAYLOAD DEPLOYED TO TARGET`); 
-                    }
-                    document.getElementById('msgText').value = ""; // Reset input
-                } catch(e) {
-                    this.showToast("FAILED TO DEPLOY COMMAND");
-                }
-            },
-
-            clearCustomMessage: async function() {
-                const target = document.getElementById('msgTarget').value;
-                
-                try {
-                    if(target === "ALL") {
-                        const snap = await get(ref(database, 'live_uids'));
-                        if(snap.exists()) {
-                            const updates = {}; 
-                            Object.keys(snap.val()).forEach(uid => { 
-                                updates[`${uid}/customMsg`] = null; 
-                            });
-                            await update(ref(database, 'live_uids'), updates); 
-                            this.showToast("ALL COMMANDS REVOKED");
-                        }
-                    } else { 
-                        await update(ref(database, `live_uids/${target}`), { customMsg: null }); 
-                        this.showToast(`TARGET NODE UNLOCKED`); 
-                    }
-                } catch(e) {
-                    this.showToast("FAILED TO REVOKE COMMAND");
-                }
-            },
-
-            // ==========================================
-            // MODULE: SYSTEM CONFIGURATION
-            // ==========================================
-            initSystemListeners: function() {
-                get(ref(database, 'systemConfig/links/gameUrl')).then(s => { 
-                    if(s.exists()) document.getElementById('gameUrlInput').value = s.val(); 
-                });
-                get(ref(database, 'systemConfig/maintenance/mode')).then(s => { 
-                    if(s.exists()) document.getElementById('sysMode').value = s.val(); 
-                });
-                get(ref(database, 'server/override/size')).then(s => { 
-                    if(s.exists()) document.getElementById('godModeSize').value = s.val(); 
-                });
-            },
-
-            updateGameLink: function() { 
-                const url = document.getElementById('gameUrlInput').value.trim();
-                update(ref(database, 'systemConfig/links'), { gameUrl: url })
-                    .then(() => this.showToast("ROUTING URL UPDATED")); 
-            },
-            
-            updateMaintenance: function() { 
-                const mode = document.getElementById('sysMode').value;
-                update(ref(database, 'systemConfig/maintenance'), { mode: mode })
-                    .then(() => this.showToast("SERVER STATE ENFORCED")); 
-            },
-            
-            updateGodMode: function() { 
-                const size = document.getElementById('godModeSize').value;
-                update(ref(database, 'server/override'), { size: size })
-                    .then(() => this.showToast("ALGORITHM OVERRIDE DEPLOYED")); 
+            } catch(e) {
+                alert("Network Error. Check connection.");
+                btn.innerText = "ESTABLISH CONNECTION"; btn.disabled = false;
             }
         };
 
-        // Initialize Everything on Load
-        document.addEventListener('DOMContentLoaded', () => {
-            AdminCore.initUidListener();
-            AdminCore.initSystemListeners();
-        });
+        function initSystem() {
+            onValue(ref(db, 'settings/force_link'), s => { if(s.exists()) document.getElementById('adminGameLink').value = s.val(); });
 
+            onValue(ref(db, 'uid_requests'), s => {
+                let html = ""; if(s.exists()) { s.forEach(c => { html += `<tr><td style="color:var(--neon-blue);">${c.key}</td><td>${c.val().deviceId || "Unknown"}</td><td><div class="action-group"><button class="btn-success" onclick="apprReq('${c.key}')">AUTHORIZE</button> <button class="btn-danger" onclick="rejReq('${c.key}')">DROP</button></div></td></tr>`; }); }
+                document.getElementById('req-list').innerHTML = html || `<tr><td colspan="3" style="text-align:center; padding:30px;">Queue Empty.</td></tr>`;
+            });
+
+            onValue(ref(db, 'approved_uids'), s => {
+                let html = ""; let tot = 0; let vip = 0; let expCount = 0; let now = Date.now(); expiredUsersList = [];
+                if(s.exists()) {
+                    s.forEach(c => { 
+                        tot++; let d = c.val(); let uid = c.key; if(d.is_premium) vip++;
+                        let daysLeft = d.expireAt ? Math.ceil((d.expireAt - now) / 86400000) : "LIFETIME";
+                        let expiryText = "";
+                        if(daysLeft === "LIFETIME" || daysLeft > 900) { expiryText = `<span style="color:var(--gold);">LIFETIME</span>`; } 
+                        else if(daysLeft <= 0) { expiryText = `<span style="color:var(--red);">TERMINATED</span>`; expCount++; expiredUsersList.push(uid); } 
+                        else { expiryText = `<span style="color:var(--green);">${daysLeft} DAYS LEFT</span>`; }
+
+                        let badge = (daysLeft <= 0) ? `<span class="tag tag-expired">EXPIRED</span>` : (d.is_premium ? `<span class="tag tag-vip">VIP</span>` : `<span class="tag tag-trial">TRIAL</span>`);
+                        let usage = d.is_premium ? `<span style="color:var(--gold);">UNLIMITED</span>` : `<span style="color:var(--neon-blue);">${d.predictions_used||0} / 5</span>`;
+                        
+                        let actions = `<div class="action-group">`;
+                        actions += `<button class="btn-primary" onclick="openTimeModal('${uid}')">⏳ TIME</button>`;
+                        if(!d.is_premium) actions += `<button class="btn-dark" onclick="resetPlays('${uid}')">🔄 0/5</button>`;
+                        actions += `<button class="btn-warning" onclick="unlinkDevice('${uid}')">UNLINK</button>`;
+                        actions += `<button class="btn-danger" onclick="banUser('${uid}')">PURGE</button>`;
+                        actions += `</div>`;
+                        
+                        html += `<tr><td style="color:#fff;">${uid}</td><td>${badge}</td><td>${expiryText}</td><td>${usage}</td><td>${actions}</td></tr>`; 
+                    });
+                }
+                document.getElementById('usr-list').innerHTML = html || `<tr><td colspan="5" style="text-align:center; padding:30px;">Database Empty.</td></tr>`;
+                document.getElementById('statTotal').innerText = tot; document.getElementById('statVip').innerText = vip; document.getElementById('statExpired').innerText = expCount;
+            });
+            buildMatrix();
+            loadMatrixData();
+        }
+
+        /* ⚙️ SYSTEM SETTINGS */
+        window.updateGameLink = async () => {
+            let link = document.getElementById('adminGameLink').value.trim();
+            if(!link) return alert("Please enter a valid link!");
+            if(!link.startsWith('http')) link = 'https://' + link;
+            await update(ref(db, 'settings'), { force_link: link, force_link_active: true });
+            showToast("🔗 Live Link Enforced!");
+        };
+
+        window.updateAdminPin = async () => {
+            let newPin = document.getElementById('adminNewPin').value.trim();
+            if(!newPin || newPin.length < 4) return alert("PIN must be at least 4 characters.");
+            await set(ref(db, 'settings/admin_pin'), newPin);
+            document.getElementById('adminNewPin').value = "";
+            showToast("🔐 Master Auth Key Updated!");
+        };
+
+        /* 📄 PDF GENERATION */
+        window.downloadPDF = async () => {
+            showToast("Generating Encrypted PDF...");
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            doc.setFontSize(18); doc.setTextColor(0, 240, 255); 
+            doc.text("DEV ARMY | MASTER NODE REPOSITORY", 14, 22);
+            doc.setFontSize(10); doc.setTextColor(100, 116, 139);
+            doc.text("Sync Timestamp: " + new Date().toLocaleString(), 14, 30);
+
+            let tableData = [];
+            try {
+                let snap = await get(ref(db, 'approved_uids'));
+                if(snap.exists()) {
+                    let now = Date.now();
+                    snap.forEach(child => {
+                        let d = child.val();
+                        let daysLeft = d.expireAt ? Math.ceil((d.expireAt - now) / 86400000) : "LIFETIME";
+                        let status = daysLeft <= 0 ? "EXPIRED" : (d.is_premium ? "VIP" : "TRIAL");
+                        let valDisp = daysLeft > 900 ? "LIFETIME" : (daysLeft <= 0 ? "EXPIRED" : daysLeft + " Days");
+                        tableData.push([child.key, status, valDisp, d.is_premium ? "UNLIMITED" : `${d.predictions_used || 0}/5`]);
+                    });
+                } else { tableData.push(["No Data", "-", "-", "-"]); }
+                
+                doc.autoTable({ startY: 35, head: [['UID', 'CLASS', 'VALIDITY', 'USAGE']], body: tableData, theme: 'grid', headStyles: { fillColor: [15, 43, 91], textColor: [0,240,255] }});
+                doc.save("DevArmy_NodeBackup.pdf"); showToast("Backup Downloaded.");
+            } catch(e) { alert("PDF Error: " + e.message); }
+        };
+
+        window.executeMassAction = async () => {
+            let action = document.getElementById('massActionSelect').value;
+            if(!confirm("⚠️ MASS COMMAND: Execute on ALL active nodes?")) return;
+            try {
+                let snap = await get(ref(db, 'approved_uids')); if(!snap.exists()) return;
+                let updates = {}; let now = Date.now(); let count = 0;
+                snap.forEach(child => {
+                    let uid = child.key; let d = child.val();
+                    if(action === 'reset_all') { if(!d.is_premium) { updates[`approved_uids/${uid}/predictions_used`] = 0; count++; } }
+                    else if(action === 'add_7_days') { let currentExp = d.expireAt || now; if(currentExp < now) currentExp = now; updates[`approved_uids/${uid}/expireAt`] = currentExp + (7 * 86400000); count++; }
+                    else if(action === 'make_all_vip') { updates[`approved_uids/${uid}/is_premium`] = true; updates[`approved_uids/${uid}/expireAt`] = now + (30 * 86400000); count++; }
+                    else if(action === 'expire_all_free') { if(!d.is_premium) { updates[`approved_uids/${uid}/expireAt`] = now - 10000; count++; } }
+                });
+                if(count > 0) { await update(ref(db), updates); showToast(`Override applied to ${count} nodes.`); }
+            } catch(e) { alert("Execution Error."); }
+        };
+
+        window.addManualUser = async (isVip) => {
+            let uid = document.getElementById('manualUid').value.trim(); if(!uid) return;
+            let days = parseInt(document.getElementById('manualVipDuration').value); let expireAt = Date.now() + (days * 86400000);
+            await set(ref(db, 'approved_uids/'+uid), { active:true, predictions_used:0, is_premium:isVip, expireAt: expireAt });
+            document.getElementById('manualUid').value = ""; showToast(`Injected UID ${uid}`);
+        };
+
+        window.openTimeModal = (uid) => { currentTimeUID = uid; document.getElementById('timeTargetUid').innerText = uid; document.getElementById('timeModal').style.display = 'flex'; };
+        window.confirmTimeUpdate = async () => {
+            let val = parseInt(document.getElementById('editTimeDuration').value); let expireAt;
+            if(val === -1) expireAt = Date.now() - 10000; else if(val === 999) expireAt = Date.now() + (999 * 86400000); else expireAt = Date.now() + (val * 86400000);
+            await update(ref(db, 'approved_uids/'+currentTimeUID), { expireAt: expireAt });
+            document.getElementById('timeModal').style.display = 'none'; showToast(`Access Modified.`);
+        };
+
+        window.purgeDeadNodes = async () => {
+            if(expiredUsersList.length === 0) return;
+            if(!confirm(`Purge ${expiredUsersList.length} expired nodes?`)) return;
+            for(let uid of expiredUsersList) { await remove(ref(db, 'approved_uids/'+uid)); await remove(ref(db, 'device_bindings/'+uid)); }
+            showToast(`Purged successfully.`);
+        };
+
+        window.apprReq = async (uid) => { await set(ref(db, 'approved_uids/'+uid), {active:true, predictions_used:0, is_premium:false, expireAt: Date.now() + (30*86400000)}); await remove(ref(db, 'uid_requests/'+uid)); showToast("Authorized"); };
+        window.rejReq = async (uid) => { await remove(ref(db, 'uid_requests/'+uid)); showToast("Dropped"); };
+        window.resetPlays = async (uid) => { await update(ref(db, 'approved_uids/'+uid), { predictions_used: 0 }); showToast("Plays Reset"); };
+        window.unlinkDevice = async (uid) => { await remove(ref(db, 'device_bindings/'+uid)); showToast("Unlinked HWID"); };
+        window.banUser = async (uid) => { if(confirm("Blacklist node?")) { await remove(ref(db, 'approved_uids/'+uid)); await remove(ref(db, 'device_bindings/'+uid)); showToast("Terminated"); } };
+
+        /* 🔮 MATRIX ALGORITHM (WITH COPY/PASTE ENGINE) 🔮 */
+        function buildMatrix() {
+            let html = ""; for(let i=0; i<=9; i++) { for(let j=0; j<=9; j++) { let k = `${i}-${j}`; html += `<tr><td style="color:var(--gold);">${k}</td><td><input type="number" id="m-${k}" style="min-width:60px; margin:0; text-align:center;" min="0" max="9" placeholder="#"></td><td><button class="btn-primary" onclick="saveM('${k}')">SET</button></td></tr>`; }}
+            document.getElementById('mat-list').innerHTML = html;
+        }
+
+        // Live Load existing data to inputs
+        function loadMatrixData() {
+            onValue(ref(db, 'patterns'), snap => {
+                if(snap.exists()){
+                    let data = snap.val();
+                    for(let key in data) {
+                        let valMatch = data[key].match(/\[(\d+)\]/);
+                        if(valMatch && document.getElementById(`m-${key}`)) {
+                            document.getElementById(`m-${key}`).value = valMatch[1];
+                        }
+                    }
+                }
+            });
+        }
+
+        window.saveM = async (k) => { let v = document.getElementById(`m-${k}`).value; if(v!=="") await set(ref(db, `patterns/${k}`), `${parseInt(v)>=5?"BIG":"SMALL"} [${v}]`); showToast("Pattern Saved!"); };
+
+        // 🔥 NEW: COPY MATRIX FUNCTION
+        window.copyMatrix = () => {
+            let matrixData = {};
+            let hasData = false;
+            for(let i=0; i<=9; i++) {
+                for(let j=0; j<=9; j++) {
+                    let val = document.getElementById(`m-${i}-${j}`).value;
+                    if(val !== "") { matrixData[`${i}-${j}`] = val; hasData = true; }
+                }
+            }
+            if(!hasData) return alert("Matrix is empty! Nothing to copy.");
+            
+            // Encode to Base64 to make it a clean "Hash Code"
+            let encodedData = btoa(JSON.stringify(matrixData));
+            
+            navigator.clipboard.writeText(encodedData).then(() => {
+                showToast("📋 Matrix Hash Code Copied!");
+            }).catch(err => {
+                // Fallback if clipboard fails
+                prompt("Copy this Matrix Hash Code:", encodedData);
+            });
+        };
+
+        // 🔥 NEW: PASTE MATRIX FUNCTION
+        window.pasteMatrix = async () => {
+            let code = prompt("📥 PASTE MATRIX HASH CODE HERE:");
+            if(!code) return;
+            
+            try {
+                let decodedStr = atob(code.trim());
+                let matrixData = JSON.parse(decodedStr);
+                
+                let updates = {};
+                let count = 0;
+                
+                for(let k in matrixData) {
+                    let v = matrixData[k];
+                    // Update UI Input
+                    if(document.getElementById(`m-${k}`)) {
+                        document.getElementById(`m-${k}`).value = v;
+                    }
+                    // Prepare DB Update
+                    let size = parseInt(v) >= 5 ? "BIG" : "SMALL";
+                    updates[`patterns/${k}`] = `${size} [${v}]`;
+                    count++;
+                }
+                
+                if(count > 0) {
+                    await update(ref(db), updates);
+                    showToast(`✅ ${count} Patterns Restored & Saved!`);
+                }
+            } catch(e) {
+                alert("❌ INVALID HASH CODE! Please copy properly from another Admin panel.");
+            }
+        };
+
+        window.sendGlobalMessage = async () => { let txt = document.getElementById('globalText').value.trim(); if(!txt) return; await set(ref(db, 'settings/global_broadcast'), { text: txt, time: Date.now() }); showToast("Broadcast Sent."); document.getElementById('globalText').value = ""; };
+        window.sendDirectMessage = async () => { let uid = document.getElementById('dmUid').value.trim(); let txt = document.getElementById('dmText').value.trim(); if(!uid || !txt) return; await set(ref(db, 'user_messages/' + uid), {text: txt, time: Date.now(), read: false}); showToast(`DM sent to ${uid}`); document.getElementById('dmText').value = ""; };
     </script>
 </body>
 </html>

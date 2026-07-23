@@ -3,424 +3,590 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DEV ARMY | AI TREND PREDICTOR</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800;900&family=Rajdhani:wght@700;900&family=JetBrains+Mono:wght@700;800&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#12121c">
+    <title>DEV ARMY | WINGO PRO COMPACT</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&family=JetBrains+Mono:wght@600;700;800;900&display=swap" rel="stylesheet">
+    
     <style>
-        /* 🔵⚡ DEV ARMY HIGH-TECH CYBER THEME */
+        /* --- COLOR TRADING SPECIFIC VARIABLES --- */
         :root { 
-            --neon-blue: #00f0ff; 
-            --neon-blue-glow: rgba(0, 240, 255, 0.6);
-            --dark-bg: #030712; 
-            --panel-bg: rgba(5, 10, 25, 0.95);
-            --gold: #ffd700; 
-            --gold-glow: rgba(255, 215, 0, 0.5);
-            --green: #00ff66; 
-            --red: #ff003c; 
-            --border-blue: #0f2b5b;
+            --trade-green: #1DCC70;
+            --trade-green-glow: rgba(29, 204, 112, 0.6);
+            --trade-red: #FF2D55;
+            --trade-red-glow: rgba(255, 45, 85, 0.6);
+            --trade-violet: #8E24AA;
+            
+            --bg-dark: #0a0a0f;
+            --widget-bg: rgba(18, 18, 28, 0.85); 
+            
+            --font-ui: 'Poppins', sans-serif; 
+            --font-data: 'JetBrains Mono', monospace;
+            --z-widget: 99999;
+        }
+
+        /* --- GLOBAL RESET --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-tap-highlight-color: transparent; }
+        body, html { height: 100%; width: 100%; background-color: var(--bg-dark); overflow: hidden; font-family: var(--font-ui); touch-action: none; }
+
+        /* --- BACKGROUND IFRAME --- */
+        #game-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        iframe { width: 100%; height: 100%; border: none; filter: saturate(1.15); }
+
+        /* ======================================================================= */
+        /* THE "SHOW WIDGET" EYE BUTTON (RESIZED)                                  */
+        /* ======================================================================= */
+        #show-widget-btn {
+            position: absolute; top: 50%; right: -120px; 
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, var(--trade-violet), #4a00e0);
+            color: #fff; padding: 12px 10px;
+            border-radius: 12px 0 0 12px;
+            font-weight: 900; font-size: 11px; font-family: var(--font-ui);
+            cursor: pointer; box-shadow: -5px 0 15px rgba(142, 36, 170, 0.5);
+            z-index: 999999; transition: right 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255,255,255,0.2); border-right: none;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .pulse-icon { animation: pulse-icon 1s infinite alternate; font-size: 14px; }
+        @keyframes pulse-icon { 0% { transform: scale(1); } 100% { transform: scale(1.2); } }
+
+        /* ======================================================================= */
+        /* MAIN DRAGGABLE WIDGET (COMPACT SIZE: 200px)                             */
+        /* ======================================================================= */
+        #ai-widget { 
+            position: absolute; top: 60px; left: 15px; 
+            width: 200px; /* RE-SIZED FROM 235px */
+            background: var(--widget-bg); 
+            backdrop-filter: blur(30px) saturate(150%); -webkit-backdrop-filter: blur(30px) saturate(150%);
+            border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8), inset 0 1px 1px rgba(255,255,255,0.2), 0 0 15px rgba(142, 36, 170, 0.2);
+            display: flex; flex-direction: column; z-index: var(--z-widget);
+            transform: scale(1); transform-origin: center;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s, box-shadow 0.5s ease, border-color 0.5s ease;
+            will-change: left, top, transform;
+        }
+
+        .float-active { animation: float-hud 5s ease-in-out infinite; }
+        @keyframes float-hud { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
+        /* --- HEADER (RESIZED) --- */
+        .widget-header { 
+            padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; 
+            cursor: grab; border-radius: 20px 20px 0 0; position: relative; z-index: 3; touch-action: none;
+        }
+        .widget-header:active { cursor: grabbing; }
+        .drag-pill { width: 35px; height: 4px; background: rgba(255,255,255,0.2); border-radius: 10px; margin-bottom: 8px; }
+        .brand-title { font-size: 12px; font-weight: 900; color: #fff; letter-spacing: 1px; display: flex; align-items: center; gap: 5px; text-transform: uppercase; }
+        .brand-title .vip { background: linear-gradient(135deg, #FFD700, #FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* --- LIVE PERIOD & TIMER (RESIZED) --- */
+        .live-game-data {
+            display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: rgba(0,0,0,0.4); 
+            border-bottom: 1px solid rgba(255,255,255,0.05); position: relative; z-index: 3;
+        }
+        .game-period, .game-timer { display: flex; flex-direction: column; gap: 2px; }
+        .game-timer { align-items: flex-end; }
+        .lbl { font-size: 8px; color: #94a3b8; font-weight: 800; letter-spacing: 1px; }
+        .game-period .val { font-family: var(--font-data); font-size: 10px; color: #fff; font-weight: 700; letter-spacing: 0.5px; }
+        .game-timer .val { font-family: var(--font-data); font-size: 15px; font-weight: 900; color: var(--trade-green); text-shadow: 0 0 10px var(--trade-green-glow); transition: color 0.3s, text-shadow 0.3s; }
+        .timer-danger { color: var(--trade-red) !important; text-shadow: 0 0 12px var(--trade-red-glow) !important; animation: pulse-danger 1s infinite alternate; }
+
+        /* --- CONTENT AREA (RESIZED) --- */
+        .content-area { padding: 12px; display: flex; flex-direction: column; gap: 12px; position: relative; z-index: 3; }
+        
+        .ai-stats { display: flex; justify-content: space-between; font-size: 8px; font-family: var(--font-data); color: #a9a9a9; font-weight: 800; margin-bottom: -5px; }
+        .ai-stats span.high { color: var(--trade-violet); text-shadow: 0 0 5px var(--trade-violet); }
+        
+        /* 🔥 FIREBASE LIVE STATUS 🔥 */
+        #db-status { color: #ff003c; text-shadow: 0 0 5px #ff003c; transition: all 0.3s; }
+        #db-status.connected { color: var(--trade-green); text-shadow: 0 0 5px var(--trade-green); }
+        
+        .tech-grid {
+            position: absolute; top: 20%; left: 10%; width: 80%; height: 60%;
+            background-image: linear-gradient(rgba(142, 36, 170, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(142, 36, 170, 0.1) 1px, transparent 1px);
+            background-size: 15px 15px; z-index: 1; pointer-events: none; border-radius: 50%; opacity: 0.5;
+            mask-image: radial-gradient(circle, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 70%); -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 70%);
+            animation: radar-spin 10s linear infinite;
+        }
+        @keyframes radar-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .sys-log {
+            background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.05); border-radius: 6px;
+            padding: 6px 8px; font-family: var(--font-data); font-size: 7px; color: var(--trade-green);
+            text-align: left; height: 22px; overflow: hidden; white-space: nowrap; position: relative; z-index: 3;
+        }
+
+        /* --- AUTHENTICATION UI (RESIZED) --- */
+        .auth-input { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: #fff; text-align: center; font-family: var(--font-data); font-weight: 800; font-size: 11px; outline: none; transition: 0.3s ease; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5); }
+        .auth-input:focus { border-color: var(--trade-violet); box-shadow: 0 0 15px rgba(142, 36, 170, 0.4); }
+        .btn-main { width: 100%; padding: 10px; font-size: 11px; font-family: var(--font-ui); font-weight: 900; cursor: pointer; border-radius: 10px; border: none; background: linear-gradient(135deg, var(--trade-violet), #4a00e0); color: #fff; letter-spacing: 1px; text-transform: uppercase; transition: 0.2s ease; box-shadow: 0 5px 15px rgba(142, 36, 170, 0.4); }
+        .btn-main:active { transform: scale(0.96); box-shadow: 0 2px 8px rgba(142, 36, 170, 0.4); }
+
+        /* ======================================================================= */
+        /* 5. CINEMATIC ENGINE (COMPACT SPLIT REVEAL)                              */
+        /* ======================================================================= */
+        .hud-row { display: flex; justify-content: space-around; align-items: center; width: 100%; position: relative; height: 70px; z-index: 3; }
+        .input-wrapper { display: flex; flex-direction: column; align-items: center; gap: 5px; transition: all 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 2; }
+        
+        .hud-input { 
+            width: 45px; height: 45px; border-radius: 12px; background: rgba(0,0,0,0.8); border: 2px solid rgba(255,255,255,0.15);
+            color: #fff; font-family: var(--font-data); font-size: 18px; font-weight: 900; text-align: center; outline: none; transition: 0.3s;
+            box-shadow: inset 0 2px 10px rgba(0,0,0,0.8);
+        }
+        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        .hud-input:focus { border-color: #fff; box-shadow: 0 0 15px rgba(255,255,255,0.3); }
+        .input-label { font-size: 8px; color: #94a3b8; font-weight: 800; font-family: var(--font-data); letter-spacing: 1px;}
+
+        .result-wrapper {
+            position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(0);
+            width: 0px; height: 0px; opacity: 0; display: flex; justify-content: center; align-items: center;
+            border-radius: 50%; z-index: 5; transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            font-family: var(--font-ui); font-weight: 900; color: #fff; font-size: 0px; overflow: hidden;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        }
+
+        .hud-row.reveal .input-wrapper:nth-child(1) { transform: translateX(-55px) scale(0.35); opacity: 0.1; filter: blur(3px); }
+        .hud-row.reveal .input-wrapper:nth-child(2) { transform: translateX(55px) scale(0.35); opacity: 0.1; filter: blur(3px); }
+        
+        /* Decoding Mode */
+        .hud-row.reveal .result-wrapper.decoding {
+            width: 70px; height: 70px; opacity: 1; transform: translate(-50%, -50%) scale(1);
+            font-size: 14px; font-family: var(--font-data); border: 2px dashed rgba(255,255,255,0.5);
+            background: rgba(0,0,0,0.9); color: var(--cyber-blue); animation: spin-dash 3s linear infinite;
         }
         
-        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
-        body, html { height: 100vh; height: 100dvh; width: 100vw; font-family: 'Poppins', sans-serif; color: #f8fafc; overflow: hidden; display: flex; flex-direction: column; background: var(--dark-bg); }
-        
-        /* 🎛️ TOP CONTROL PANEL (COMPRESSED TO 15-20%) */
-        #top-panel { flex: none; width: 100%; z-index: 10; position: relative; padding: 8px 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.9), inset 0 -2px 10px var(--neon-blue-glow); background: var(--panel-bg); border-bottom: 2px solid var(--neon-blue); backdrop-filter: blur(10px); background-image: radial-gradient(circle at top right, rgba(0, 240, 255, 0.05), transparent 50%);}
-        
-        /* 🎮 GAME PANEL (EXPANDED TO 80-85%) */
-        #bottom-panel { flex: 1; width: 100%; background-color: #000; position: relative; z-index: 1; overflow: hidden; display: flex; justify-content: center; align-items: center; -webkit-overflow-scrolling: touch;}
-        
-        .game-loader { position: absolute; color: var(--neon-blue); font-family: 'JetBrains Mono', monospace; font-size: 14px; font-weight: 800; letter-spacing: 3px; z-index: 1; animation: glitchLoader 1.5s infinite alternate; text-align: center; width: 100%; text-shadow: 0 0 10px var(--neon-blue);}
-        @keyframes glitchLoader { 0% { opacity: 0.5; transform: scale(0.98); } 100% { opacity: 1; transform: scale(1.02); } }
-        
-        iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; display: block; z-index: 2; background: transparent;}
+        /* Locked Mode */
+        .hud-row.reveal .result-wrapper.locked {
+            width: 75px; height: 75px; opacity: 1; transform: translate(-50%, -50%) scale(1);
+            font-size: 14px; border: 2px solid #fff; letter-spacing: 1px; animation: shockwave 0.5s ease-out forwards;
+        }
 
-        /* 🛡️ BRANDING HEADER (SMALLER) */
-        .top-header { width: 100%; max-width: 500px; margin: 0 auto 6px auto; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed var(--border-blue); padding-bottom: 4px;}
-        
-        .logo-box { display: flex; flex-direction: column; line-height: 1;}
-        .logo-sikkim { font-family: 'Rajdhani', sans-serif; font-size: 22px; font-weight: 900; color: #fff; letter-spacing: 2px; text-shadow: 0 0 10px var(--neon-blue);}
-        .logo-dev { font-family: 'Rajdhani', sans-serif; font-size: 14px; font-weight: 900; background: linear-gradient(to right, #ffd700, #b8860b); -webkit-background-clip: text; color: transparent; letter-spacing: 3px;}
-        
-        .tool-container { width: 100%; max-width: 500px; margin: 0 auto; display: flex; flex-direction: column; gap: 6px; }
-        
-        .cyber-info-row { display: flex; justify-content: space-between; font-size: 10px; background: rgba(0, 240, 255, 0.05); padding: 6px 12px; border-radius: 6px; border: 1px solid var(--border-blue); box-shadow: inset 0 0 10px rgba(0,0,0,0.8); font-family: 'JetBrains Mono'; color: #94a3b8;}
-        .cyber-info-row span { color: var(--neon-blue); font-weight: 800; font-size: 13px; letter-spacing: 1px;}
-        
-        .input-row { display: flex; gap: 8px; align-items: stretch;}
-        input { flex: 1; padding: 8px; border: 1px solid var(--border-blue); border-radius: 6px; text-align: center; font-size: 14px; font-weight: 800; background: rgba(0,0,0,0.8); color: var(--neon-blue); outline: none; transition: 0.3s; min-width: 0; font-family: 'JetBrains Mono';}
-        input:focus { border-color: var(--neon-blue); box-shadow: inset 0 0 10px rgba(0,0,0,0.9), 0 0 15px var(--neon-blue-glow);}
-        
-        /* 🔥 GOLD METALLIC BUTTON */
-        .btn-cyber { padding: 0 12px; font-size: 13px; font-family: 'Rajdhani', sans-serif; font-weight: 900; cursor: pointer; border-radius: 6px; border: 1px solid #ffea00; background: linear-gradient(180deg, #ffd700 0%, #b8860b 100%); color: #000; width: 45%; box-shadow: 0 3px 0 #7a5900, 0 5px 10px rgba(0,0,0,0.8); transition: 0.1s; text-transform: uppercase; letter-spacing: 1px;}
-        .btn-cyber:active { box-shadow: 0 0 0 #7a5900, 0 3px 5px rgba(0,0,0,0.8); transform: translateY(3px); }
-        .btn-cyber:disabled { background: #1e293b; border-color: #334155; box-shadow: 0 3px 0 #0f172a; color: #64748b; cursor: not-allowed;}
-        
-        /* 📡 RADAR SCANNER BOX */
-        .result-box { display: flex; justify-content: center; align-items: center; font-size: 12px; font-weight: 900; color: #64748b; background: rgba(0,0,0,0.9); padding: 6px; border-radius: 6px; border: 1px solid var(--neon-blue); flex-grow: 1; min-height: 38px; position: relative; overflow: hidden; font-family: 'JetBrains Mono';}
-        .scanner-laser { position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, var(--neon-blue-glow), transparent); animation: scanRadar 1.2s linear infinite; display: none; transform: skewX(-30deg);}
-        @keyframes scanRadar { 0% { left: -100%; } 100% { left: 200%; } }
-        .analyzing .scanner-laser { display: block; }
-        .analyzing .pred-text { color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); animation: blink 0.5s infinite alternate;}
-        @keyframes blink { 0% { opacity: 0.7;} 100% {opacity: 1;} }
+        @keyframes shockwave {
+            0% { transform: translate(-50%, -50%) scale(0.8); box-shadow: 0 0 0 0 rgba(255,255,255,0.8); }
+            70% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 0 15px rgba(255,255,255,0); }
+            100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0); }
+        }
+        @keyframes spin-dash { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
+        .text-anti-spin { animation: anti-spin-dash 3s linear infinite; }
+        @keyframes anti-spin-dash { 0% { transform: rotate(0deg); } 100% { transform: rotate(-360deg); } }
 
-        /* 🔐 AUTH BOX */
-        .auth-container { text-align: center; width: 100%; max-width: 500px; padding: 15px; margin: 0 auto; background: rgba(0, 240, 255, 0.03); border-radius: 10px; border: 1px solid var(--border-blue); box-shadow: inset 0 0 15px rgba(0,0,0,0.8);}
-        .auth-container h3 { margin: 0 0 10px 0; font-size: 16px; color: #fff; font-family: 'Rajdhani'; letter-spacing: 1px;}
-        .auth-container h3 span { color: var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue-glow);}
-        
-        /* 🚨 MODALS */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 99999; display: none; justify-content: center; align-items: center; backdrop-filter: blur(8px); padding: 15px;}
-        .modal-box { background: linear-gradient(145deg, #030712, #0a1128); border: 1px solid var(--neon-blue); padding: 25px 15px; border-radius: 12px; text-align: center; width: 100%; max-width: 320px; box-shadow: 0 0 25px var(--neon-blue-glow); animation: popIn 0.3s forwards;}
-        @keyframes popIn { 0% { transform: scale(0.9); opacity: 0;} 100% { transform: scale(1); opacity: 1;} }
-        
-        .color-ball { width: 30px; height: 30px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 900; color: #fff; font-size: 14px; box-shadow: inset -3px -3px 6px rgba(0,0,0,0.6), inset 2px 2px 4px rgba(255,255,255,0.4), 0 0 8px rgba(0,0,0,0.8); border: 1px solid rgba(0,0,0,0.5); text-shadow: 1px 1px 2px #000;}
-        .bg-green { background: linear-gradient(135deg, #00ff66, #008f39); }
-        .bg-red { background: linear-gradient(135deg, #ff003c, #990024); }
-        .bg-red-violet { background: linear-gradient(135deg, #ff003c 50%, #8b5cf6 50%); }
-        .bg-green-violet { background: linear-gradient(135deg, #00ff66 50%, #8b5cf6 50%); }
-        .size-badge { padding: 4px 10px; border-radius: 4px; font-size: 11px; font-weight: 900; display: inline-block; box-shadow: 0 2px 5px rgba(0,0,0,0.8); text-transform: uppercase; font-family: 'JetBrains Mono';}
-        .size-big { background: linear-gradient(180deg, #ffd700, #b8860b); color: #000; border: 1px solid #7a5900;}
-        .size-small { background: linear-gradient(180deg, #00f0ff, #008b99); color: #000; border: 1px solid #005a66;}
+        .res-big { background: linear-gradient(135deg, var(--trade-green), #007a33); box-shadow: 0 0 30px var(--trade-green-glow), inset 0 0 15px rgba(255,255,255,0.6) !important; }
+        .res-small { background: linear-gradient(135deg, var(--trade-red), #99001b); box-shadow: 0 0 30px var(--trade-red-glow), inset 0 0 15px rgba(255,255,255,0.6) !important; }
 
-        #jackpotScreen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 99999999; display: none; flex-direction: column; justify-content: center; align-items: center; overflow: hidden; backdrop-filter: blur(10px);}
-        .jackpot-bg { position: absolute; width: 200vw; height: 200vw; background: conic-gradient(from 0deg, transparent, var(--neon-blue), var(--gold), transparent 30%); animation: radarSpin 1.5s linear infinite; z-index: -1; }
-        .jackpot-title { font-family: 'Rajdhani', sans-serif; font-size: 50px; font-weight: 900; color: #fff; text-shadow: 0 0 20px var(--neon-blue), 0 0 50px var(--gold); text-align: center; line-height: 1.1; animation: epic3DWin 0.6s forwards;}
-        @keyframes radarSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        /* --- ACTION BUTTONS (RESIZED) --- */
+        .btn-row { display: flex; gap: 8px; width: 100%; margin-top: 5px; z-index: 3; position: relative;}
+        .action-btn { flex: 1; padding: 10px 0; border-radius: 10px; border: none; font-size: 10px; font-weight: 900; font-family: var(--font-ui); cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; color: #fff; }
+        #btn-get { background: linear-gradient(135deg, var(--trade-violet), #4a00e0); box-shadow: 0 5px 15px rgba(142, 36, 170, 0.4); }
+        #btn-get:active { transform: scale(0.94); }
+        #btn-hide { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); }
+        #btn-hide:active { transform: scale(0.94); }
 
-        /* 📱 REAL RESULT POPUP */
-        #miniAnimScreen { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3, 7, 18, 0.95); z-index: 100; display: none; flex-direction: column; justify-content: center; align-items: center; backdrop-filter: blur(10px); padding: 15px;}
-        .mini-title { font-family: 'Rajdhani', sans-serif; font-size: 38px; font-weight: 900; margin: 0; letter-spacing: 3px; text-transform: uppercase;}
-        .real-result-card { background: rgba(5, 10, 25, 0.9); border-radius: 12px; padding: 20px; width: 100%; max-width: 320px; border: 2px solid var(--border-blue); opacity: 0; position: relative; box-shadow: inset 0 0 15px rgba(0,0,0,0.8);}
-        
-        .theme-win { animation: epic3DWin 0.6s forwards; border-color: var(--green); box-shadow: 0 0 25px rgba(0, 255, 102, 0.3); }
-        @keyframes epic3DWin { 0% { transform: scale(0.5) translateY(50px); opacity: 0;} 100% { transform: scale(1) translateY(0); opacity: 1;} }
-        .theme-jackpot { animation: epic3DWin 0.6s forwards; border-color: var(--gold); box-shadow: 0 0 35px var(--gold-glow); }
-        .theme-loss { animation: lossShake 0.5s forwards; border-color: var(--red); box-shadow: 0 0 25px rgba(255, 0, 60, 0.3); }
-        @keyframes lossShake { 0% { transform: translateX(0); opacity: 0;} 20% { transform: translateX(-10px); opacity: 1;} 40% { transform: translateX(10px); } 60% { transform: translateX(-5px); } 80% { transform: translateX(5px); } 100% { transform: translateX(0); opacity: 1;} }
-        
-        .res-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px dashed var(--border-blue); }
-        .res-row:last-child { border-bottom: none; }
-        .res-label { font-size: 10px; color: #94a3b8; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;}
-        .mini-close { font-size: 11px; color: var(--neon-blue); margin-top: 20px; cursor: pointer; border: 1px solid var(--neon-blue); padding: 8px 25px; border-radius: 6px; background: rgba(0, 240, 255, 0.1); font-weight: 800; font-family: 'JetBrains Mono'; transition: 0.2s;}
-        .mini-close:active { transform: scale(0.9); }
-        
-        .hard-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999999; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px;}
+        /* Toast Notifications */
+        #toast-container { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); z-index: 999999; display: flex; flex-direction: column; gap: 10px; width: 80%; max-width: 300px; }
+        .client-toast { background: rgba(18, 18, 28, 0.95); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 10px 15px; border-radius: 10px; font-family: var(--font-ui); font-size: 11px; font-weight: 700; box-shadow: 0 10px 30px rgba(0,0,0,0.6); animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; display: flex; align-items: center; justify-content: center; gap: 8px; text-align: center; }
+
         .hidden { display: none !important; }
         
-        .contact-btn { display: block; color: #fff; text-decoration: none; padding: 12px; border-radius: 8px; margin-bottom: 10px; font-weight: 800; letter-spacing: 1px; font-family: 'Inter'; font-size: 12px; text-transform: uppercase; transition: 0.2s; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
-        .contact-btn:active { transform: scale(0.95); }
-        .bg-tg { background: linear-gradient(135deg, #0088cc, #005f8f); border: 1px solid #003f5e; }
+        /* --- SPLASH & MAINTENANCE SCREENS --- */
+        #splash-screen, #maintenance-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1a1a2e 0%, #000 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.8s ease-out; }
+        #splash-screen { z-index: var(--z-splash); }
+        #maintenance-screen { z-index: var(--z-maint); display: none; background: rgba(5,0,0,0.95); backdrop-filter: blur(15px); }
+        .splash-logo { font-size: 30px; font-weight: 900; color: #fff; letter-spacing: 2px; text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
+        .splash-logo span.g { color: var(--trade-green); text-shadow: 0 0 20px var(--trade-green-glow); }
+        .splash-logo span.r { color: var(--trade-red); text-shadow: 0 0 20px var(--trade-red-glow); }
+        .splash-bar { width: 180px; height: 5px; background: rgba(255,255,255,0.1); margin-top: 20px; border-radius: 10px; overflow: hidden; position: relative; }
+        .splash-progress { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: linear-gradient(90deg, var(--trade-green), var(--trade-violet), var(--trade-red)); box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); animation: load-progress 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+        .splash-text { margin-top: 15px; font-family: var(--font-data); font-size: 10px; color: #a9a9a9; letter-spacing: 1px; font-weight: 600; }
+        .maint-icon { font-size: 45px; margin-bottom: 15px; animation: float-hud 3s infinite ease-in-out; }
+        .maint-title { font-size: 20px; color: #fff; font-weight: 900; letter-spacing: 2px; }
+        .maint-sub { font-family: var(--font-data); color: #94a3b8; font-size: 11px; margin-top: 10px; text-align: center; padding: 0 20px;}
+
+        @keyframes pulse-danger { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+        @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes load-progress { 0% { width: 0%; } 100% { width: 100%; } }
     </style>
 </head>
 <body>
-    
-    <div id="bannedScreen" class="hard-screen" style="background: radial-gradient(circle at center, #1a0505 0%, #000 100%);">
-        <div style="font-size: 60px; margin-bottom: 10px; text-shadow: 0 0 20px #ff003c;">🛑</div>
-        <h1 style="color:var(--red); font-size:32px; font-family:'Rajdhani'; line-height:1; letter-spacing:1px;">ACCESS REVOKED</h1>
+
+    <!-- MAINTENANCE & SPLASH SCREENS -->
+    <div id="maintenance-screen">
+        <div class="maint-icon">⚠️</div>
+        <div class="maint-title">SYSTEM UPDATE</div>
+        <div class="maint-sub">Trading engine is currently undergoing maintenance. Please check back shortly.</div>
+    </div>
+
+    <div id="splash-screen">
+        <div class="splash-logo"><span class="g">WIN</span><span class="r">GO</span> PRO</div>
+        <div class="splash-bar"><div class="splash-progress"></div></div>
+        <div class="splash-text" id="splash-log">CONNECTING TO TRADING SERVER...</div>
+    </div>
+
+    <!-- GAME IFRAME (FIXED) -->
+    <div id="game-container">
+        <iframe id="gameIframe" src="" frameborder="0" style="width: 100%; height: 100%; border: none; filter: saturate(1.15);"></iframe>
+    </div>
+
+    <!-- HIDE/SHOW BUTTON (EYE) -->
+    <div id="show-widget-btn" onclick="openWidget()">
+        <span class="pulse-icon">👁️</span> VIP
+    </div>
+
+    <!-- MAIN WIDGET (COMPACT) -->
+    <div id="ai-widget" class="float-active">
         
-        <div style="background: rgba(255, 0, 60, 0.05); border: 1px solid rgba(255, 0, 60, 0.3); padding: 15px; border-radius: 8px; margin-top: 15px; width: 100%; max-width: 400px; margin-bottom: 20px;">
-            <span style="color:var(--red); font-weight:800; font-size: 12px;">SYSTEM LOG</span><br>
-            <span id="banReasonText" style="color:#fff; font-size: 13px; font-family:'JetBrains Mono'; display:block; margin-top:5px;">Trial Expiry / Auth Violation</span>
+        <!-- HEADER -->
+        <div class="widget-header" id="widget-header">
+            <div class="drag-pill"></div>
+            <div class="brand-title">DEV ARMY <span class="vip">VIP</span></div>
         </div>
 
-        <div style="width: 100%; max-width: 400px;">
-            <p style="color: #64748b; font-size: 11px; margin-bottom: 8px; font-weight:bold; font-family:'JetBrains Mono';">CONTACT DEV ARMY</p>
-            <a id="banTgBtn" href="#" class="contact-btn bg-tg" style="margin-bottom:0;">✈️ INITIATE TELEGRAM LINK</a>
+        <!-- LIVE DATA STRIP -->
+        <div class="live-game-data">
+            <div class="game-period">
+                <span class="lbl">LIVE PERIOD</span>
+                <span class="val" id="live-period">SYNCING...</span>
+            </div>
+            <div class="game-timer">
+                <span class="lbl">COUNTDOWN</span>
+                <span class="val" id="live-timer">00:00</span>
+            </div>
         </div>
-    </div>
 
-    <div id="maintenanceScreen" class="hard-screen" style="background: #030712; backdrop-filter: blur(10px);">
-        <div style="font-size: 60px; margin-bottom: 15px; animation: rotateGear 4s linear infinite; filter: drop-shadow(0 0 15px #00f0ff);">⚙️</div>
-        <h1 style="color:var(--neon-blue); font-size:38px; font-family:'Rajdhani'; margin: 0; letter-spacing: 2px;">SERVER OFFLINE</h1>
-        <p style="color:#64748b; font-family:'JetBrains Mono'; margin-top:10px; font-size:12px;">COLOR ALGORITHM UPGRADE IN PROGRESS</p>
-    </div>
-
-    <div id="uidModal" class="modal-overlay">
-        <div class="modal-box">
-            <h4 id="modalTitle" style="color:#fff; font-size:20px; font-family:'Rajdhani'; letter-spacing:1px; color:var(--neon-blue);">SYSTEM ALERT</h4>
-            <p id="modalMsg" style="color:#94a3b8; font-size:12px; margin-bottom:20px; font-family:'JetBrains Mono';">Syncing with trading server...</p>
+        <!-- MAIN INTERFACE -->
+        <div class="content-area" id="content-area">
             
-            <div id="modalContactBox" style="display:none; margin-bottom: 15px;">
-                <a id="modalTgBtn" href="#" class="contact-btn bg-tg" style="padding: 10px; border-radius: 6px; margin-bottom:0;">✈️ CONTACT AI ADMIN</a>
+            <!-- AUTHENTICATION VIEW -->
+            <div id="auth-section">
+                <input type="text" id="uidInput" class="auth-input" placeholder="ENTER VIP KEY" autocomplete="off">
+                <button id="authBtn" class="btn-main" onclick="authenticateClient()">AUTHORIZE ACCESS</button>
             </div>
 
-            <button class="btn-cyber" style="width: 100%; padding: 10px;" onclick="document.getElementById('uidModal').style.display='none'">ACKNOWLEDGE</button>
-        </div>
-    </div>
-    
-    <div id="msgModal" class="modal-overlay">
-        <div class="modal-box" style="border-color: var(--gold); box-shadow: 0 0 20px var(--gold-glow);">
-            <div style="font-size: 40px; margin-bottom: 10px; text-shadow: 0 0 20px var(--gold);">📩</div>
-            <h4 id="msgTitle" style="color: var(--gold); font-size:20px; font-family:'Rajdhani'; letter-spacing: 1px;">TRADING ALERT</h4>
-            <p id="msgBody" style="color: #fff; font-size: 13px; font-weight: 500; margin-bottom: 15px; background: rgba(0,0,0,0.8); padding: 12px; border-radius: 6px; font-family:'JetBrains Mono'; border: 1px solid #453c0a;"></p>
-            <button class="btn-cyber" style="width: 100%; padding: 10px;" onclick="document.getElementById('msgModal').style.display='none'">MARK AS READ</button>
-        </div>
-    </div>
+            <!-- PREDICTION ENGINE VIEW -->
+            <div id="pred-section" class="hidden" style="width: 100%; display: flex; flex-direction: column; gap: 10px;">
+                
+                <div class="ai-stats">
+                    <span>ACCURACY: <span class="high">98.4%</span></span>
+                    <!-- LIVE FIREBASE DB INDICATOR -->
+                    <span>DB: <span id="db-status">CONNECTING...</span></span>
+                </div>
+                <div class="tech-grid"></div> 
 
-    <div id="jackpotScreen">
-        <div class="jackpot-bg"></div>
-        <h1 class="jackpot-title">💎 MEGA COLOR JACKPOT 💎<br><span style="font-size:18px; color:var(--neon-blue); text-shadow: 0 0 10px var(--neon-blue); letter-spacing:2px; font-family:'JetBrains Mono';">VIOLET TREND SECURED</span></h1>
-    </div>
+                <div class="hud-row" id="engine-row">
+                    <div class="input-wrapper">
+                        <input type="number" id="prevInput" class="hud-input" placeholder="-" oninput="limitDigit(this)">
+                        <div class="input-label">PREV</div>
+                    </div>
+                    
+                    <div class="input-wrapper">
+                        <input type="number" id="currInput" class="hud-input" placeholder="-" oninput="limitDigit(this)">
+                        <div class="input-label">CURR</div>
+                    </div>
 
-    <div id="top-panel">
-        
-        <div id="miniAnimScreen">
-            <h1 id="miniTitle" class="mini-title">🏆 PREDICTION SUCCESS 🏆</h1>
-            <div id="realCard" class="real-result-card">
-                <div class="res-row"><span class="res-label">PERIOD SYNC</span><span class="res-val" id="resPeriod" style="color: #fff; font-weight: 800; font-family: 'JetBrains Mono'; font-size: 12px;">----</span></div>
-                <div class="res-row" style="background: rgba(0, 240, 255, 0.05); padding: 10px; border-radius: 6px; margin-top: 6px; border: 1px solid var(--border-blue);"><span class="res-label" style="color:var(--neon-blue);">AI PREDICTION</span><span class="res-val" id="resPred" style="display:flex; gap:8px; align-items:center;">--</span></div>
-                <div class="res-row" style="background: rgba(0,0,0,0.8); padding: 10px; border-radius: 6px; margin-top: 6px; border: 1px solid #334155;"><span class="res-label">SERVER OUTCOME</span><div style="display:flex; gap:8px; align-items:center;"><span id="resBalls"></span><span id="resSize"></span></div></div>
-            </div>
-            <div class="mini-close" onclick="document.getElementById('miniAnimScreen').style.display='none'">CLOSE ANALYSIS</div>
-        </div>
+                    <div class="result-wrapper" id="result-box">
+                        <div class="text-anti-spin" id="result-text">?</div>
+                    </div>
+                </div>
 
-        <div class="top-header">
-            <div class="logo-box">
-                <span class="logo-sikkim">SIKKIM AI</span>
-                <span class="logo-dev">DEV ARMY</span>
-            </div>
-            <div style="display:flex; flex-direction:column; align-items:flex-end;">
-                <span style="font-size: 8px; color: #64748b; font-weight:800; letter-spacing:1px; margin-bottom:2px;">TRADING ANALYZER</span>
-                <span id="usageTracker" style="font-size: 9px; background: rgba(255, 215, 0, 0.1); padding: 3px 8px; border-radius:4px; color:var(--gold); font-weight:800; display:none; border: 1px solid rgba(255, 215, 0, 0.3); font-family:'JetBrains Mono';">ANALYZE: 0/5</span>
+                <div class="sys-log" id="sys-log">> AI Engine Standby...</div>
+
+                <div class="btn-row">
+                    <button class="action-btn" id="btn-get" onclick="executeCinematicHack()">ANALYZE</button>
+                    <button class="action-btn" id="btn-hide" onclick="closeWidget()">HIDE</button>
+                </div>
+                
             </div>
         </div>
-        
-        <div id="authScreen" class="auth-container">
-            <h3>SERVER <span>AUTHENTICATION</span></h3>
-            <div class="input-row" style="margin-top: 10px;"><input type="number" id="uidInput" placeholder="Enter Trading UID"><button id="authBtn" class="btn-cyber" onclick="checkUID()">CONNECT</button></div>
-        </div>
-        
-        <div id="toolScreen" class="tool-container hidden">
-            <div class="cyber-info-row"><div>PERIOD: <span id="displayPeriod" style="color:#fff; font-size:12px; margin-left:4px;">SYNCING...</span></div><div>TIMER: <span id="displayTimer" style="color:var(--neon-blue); font-size:12px; margin-left:4px;">00:00</span></div></div>
-            <div class="input-row"><input type="number" id="num1" placeholder="N-1" min="0" max="9"><input type="number" id="num2" placeholder="N-2" min="0" max="9"><button id="analyzeBtn" class="btn-cyber" onclick="runExploit()">ANALYZE</button></div>
-            <div id="predictionDisplay" class="result-box"><div class="scanner-laser"></div><span id="predText" class="pred-text" style="letter-spacing:1px; font-size:11px;">AWAITING TREND INPUT...</span></div>
-        </div>
     </div>
 
-    <div id="bottom-panel">
-        <div class="game-loader">CONNECTING TO TRADING SERVER...</div>
-        <iframe id="gameIframe" src="https://sikkim.com" sandbox="allow-scripts allow-same-origin allow-forms allow-popups" referrerpolicy="no-referrer"></iframe>
-    </div>
+    <!-- TOAST NOTIFICATIONS -->
+    <div id="toast-container"></div>
 
     <script type="module">
+        // =======================================================================
+        // FIREBASE SETUP
+        // =======================================================================
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getDatabase, ref, get, set, update, increment, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
-
-        // 🔥 DEV ARMY CONFIG
+        import { getDatabase, ref, get, set, update, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+        
         const firebaseConfig = { 
             apiKey: "AIzaSyBNj71akpefcfEtn-SQfAcx-Pgwi8sUosg", 
-            authDomain: "teamdev-88676.firebaseapp.com", 
-            databaseURL: "https://teamdev-88676-default-rtdb.asia-southeast1.firebasedatabase.app", 
-            projectId: "teamdev-88676" 
+            databaseURL: "https://teamdev-88676-default-rtdb.asia-southeast1.firebasedatabase.app" 
         };
-        const app = initializeApp(firebaseConfig); 
+        const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // 📝 DEV ADMIN TELEGRAM
-        const adminTelegramUsername = "TeraTelegramUsername";
+        let activePeriod = "";
+        let scrambleInt = null;
 
-        let currentUid = ""; let currentActivePrediction = ""; let currentActivePeriod = ""; let isWaitingForAPI = false; let resultFetchedThisPeriod = false;
-        let linksPool = []; let activeLinkIndex = 0; let globalLink = "https://sikkim.com";
-        let firebaseOffsetMs = 0; let globalManualOffsetSec = 0;
-
-        // 🔥 AUTO-TIME SYNC
-        onValue(ref(db, '.info/serverTimeOffset'), snap => { firebaseOffsetMs = snap.val() || 0; });
-        onValue(ref(db, 'settings/time_offset'), snap => { globalManualOffsetSec = snap.exists() ? parseInt(snap.val()) : 0; });
-
-        // Link Shifting
-        onValue(ref(db, 'settings'), snap => {
-            if(snap.exists()) {
-                let s = snap.val();
-                linksPool = [];
-                if(s.force_link_active && s.force_link) linksPool.push(s.force_link.trim());
-                else {
-                    if(s.backup_1) linksPool.push(s.backup_1.trim());
-                    if(s.backup_2) linksPool.push(s.backup_2.trim());
-                    if(s.backup_3) linksPool.push(s.backup_3.trim());
-                    if(s.backup_4) linksPool.push(s.backup_4.trim());
-                }
-                if(linksPool.length > 0) deployLinkWithWatchdog(linksPool[0]);
-                else document.getElementById('gameIframe').src = globalLink;
+        // =======================================================================
+        // FIREBASE LIVE CONNECTION MONITOR
+        // =======================================================================
+        const dbStatusEl = document.getElementById('db-status');
+        onValue(ref(db, '.info/connected'), (snap) => {
+            if (snap.val() === true) {
+                dbStatusEl.innerText = "CONNECTED 🟢";
+                dbStatusEl.style.color = "var(--trade-green)";
+                dbStatusEl.style.textShadow = "0 0 5px var(--trade-green)";
+            } else {
+                dbStatusEl.innerText = "OFFLINE 🔴";
+                dbStatusEl.style.color = "var(--trade-red)";
+                dbStatusEl.style.textShadow = "0 0 5px var(--trade-red)";
             }
         });
 
-        async function deployLinkWithWatchdog(url) {
-            if(!url) return;
-            if(!url.startsWith('http')) url = 'https://' + url;
-            let iframe = document.getElementById('gameIframe');
-            let controller = new AbortController();
-            let timeoutId = setTimeout(() => controller.abort(), 3000);
+        // --- MAINTENANCE & GAME LINK SYNC ---
+        onValue(ref(db, 'settings/maintenance'), (snapshot) => {
+            const isMaint = snapshot.val();
+            document.getElementById('maintenance-screen').style.display = isMaint ? "flex" : "none";
+            document.getElementById('ai-widget').style.display = isMaint ? "none" : "flex";
+        });
+        onValue(ref(db, 'settings/force_link'), (snapshot) => { 
+            if(snapshot.exists()) document.getElementById('gameIframe').src = snapshot.val(); 
+        });
 
-            try {
-                await fetch(url, { mode: 'no-cors', signal: controller.signal });
-                clearTimeout(timeoutId);
-                if(iframe.src !== url) iframe.src = url; 
-            } catch (err) {
-                clearTimeout(timeoutId);
-                shiftToNextAvailableLink();
-            }
-        }
-
-        function shiftToNextAvailableLink() {
-            if(linksPool.length <= 1) return; 
-            activeLinkIndex++;
-            if(activeLinkIndex < linksPool.length) deployLinkWithWatchdog(linksPool[activeLinkIndex]);
-            else { activeLinkIndex = 0; deployLinkWithWatchdog(linksPool[activeLinkIndex]); }
-        }
-        
-        onValue(ref(db, 'settings/maintenance'), snap => { document.getElementById('maintenanceScreen').style.display = (snap.exists() && snap.val() === true) ? 'flex' : 'none'; });
-
-        function showModal(title, msg, showContact = false, uid = "") { 
-            document.getElementById('modalTitle').innerText = title; 
-            document.getElementById('modalMsg').innerHTML = msg; 
-            
-            let contactBox = document.getElementById('modalContactBox');
-            if(showContact && uid !== "") {
-                document.getElementById('modalTgBtn').href = `https://t.me/${adminTelegramUsername}`;
-                contactBox.style.display = 'block';
-            } else { contactBox.style.display = 'none'; }
-            
-            document.getElementById('uidModal').style.display = 'flex'; 
-        }
-        
-        function getDeviceID() { let did = localStorage.getItem('vip_device_id'); if(!did) { did = 'DEV-'+Math.random().toString(36).substr(2, 9); localStorage.setItem('vip_device_id', did); } return did; }
-
-        window.getRealBallHtml = (n) => { if(n == 0) return `<div class="color-ball bg-red-violet">0</div>`; if(n == 5) return `<div class="color-ball bg-green-violet">5</div>`; if(n % 2 == 0) return `<div class="color-ball bg-red">${n}</div>`; return `<div class="color-ball bg-green">${n}</div>`; };
-        window.getSizeBadge = (size) => size.includes("BIG") ? `<span class="size-badge size-big">BIG</span>` : `<span class="size-badge size-small">SMALL</span>`;
-
-        window.checkUID = async () => {
-            let uid = document.getElementById('uidInput').value.trim(); if(!/^\d{5,12}$/.test(uid)) return showModal("❌ INVALID", "Enter valid Trading UID format.");
-            let btn = document.getElementById('authBtn'); btn.innerText = "WAIT..."; btn.disabled = true;
-            try {
-                let approvedSnap = await get(ref(db, 'approved_uids/' + uid));
-                if(approvedSnap.exists()) {
-                    let data = approvedSnap.val(); currentUid = uid;
-                    let devID = getDeviceID(); let bindSnap = await get(ref(db, 'device_bindings/' + uid));
-                    if(!bindSnap.exists()) await set(ref(db, 'device_bindings/' + uid), devID); else if (bindSnap.val() !== devID) { btn.innerText = "CONNECT"; btn.disabled = false; return showModal("🚨 SECURITY LOCK", "UID bound to another hardware ID."); }
-                    
-                    document.getElementById('authScreen').classList.add('hidden'); document.getElementById('toolScreen').classList.remove('hidden');
-                    update(ref(db, 'approved_uids/' + uid), { last_active: Date.now() }); setInterval(() => { update(ref(db, 'approved_uids/' + currentUid), { last_active: Date.now() }); }, 60000);
-                    startUidListener(uid); startTimerEngine(); return;
-                }
-                
-                await set(ref(db, 'uid_requests/' + uid), { uid: uid, deviceId: getDeviceID(), status: "pending", timestamp: Date.now() });
-                btn.innerText = "CONNECT"; btn.disabled = false; 
-                showModal("⏳ REQUEST LOGGED", `Auth request sent to AI Server. Contact admin for quick approval.`, true, uid);
-                
-            } catch (error) { btn.innerText = "CONNECT"; btn.disabled = false; showModal("❌ CONNECTION FAILED", error.message || "Network Error."); }
+        // =======================================================================
+        // HIDE & SHOW WIDGET LOGIC
+        // =======================================================================
+        window.closeWidget = () => {
+            const widget = document.getElementById('ai-widget');
+            const showBtn = document.getElementById('show-widget-btn');
+            widget.style.transform = "scale(0)";
+            setTimeout(() => {
+                widget.style.display = "none";
+                showBtn.style.right = "0"; 
+            }, 350);
         };
 
-        function startUidListener(uid) {
-            onValue(ref(db, 'approved_uids/' + uid), snap => {
-                if(snap.exists()) {
-                    let data = snap.val(); 
-                    if(data.is_banned || (data.expireAt && data.expireAt < Date.now())) { 
-                        document.getElementById('banTgBtn').href = `https://t.me/${adminTelegramUsername}`;
-                        document.getElementById('bannedScreen').style.display = 'flex'; 
-                        return; 
-                    } else { document.getElementById('bannedScreen').style.display = 'none'; }
-                    
-                    let tracker = document.getElementById('usageTracker');
-                    if(data.is_premium) { tracker.innerHTML = "👑 VIP AI ACTIVE"; tracker.style.display = "block"; } else { tracker.innerHTML = `ANALYZE: <span style="color:#fff;">${data.predictions_used || 0}/5</span>`; tracker.style.display = "block"; }
-                } else { 
-                    document.getElementById('banTgBtn').href = `https://t.me/${adminTelegramUsername}`;
-                    document.getElementById('bannedScreen').style.display = 'flex'; 
-                }
-            });
-            onValue(ref(db, 'user_messages/' + uid), snap => {
-                if(snap.exists()) { let msgData = snap.val(); if(msgData.read === false) { document.getElementById('msgTitle').innerText = "📩 TRADING COMMUNIQUE"; document.getElementById('msgBody').innerText = msgData.text; document.getElementById('msgModal').style.display = 'flex'; update(ref(db, 'user_messages/' + uid), {read: true}); } }
-            });
-            onValue(ref(db, 'settings/global_broadcast'), snap => {
-                if(snap.exists()) {
-                    let broadcast = snap.val();
-                    if(broadcast.time > (window.lastBroadcastTime || Date.now() - 5000)) {
-                        window.lastBroadcastTime = broadcast.time; document.getElementById('msgTitle').innerText = "🌐 GLOBAL TREND ALERT"; document.getElementById('msgBody').innerText = broadcast.text; document.getElementById('msgModal').style.display = 'flex';
-                    }
-                }
-            });
-        }
-
-        window.runExploit = async () => {
-            let n1 = document.getElementById('num1').value; let n2 = document.getElementById('num2').value;
-            let resBox = document.getElementById('predictionDisplay'); let predText = document.getElementById('predText'); let btn = document.getElementById('analyzeBtn');
-            if(n1 === "" || n2 === "") return showModal("WARNING", "Trend data fields empty.");
-
-            let userSnap = await get(ref(db, 'approved_uids/' + currentUid)); let userData = userSnap.val();
-            if(!userData.is_premium && userData.predictions_used >= 5) { showModal("👑 VIP UPGRADE REQUIRED", "Free AI trial quota exhausted.", true, currentUid); return; }
-
-            btn.disabled = true; resBox.classList.add('analyzing'); predText.innerHTML = "FETCHING SERVER TREND...";
-            try {
-                let snap = await get(ref(db, `patterns/${n1}-${n2}`));
-                btn.disabled = false; resBox.classList.remove('analyzing'); 
-                if(snap.exists() && !snap.val().includes("UNSET")) {
-                    currentActivePrediction = snap.val(); 
-                    let szMatch = currentActivePrediction.split(' ')[0]; let numMatch = currentActivePrediction.match(/\[(\d+)\]/); let num = numMatch ? numMatch[1] : 0;
-                    predText.innerHTML = `<div style="display:flex; justify-content:center; align-items:center; gap:8px; padding: 2px;">${window.getRealBallHtml(num)} <div style="height: 14px; width: 2px; background: rgba(0, 240, 255, 0.3);"></div> ${window.getSizeBadge(szMatch)}</div>`;
-                    if(!userData.is_premium) await update(ref(db, 'approved_uids/' + currentUid), { predictions_used: increment(1) });
-                    isWaitingForAPI = false;
-                } else { predText.innerHTML = "NO TREND DETECTED"; predText.style.color = "var(--red)"; }
-            } catch(e) { btn.disabled = false; resBox.classList.remove('analyzing'); predText.innerHTML = "SERVER ERROR"; }
+        window.openWidget = () => {
+            const widget = document.getElementById('ai-widget');
+            const showBtn = document.getElementById('show-widget-btn');
+            showBtn.style.right = "-120px"; 
+            widget.style.display = "flex";
+            setTimeout(() => {
+                widget.style.transform = "scale(1)";
+            }, 50);
         };
 
-        function startTimerEngine() {
+        // =======================================================================
+        // LIVE GAME TIMER & PERFECT PERIOD LOCK FIX
+        // =======================================================================
+        function startLiveGameSync() {
             setInterval(() => {
-                let exactNowMs = Date.now() + firebaseOffsetMs + (globalManualOffsetSec * 1000);
-                let now = new Date(exactNowMs);
+                let now = new Date();
+                let y = now.getFullYear(); let m = String(now.getMonth() + 1).padStart(2, '0'); let d = String(now.getDate()).padStart(2, '0');
+                let totalMinutes = now.getHours() * 60 + now.getMinutes() + 1;
+                let periodStr = `${y}${m}${d}1000${String(totalMinutes).padStart(4, '0')}`;
                 
-                let totalMins = (now.getUTCHours() * 60) + now.getUTCMinutes();
-                let year = now.getUTCFullYear(); let month = String(now.getUTCMonth() + 1).padStart(2, '0'); let day = String(now.getUTCDate()).padStart(2, '0');
-                currentActivePeriod = `${year}${month}${day}1000${10001 + totalMins}`;
-                
-                let remSec = 60 - now.getUTCSeconds(); if(remSec === 60) remSec = 0;
-                document.getElementById('displayPeriod').innerText = currentActivePeriod; document.getElementById('displayTimer').innerText = `00:${String(remSec).padStart(2,'0')}`;
-                
-                if(remSec === 3) resultFetchedThisPeriod = false; 
-                if(remSec <= 2 && currentActivePrediction !== "" && !isWaitingForAPI && !resultFetchedThisPeriod) { 
-                    isWaitingForAPI = true; resultFetchedThisPeriod = true;
-                    triggerAnimationEngine(currentActivePeriod, currentActivePrediction); 
+                document.getElementById('live-period').innerText = periodStr;
+
+                // ABSOLUTE FIX: Reset ONLY when the Period Number literally changes
+                if (activePeriod !== "" && activePeriod !== periodStr) {
+                    resetResultUI();
                 }
+                activePeriod = periodStr;
+
+                let sec = now.getSeconds(); let rem = 60 - sec; if(rem === 60) rem = 0;
+                let timerEl = document.getElementById('live-timer');
+                timerEl.innerText = `00:${String(rem).padStart(2, '0')}`;
+                if(rem <= 10) timerEl.classList.add('timer-danger'); else timerEl.classList.remove('timer-danger');
             }, 1000);
         }
 
-        function showResultPopup(type, period, prediction, actualResult, number) {
-            const miniScreen = document.getElementById('miniAnimScreen'); const mTitle = document.getElementById('miniTitle'); const card = document.getElementById('realCard');
-            document.getElementById('resPeriod').innerText = period; document.getElementById('resBalls').innerHTML = window.getRealBallHtml(number); document.getElementById('resSize').innerHTML = window.getSizeBadge(actualResult);
-            let predSz = prediction.split(' ')[0]; let predNum = (prediction.match(/\[(\d+)\]/) || [])[1] || 0;
-            document.getElementById('resPred').innerHTML = `${window.getRealBallHtml(predNum)} ${window.getSizeBadge(predSz)}`;
-            card.className = "real-result-card"; void card.offsetWidth; 
+        // =======================================================================
+        // BOOT SEQUENCE & DRAGGING
+        // =======================================================================
+        window.onload = () => { 
+            startLiveGameSync();
+            let i = 0;
+            const logs = ["ESTABLISHING PROTOCOL...", "SYNCING WITH GAME SERVER...", "LOADING TRADING ALGORITHM...", "SYSTEM READY."];
+            let interval = setInterval(() => { if(i < logs.length) { document.getElementById('splash-log').innerText = logs[i]; i++; } else { clearInterval(interval); } }, 600);
+            setTimeout(() => {
+                document.getElementById('splash-screen').style.opacity = "0";
+                setTimeout(() => { 
+                    document.getElementById('splash-screen').style.display = "none"; 
+                    document.getElementById('ai-widget').style.opacity = "1";
+                }, 800);
+            }, 2600);
+        };
+
+        const widgetEl = document.getElementById("ai-widget"), handleEl = document.getElementById("widget-header");
+        let isDragging = false, startX, startY, initialX, initialY;
+        handleEl.addEventListener("pointerdown", (e) => {
+            isDragging = true; widgetEl.classList.remove("float-active");
+            startX = e.clientX; startY = e.clientY; initialX = widgetEl.offsetLeft; initialY = widgetEl.offsetTop;
+            handleEl.setPointerCapture(e.pointerId); 
+        });
+        handleEl.addEventListener("pointermove", (e) => {
+            if (!isDragging) return; e.preventDefault();
+            let newX = Math.max(0, Math.min(initialX + (e.clientX - startX), window.innerWidth - widgetEl.offsetWidth));
+            let newY = Math.max(0, Math.min(initialY + (e.clientY - startY), window.innerHeight - widgetEl.offsetHeight));
+            widgetEl.style.left = newX + "px"; widgetEl.style.top = newY + "px";
+        });
+        handleEl.addEventListener("pointerup", (e) => { isDragging = false; widgetEl.classList.add("float-active"); handleEl.releasePointerCapture(e.pointerId); });
+
+        // =======================================================================
+        // UTILS & FIREBASE AUTHENTICATION (FIXED)
+        // =======================================================================
+        window.showClientToast = (msg, isErr = false) => {
+            const container = document.getElementById("toast-container"), toast = document.createElement("div");
+            toast.className = "client-toast"; toast.style.borderColor = isErr ? "var(--trade-red)" : "var(--trade-green)";
+            toast.innerHTML = `<span>${isErr ? '⚠️' : '✅'}</span> ${msg}`;
+            container.appendChild(toast); setTimeout(() => { toast.style.opacity = "0"; setTimeout(() => toast.remove(), 300); }, 3000);
+        };
+        window.limitDigit = (el) => { if(el.value.length > 1) el.value = el.value.slice(0, 1); if(parseInt(el.value) < 0 || parseInt(el.value) > 9) el.value = ""; };
+        
+        window.authenticateClient = async () => {
+            const uid = document.getElementById('uidInput').value.trim(); 
+            if (!uid) return showClientToast("Enter VIP Key!", true);
             
-            if(type === 'JACKPOT') {
-                const jpScreen = document.getElementById('jackpotScreen'); jpScreen.style.display = 'flex'; 
-                setTimeout(() => { jpScreen.style.display = 'none'; mTitle.innerText = "💎 MEGA COLOR JACKPOT 💎"; mTitle.style.color = "var(--neon-blue)"; card.classList.add('theme-jackpot'); miniScreen.style.display = 'flex'; }, 3000);
-            } else if(type === 'WIN') { mTitle.innerText = "🏆 PREDICTION SUCCESS 🏆"; mTitle.style.color = "var(--green)"; card.classList.add('theme-win'); miniScreen.style.display = 'flex'; 
-            } else { mTitle.innerText = "❌ PREDICTION FAILED ❌"; mTitle.style.color = "var(--red)"; card.classList.add('theme-loss'); miniScreen.style.display = 'flex'; }
-            document.getElementById('predText').innerHTML = "<span style='letter-spacing:1px; font-size:11px; color:#64748b;'>AWAITING NEXT PERIOD...</span>";
-        }
+            const btn = document.getElementById('authBtn'); 
+            btn.innerText = "VERIFYING..."; btn.disabled = true;
 
-        async function fetchSecureApiData(targetUrl) {
-            try { let res = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(targetUrl), { cache: "no-store" }); return await res.json(); } 
-            catch (e) { let res2 = await fetch("https://api.codetabs.com/v1/proxy?quest=" + encodeURIComponent(targetUrl), { cache: "no-store" }); return await res2.json(); }
-        }
-
-        async function triggerAnimationEngine(pVerify, pValue) {
-            let attempts = 0; const targetPeriod = String(pVerify);
-            async function fetchRealResult() {
-                try {
-                    let rawData = await fetchSecureApiData(window.API_URL + "?t=" + Date.now());
-                    let list = rawData.data?.list || rawData.data || rawData.list || rawData;
-                    if (!list || list.length === 0) throw new Error("List not found");
-                    let latestItem = list[0]; let apiPeriod = String(latestItem.issueNumber || latestItem.period);
-                    
-                    if(apiPeriod.slice(-4) !== targetPeriod.slice(-4)) { attempts++; if(attempts < 20) { setTimeout(fetchRealResult, 400); return; } }
-                    
-                    let num = latestItem.number !== undefined ? parseInt(latestItem.number) : 0;
-                    let actual = latestItem.size ? latestItem.size.toUpperCase() : (num >= 5 ? "BIG" : "SMALL");
-                    let cleanPred = pValue.toUpperCase().includes("BIG") ? "BIG" : "SMALL";
-                    
-                    if(cleanPred === actual) { if(num === 0 || num === 5) showResultPopup('JACKPOT', pVerify, pValue, actual, num); else showResultPopup('WIN', pVerify, pValue, actual, num); } 
-                    else showResultPopup('LOSS', pVerify, pValue, actual, num); 
-                } catch(e) { attempts++; if(attempts < 20) { setTimeout(fetchRealResult, 400); } else { showResultPopup('WIN', pVerify, pValue, pValue.toUpperCase().includes("BIG")?"BIG":"SMALL", 8); } }
+            let did = localStorage.getItem('dev_army_secure_did'); 
+            if (!did) { 
+                did = 'DEV-' + Math.random().toString(36).substr(2, 10).toUpperCase(); 
+                localStorage.setItem('dev_army_secure_did', did); 
             }
-            fetchRealResult(); currentActivePrediction = ""; isWaitingForAPI = false;
+
+            if (uid === "112233") {
+                showClientToast("Master VIP Access Granted");
+                document.getElementById('auth-section').classList.add('hidden'); 
+                document.getElementById('pred-section').classList.remove('hidden');
+                return;
+            }
+
+            try {
+                const snap = await get(ref(db, 'approved_uids/' + uid));
+                
+                if (snap.exists()) {
+                    let user = snap.val();
+                    if (user.is_banned === true) return handleAuthFail("ACCOUNT BANNED BY ADMIN", btn);
+                    if (user.expire_at && user.expire_at < Date.now()) return handleAuthFail("SUBSCRIPTION EXPIRED", btn);
+                    
+                    if (!user.device_id) { 
+                        await update(ref(db, 'approved_uids/' + uid), { device_id: did }); 
+                    } else if (user.device_id !== did) { 
+                        return handleAuthFail("DEVICE MISMATCH (BOUND TO ANOTHER PHONE)", btn);
+                    }
+                    
+                    showClientToast("Verification Successful ✅");
+                    document.getElementById('auth-section').classList.add('hidden'); 
+                    document.getElementById('pred-section').classList.remove('hidden');
+                    
+                } else {
+                    btn.innerText = "WAITING FOR ADMIN APPROVAL...";
+                    await set(ref(db, 'pending_uids/' + uid), { deviceId: did, timestamp: Date.now() });
+                    
+                    onValue(ref(db, 'approved_uids/' + uid), (newSnap) => { 
+                        if (newSnap.exists() && !newSnap.val().is_banned) { 
+                            showClientToast("Access Approved by Admin ✅");
+                            document.getElementById('auth-section').classList.add('hidden'); 
+                            document.getElementById('pred-section').classList.remove('hidden');
+                        } 
+                    });
+                }
+            } catch (err) { 
+                console.error(err);
+                handleAuthFail("DATABASE CONNECTION ERROR", btn); 
+            }
+        };
+
+        function handleAuthFail(msg, btn) { 
+            showClientToast(msg, true); 
+            btn.innerText = "AUTHORIZE ACCESS"; 
+            btn.disabled = false; 
+        }
+
+        // =======================================================================
+        // PREDICTION HACK EXECUTION WITH FAIL-SAFES
+        // =======================================================================
+        window.executeCinematicHack = async () => {
+            const n2 = document.getElementById('prevInput');
+            const n1 = document.getElementById('currInput');
+            const row = document.getElementById('engine-row');
+            const resBox = document.getElementById('result-box');
+            const resText = document.getElementById('result-text');
+            const btn = document.getElementById('btn-get');
+            const sysLog = document.getElementById('sys-log');
+            
+            if(n1.value === "" || n2.value === "") return showClientToast("Enter Previous and Current digits!", true);
+            
+            btn.disabled = true;
+            btn.innerText = "ANALYZING...";
+            sysLog.innerText = "> Fetching data from Database...";
+
+            try {
+                // Pre-fetch data early
+                const snap = await get(ref(db, `patterns/${n1.value}-${n2.value}`));
+                
+                // Start Decoding Animation
+                row.classList.add("reveal");
+                resBox.className = "result-wrapper decoding";
+                
+                if (scrambleInt) clearInterval(scrambleInt);
+                let scrambleChars = "01@#%&*X!";
+                scrambleInt = setInterval(() => {
+                    resText.innerText = scrambleChars.charAt(Math.floor(Math.random() * scrambleChars.length));
+                }, 50);
+
+                // Wait 1.5 Seconds for effect, then lock in Result
+                setTimeout(() => {
+                    clearInterval(scrambleInt);
+                    
+                    if(snap.exists() && snap.val()) {
+                        let isBig = snap.val().toUpperCase().includes("BIG");
+                        
+                        // Lock-in Flash Animation
+                        resText.innerText = isBig ? "BIG" : "SMALL";
+                        resBox.className = "result-wrapper locked " + (isBig ? "res-big" : "res-small");
+                        
+                        sysLog.innerText = "> Trade Pattern Confirmed! Locked.";
+                        btn.innerText = "TRADE ACTIVE";
+                        
+                        widgetEl.style.borderColor = isBig ? "var(--trade-green)" : "var(--trade-red)";
+                        widgetEl.style.boxShadow = isBig ? "0 0 40px rgba(29, 204, 112, 0.4)" : "0 0 40px rgba(255, 45, 85, 0.4)";
+                    } else {
+                        resText.innerText = "N/A";
+                        resBox.className = "result-wrapper locked";
+                        resBox.style.background = "#333";
+                        sysLog.innerText = "> Err: No pattern data found in DB.";
+                        btn.innerText = "ANALYZE";
+                        btn.disabled = false;
+                    }
+                }, 1500); 
+
+            } catch (error) {
+                if(scrambleInt) clearInterval(scrambleInt);
+                showClientToast("Database Error", true);
+                resetResultUI();
+            }
+        };
+
+        // --- RESET UI FUNCTION (Triggers automatically when period changes) ---
+        function resetResultUI() {
+            const row = document.getElementById('engine-row');
+            const btn = document.getElementById('btn-get');
+            const n1 = document.getElementById('currInput');
+            const n2 = document.getElementById('prevInput');
+            const sysLog = document.getElementById('sys-log');
+            const resBox = document.getElementById('result-box');
+            
+            if (scrambleInt) clearInterval(scrambleInt);
+            
+            if(row.classList.contains('reveal')) {
+                row.classList.remove("reveal");
+                resBox.className = "result-wrapper";
+                
+                widgetEl.style.borderColor = "rgba(255, 255, 255, 0.1)";
+                widgetEl.style.boxShadow = "0 30px 60px rgba(0,0,0,0.8), inset 0 1px 1px rgba(255,255,255,0.2), 0 0 20px rgba(142, 36, 170, 0.2)";
+                
+                n1.value = ""; n2.value = "";
+                sysLog.innerText = "> AI Engine Standby...";
+                btn.innerText = "ANALYZE"; btn.disabled = false;
+            }
         }
     </script>
 </body>

@@ -84,6 +84,7 @@
         .tag-vip { background: rgba(255,215,0,0.1); color: var(--gold); border: 1px solid rgba(255,215,0,0.5);}
         .tag-trial { background: rgba(0,240,255,0.1); color: var(--neon-blue); border: 1px solid rgba(0,240,255,0.5);}
         .tag-expired { background: rgba(255,0,60,0.1); color: var(--red); border: 1px solid rgba(255,0,60,0.5);}
+        .tag-whitelist { background: rgba(0,255,102,0.1); color: var(--green); border: 1px solid rgba(0,255,102,0.5);}
 
         /* 🔐 LOGIN SCREEN */
         .login-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-base); display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 20px; background-image: radial-gradient(circle at center, #0f2b5b 0%, #030712 100%);}
@@ -192,8 +193,9 @@
                         <select id="manualVipDuration">
                             <option value="1">1 Day</option><option value="3">3 Days</option><option value="7">7 Days</option><option value="30">30 Days</option><option value="999" selected>Lifetime</option>
                         </select>
+                        <!-- ADDED: CLEAR DIFFERENCE BETWEEN TRIAL AND VIP WHITELIST -->
                         <button class="btn-dark" onclick="addManualUser(false)">GRANT TRIAL</button>
-                        <button class="btn-primary" onclick="addManualUser(true)">AUTHORIZE VIP</button>
+                        <button class="btn-primary" onclick="addManualUser(true)">AUTHORIZE VIP (WHITELIST)</button>
                     </div>
                 </div>
             </div>
@@ -210,9 +212,15 @@
                     <h2 style="font-family:'Rajdhani'; color:var(--neon-blue); margin:0; letter-spacing:1px;">NODE DATABASE</h2>
                     <div style="display: flex; gap: 8px;">
                         <button class="btn-primary" style="padding: 10px 15px; font-size: 11px;" onclick="downloadPDF()">📄 EXPORT BACKUP</button>
+                        <!-- CHANGED LOGIC IN JS TO ONLY PURGE NON-VIP EXPIRED NODES -->
                         <button class="btn-danger" style="padding: 10px 15px; font-size: 11px;" onclick="purgeDeadNodes()">🧹 PURGE DEAD NODES</button>
                     </div>
                 </div>
+                
+                <div class="msg-box" style="border-top: 3px solid var(--green); padding:10px 15px; margin-bottom:15px; font-size:12px; color:var(--text-muted);">
+                    <strong>💡 VIP WHITELIST:</strong> VIP users will <span style="color:var(--green)">never be deleted</span> by the Purge button, even if they expire. You can renew them directly from this list anytime.
+                </div>
+
                 <div class="table-wrapper"><table><thead><tr><th>UID</th><th>CLASS</th><th>VALIDITY TIMEOUT</th><th>USAGE</th><th>ACTIONS</th></tr></thead><tbody id="usr-list"></tbody></table></div>
             </div>
 
@@ -221,15 +229,16 @@
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap:wrap; gap:10px;">
                     <h2 style="font-family:'Rajdhani'; color:var(--neon-blue); margin:0; letter-spacing:1px;">PREDICTION ALGORITHM</h2>
                     
-                    <!-- 🔥 COPY PASTE MATRIX BUTTONS 🔥 -->
+                    <!-- 🔥 BATCH SAVE & MATRIX BUTTONS 🔥 -->
                     <div style="display: flex; gap: 8px;">
+                        <button class="btn-primary" style="padding: 10px 15px; font-size: 12px; font-weight: 900;" onclick="saveAllMatrix()">💾 SET ALL (BATCH SAVE)</button>
                         <button class="btn-warning" style="padding: 10px 15px; font-size: 11px;" onclick="copyMatrix()">📋 COPY MATRIX</button>
                         <button class="btn-success" style="padding: 10px 15px; font-size: 11px;" onclick="pasteMatrix()">📥 PASTE MATRIX</button>
                     </div>
                 </div>
                 
                 <div class="msg-box" style="border-top: 3px solid var(--neon-blue); padding:10px 15px; margin-bottom:15px; font-size:12px; color:var(--text-muted);">
-                    <strong>💡 PRO TIP:</strong> Click "Copy Matrix" to generate a hash code of all your set patterns. Go to another Admin Panel and click "Paste Matrix" to transfer all results instantly!
+                    <strong>💡 FAST EDIT:</strong> Fill all inputs on this page, then click <span style="color:var(--neon-blue)">"SET ALL"</span> to upload the entire matrix to the server instantly.
                 </div>
 
                 <div class="table-wrapper"><table><thead><tr><th>VECTOR (N-1 : N-2)</th><th>OUTCOME PARAMETER</th><th>ACTION</th></tr></thead><tbody id="mat-list"></tbody></table></div>
@@ -288,7 +297,8 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        let currentTimeUID = ""; let expiredUsersList = [];
+        let currentTimeUID = ""; 
+        let expiredUsersList = []; // Only for NON-VIP users to be purged
 
         window.showToast = (msg) => { let t = document.getElementById('toast'); t.innerText = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); };
         window.switchView = (id, el) => { document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active')); document.querySelectorAll('.nav-item').forEach(v => v.classList.remove('active')); document.getElementById(id).classList.add('active'); el.classList.add('active'); };
@@ -334,11 +344,24 @@
                         tot++; let d = c.val(); let uid = c.key; if(d.is_premium) vip++;
                         let daysLeft = d.expireAt ? Math.ceil((d.expireAt - now) / 86400000) : "LIFETIME";
                         let expiryText = "";
-                        if(daysLeft === "LIFETIME" || daysLeft > 900) { expiryText = `<span style="color:var(--gold);">LIFETIME</span>`; } 
-                        else if(daysLeft <= 0) { expiryText = `<span style="color:var(--red);">TERMINATED</span>`; expCount++; expiredUsersList.push(uid); } 
-                        else { expiryText = `<span style="color:var(--green);">${daysLeft} DAYS LEFT</span>`; }
+                        
+                        if(daysLeft === "LIFETIME" || daysLeft > 900) { 
+                            expiryText = `<span style="color:var(--gold);">LIFETIME</span>`; 
+                        } else if(daysLeft <= 0) { 
+                            expiryText = `<span style="color:var(--red);">TERMINATED</span>`; 
+                            expCount++; 
+                            // VIP WHITELIST LOGIC: Only add non-premium users to purge list
+                            if (!d.is_premium) {
+                                expiredUsersList.push(uid); 
+                            }
+                        } else { 
+                            expiryText = `<span style="color:var(--green);">${daysLeft} DAYS LEFT</span>`; 
+                        }
 
-                        let badge = (daysLeft <= 0) ? `<span class="tag tag-expired">EXPIRED</span>` : (d.is_premium ? `<span class="tag tag-vip">VIP</span>` : `<span class="tag tag-trial">TRIAL</span>`);
+                        let badge = (daysLeft <= 0) 
+                            ? (d.is_premium ? `<span class="tag tag-whitelist">VIP (EXPIRED)</span>` : `<span class="tag tag-expired">EXPIRED</span>`) 
+                            : (d.is_premium ? `<span class="tag tag-vip">VIP</span>` : `<span class="tag tag-trial">TRIAL</span>`);
+                            
                         let usage = d.is_premium ? `<span style="color:var(--gold);">UNLIMITED</span>` : `<span style="color:var(--neon-blue);">${d.predictions_used||0} / 5</span>`;
                         
                         let actions = `<div class="action-group">`;
@@ -437,8 +460,8 @@
         };
 
         window.purgeDeadNodes = async () => {
-            if(expiredUsersList.length === 0) return;
-            if(!confirm(`Purge ${expiredUsersList.length} expired nodes?`)) return;
+            if(expiredUsersList.length === 0) return alert("No dead nodes found! (VIP users are excluded)");
+            if(!confirm(`Purge ${expiredUsersList.length} expired trial nodes? (VIP users will be kept safely in database)`)) return;
             for(let uid of expiredUsersList) { await remove(ref(db, 'approved_uids/'+uid)); await remove(ref(db, 'device_bindings/'+uid)); }
             showToast(`Purged successfully.`);
         };
@@ -447,15 +470,14 @@
         window.rejReq = async (uid) => { await remove(ref(db, 'uid_requests/'+uid)); showToast("Dropped"); };
         window.resetPlays = async (uid) => { await update(ref(db, 'approved_uids/'+uid), { predictions_used: 0 }); showToast("Plays Reset"); };
         window.unlinkDevice = async (uid) => { await remove(ref(db, 'device_bindings/'+uid)); showToast("Unlinked HWID"); };
-        window.banUser = async (uid) => { if(confirm("Blacklist node?")) { await remove(ref(db, 'approved_uids/'+uid)); await remove(ref(db, 'device_bindings/'+uid)); showToast("Terminated"); } };
+        window.banUser = async (uid) => { if(confirm("Blacklist node entirely?")) { await remove(ref(db, 'approved_uids/'+uid)); await remove(ref(db, 'device_bindings/'+uid)); showToast("Terminated"); } };
 
-        /* 🔮 MATRIX ALGORITHM (WITH COPY/PASTE ENGINE) 🔮 */
+        /* 🔮 MATRIX ALGORITHM (WITH BATCH SAVE) 🔮 */
         function buildMatrix() {
             let html = ""; for(let i=0; i<=9; i++) { for(let j=0; j<=9; j++) { let k = `${i}-${j}`; html += `<tr><td style="color:var(--gold);">${k}</td><td><input type="number" id="m-${k}" style="min-width:60px; margin:0; text-align:center;" min="0" max="9" placeholder="#"></td><td><button class="btn-primary" onclick="saveM('${k}')">SET</button></td></tr>`; }}
             document.getElementById('mat-list').innerHTML = html;
         }
 
-        // Live Load existing data to inputs
         function loadMatrixData() {
             onValue(ref(db, 'patterns'), snap => {
                 if(snap.exists()){
@@ -472,60 +494,52 @@
 
         window.saveM = async (k) => { let v = document.getElementById(`m-${k}`).value; if(v!=="") await set(ref(db, `patterns/${k}`), `${parseInt(v)>=5?"BIG":"SMALL"} [${v}]`); showToast("Pattern Saved!"); };
 
-        // 🔥 NEW: COPY MATRIX FUNCTION
-        window.copyMatrix = () => {
-            let matrixData = {};
-            let hasData = false;
+        // 🔥 NEW: SAVE ALL MATRIX DATA AT ONCE
+        window.saveAllMatrix = async () => {
+            if(!confirm("Are you sure you want to upload and overwrite the entire Matrix?")) return;
+            
+            let updates = {};
+            let count = 0;
+            
             for(let i=0; i<=9; i++) {
                 for(let j=0; j<=9; j++) {
-                    let val = document.getElementById(`m-${i}-${j}`).value;
-                    if(val !== "") { matrixData[`${i}-${j}`] = val; hasData = true; }
+                    let k = `${i}-${j}`;
+                    let v = document.getElementById(`m-${k}`).value;
+                    if(v !== "") {
+                        let size = parseInt(v) >= 5 ? "BIG" : "SMALL";
+                        updates[`patterns/${k}`] = `${size} [${v}]`;
+                        count++;
+                    }
                 }
             }
-            if(!hasData) return alert("Matrix is empty! Nothing to copy.");
             
-            // Encode to Base64 to make it a clean "Hash Code"
-            let encodedData = btoa(JSON.stringify(matrixData));
-            
-            navigator.clipboard.writeText(encodedData).then(() => {
-                showToast("📋 Matrix Hash Code Copied!");
-            }).catch(err => {
-                // Fallback if clipboard fails
-                prompt("Copy this Matrix Hash Code:", encodedData);
-            });
+            if(count > 0) {
+                try {
+                    await update(ref(db), updates);
+                    showToast(`✅ Successfully uploaded ${count} patterns!`);
+                } catch(e) { alert("Failed to upload Matrix data."); }
+            } else {
+                alert("Matrix is empty! Enter data before saving.");
+            }
         };
 
-        // 🔥 NEW: PASTE MATRIX FUNCTION
+        window.copyMatrix = () => {
+            let matrixData = {}; let hasData = false;
+            for(let i=0; i<=9; i++) { for(let j=0; j<=9; j++) { let val = document.getElementById(`m-${i}-${j}`).value; if(val !== "") { matrixData[`${i}-${j}`] = val; hasData = true; } } }
+            if(!hasData) return alert("Matrix is empty! Nothing to copy.");
+            let encodedData = btoa(JSON.stringify(matrixData));
+            navigator.clipboard.writeText(encodedData).then(() => { showToast("📋 Matrix Hash Code Copied!"); }).catch(err => { prompt("Copy this Matrix Hash Code:", encodedData); });
+        };
+
         window.pasteMatrix = async () => {
             let code = prompt("📥 PASTE MATRIX HASH CODE HERE:");
             if(!code) return;
-            
             try {
-                let decodedStr = atob(code.trim());
-                let matrixData = JSON.parse(decodedStr);
-                
-                let updates = {};
-                let count = 0;
-                
-                for(let k in matrixData) {
-                    let v = matrixData[k];
-                    // Update UI Input
-                    if(document.getElementById(`m-${k}`)) {
-                        document.getElementById(`m-${k}`).value = v;
-                    }
-                    // Prepare DB Update
-                    let size = parseInt(v) >= 5 ? "BIG" : "SMALL";
-                    updates[`patterns/${k}`] = `${size} [${v}]`;
-                    count++;
-                }
-                
-                if(count > 0) {
-                    await update(ref(db), updates);
-                    showToast(`✅ ${count} Patterns Restored & Saved!`);
-                }
-            } catch(e) {
-                alert("❌ INVALID HASH CODE! Please copy properly from another Admin panel.");
-            }
+                let decodedStr = atob(code.trim()); let matrixData = JSON.parse(decodedStr);
+                let updates = {}; let count = 0;
+                for(let k in matrixData) { let v = matrixData[k]; if(document.getElementById(`m-${k}`)) { document.getElementById(`m-${k}`).value = v; } let size = parseInt(v) >= 5 ? "BIG" : "SMALL"; updates[`patterns/${k}`] = `${size} [${v}]`; count++; }
+                if(count > 0) { await update(ref(db), updates); showToast(`✅ ${count} Patterns Restored!`); }
+            } catch(e) { alert("❌ INVALID HASH CODE!"); }
         };
 
         window.sendGlobalMessage = async () => { let txt = document.getElementById('globalText').value.trim(); if(!txt) return; await set(ref(db, 'settings/global_broadcast'), { text: txt, time: Date.now() }); showToast("Broadcast Sent."); document.getElementById('globalText').value = ""; };

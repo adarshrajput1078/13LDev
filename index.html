@@ -2,592 +2,711 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="theme-color" content="#12121c">
-    <title>DEV ARMY | WINGO PRO COMPACT</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#030305">
+    <title>RELIANCE SUPREME | ENTERPRISE V15</title>
     
+    <!-- Premium Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&family=JetBrains+Mono:wght@600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
     <style>
-        /* --- COLOR TRADING SPECIFIC VARIABLES --- */
-        :root { 
-            --trade-green: #1DCC70;
-            --trade-green-glow: rgba(29, 204, 112, 0.6);
-            --trade-red: #FF2D55;
-            --trade-red-glow: rgba(255, 45, 85, 0.6);
-            --trade-violet: #8E24AA;
+        /* ==========================================================================
+           01. DESIGN SYSTEM & CSS VARIABLES
+           ========================================================================== */
+        :root {
+            /* Reliance Color Trading Specific Hex Codes */
+            --color-red: #f44336;
+            --color-red-glow: rgba(244, 67, 54, 0.6);
+            --color-red-bg: rgba(244, 67, 54, 0.15);
             
-            --bg-dark: #0a0a0f;
-            --widget-bg: rgba(18, 18, 28, 0.85); 
+            --color-green: #4caf50;
+            --color-green-glow: rgba(76, 175, 80, 0.6);
+            --color-green-bg: rgba(76, 175, 80, 0.15);
             
-            --font-ui: 'Poppins', sans-serif; 
-            --font-data: 'JetBrains Mono', monospace;
-            --z-widget: 99999;
+            --color-violet: #9c27b0;
+            --color-violet-glow: rgba(156, 39, 176, 0.6);
+            --color-violet-bg: rgba(156, 39, 176, 0.15);
+            
+            /* UI Accents */
+            --accent-cyan: #00e5ff;
+            --accent-cyan-glow: rgba(0, 229, 255, 0.6);
+            --accent-gold: #ffb300;
+            --accent-gold-glow: rgba(255, 179, 0, 0.6);
+            
+            /* Core Backgrounds (Obsidian Glass Theme) */
+            --bg-void: #020203;
+            --glass-base: rgba(8, 10, 14, 0.95);
+            --glass-top: rgba(12, 15, 20, 0.98);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            
+            /* Typography */
+            --font-main: 'Outfit', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            /* Animation Curves */
+            --ease-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --ease-bounce: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --ease-smooth: 0.3s ease-in-out;
         }
 
-        /* --- GLOBAL RESET --- */
-        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-tap-highlight-color: transparent; }
-        body, html { height: 100%; width: 100%; background-color: var(--bg-dark); overflow: hidden; font-family: var(--font-ui); touch-action: none; }
-
-        /* --- BACKGROUND IFRAME --- */
-        #game-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
-        iframe { width: 100%; height: 100%; border: none; filter: saturate(1.15); }
-
-        /* ======================================================================= */
-        /* THE "SHOW WIDGET" EYE BUTTON (RESIZED)                                  */
-        /* ======================================================================= */
-        #show-widget-btn {
-            position: absolute; top: 50%; right: -120px; 
-            transform: translateY(-50%);
-            background: linear-gradient(135deg, var(--trade-violet), #4a00e0);
-            color: #fff; padding: 12px 10px;
-            border-radius: 12px 0 0 12px;
-            font-weight: 900; font-size: 11px; font-family: var(--font-ui);
-            cursor: pointer; box-shadow: -5px 0 15px rgba(142, 36, 170, 0.5);
-            z-index: 999999; transition: right 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 1px solid rgba(255,255,255,0.2); border-right: none;
-            display: flex; align-items: center; gap: 5px;
-        }
-        .pulse-icon { animation: pulse-icon 1s infinite alternate; font-size: 14px; }
-        @keyframes pulse-icon { 0% { transform: scale(1); } 100% { transform: scale(1.2); } }
-
-        /* ======================================================================= */
-        /* MAIN DRAGGABLE WIDGET (COMPACT SIZE: 200px)                             */
-        /* ======================================================================= */
-        #ai-widget { 
-            position: absolute; top: 60px; left: 15px; 
-            width: 200px; /* RE-SIZED FROM 235px */
-            background: var(--widget-bg); 
-            backdrop-filter: blur(30px) saturate(150%); -webkit-backdrop-filter: blur(30px) saturate(150%);
-            border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.8), inset 0 1px 1px rgba(255,255,255,0.2), 0 0 15px rgba(142, 36, 170, 0.2);
-            display: flex; flex-direction: column; z-index: var(--z-widget);
-            transform: scale(1); transform-origin: center;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.3s, box-shadow 0.5s ease, border-color 0.5s ease;
-            will-change: left, top, transform;
+        /* ==========================================================================
+           02. GLOBAL RESETS & BASE STYLES
+           ========================================================================== */
+        *, *::before, *::after {
+            margin: 0; padding: 0; box-sizing: border-box;
+            user-select: none; -webkit-tap-highlight-color: transparent;
         }
 
-        .float-active { animation: float-hud 5s ease-in-out infinite; }
-        @keyframes float-hud { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
-
-        /* --- HEADER (RESIZED) --- */
-        .widget-header { 
-            padding: 10px 12px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; align-items: center; 
-            cursor: grab; border-radius: 20px 20px 0 0; position: relative; z-index: 3; touch-action: none;
+        body, html {
+            width: 100%; height: 100%;
+            background-color: var(--bg-void); overflow: hidden;
+            font-family: var(--font-main); color: #ffffff;
+            -webkit-font-smoothing: antialiased;
         }
-        .widget-header:active { cursor: grabbing; }
-        .drag-pill { width: 35px; height: 4px; background: rgba(255,255,255,0.2); border-radius: 10px; margin-bottom: 8px; }
-        .brand-title { font-size: 12px; font-weight: 900; color: #fff; letter-spacing: 1px; display: flex; align-items: center; gap: 5px; text-transform: uppercase; }
-        .brand-title .vip { background: linear-gradient(135deg, #FFD700, #FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* --- LIVE PERIOD & TIMER (RESIZED) --- */
-        .live-game-data {
-            display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; background: rgba(0,0,0,0.4); 
-            border-bottom: 1px solid rgba(255,255,255,0.05); position: relative; z-index: 3;
+        /* Target Game Iframe Overlay */
+        #game-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 1; background: #000;
         }
-        .game-period, .game-timer { display: flex; flex-direction: column; gap: 2px; }
-        .game-timer { align-items: flex-end; }
-        .lbl { font-size: 8px; color: #94a3b8; font-weight: 800; letter-spacing: 1px; }
-        .game-period .val { font-family: var(--font-data); font-size: 10px; color: #fff; font-weight: 700; letter-spacing: 0.5px; }
-        .game-timer .val { font-family: var(--font-data); font-size: 15px; font-weight: 900; color: var(--trade-green); text-shadow: 0 0 10px var(--trade-green-glow); transition: color 0.3s, text-shadow 0.3s; }
-        .timer-danger { color: var(--trade-red) !important; text-shadow: 0 0 12px var(--trade-red-glow) !important; animation: pulse-danger 1s infinite alternate; }
+        #game-layer iframe {
+            width: 100%; height: 100%; border: none; filter: saturate(1.15);
+        }
 
-        /* --- CONTENT AREA (RESIZED) --- */
-        .content-area { padding: 12px; display: flex; flex-direction: column; gap: 12px; position: relative; z-index: 3; }
+        /* Hardware Accelerated Particle Canvas */
+        #particle-layer {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 2; pointer-events: none; opacity: 0.4;
+        }
+
+        /* ==========================================================================
+           03. FLOATING TRIGGER BUTTON (PRO BEACON)
+           ========================================================================== */
+        #trigger-ui {
+            position: absolute; top: 50%; right: 0; transform: translateY(-50%);
+            z-index: 99990; background: linear-gradient(135deg, var(--glass-base), var(--bg-void));
+            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--accent-cyan); border-right: none;
+            padding: 12px 16px; border-radius: 14px 0 0 14px;
+            display: flex; align-items: center; gap: 8px; cursor: pointer;
+            box-shadow: -8px 0 25px rgba(0,0,0,0.9); transition: transform var(--ease-bounce);
+        }
+        #trigger-ui.hidden { transform: translate(100%, -50%); }
+
+        .beacon-dot {
+            width: 8px; height: 8px; border-radius: 50%; background: #fff;
+            box-shadow: 0 0 15px var(--accent-cyan), 0 0 30px var(--accent-cyan);
+            animation: pulse 1s infinite alternate;
+        }
+        @keyframes pulse {
+            0% { transform: scale(0.9); opacity: 0.8; }
+            100% { transform: scale(1.4); opacity: 1; box-shadow: 0 0 25px var(--accent-cyan); }
+        }
+        .trigger-text { font-size: 10px; font-weight: 900; letter-spacing: 1.5px; }
+
+        /* ==========================================================================
+           04. MAIN HUD WIDGET (COMPACT 220px)
+           ========================================================================== */
+        #core-hud {
+            position: absolute; top: 40px; left: 15px; width: 220px; /* Precise Pro Size */
+            background: var(--glass-top); backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border); border-top: 1px solid rgba(0,229,255,0.4);
+            border-radius: 18px; box-shadow: 0 30px 60px rgba(0,0,0,0.95);
+            display: flex; flex-direction: column; z-index: 99999;
+            transform: scale(0); opacity: 0; transform-origin: top left;
+            transition: opacity 0.3s, transform var(--ease-bounce);
+            will-change: transform, left, top;
+        }
+        #core-hud.active { transform: scale(1); opacity: 1; }
+
+        /* ==========================================================================
+           05. HUD HEADER (DRAG & DROP ZONE)
+           ========================================================================== */
+        .hud-header {
+            padding: 12px 14px 10px; display: flex; flex-direction: column; gap: 8px;
+            background: linear-gradient(180deg, rgba(0,229,255,0.06), transparent);
+            border-radius: 18px 18px 0 0; cursor: grab; border-bottom: 1px solid rgba(255,255,255,0.04);
+            touch-action: none;
+        }
+        .hud-header:active { cursor: grabbing; }
         
-        .ai-stats { display: flex; justify-content: space-between; font-size: 8px; font-family: var(--font-data); color: #a9a9a9; font-weight: 800; margin-bottom: -5px; }
-        .ai-stats span.high { color: var(--trade-violet); text-shadow: 0 0 5px var(--trade-violet); }
+        .drag-indicator {
+            width: 35px; height: 4px; background: rgba(255,255,255,0.25);
+            border-radius: 10px; align-self: center; margin-bottom: 2px;
+        }
+
+        /* Status Chips */
+        .status-rack { display: flex; justify-content: space-between; align-items: center; }
+        .chip {
+            font-size: 6.5px; font-weight: 900; letter-spacing: 1px; padding: 3px 6px;
+            background: rgba(0,0,0,0.8); border: 1px solid; border-radius: 4px;
+            display: flex; align-items: center; gap: 4px; text-transform: uppercase;
+        }
+        .chip-api { color: var(--accent-cyan); border-color: rgba(0,229,255,0.3); }
+        .chip-srv { color: var(--color-green); border-color: rgba(76,175,80,0.3); }
+        .chip svg { width: 7px; height: 7px; fill: currentColor; }
+
+        /* Timer Strip */
+        .timer-strip { display: flex; justify-content: space-between; align-items: flex-end; }
+        .brand-logo { font-size: 15px; font-weight: 900; letter-spacing: 1px; line-height: 1; }
+        .brand-logo span { color: var(--accent-cyan); text-shadow: 0 0 10px var(--accent-cyan-glow); }
+        .time-wrapper { display: flex; flex-direction: column; align-items: flex-end; }
+        .clock-val { font-family: var(--font-mono); font-size: 16px; font-weight: 900; color: #fff; line-height: 1; }
+        .clock-period { font-family: var(--font-mono); font-size: 7px; color: #8892b0; margin-top: 3px; letter-spacing: 1px; }
+
+        /* ==========================================================================
+           06. HUD CONTENT & AUTH
+           ========================================================================== */
+        .hud-body { padding: 14px; display: flex; flex-direction: column; gap: 14px; }
         
-        /* 🔥 FIREBASE LIVE STATUS 🔥 */
-        #db-status { color: #ff003c; text-shadow: 0 0 5px #ff003c; transition: all 0.3s; }
-        #db-status.connected { color: var(--trade-green); text-shadow: 0 0 5px var(--trade-green); }
+        .auth-input {
+            width: 100%; padding: 12px; border-radius: 10px;
+            background: rgba(0,0,0,0.8); border: 1px solid rgba(0,229,255,0.25);
+            color: var(--accent-cyan); text-align: center; font-family: var(--font-mono);
+            font-size: 11px; font-weight: 800; letter-spacing: 2px; outline: none;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.9); transition: var(--ease-fast);
+        }
+        .auth-input:focus { border-color: var(--accent-cyan); box-shadow: 0 0 15px var(--accent-cyan-glow); }
+
+        /* ==========================================================================
+           07. QUANTUM SCANNER ENGINE
+           ========================================================================== */
+        .engine-box {
+            background: rgba(4, 5, 8, 0.95); border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 12px; padding: 18px 12px 14px; display: flex; flex-direction: column;
+            align-items: center; gap: 14px; position: relative; overflow: hidden;
+            box-shadow: inset 0 5px 25px rgba(0,0,0,1);
+        }
+
+        .engine-box::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+            background-size: 12px 12px; pointer-events: none;
+        }
+
+        /* 3D Target Orbs */
+        .orb-container { display: flex; gap: 18px; position: relative; z-index: 2; width: 100%; justify-content: center; }
+        .orb-wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+        .orb-label { font-size: 7px; font-weight: 800; color: #64748b; letter-spacing: 1px; background: rgba(0,0,0,0.6); padding: 3px 6px; border-radius: 4px; }
         
-        .tech-grid {
-            position: absolute; top: 20%; left: 10%; width: 80%; height: 60%;
-            background-image: linear-gradient(rgba(142, 36, 170, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(142, 36, 170, 0.1) 1px, transparent 1px);
-            background-size: 15px 15px; z-index: 1; pointer-events: none; border-radius: 50%; opacity: 0.5;
-            mask-image: radial-gradient(circle, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 70%); -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 30%, rgba(0,0,0,0) 70%);
-            animation: radar-spin 10s linear infinite;
+        .orb-node {
+            width: 48px; height: 48px; border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #1a1a24, #000);
+            border: 1px solid rgba(255,255,255,0.15); color: #fff;
+            font-family: var(--font-mono); font-size: 20px; font-weight: 900;
+            text-align: center; box-shadow: inset 1px 1px 3px rgba(255,255,255,0.2), inset -3px -3px 8px rgba(0,0,0,0.9), 0 5px 15px rgba(0,0,0,0.9);
+            outline: none; -moz-appearance: textfield; transition: var(--ease-bounce);
+            position: relative; z-index: 3;
         }
-        @keyframes radar-spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .orb-node::-webkit-outer-spin-button, .orb-node::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+        .orb-node:focus { border-color: var(--accent-cyan); box-shadow: 0 0 20px var(--accent-cyan-glow); }
 
-        .sys-log {
-            background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.05); border-radius: 6px;
-            padding: 6px 8px; font-family: var(--font-data); font-size: 7px; color: var(--trade-green);
-            text-align: left; height: 22px; overflow: hidden; white-space: nowrap; position: relative; z-index: 3;
+        /* Hardware Laser */
+        .laser-beam {
+            position: absolute; top: -20px; left: 0; width: 100%; height: 2px;
+            background: #fff; box-shadow: 0 0 10px #fff, 0 0 25px var(--accent-cyan);
+            opacity: 0; pointer-events: none; z-index: 10; mix-blend-mode: screen;
         }
-
-        /* --- AUTHENTICATION UI (RESIZED) --- */
-        .auth-input { width: 100%; padding: 10px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.5); color: #fff; text-align: center; font-family: var(--font-data); font-weight: 800; font-size: 11px; outline: none; transition: 0.3s ease; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5); }
-        .auth-input:focus { border-color: var(--trade-violet); box-shadow: 0 0 15px rgba(142, 36, 170, 0.4); }
-        .btn-main { width: 100%; padding: 10px; font-size: 11px; font-family: var(--font-ui); font-weight: 900; cursor: pointer; border-radius: 10px; border: none; background: linear-gradient(135deg, var(--trade-violet), #4a00e0); color: #fff; letter-spacing: 1px; text-transform: uppercase; transition: 0.2s ease; box-shadow: 0 5px 15px rgba(142, 36, 170, 0.4); }
-        .btn-main:active { transform: scale(0.96); box-shadow: 0 2px 8px rgba(142, 36, 170, 0.4); }
-
-        /* ======================================================================= */
-        /* 5. CINEMATIC ENGINE (COMPACT SPLIT REVEAL)                              */
-        /* ======================================================================= */
-        .hud-row { display: flex; justify-content: space-around; align-items: center; width: 100%; position: relative; height: 70px; z-index: 3; }
-        .input-wrapper { display: flex; flex-direction: column; align-items: center; gap: 5px; transition: all 0.7s cubic-bezier(0.68, -0.55, 0.265, 1.55); z-index: 2; }
+        .is-scanning .laser-beam { animation: scanHardware 0.75s infinite alternate ease-in-out; opacity: 1; }
+        @keyframes scanHardware { 0% { transform: translateY(10px); } 100% { transform: translateY(70px); } }
         
-        .hud-input { 
-            width: 45px; height: 45px; border-radius: 12px; background: rgba(0,0,0,0.8); border: 2px solid rgba(255,255,255,0.15);
-            color: #fff; font-family: var(--font-data); font-size: 18px; font-weight: 900; text-align: center; outline: none; transition: 0.3s;
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.8);
-        }
-        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-        .hud-input:focus { border-color: #fff; box-shadow: 0 0 15px rgba(255,255,255,0.3); }
-        .input-label { font-size: 8px; color: #94a3b8; font-weight: 800; font-family: var(--font-data); letter-spacing: 1px;}
+        .is-scanning .orb-node { color: #fff; text-shadow: 0 0 15px var(--accent-cyan); border-color: rgba(0,229,255,0.7); box-shadow: 0 0 20px var(--accent-cyan-glow); }
 
-        .result-wrapper {
-            position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(0);
-            width: 0px; height: 0px; opacity: 0; display: flex; justify-content: center; align-items: center;
-            border-radius: 50%; z-index: 5; transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            font-family: var(--font-ui); font-weight: 900; color: #fff; font-size: 0px; overflow: hidden;
-            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
-        }
+        /* ==========================================================================
+           08. COLOR TRADING RESULTS UI (Exact Replica)
+           ========================================================================== */
+        .orb-node.is-locked { animation: impactLock 0.4s ease-out forwards; background: radial-gradient(circle at 30% 30%, #111, #000); border-width: 2px; }
+        .orb-node.is-locked.red { color: var(--color-red); text-shadow: 0 0 15px var(--color-red); border-color: var(--color-red); box-shadow: 0 0 25px var(--color-red-glow); }
+        .orb-node.is-locked.green { color: var(--color-green); text-shadow: 0 0 15px var(--color-green); border-color: var(--color-green); box-shadow: 0 0 25px var(--color-green-glow); }
+        .orb-node.is-locked.violet { color: var(--color-violet); text-shadow: 0 0 15px var(--color-violet); border-color: var(--color-violet); box-shadow: 0 0 25px var(--color-violet-glow); }
+        @keyframes impactLock { 0% { transform: scale(1.15); filter: brightness(2); } 100% { transform: scale(1); filter: brightness(1); } }
 
-        .hud-row.reveal .input-wrapper:nth-child(1) { transform: translateX(-55px) scale(0.35); opacity: 0.1; filter: blur(3px); }
-        .hud-row.reveal .input-wrapper:nth-child(2) { transform: translateX(55px) scale(0.35); opacity: 0.1; filter: blur(3px); }
+        .result-rack {
+            display: flex; gap: 8px; width: 100%; opacity: 0;
+            transform: translateY(10px); transition: var(--ease-bounce);
+            justify-content: center; z-index: 2; display: none;
+        }
+        .result-rack.show { opacity: 1; transform: translateY(0); display: flex; }
+
+        .data-pill {
+            flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px;
+            font-weight: 900; font-size: 11px; letter-spacing: 1px; padding: 8px 0;
+            border-radius: 6px; background: rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.06);
+            box-shadow: inset 0 0 10px rgba(0,0,0,1);
+        }
+        .color-dot { width: 10px; height: 10px; border-radius: 50%; box-shadow: inset -2px -2px 3px rgba(0,0,0,0.5); }
         
-        /* Decoding Mode */
-        .hud-row.reveal .result-wrapper.decoding {
-            width: 70px; height: 70px; opacity: 1; transform: translate(-50%, -50%) scale(1);
-            font-size: 14px; font-family: var(--font-data); border: 2px dashed rgba(255,255,255,0.5);
-            background: rgba(0,0,0,0.9); color: var(--cyber-blue); animation: spin-dash 3s linear infinite;
+        .pill-sz { color: var(--accent-cyan); border-color: rgba(0,229,255,0.25); background: rgba(0,229,255,0.05); }
+        .pill-r { color: var(--color-red); border-color: rgba(244,67,54,0.25); background: var(--color-red-bg); }
+        .pill-g { color: var(--color-green); border-color: rgba(76,175,80,0.25); background: var(--color-green-bg); }
+        .pill-v { color: var(--color-violet); border-color: rgba(156,39,176,0.25); background: var(--color-violet-bg); }
+
+        /* ==========================================================================
+           09. BUTTONS & CONTROLS
+           ========================================================================== */
+        .controls { display: flex; gap: 8px; }
+        .btn-core {
+            flex: 1; padding: 12px 0; border-radius: 8px; border: none;
+            font-weight: 900; font-size: 11px; letter-spacing: 1px;
+            cursor: pointer; text-transform: uppercase; position: relative; overflow: hidden;
+            transition: var(--ease-fast);
         }
+        .btn-core:active { transform: scale(0.95); }
         
-        /* Locked Mode */
-        .hud-row.reveal .result-wrapper.locked {
-            width: 75px; height: 75px; opacity: 1; transform: translate(-50%, -50%) scale(1);
-            font-size: 14px; border: 2px solid #fff; letter-spacing: 1px; animation: shockwave 0.5s ease-out forwards;
+        /* Premium Liquid Shine */
+        .btn-core::after {
+            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transform: skewX(-20deg); animation: liquid 3s infinite;
         }
+        @keyframes liquid { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
 
-        @keyframes shockwave {
-            0% { transform: translate(-50%, -50%) scale(0.8); box-shadow: 0 0 0 0 rgba(255,255,255,0.8); }
-            70% { transform: translate(-50%, -50%) scale(1.1); box-shadow: 0 0 0 15px rgba(255,255,255,0); }
-            100% { transform: translate(-50%, -50%) scale(1); box-shadow: 0 0 0 0 rgba(255,255,255,0); }
-        }
-        @keyframes spin-dash { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
-        .text-anti-spin { animation: anti-spin-dash 3s linear infinite; }
-        @keyframes anti-spin-dash { 0% { transform: rotate(0deg); } 100% { transform: rotate(-360deg); } }
-
-        .res-big { background: linear-gradient(135deg, var(--trade-green), #007a33); box-shadow: 0 0 30px var(--trade-green-glow), inset 0 0 15px rgba(255,255,255,0.6) !important; }
-        .res-small { background: linear-gradient(135deg, var(--trade-red), #99001b); box-shadow: 0 0 30px var(--trade-red-glow), inset 0 0 15px rgba(255,255,255,0.6) !important; }
-
-        /* --- ACTION BUTTONS (RESIZED) --- */
-        .btn-row { display: flex; gap: 8px; width: 100%; margin-top: 5px; z-index: 3; position: relative;}
-        .action-btn { flex: 1; padding: 10px 0; border-radius: 10px; border: none; font-size: 10px; font-weight: 900; font-family: var(--font-ui); cursor: pointer; text-transform: uppercase; letter-spacing: 1px; transition: 0.2s; color: #fff; }
-        #btn-get { background: linear-gradient(135deg, var(--trade-violet), #4a00e0); box-shadow: 0 5px 15px rgba(142, 36, 170, 0.4); }
-        #btn-get:active { transform: scale(0.94); }
-        #btn-hide { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); }
-        #btn-hide:active { transform: scale(0.94); }
-
-        /* Toast Notifications */
-        #toast-container { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); z-index: 999999; display: flex; flex-direction: column; gap: 10px; width: 80%; max-width: 300px; }
-        .client-toast { background: rgba(18, 18, 28, 0.95); border: 1px solid rgba(255,255,255,0.2); color: #fff; padding: 10px 15px; border-radius: 10px; font-family: var(--font-ui); font-size: 11px; font-weight: 700; box-shadow: 0 10px 30px rgba(0,0,0,0.6); animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; display: flex; align-items: center; justify-content: center; gap: 8px; text-align: center; }
-
-        .hidden { display: none !important; }
+        .btn-primary { background: linear-gradient(90deg, #00d2ff, #3a7bd5); color: #000; box-shadow: 0 5px 20px rgba(0,210,255,0.4); }
+        .btn-primary.state-next { background: linear-gradient(90deg, var(--accent-gold), #ff3c00); color: #fff; box-shadow: 0 5px 20px var(--accent-gold-glow); text-shadow: 0 0 5px rgba(0,0,0,0.5); }
+        .btn-secondary { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: #9ca3af; }
+        .btn-secondary::after { display: none; }
         
-        /* --- SPLASH & MAINTENANCE SCREENS --- */
-        #splash-screen, #maintenance-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1a1a2e 0%, #000 100%); display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.8s ease-out; }
-        #splash-screen { z-index: var(--z-splash); }
-        #maintenance-screen { z-index: var(--z-maint); display: none; background: rgba(5,0,0,0.95); backdrop-filter: blur(15px); }
-        .splash-logo { font-size: 30px; font-weight: 900; color: #fff; letter-spacing: 2px; text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
-        .splash-logo span.g { color: var(--trade-green); text-shadow: 0 0 20px var(--trade-green-glow); }
-        .splash-logo span.r { color: var(--trade-red); text-shadow: 0 0 20px var(--trade-red-glow); }
-        .splash-bar { width: 180px; height: 5px; background: rgba(255,255,255,0.1); margin-top: 20px; border-radius: 10px; overflow: hidden; position: relative; }
-        .splash-progress { position: absolute; top: 0; left: 0; height: 100%; width: 0%; background: linear-gradient(90deg, var(--trade-green), var(--trade-violet), var(--trade-red)); box-shadow: 0 0 15px rgba(255, 255, 255, 0.5); animation: load-progress 2.5s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        .splash-text { margin-top: 15px; font-family: var(--font-data); font-size: 10px; color: #a9a9a9; letter-spacing: 1px; font-weight: 600; }
-        .maint-icon { font-size: 45px; margin-bottom: 15px; animation: float-hud 3s infinite ease-in-out; }
-        .maint-title { font-size: 20px; color: #fff; font-weight: 900; letter-spacing: 2px; }
-        .maint-sub { font-family: var(--font-data); color: #94a3b8; font-size: 11px; margin-top: 10px; text-align: center; padding: 0 20px;}
+        .d-none { display: none !important; }
 
-        @keyframes pulse-danger { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
-        @keyframes slideUp { from { transform: translateY(100%); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes load-progress { 0% { width: 0%; } 100% { width: 100%; } }
+        /* ==========================================================================
+           10. TOAST NOTIFICATION ENGINE
+           ========================================================================== */
+        #toast-wrap {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            z-index: 9999999; display: flex; flex-direction: column; gap: 10px; pointer-events: none;
+        }
+        .toast-msg {
+            background: rgba(10, 10, 15, 0.98); border: 1px solid var(--accent-cyan);
+            color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 10px;
+            font-weight: 900; letter-spacing: 1.5px; box-shadow: 0 10px 30px rgba(0,0,0,0.9);
+            animation: slideIn var(--ease-bounce) forwards;
+        }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .toast-msg.hide { animation: fadeOut var(--ease-fast) forwards; }
+        @keyframes fadeOut { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(0.9); } }
+
     </style>
 </head>
 <body>
 
-    <!-- MAINTENANCE & SPLASH SCREENS -->
-    <div id="maintenance-screen">
-        <div class="maint-icon">⚠️</div>
-        <div class="maint-title">SYSTEM UPDATE</div>
-        <div class="maint-sub">Trading engine is currently undergoing maintenance. Please check back shortly.</div>
+    <!-- LAYER 1: Game Iframe -->
+    <div id="game-layer">
+        <iframe id="main-frame" src="https://reliance.com" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
     </div>
 
-    <div id="splash-screen">
-        <div class="splash-logo"><span class="g">WIN</span><span class="r">GO</span> PRO</div>
-        <div class="splash-bar"><div class="splash-progress"></div></div>
-        <div class="splash-text" id="splash-log">CONNECTING TO TRADING SERVER...</div>
+    <!-- LAYER 2: Particle Background for Luxury Feel -->
+    <canvas id="particle-layer"></canvas>
+
+    <!-- LAYER 3: Trigger Beacon -->
+    <div id="trigger-ui" onclick="UIManager.showHUD()">
+        <div class="beacon-dot"></div>
+        <span class="trigger-text">OPEN VIP</span>
     </div>
 
-    <!-- GAME IFRAME (FIXED) -->
-    <div id="game-container">
-        <iframe id="gameIframe" src="" frameborder="0" style="width: 100%; height: 100%; border: none; filter: saturate(1.15);"></iframe>
-    </div>
-
-    <!-- HIDE/SHOW BUTTON (EYE) -->
-    <div id="show-widget-btn" onclick="openWidget()">
-        <span class="pulse-icon">👁️</span> VIP
-    </div>
-
-    <!-- MAIN WIDGET (COMPACT) -->
-    <div id="ai-widget" class="float-active">
+    <!-- LAYER 4: The 220px Pro HUD -->
+    <div id="core-hud">
         
-        <!-- HEADER -->
-        <div class="widget-header" id="widget-header">
-            <div class="drag-pill"></div>
-            <div class="brand-title">DEV ARMY <span class="vip">VIP</span></div>
-        </div>
-
-        <!-- LIVE DATA STRIP -->
-        <div class="live-game-data">
-            <div class="game-period">
-                <span class="lbl">LIVE PERIOD</span>
-                <span class="val" id="live-period">SYNCING...</span>
-            </div>
-            <div class="game-timer">
-                <span class="lbl">COUNTDOWN</span>
-                <span class="val" id="live-timer">00:00</span>
-            </div>
-        </div>
-
-        <!-- MAIN INTERFACE -->
-        <div class="content-area" id="content-area">
+        <!-- Header & Drag Area -->
+        <div class="hud-header" id="drag-zone">
+            <div class="drag-indicator"></div>
             
-            <!-- AUTHENTICATION VIEW -->
-            <div id="auth-section">
-                <input type="text" id="uidInput" class="auth-input" placeholder="ENTER VIP KEY" autocomplete="off">
-                <button id="authBtn" class="btn-main" onclick="authenticateClient()">AUTHORIZE ACCESS</button>
+            <div class="status-rack">
+                <div class="chip chip-api">
+                    <svg viewBox="0 0 24 24"><path d="M12 21c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm-4.6-4.6c-.4-.4-.4-1 0-1.4 2.5-2.5 6.6-2.5 9.2 0 .4.4.4 1 0 1.4-.4.4-1 .4-1.4 0-1.7-1.7-4.6-1.7-6.4 0-.4.4-1 .4-1.4 0z"/></svg>
+                    API: SECURE
+                </div>
+                <div class="chip chip-srv">
+                    <svg viewBox="0 0 24 24"><path d="M20 13H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zm-10 6H6v-2h4v2zm6 0h-4v-2h4v2zM20 3H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1zm-10 6H6V7h4v2zm6 0h-4V7h4v2z"/></svg>
+                    SRV: RELIANCE
+                </div>
             </div>
 
-            <!-- PREDICTION ENGINE VIEW -->
-            <div id="pred-section" class="hidden" style="width: 100%; display: flex; flex-direction: column; gap: 10px;">
-                
-                <div class="ai-stats">
-                    <span>ACCURACY: <span class="high">98.4%</span></span>
-                    <!-- LIVE FIREBASE DB INDICATOR -->
-                    <span>DB: <span id="db-status">CONNECTING...</span></span>
+            <div class="timer-strip">
+                <div class="brand-logo">DEV<span>ARMY</span></div>
+                <div class="time-wrapper">
+                    <div class="clock-val" id="clock-display">00:00</div>
+                    <div class="clock-period" id="period-display">SYNCING...</div>
                 </div>
-                <div class="tech-grid"></div> 
+            </div>
+        </div>
 
-                <div class="hud-row" id="engine-row">
-                    <div class="input-wrapper">
-                        <input type="number" id="prevInput" class="hud-input" placeholder="-" oninput="limitDigit(this)">
-                        <div class="input-label">PREV</div>
+        <div class="hud-body">
+            <!-- Auth Module -->
+            <div id="module-auth">
+                <input type="password" id="auth-input" class="auth-input" placeholder="ENTER VIP KEY">
+                <button class="btn-core btn-primary" style="width:100%; margin-top:12px;" onclick="AuthManager.verify()">AUTHORIZE</button>
+            </div>
+
+            <!-- Main Engine Module -->
+            <div id="module-engine" class="d-none">
+                <div class="engine-box" id="engine-box">
+                    
+                    <div class="orb-container">
+                        <div class="orb-wrap">
+                            <input type="number" id="node-1" class="orb-node" placeholder="N1" oninput="Utility.enforceSingleDigit(this)">
+                            <span class="orb-label">CURRENT</span>
+                        </div>
+                        <div class="orb-wrap">
+                            <input type="number" id="node-2" class="orb-node" placeholder="N2" oninput="Utility.enforceSingleDigit(this)">
+                            <span class="orb-label">PREVIOUS</span>
+                        </div>
                     </div>
                     
-                    <div class="input-wrapper">
-                        <input type="number" id="currInput" class="hud-input" placeholder="-" oninput="limitDigit(this)">
-                        <div class="input-label">CURR</div>
-                    </div>
+                    <div class="laser-beam"></div>
 
-                    <div class="result-wrapper" id="result-box">
-                        <div class="text-anti-spin" id="result-text">?</div>
+                    <!-- Output Data Rack -->
+                    <div class="result-rack" id="result-rack">
+                        <div class="data-pill pill-sz" id="out-size">--</div>
+                        <div class="data-pill" id="out-color-wrap">
+                            <div class="color-dot" id="out-dot"></div>
+                            <span id="out-color-text">--</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="sys-log" id="sys-log">> AI Engine Standby...</div>
-
-                <div class="btn-row">
-                    <button class="action-btn" id="btn-get" onclick="executeCinematicHack()">ANALYZE</button>
-                    <button class="action-btn" id="btn-hide" onclick="closeWidget()">HIDE</button>
+                <div class="controls">
+                    <button class="btn-core btn-primary" id="btn-execute" onclick="QuantumEngine.trigger()">ANALYZE</button>
+                    <button class="btn-core btn-secondary" onclick="UIManager.hideHUD()">HIDE</button>
                 </div>
-                
             </div>
         </div>
     </div>
 
-    <!-- TOAST NOTIFICATIONS -->
-    <div id="toast-container"></div>
+    <!-- LAYER 5: Toast Notifications -->
+    <div id="toast-wrap"></div>
 
-    <script type="module">
-        // =======================================================================
-        // FIREBASE SETUP
-        // =======================================================================
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getDatabase, ref, get, set, update, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
-        
-        const firebaseConfig = { 
-            apiKey: "AIzaSyBNj71akpefcfEtn-SQfAcx-Pgwi8sUosg", 
-            databaseURL: "https://teamdev-88676-default-rtdb.asia-southeast1.firebasedatabase.app" 
-        };
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+<!-- ==========================================================================
+     11. ADVANCED MODULAR JAVASCRIPT ARCHITECTURE
+     ========================================================================== -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getDatabase, ref, get, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+    
+    // --- Configuration Block ---
+    const SYS_CONFIG = {
+        FB_API: "AIzaSyBNj71akpefcfEtn-SQfAcx-Pgwi8sUosg",
+        FB_URL: "https://teamdev-88676-default-rtdb.asia-southeast1.firebasedatabase.app",
+        MASTER_KEY: "112233",
+        SCRAMBLE_MS: 40,
+        FAKE_DELAY: 1500
+    };
 
-        let activePeriod = "";
-        let scrambleInt = null;
+    const firebaseApp = initializeApp({ apiKey: SYS_CONFIG.FB_API, databaseURL: SYS_CONFIG.FB_URL });
+    const database = getDatabase(firebaseApp);
 
-        // =======================================================================
-        // FIREBASE LIVE CONNECTION MONITOR
-        // =======================================================================
-        const dbStatusEl = document.getElementById('db-status');
-        onValue(ref(db, '.info/connected'), (snap) => {
-            if (snap.val() === true) {
-                dbStatusEl.innerText = "CONNECTED 🟢";
-                dbStatusEl.style.color = "var(--trade-green)";
-                dbStatusEl.style.textShadow = "0 0 5px var(--trade-green)";
+    // --- Utility Class ---
+    class Utility {
+        static enforceSingleDigit(element) {
+            if (element.value.length > 1) element.value = element.value.slice(0, 1);
+            if (parseInt(element.value) < 0 || parseInt(element.value) > 9) element.value = "";
+        }
+    }
+    window.Utility = Utility; // Expose for HTML inline handlers
+
+    // --- Notification System ---
+    class Notifier {
+        static fire(msg, duration = 2500) {
+            const wrap = document.getElementById("toast-wrap");
+            const el = document.createElement("div");
+            el.className = "toast-msg";
+            el.innerHTML = msg;
+            wrap.appendChild(el);
+            setTimeout(() => {
+                el.classList.add("hide");
+                el.addEventListener('animationend', () => el.remove());
+            }, duration);
+        }
+    }
+
+    // --- Particles Engine (0% Load, Hardware Canvas) ---
+    class CanvasParticles {
+        constructor() {
+            this.canvas = document.getElementById('particle-layer');
+            this.ctx = this.canvas.getContext('2d');
+            this.particles = [];
+            this.resize();
+            window.addEventListener('resize', () => this.resize());
+            this.init();
+            this.animate();
+        }
+        resize() {
+            this.canvas.width = window.innerWidth;
+            this.canvas.height = window.innerHeight;
+        }
+        init() {
+            for (let i = 0; i < 40; i++) {
+                this.particles.push({
+                    x: Math.random() * this.canvas.width,
+                    y: Math.random() * this.canvas.height,
+                    radius: Math.random() * 1.5,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    alpha: Math.random() * 0.5 + 0.1
+                });
+            }
+        }
+        animate() {
+            requestAnimationFrame(() => this.animate());
+            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+            this.particles.forEach(p => {
+                p.x += p.vx; p.y += p.vy;
+                if(p.x < 0 || p.x > this.canvas.width) p.vx *= -1;
+                if(p.y < 0 || p.y > this.canvas.height) p.vy *= -1;
+                this.ctx.beginPath();
+                this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                this.ctx.fillStyle = `rgba(0, 229, 255, ${p.alpha})`;
+                this.ctx.fill();
+            });
+        }
+    }
+
+    // --- High-Performance Drag Manager (translate3d) ---
+    class DragManager {
+        constructor(hudId, handleId) {
+            this.hud = document.getElementById(hudId);
+            this.handle = document.getElementById(handleId);
+            this.active = false;
+            this.curX = 15; this.curY = 40; 
+            this.initX = 0; this.initY = 0;
+
+            this.handle.addEventListener("pointerdown", this.dragStart.bind(this));
+            window.addEventListener("pointermove", this.dragMove.bind(this));
+            window.addEventListener("pointerup", this.dragEnd.bind(this));
+            
+            // Set initial position
+            this.updateTransform();
+        }
+        dragStart(e) {
+            this.active = true;
+            this.hud.style.transition = "none";
+            this.initX = e.clientX - this.curX;
+            this.initY = e.clientY - this.curY;
+            this.handle.setPointerCapture(e.pointerId);
+        }
+        dragMove(e) {
+            if (!this.active) return;
+            e.preventDefault();
+            const w = window.innerWidth - this.hud.offsetWidth;
+            const h = window.innerHeight - this.hud.offsetHeight;
+            this.curX = Math.max(0, Math.min(e.clientX - this.initX, w));
+            this.curY = Math.max(0, Math.min(e.clientY - this.initY, h));
+            this.updateTransform();
+        }
+        dragEnd(e) {
+            if(!this.active) return;
+            this.active = false;
+            this.hud.style.transition = "opacity 0.3s, transform var(--ease-bounce)";
+            this.handle.releasePointerCapture(e.pointerId);
+        }
+        updateTransform() {
+            this.hud.style.transform = `translate3d(${this.curX}px, ${this.curY}px, 0) scale(1)`;
+        }
+    }
+
+    // --- UI View Controller ---
+    class UIManager {
+        static showHUD() {
+            const trigger = document.getElementById('trigger-ui');
+            const hud = document.getElementById('core-hud');
+            trigger.classList.add('hidden');
+            hud.classList.add('active');
+        }
+        static hideHUD() {
+            const trigger = document.getElementById('trigger-ui');
+            const hud = document.getElementById('core-hud');
+            hud.classList.remove('active');
+            setTimeout(() => trigger.classList.remove('hidden'), 300);
+        }
+    }
+    window.UIManager = UIManager;
+
+    // --- Authentication System ---
+    class AuthManager {
+        static async verify() {
+            const input = document.getElementById('auth-input').value.trim();
+            const btn = document.querySelector('#module-auth .btn-core');
+            
+            if (!input) return Notifier.fire("MISSING LICENSE KEY");
+            if (input === SYS_CONFIG.MASTER_KEY) return this.grantAccess();
+            
+            btn.innerText = "AUTHENTICATING...";
+            try {
+                const snap = await get(ref(database, 'approved_uids/' + input));
+                if (snap.exists() && !snap.val().is_banned) this.grantAccess();
+                else { btn.innerText = "DENIED"; setTimeout(()=> btn.innerText="AUTHORIZE", 2000); }
+            } catch (e) {
+                btn.innerText = "SERVER ERR"; setTimeout(()=> btn.innerText="AUTHORIZE", 2000);
+            }
+        }
+        static grantAccess() {
+            document.getElementById('module-auth').classList.add('d-none');
+            document.getElementById('module-engine').classList.remove('d-none');
+            Notifier.fire("ACCESS GRANTED - VIP SYSTEM ACTIVE");
+        }
+    }
+    window.AuthManager = AuthManager;
+
+    // --- Wingo/Reliance UTC Timer Sync ---
+    class GameTimer {
+        constructor() {
+            this.clock = document.getElementById('clock-display');
+            this.period = document.getElementById('period-display');
+            this.run(); setInterval(() => this.run(), 1000);
+        }
+        run() {
+            const d = new Date();
+            const hh = d.getUTCHours(), mm = d.getUTCMinutes(), ss = d.getUTCSeconds();
+            let rem = 60 - ss; if(rem === 60) rem = 0;
+            const totalMin = (hh * 60) + mm;
+            const pNum = 10001 + totalMin;
+            
+            const dateStr = `${d.getUTCFullYear()}${String(d.getUTCMonth()+1).padStart(2,'0')}${String(d.getUTCDate()).padStart(2,'0')}`;
+            
+            this.period.innerText = `#${dateStr}1000${pNum}`;
+            this.clock.innerText = `00:${String(rem).padStart(2,'0')}`;
+            
+            if(rem <= 10) {
+                this.clock.style.color = "var(--color-red)";
+                this.clock.style.textShadow = "0 0 15px var(--color-red-glow)";
             } else {
-                dbStatusEl.innerText = "OFFLINE 🔴";
-                dbStatusEl.style.color = "var(--trade-red)";
-                dbStatusEl.style.textShadow = "0 0 5px var(--trade-red)";
+                this.clock.style.color = "#fff";
+                this.clock.style.textShadow = "none";
             }
-        });
+        }
+    }
 
-        // --- MAINTENANCE & GAME LINK SYNC ---
-        onValue(ref(db, 'settings/maintenance'), (snapshot) => {
-            const isMaint = snapshot.val();
-            document.getElementById('maintenance-screen').style.display = isMaint ? "flex" : "none";
-            document.getElementById('ai-widget').style.display = isMaint ? "none" : "flex";
-        });
-        onValue(ref(db, 'settings/force_link'), (snapshot) => { 
-            if(snapshot.exists()) document.getElementById('gameIframe').src = snapshot.val(); 
-        });
+    // --- Zero-Lag Number Scrambler ---
+    class HardwareScrambler {
+        constructor(n1, n2) { this.n1 = n1; this.n2 = n2; this.run = false; this.last = 0; }
+        start() { this.run = true; requestAnimationFrame(this.step.bind(this)); }
+        stop() { this.run = false; }
+        step(time) {
+            if(!this.run) return;
+            if(time - this.last > SYS_CONFIG.SCRAMBLE_MS) {
+                this.n1.value = Math.floor(Math.random() * 10);
+                this.n2.value = Math.floor(Math.random() * 10);
+                this.last = time;
+            }
+            requestAnimationFrame(this.step.bind(this));
+        }
+    }
 
-        // =======================================================================
-        // HIDE & SHOW WIDGET LOGIC
-        // =======================================================================
-        window.closeWidget = () => {
-            const widget = document.getElementById('ai-widget');
-            const showBtn = document.getElementById('show-widget-btn');
-            widget.style.transform = "scale(0)";
-            setTimeout(() => {
-                widget.style.display = "none";
-                showBtn.style.right = "0"; 
-            }, 350);
-        };
-
-        window.openWidget = () => {
-            const widget = document.getElementById('ai-widget');
-            const showBtn = document.getElementById('show-widget-btn');
-            showBtn.style.right = "-120px"; 
-            widget.style.display = "flex";
-            setTimeout(() => {
-                widget.style.transform = "scale(1)";
-            }, 50);
-        };
-
-        // =======================================================================
-        // LIVE GAME TIMER & PERFECT PERIOD LOCK FIX
-        // =======================================================================
-        function startLiveGameSync() {
-            setInterval(() => {
-                let now = new Date();
-                let y = now.getFullYear(); let m = String(now.getMonth() + 1).padStart(2, '0'); let d = String(now.getDate()).padStart(2, '0');
-                let totalMinutes = now.getHours() * 60 + now.getMinutes() + 1;
-                let periodStr = `${y}${m}${d}1000${String(totalMinutes).padStart(4, '0')}`;
-                
-                document.getElementById('live-period').innerText = periodStr;
-
-                // ABSOLUTE FIX: Reset ONLY when the Period Number literally changes
-                if (activePeriod !== "" && activePeriod !== periodStr) {
-                    resetResultUI();
-                }
-                activePeriod = periodStr;
-
-                let sec = now.getSeconds(); let rem = 60 - sec; if(rem === 60) rem = 0;
-                let timerEl = document.getElementById('live-timer');
-                timerEl.innerText = `00:${String(rem).padStart(2, '0')}`;
-                if(rem <= 10) timerEl.classList.add('timer-danger'); else timerEl.classList.remove('timer-danger');
-            }, 1000);
+    // --- Core Quantum Prediction Engine ---
+    class QuantumEngine {
+        static init() {
+            this.state = "ANALYZE";
+            this.box = document.getElementById('engine-box');
+            this.btn = document.getElementById('btn-execute');
+            this.n1 = document.getElementById('node-1');
+            this.n2 = document.getElementById('node-2');
+            
+            this.rack = document.getElementById('result-rack');
+            this.szPill = document.getElementById('out-size');
+            this.colWrap = document.getElementById('out-color-wrap');
+            this.colTxt = document.getElementById('out-color-text');
+            this.colDot = document.getElementById('out-dot');
+            
+            this.fx = new HardwareScrambler(this.n1, this.n2);
         }
 
-        // =======================================================================
-        // BOOT SEQUENCE & DRAGGING
-        // =======================================================================
-        window.onload = () => { 
-            startLiveGameSync();
-            let i = 0;
-            const logs = ["ESTABLISHING PROTOCOL...", "SYNCING WITH GAME SERVER...", "LOADING TRADING ALGORITHM...", "SYSTEM READY."];
-            let interval = setInterval(() => { if(i < logs.length) { document.getElementById('splash-log').innerText = logs[i]; i++; } else { clearInterval(interval); } }, 600);
-            setTimeout(() => {
-                document.getElementById('splash-screen').style.opacity = "0";
-                setTimeout(() => { 
-                    document.getElementById('splash-screen').style.display = "none"; 
-                    document.getElementById('ai-widget').style.opacity = "1";
-                }, 800);
-            }, 2600);
-        };
+        static async trigger() {
+            if(this.state === "ANALYZE") {
+                const v1 = this.n1.value, v2 = this.n2.value;
+                if(!v1 || !v2) return Notifier.fire("AWAITING TARGET COORDINATES");
+                
+                this.btn.disabled = true; this.btn.innerText = "DECRYPTING...";
+                this.box.classList.add("is-scanning");
+                this.n1.readOnly = true; this.n2.readOnly = true;
+                this.fx.start();
 
-        const widgetEl = document.getElementById("ai-widget"), handleEl = document.getElementById("widget-header");
-        let isDragging = false, startX, startY, initialX, initialY;
-        handleEl.addEventListener("pointerdown", (e) => {
-            isDragging = true; widgetEl.classList.remove("float-active");
-            startX = e.clientX; startY = e.clientY; initialX = widgetEl.offsetLeft; initialY = widgetEl.offsetTop;
-            handleEl.setPointerCapture(e.pointerId); 
-        });
-        handleEl.addEventListener("pointermove", (e) => {
-            if (!isDragging) return; e.preventDefault();
-            let newX = Math.max(0, Math.min(initialX + (e.clientX - startX), window.innerWidth - widgetEl.offsetWidth));
-            let newY = Math.max(0, Math.min(initialY + (e.clientY - startY), window.innerHeight - widgetEl.offsetHeight));
-            widgetEl.style.left = newX + "px"; widgetEl.style.top = newY + "px";
-        });
-        handleEl.addEventListener("pointerup", (e) => { isDragging = false; widgetEl.classList.add("float-active"); handleEl.releasePointerCapture(e.pointerId); });
+                try {
+                    const snap = await get(ref(database, `patterns/${v1}-${v2}`));
+                    setTimeout(() => {
+                        this.fx.stop(); this.box.classList.remove("is-scanning");
+                        if(snap.exists() && snap.val()) this.parse(snap.val().toUpperCase());
+                        else this.error();
+                    }, SYS_CONFIG.FAKE_DELAY);
+                } catch(e) {
+                    this.fx.stop(); this.box.classList.remove("is-scanning");
+                    Notifier.fire("API CONNECTION TIMEOUT"); this.reset();
+                }
+            } else {
+                this.reset();
+            }
+        }
 
-        // =======================================================================
-        // UTILS & FIREBASE AUTHENTICATION (FIXED)
-        // =======================================================================
-        window.showClientToast = (msg, isErr = false) => {
-            const container = document.getElementById("toast-container"), toast = document.createElement("div");
-            toast.className = "client-toast"; toast.style.borderColor = isErr ? "var(--trade-red)" : "var(--trade-green)";
-            toast.innerHTML = `<span>${isErr ? '⚠️' : '✅'}</span> ${msg}`;
-            container.appendChild(toast); setTimeout(() => { toast.style.opacity = "0"; setTimeout(() => toast.remove(), 300); }, 3000);
-        };
-        window.limitDigit = (el) => { if(el.value.length > 1) el.value = el.value.slice(0, 1); if(parseInt(el.value) < 0 || parseInt(el.value) > 9) el.value = ""; };
+        static parse(data) {
+            // Regex to parse Admin Panel "BIG [8-3]" or "SMALL [2]"
+            const match = data.match(/\[(\d)(?:[^\d]+(\d))?\]/);
+            const isBig = data.includes("BIG");
+            
+            let f1 = match ? parseInt(match[1]) : (isBig ? 7 : 2);
+            let f2 = (match && match[2]) ? parseInt(match[2]) : (isBig ? 8 : 1);
+
+            let cType = (f1 % 2 === 0) ? "RED" : "GREEN";
+            if(f1 === 0 || f1 === 5) cType = "VIOLET";
+            let cKey = cType.toLowerCase();
+            let cShort = cKey[0]; // r, g, v for css classes
+
+            // Update DOM Inputs
+            this.n1.value = f1; this.n2.value = f2;
+            this.n1.className = `orb-node is-locked ${cKey}`;
+            this.n2.className = `orb-node is-locked ${cKey}`;
+
+            // Update UI Rack
+            this.szPill.innerText = isBig ? "BIG" : "SMALL";
+            this.colWrap.className = `data-pill pill-${cShort}`;
+            this.colTxt.innerText = cType;
+            this.colDot.style.background = `var(--color-${cKey})`;
+
+            this.rack.classList.add('show');
+            this.state = "NEXT";
+            this.btn.disabled = false; this.btn.innerText = "NEXT DRAW";
+            this.btn.classList.add('state-next');
+        }
+
+        static error() {
+            this.n1.value = "X"; this.n2.value = "X";
+            Notifier.fire("TARGET PATTERN NOT FOUND IN DB");
+            this.btn.disabled = false; this.btn.innerText = "ANALYZE";
+            setTimeout(() => this.reset(), 2000);
+        }
+
+        static reset() {
+            this.fx.stop();
+            this.n1.value = ""; this.n2.value = "";
+            this.n1.readOnly = false; this.n2.readOnly = false;
+            this.n1.className = "orb-node"; this.n2.className = "orb-node";
+            
+            this.box.classList.remove("is-scanning");
+            this.rack.classList.remove('show');
+            
+            this.state = "ANALYZE";
+            this.btn.classList.remove('state-next');
+            this.btn.innerText = "ANALYZE";
+            this.btn.disabled = false;
+        }
+    }
+    window.QuantumEngine = QuantumEngine;
+
+    // --- Boot Sequence ---
+    document.addEventListener("DOMContentLoaded", () => {
+        new CanvasParticles();
+        new DragManager('core-hud', 'drag-zone');
+        new GameTimer();
+        QuantumEngine.init();
         
-        window.authenticateClient = async () => {
-            const uid = document.getElementById('uidInput').value.trim(); 
-            if (!uid) return showClientToast("Enter VIP Key!", true);
-            
-            const btn = document.getElementById('authBtn'); 
-            btn.innerText = "VERIFYING..."; btn.disabled = true;
+        // Dynamic Force Link
+        onValue(ref(database, 'settings/force_link'), snap => { 
+            if(snap.exists()) document.getElementById('main-frame').src = snap.val(); 
+        });
 
-            let did = localStorage.getItem('dev_army_secure_did'); 
-            if (!did) { 
-                did = 'DEV-' + Math.random().toString(36).substr(2, 10).toUpperCase(); 
-                localStorage.setItem('dev_army_secure_did', did); 
-            }
+        // Auto-open for preview
+        setTimeout(() => UIManager.showHUD(), 500);
+    });
 
-            if (uid === "112233") {
-                showClientToast("Master VIP Access Granted");
-                document.getElementById('auth-section').classList.add('hidden'); 
-                document.getElementById('pred-section').classList.remove('hidden');
-                return;
-            }
-
-            try {
-                const snap = await get(ref(db, 'approved_uids/' + uid));
-                
-                if (snap.exists()) {
-                    let user = snap.val();
-                    if (user.is_banned === true) return handleAuthFail("ACCOUNT BANNED BY ADMIN", btn);
-                    if (user.expire_at && user.expire_at < Date.now()) return handleAuthFail("SUBSCRIPTION EXPIRED", btn);
-                    
-                    if (!user.device_id) { 
-                        await update(ref(db, 'approved_uids/' + uid), { device_id: did }); 
-                    } else if (user.device_id !== did) { 
-                        return handleAuthFail("DEVICE MISMATCH (BOUND TO ANOTHER PHONE)", btn);
-                    }
-                    
-                    showClientToast("Verification Successful ✅");
-                    document.getElementById('auth-section').classList.add('hidden'); 
-                    document.getElementById('pred-section').classList.remove('hidden');
-                    
-                } else {
-                    btn.innerText = "WAITING FOR ADMIN APPROVAL...";
-                    await set(ref(db, 'pending_uids/' + uid), { deviceId: did, timestamp: Date.now() });
-                    
-                    onValue(ref(db, 'approved_uids/' + uid), (newSnap) => { 
-                        if (newSnap.exists() && !newSnap.val().is_banned) { 
-                            showClientToast("Access Approved by Admin ✅");
-                            document.getElementById('auth-section').classList.add('hidden'); 
-                            document.getElementById('pred-section').classList.remove('hidden');
-                        } 
-                    });
-                }
-            } catch (err) { 
-                console.error(err);
-                handleAuthFail("DATABASE CONNECTION ERROR", btn); 
-            }
-        };
-
-        function handleAuthFail(msg, btn) { 
-            showClientToast(msg, true); 
-            btn.innerText = "AUTHORIZE ACCESS"; 
-            btn.disabled = false; 
-        }
-
-        // =======================================================================
-        // PREDICTION HACK EXECUTION WITH FAIL-SAFES
-        // =======================================================================
-        window.executeCinematicHack = async () => {
-            const n2 = document.getElementById('prevInput');
-            const n1 = document.getElementById('currInput');
-            const row = document.getElementById('engine-row');
-            const resBox = document.getElementById('result-box');
-            const resText = document.getElementById('result-text');
-            const btn = document.getElementById('btn-get');
-            const sysLog = document.getElementById('sys-log');
-            
-            if(n1.value === "" || n2.value === "") return showClientToast("Enter Previous and Current digits!", true);
-            
-            btn.disabled = true;
-            btn.innerText = "ANALYZING...";
-            sysLog.innerText = "> Fetching data from Database...";
-
-            try {
-                // Pre-fetch data early
-                const snap = await get(ref(db, `patterns/${n1.value}-${n2.value}`));
-                
-                // Start Decoding Animation
-                row.classList.add("reveal");
-                resBox.className = "result-wrapper decoding";
-                
-                if (scrambleInt) clearInterval(scrambleInt);
-                let scrambleChars = "01@#%&*X!";
-                scrambleInt = setInterval(() => {
-                    resText.innerText = scrambleChars.charAt(Math.floor(Math.random() * scrambleChars.length));
-                }, 50);
-
-                // Wait 1.5 Seconds for effect, then lock in Result
-                setTimeout(() => {
-                    clearInterval(scrambleInt);
-                    
-                    if(snap.exists() && snap.val()) {
-                        let isBig = snap.val().toUpperCase().includes("BIG");
-                        
-                        // Lock-in Flash Animation
-                        resText.innerText = isBig ? "BIG" : "SMALL";
-                        resBox.className = "result-wrapper locked " + (isBig ? "res-big" : "res-small");
-                        
-                        sysLog.innerText = "> Trade Pattern Confirmed! Locked.";
-                        btn.innerText = "TRADE ACTIVE";
-                        
-                        widgetEl.style.borderColor = isBig ? "var(--trade-green)" : "var(--trade-red)";
-                        widgetEl.style.boxShadow = isBig ? "0 0 40px rgba(29, 204, 112, 0.4)" : "0 0 40px rgba(255, 45, 85, 0.4)";
-                    } else {
-                        resText.innerText = "N/A";
-                        resBox.className = "result-wrapper locked";
-                        resBox.style.background = "#333";
-                        sysLog.innerText = "> Err: No pattern data found in DB.";
-                        btn.innerText = "ANALYZE";
-                        btn.disabled = false;
-                    }
-                }, 1500); 
-
-            } catch (error) {
-                if(scrambleInt) clearInterval(scrambleInt);
-                showClientToast("Database Error", true);
-                resetResultUI();
-            }
-        };
-
-        // --- RESET UI FUNCTION (Triggers automatically when period changes) ---
-        function resetResultUI() {
-            const row = document.getElementById('engine-row');
-            const btn = document.getElementById('btn-get');
-            const n1 = document.getElementById('currInput');
-            const n2 = document.getElementById('prevInput');
-            const sysLog = document.getElementById('sys-log');
-            const resBox = document.getElementById('result-box');
-            
-            if (scrambleInt) clearInterval(scrambleInt);
-            
-            if(row.classList.contains('reveal')) {
-                row.classList.remove("reveal");
-                resBox.className = "result-wrapper";
-                
-                widgetEl.style.borderColor = "rgba(255, 255, 255, 0.1)";
-                widgetEl.style.boxShadow = "0 30px 60px rgba(0,0,0,0.8), inset 0 1px 1px rgba(255,255,255,0.2), 0 0 20px rgba(142, 36, 170, 0.2)";
-                
-                n1.value = ""; n2.value = "";
-                sysLog.innerText = "> AI Engine Standby...";
-                btn.innerText = "ANALYZE"; btn.disabled = false;
-            }
-        }
-    </script>
+</script>
 </body>
 </html>

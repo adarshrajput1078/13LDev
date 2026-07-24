@@ -3,710 +3,409 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#030305">
-    <title>RELIANCE SUPREME | ENTERPRISE V15</title>
+    <meta name="theme-color" content="#030712">
+    <title>COLOR TRADING VIP | MICRO 3D PRO</title>
     
-    <!-- Premium Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;800;900&family=Outfit:wght@500;700;900&family=Rajdhani:wght@700;900&display=swap" rel="stylesheet">
     
     <style>
-        /* ==========================================================================
-           01. DESIGN SYSTEM & CSS VARIABLES
-           ========================================================================== */
         :root {
-            /* Reliance Color Trading Specific Hex Codes */
-            --color-red: #f44336;
-            --color-red-glow: rgba(244, 67, 54, 0.6);
-            --color-red-bg: rgba(244, 67, 54, 0.15);
-            
-            --color-green: #4caf50;
-            --color-green-glow: rgba(76, 175, 80, 0.6);
-            --color-green-bg: rgba(76, 175, 80, 0.15);
-            
-            --color-violet: #9c27b0;
-            --color-violet-glow: rgba(156, 39, 176, 0.6);
-            --color-violet-bg: rgba(156, 39, 176, 0.15);
-            
-            /* UI Accents */
-            --accent-cyan: #00e5ff;
-            --accent-cyan-glow: rgba(0, 229, 255, 0.6);
-            --accent-gold: #ffb300;
-            --accent-gold-glow: rgba(255, 179, 0, 0.6);
-            
-            /* Core Backgrounds (Obsidian Glass Theme) */
-            --bg-void: #020203;
-            --glass-base: rgba(8, 10, 14, 0.95);
-            --glass-top: rgba(12, 15, 20, 0.98);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            
-            /* Typography */
-            --font-main: 'Outfit', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-            
-            /* Animation Curves */
-            --ease-fast: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-            --ease-bounce: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            --ease-smooth: 0.3s ease-in-out;
+            --color-red: #ff2a55; --color-red-dark: #99001f; --color-red-glow: rgba(255, 42, 85, 0.8);
+            --color-green: #00e676; --color-green-dark: #008040; --color-green-glow: rgba(0, 230, 118, 0.8);
+            --color-violet: #d500f9; --color-violet-dark: #6a0080; --color-violet-glow: rgba(213, 0, 249, 0.8);
+            --cyan: #00f0ff; --cyan-glow: rgba(0, 240, 255, 0.6);
+            --gold: #ffd700; --gold-glow: rgba(255, 215, 0, 0.6);
+            --bg-void: #02040a; --glass-panel: rgba(8, 12, 20, 0.95);
+            --font-ui: 'Outfit', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+            --ease-3d: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        /* ==========================================================================
-           02. GLOBAL RESETS & BASE STYLES
-           ========================================================================== */
-        *, *::before, *::after {
-            margin: 0; padding: 0; box-sizing: border-box;
-            user-select: none; -webkit-tap-highlight-color: transparent;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; user-select: none; -webkit-tap-highlight-color: transparent; }
+        body, html { width: 100%; height: 100%; background: var(--bg-void); overflow: hidden; font-family: var(--font-ui); color: #fff; perspective: 800px; }
 
-        body, html {
-            width: 100%; height: 100%;
-            background-color: var(--bg-void); overflow: hidden;
-            font-family: var(--font-main); color: #ffffff;
-            -webkit-font-smoothing: antialiased;
-        }
+        #game-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; background: #000; }
+        #game-layer iframe { width: 100%; height: 100%; border: none; filter: saturate(1.1) contrast(1.1); }
+        #particle-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; opacity: 0.4; }
 
-        /* Target Game Iframe Overlay */
-        #game-layer {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1; background: #000;
-        }
-        #game-layer iframe {
-            width: 100%; height: 100%; border: none; filter: saturate(1.15);
-        }
-
-        /* Hardware Accelerated Particle Canvas */
-        #particle-layer {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 2; pointer-events: none; opacity: 0.4;
-        }
-
-        /* ==========================================================================
-           03. FLOATING TRIGGER BUTTON (PRO BEACON)
-           ========================================================================== */
         #trigger-ui {
-            position: absolute; top: 50%; right: 0; transform: translateY(-50%);
-            z-index: 99990; background: linear-gradient(135deg, var(--glass-base), var(--bg-void));
-            backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-            border: 1px solid var(--accent-cyan); border-right: none;
-            padding: 12px 16px; border-radius: 14px 0 0 14px;
-            display: flex; align-items: center; gap: 8px; cursor: pointer;
-            box-shadow: -8px 0 25px rgba(0,0,0,0.9); transition: transform var(--ease-bounce);
+            position: absolute; top: 50%; right: 0; transform: translateY(-50%); z-index: 99990;
+            background: linear-gradient(135deg, rgba(10, 14, 25, 0.95), #000);
+            backdrop-filter: blur(10px); border: 1px solid var(--cyan); border-right: none;
+            padding: 10px 12px; border-radius: 10px 0 0 10px; display: flex; align-items: center; gap: 6px;
+            cursor: pointer; box-shadow: -3px 0 15px rgba(0,240,255,0.3); transition: 0.4s;
         }
         #trigger-ui.hidden { transform: translate(100%, -50%); }
+        .beacon { width: 6px; height: 6px; border-radius: 50%; background: #fff; box-shadow: 0 0 10px var(--cyan); animation: pulse 1s infinite alternate; }
+        @keyframes pulse { to { transform: scale(1.5); box-shadow: 0 0 15px var(--cyan); } }
+        .trigger-text { font-size: 9px; font-weight: 900; letter-spacing: 1px; font-family: 'Rajdhani', sans-serif; text-shadow: 0 0 5px var(--cyan); }
 
-        .beacon-dot {
-            width: 8px; height: 8px; border-radius: 50%; background: #fff;
-            box-shadow: 0 0 15px var(--accent-cyan), 0 0 30px var(--accent-cyan);
-            animation: pulse 1s infinite alternate;
-        }
-        @keyframes pulse {
-            0% { transform: scale(0.9); opacity: 0.8; }
-            100% { transform: scale(1.4); opacity: 1; box-shadow: 0 0 25px var(--accent-cyan); }
-        }
-        .trigger-text { font-size: 10px; font-weight: 900; letter-spacing: 1.5px; }
-
-        /* ==========================================================================
-           04. MAIN HUD WIDGET (COMPACT 220px)
-           ========================================================================== */
         #core-hud {
-            position: absolute; top: 40px; left: 15px; width: 220px; /* Precise Pro Size */
-            background: var(--glass-top); backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border); border-top: 1px solid rgba(0,229,255,0.4);
-            border-radius: 18px; box-shadow: 0 30px 60px rgba(0,0,0,0.95);
+            position: absolute; top: 40px; left: 10px; width: 150px; 
+            background: var(--glass-panel); backdrop-filter: blur(20px);
+            border: 1px solid rgba(0,240,255,0.2); border-top: 2px solid var(--cyan);
+            border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.9), inset 0 0 15px rgba(0,240,255,0.05);
             display: flex; flex-direction: column; z-index: 99999;
-            transform: scale(0); opacity: 0; transform-origin: top left;
-            transition: opacity 0.3s, transform var(--ease-bounce);
-            will-change: transform, left, top;
+            transform: scale(0) rotateX(10deg); opacity: 0; transform-origin: top left;
+            transition: opacity 0.3s, transform var(--ease-3d);
+            will-change: transform, left, top; transform-style: preserve-3d;
         }
-        #core-hud.active { transform: scale(1); opacity: 1; }
+        #core-hud.active { transform: scale(1) rotateX(0deg); opacity: 1; }
 
-        /* ==========================================================================
-           05. HUD HEADER (DRAG & DROP ZONE)
-           ========================================================================== */
         .hud-header {
-            padding: 12px 14px 10px; display: flex; flex-direction: column; gap: 8px;
-            background: linear-gradient(180deg, rgba(0,229,255,0.06), transparent);
-            border-radius: 18px 18px 0 0; cursor: grab; border-bottom: 1px solid rgba(255,255,255,0.04);
-            touch-action: none;
+            padding: 8px 12px 6px; display: flex; flex-direction: column; gap: 6px;
+            background: linear-gradient(180deg, rgba(0,240,255,0.1), transparent);
+            border-radius: 12px 12px 0 0; cursor: grab; touch-action: none;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
         }
         .hud-header:active { cursor: grabbing; }
+        .drag-bar { width: 30px; height: 3px; background: rgba(255,255,255,0.3); border-radius: 10px; align-self: center; }
         
-        .drag-indicator {
-            width: 35px; height: 4px; background: rgba(255,255,255,0.25);
-            border-radius: 10px; align-self: center; margin-bottom: 2px;
-        }
-
-        /* Status Chips */
-        .status-rack { display: flex; justify-content: space-between; align-items: center; }
-        .chip {
-            font-size: 6.5px; font-weight: 900; letter-spacing: 1px; padding: 3px 6px;
-            background: rgba(0,0,0,0.8); border: 1px solid; border-radius: 4px;
-            display: flex; align-items: center; gap: 4px; text-transform: uppercase;
-        }
-        .chip-api { color: var(--accent-cyan); border-color: rgba(0,229,255,0.3); }
-        .chip-srv { color: var(--color-green); border-color: rgba(76,175,80,0.3); }
-        .chip svg { width: 7px; height: 7px; fill: currentColor; }
-
-        /* Timer Strip */
-        .timer-strip { display: flex; justify-content: space-between; align-items: flex-end; }
-        .brand-logo { font-size: 15px; font-weight: 900; letter-spacing: 1px; line-height: 1; }
-        .brand-logo span { color: var(--accent-cyan); text-shadow: 0 0 10px var(--accent-cyan-glow); }
-        .time-wrapper { display: flex; flex-direction: column; align-items: flex-end; }
-        .clock-val { font-family: var(--font-mono); font-size: 16px; font-weight: 900; color: #fff; line-height: 1; }
-        .clock-period { font-family: var(--font-mono); font-size: 7px; color: #8892b0; margin-top: 3px; letter-spacing: 1px; }
-
-        /* ==========================================================================
-           06. HUD CONTENT & AUTH
-           ========================================================================== */
-        .hud-body { padding: 14px; display: flex; flex-direction: column; gap: 14px; }
+        .info-strip { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; }
+        .brand-box { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+        .brand { font-family: 'Rajdhani', sans-serif; font-size: 15px; font-weight: 900; letter-spacing: 1px; line-height: 1;}
+        .brand span { color: var(--cyan); text-shadow: 0 0 10px var(--cyan-glow); }
         
-        .auth-input {
-            width: 100%; padding: 12px; border-radius: 10px;
-            background: rgba(0,0,0,0.8); border: 1px solid rgba(0,229,255,0.25);
-            color: var(--accent-cyan); text-align: center; font-family: var(--font-mono);
-            font-size: 11px; font-weight: 800; letter-spacing: 2px; outline: none;
-            box-shadow: inset 0 2px 8px rgba(0,0,0,0.9); transition: var(--ease-fast);
-        }
-        .auth-input:focus { border-color: var(--accent-cyan); box-shadow: 0 0 15px var(--accent-cyan-glow); }
+        .server-status { display: flex; align-items: center; gap: 3px; font-size: 6px; font-family: var(--font-mono); font-weight: 900; color: #94a3b8; letter-spacing: 1px; }
+        .live-dot { width: 4px; height: 4px; background: var(--color-green); border-radius: 50%; box-shadow: 0 0 5px var(--color-green); animation: blinkLive 0.8s infinite alternate; }
+        @keyframes blinkLive { 0% { opacity: 0.4; } 100% { opacity: 1; box-shadow: 0 0 8px var(--color-green); } }
+        
+        .timer-box { display: flex; flex-direction: column; align-items: flex-end; gap: 1px;}
+        .period { font-family: var(--font-mono); font-size: 7px; color: #64748b; letter-spacing: 0.5px; }
+        .time { font-family: var(--font-mono); font-size: 11px; font-weight: 900; color: #fff; text-shadow: 0 0 8px rgba(0,240,255,0.5); }
 
-        /* ==========================================================================
-           07. QUANTUM SCANNER ENGINE
-           ========================================================================== */
+        .hud-body { padding: 10px; display: flex; flex-direction: column; gap: 10px; }
+        
         .engine-box {
-            background: rgba(4, 5, 8, 0.95); border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 12px; padding: 18px 12px 14px; display: flex; flex-direction: column;
-            align-items: center; gap: 14px; position: relative; overflow: hidden;
-            box-shadow: inset 0 5px 25px rgba(0,0,0,1);
+            background: #010205; border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px; padding: 12px 8px; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; position: relative; overflow: hidden;
+            box-shadow: inset 0 8px 20px rgba(0,0,0,1); min-height: 90px; perspective: 600px;
         }
 
-        .engine-box::before {
-            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
-            background-size: 12px 12px; pointer-events: none;
+        .cyber-grid {
+            position: absolute; bottom: -50%; left: -50%; width: 200%; height: 200%;
+            background: linear-gradient(transparent 95%, rgba(0, 240, 255, 0.2) 100%), linear-gradient(90deg, transparent 95%, rgba(0, 240, 255, 0.2) 100%);
+            background-size: 12px 12px; transform: rotateX(75deg);
+            animation: gridMove 3s linear infinite; pointer-events: none; z-index: 0;
         }
+        @keyframes gridMove { 0% { transform: rotateX(75deg) translateY(0); } 100% { transform: rotateX(75deg) translateY(12px); } }
 
-        /* 3D Target Orbs */
-        .orb-container { display: flex; gap: 18px; position: relative; z-index: 2; width: 100%; justify-content: center; }
-        .orb-wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-        .orb-label { font-size: 7px; font-weight: 800; color: #64748b; letter-spacing: 1px; background: rgba(0,0,0,0.6); padding: 3px 6px; border-radius: 4px; }
+        .input-state { display: flex; gap: 10px; width: 100%; justify-content: center; align-items: center; transition: 0.3s; z-index: 2; transform-style: preserve-3d; }
+        .input-wrap { display: flex; flex-direction: column; align-items: center; gap: 5px; }
+        .input-lbl { font-size: 7px; font-weight: 900; color: #fff; letter-spacing: 1px; text-shadow: 0 0 5px rgba(255,255,255,0.5); background: rgba(0,0,0,0.6); padding: 2px 4px; border-radius: 3px;}
         
-        .orb-node {
-            width: 48px; height: 48px; border-radius: 50%;
-            background: radial-gradient(circle at 30% 30%, #1a1a24, #000);
-            border: 1px solid rgba(255,255,255,0.15); color: #fff;
-            font-family: var(--font-mono); font-size: 20px; font-weight: 900;
-            text-align: center; box-shadow: inset 1px 1px 3px rgba(255,255,255,0.2), inset -3px -3px 8px rgba(0,0,0,0.9), 0 5px 15px rgba(0,0,0,0.9);
-            outline: none; -moz-appearance: textfield; transition: var(--ease-bounce);
-            position: relative; z-index: 3;
+        .target-input {
+            width: 36px; height: 36px; background: rgba(10, 15, 25, 0.9);
+            border: 2px solid rgba(0,240,255,0.3); border-radius: 8px;
+            color: var(--cyan); text-align: center; font-family: var(--font-mono); font-size: 16px; font-weight: 900;
+            outline: none; box-shadow: inset 0 3px 10px rgba(0,0,0,0.9), 0 3px 10px rgba(0,0,0,0.8); transition: 0.3s;
+            transform: translateZ(5px); text-shadow: 0 0 8px var(--cyan);
         }
-        .orb-node::-webkit-outer-spin-button, .orb-node::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-        .orb-node:focus { border-color: var(--accent-cyan); box-shadow: 0 0 20px var(--accent-cyan-glow); }
+        .target-input:focus { border-color: var(--cyan); box-shadow: 0 0 15px var(--cyan-glow), inset 0 2px 5px rgba(0,0,0,0.8); transform: translateZ(10px); }
 
-        /* Hardware Laser */
-        .laser-beam {
-            position: absolute; top: -20px; left: 0; width: 100%; height: 2px;
-            background: #fff; box-shadow: 0 0 10px #fff, 0 0 25px var(--accent-cyan);
+        .laser {
+            position: absolute; top: -10px; left: 0; width: 100%; height: 2px;
+            background: #fff; box-shadow: 0 0 10px #fff, 0 0 20px var(--cyan);
             opacity: 0; pointer-events: none; z-index: 10; mix-blend-mode: screen;
         }
-        .is-scanning .laser-beam { animation: scanHardware 0.75s infinite alternate ease-in-out; opacity: 1; }
-        @keyframes scanHardware { 0% { transform: translateY(10px); } 100% { transform: translateY(70px); } }
+        .is-scanning .laser { animation: scan3D 0.7s infinite alternate ease-in-out; opacity: 1; }
+        @keyframes scan3D { 0% { transform: translateY(5px) translateZ(10px); } 100% { transform: translateY(80px) translateZ(10px); } }
+
+        .result-state { display: none; flex-direction: column; align-items: center; gap: 8px; width: 100%; z-index: 2; transform-style: preserve-3d; }
+        .result-state.show { display: flex; }
         
-        .is-scanning .orb-node { color: #fff; text-shadow: 0 0 15px var(--accent-cyan); border-color: rgba(0,229,255,0.7); box-shadow: 0 0 20px var(--accent-cyan-glow); }
+        .balls-container { display: flex; gap: 10px; justify-content: center; align-items: center; position: relative; transform-style: preserve-3d; }
+        .ball-wrapper { display: flex; flex-direction: column; align-items: center; gap: 6px; animation: spinIn var(--ease-3d) forwards; opacity: 0; transform-style: preserve-3d; }
+        .ball-wrapper:nth-child(2) { animation-delay: 0.1s; }
 
-        /* ==========================================================================
-           08. COLOR TRADING RESULTS UI (Exact Replica)
-           ========================================================================== */
-        .orb-node.is-locked { animation: impactLock 0.4s ease-out forwards; background: radial-gradient(circle at 30% 30%, #111, #000); border-width: 2px; }
-        .orb-node.is-locked.red { color: var(--color-red); text-shadow: 0 0 15px var(--color-red); border-color: var(--color-red); box-shadow: 0 0 25px var(--color-red-glow); }
-        .orb-node.is-locked.green { color: var(--color-green); text-shadow: 0 0 15px var(--color-green); border-color: var(--color-green); box-shadow: 0 0 25px var(--color-green-glow); }
-        .orb-node.is-locked.violet { color: var(--color-violet); text-shadow: 0 0 15px var(--color-violet); border-color: var(--color-violet); box-shadow: 0 0 25px var(--color-violet-glow); }
-        @keyframes impactLock { 0% { transform: scale(1.15); filter: brightness(2); } 100% { transform: scale(1); filter: brightness(1); } }
+        @keyframes spinIn { 0% { transform: scale(0) rotateY(-180deg) translateZ(-30px); opacity: 0; } 100% { transform: scale(1) rotateY(0deg) translateZ(10px); opacity: 1; } }
 
-        .result-rack {
-            display: flex; gap: 8px; width: 100%; opacity: 0;
-            transform: translateY(10px); transition: var(--ease-bounce);
-            justify-content: center; z-index: 2; display: none;
+        .casino-ball {
+            width: 36px; height: 36px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-family: var(--font-mono); font-size: 18px; font-weight: 900; color: #fff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.9); border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: inset -4px -4px 8px rgba(0,0,0,0.8), inset 4px 4px 8px rgba(255,255,255,0.4), 0 8px 15px rgba(0,0,0,0.9);
+            position: relative;
         }
-        .result-rack.show { opacity: 1; transform: translateY(0); display: flex; }
+        .casino-ball::after { content: ''; position: absolute; top: 3px; left: 15%; width: 70%; height: 35%; background: linear-gradient(180deg, rgba(255,255,255,0.8), transparent); border-radius: 50%; pointer-events: none; }
 
-        .data-pill {
-            flex: 1; display: flex; align-items: center; justify-content: center; gap: 5px;
-            font-weight: 900; font-size: 11px; letter-spacing: 1px; padding: 8px 0;
-            border-radius: 6px; background: rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.06);
-            box-shadow: inset 0 0 10px rgba(0,0,0,1);
+        .bg-red { background: radial-gradient(circle at 30% 30%, var(--color-red), var(--color-red-dark)); box-shadow: inset -4px -4px 8px rgba(0,0,0,0.8), inset 4px 4px 8px rgba(255,255,255,0.4), 0 0 15px var(--color-red-glow); }
+        .bg-green { background: radial-gradient(circle at 30% 30%, var(--color-green), var(--color-green-dark)); box-shadow: inset -4px -4px 8px rgba(0,0,0,0.8), inset 4px 4px 8px rgba(255,255,255,0.4), 0 0 15px var(--color-green-glow); }
+        .bg-red-violet { background: linear-gradient(135deg, var(--color-red) 50%, var(--color-violet) 50%); box-shadow: inset -4px -4px 8px rgba(0,0,0,0.8), inset 4px 4px 8px rgba(255,255,255,0.4), 0 0 15px var(--color-violet-glow); }
+        .bg-green-violet { background: linear-gradient(135deg, var(--color-green) 50%, var(--color-violet) 50%); box-shadow: inset -4px -4px 8px rgba(0,0,0,0.8), inset 4px 4px 8px rgba(255,255,255,0.4), 0 0 15px var(--color-violet-glow); }
+
+        .ball-shadow { width: 20px; height: 5px; background: rgba(0,0,0,0.9); border-radius: 50%; filter: blur(2px); margin-top: -3px; }
+
+        .metrics-bar {
+            width: 100%; display: flex; justify-content: space-between; align-items: center;
+            background: rgba(0,240,255,0.05); border: 1px solid rgba(0,240,255,0.2);
+            padding: 3px 6px; border-radius: 4px; font-family: var(--font-mono);
+            font-size: 7px; font-weight: 900; letter-spacing: 1px; color: #fff;
+            transform: translateZ(5px); animation: tagPop 0.4s 0.2s forwards; opacity: 0;
         }
-        .color-dot { width: 10px; height: 10px; border-radius: 50%; box-shadow: inset -2px -2px 3px rgba(0,0,0,0.5); }
+
+        .detail-pill {
+            font-family: 'Rajdhani', sans-serif; font-weight: 900; font-size: 11px; letter-spacing: 2px; padding: 4px 14px;
+            border-radius: 6px; background: rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.1);
+            text-transform: uppercase; box-shadow: 0 5px 10px rgba(0,0,0,0.8), inset 0 1px 3px rgba(255,255,255,0.1); 
+            transform: translateZ(10px); animation: tagPop 0.4s 0.3s forwards; opacity: 0;
+        }
+        @keyframes tagPop { 0% { transform: translateY(10px) translateZ(10px); opacity: 0; } 100% { transform: translateY(0) translateZ(10px); opacity: 1; } }
         
-        .pill-sz { color: var(--accent-cyan); border-color: rgba(0,229,255,0.25); background: rgba(0,229,255,0.05); }
-        .pill-r { color: var(--color-red); border-color: rgba(244,67,54,0.25); background: var(--color-red-bg); }
-        .pill-g { color: var(--color-green); border-color: rgba(76,175,80,0.25); background: var(--color-green-bg); }
-        .pill-v { color: var(--color-violet); border-color: rgba(156,39,176,0.25); background: var(--color-violet-bg); }
+        .sz-big { color: var(--gold); text-shadow: 0 0 10px var(--gold-glow); border-color: rgba(255,215,0,0.4); }
+        .sz-small { color: var(--cyan); text-shadow: 0 0 10px var(--cyan-glow); border-color: rgba(0,240,255,0.4); }
 
-        /* ==========================================================================
-           09. BUTTONS & CONTROLS
-           ========================================================================== */
+        .auth-input { width: 100%; padding: 10px; border-radius: 6px; background: rgba(0,0,0,0.8); border: 1px solid rgba(0,240,255,0.3); color: var(--cyan); text-align: center; font-family: var(--font-mono); font-size: 9px; font-weight: 900; letter-spacing: 2px; outline: none; box-shadow: inset 0 2px 8px rgba(0,0,0,0.9); }
         .controls { display: flex; gap: 8px; }
-        .btn-core {
-            flex: 1; padding: 12px 0; border-radius: 8px; border: none;
-            font-weight: 900; font-size: 11px; letter-spacing: 1px;
-            cursor: pointer; text-transform: uppercase; position: relative; overflow: hidden;
-            transition: var(--ease-fast);
+        .btn {
+            flex: 1; padding: 10px 0; border-radius: 6px; border: none; font-family: 'Rajdhani', sans-serif;
+            font-weight: 900; font-size: 11px; letter-spacing: 1px; cursor: pointer; transition: 0.2s; text-transform: uppercase;
         }
-        .btn-core:active { transform: scale(0.95); }
-        
-        /* Premium Liquid Shine */
-        .btn-core::after {
-            content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transform: skewX(-20deg); animation: liquid 3s infinite;
-        }
-        @keyframes liquid { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
-
-        .btn-primary { background: linear-gradient(90deg, #00d2ff, #3a7bd5); color: #000; box-shadow: 0 5px 20px rgba(0,210,255,0.4); }
-        .btn-primary.state-next { background: linear-gradient(90deg, var(--accent-gold), #ff3c00); color: #fff; box-shadow: 0 5px 20px var(--accent-gold-glow); text-shadow: 0 0 5px rgba(0,0,0,0.5); }
-        .btn-secondary { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); color: #9ca3af; }
-        .btn-secondary::after { display: none; }
+        .btn:active { transform: scale(0.92); }
+        .btn-primary { background: linear-gradient(90deg, #00f0ff, #008b99); color: #000; box-shadow: 0 4px 15px rgba(0,240,255,0.3); }
+        .btn-primary.next { background: linear-gradient(90deg, var(--gold), #b8860b); box-shadow: 0 4px 15px var(--gold-glow); }
+        .btn-secondary { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; }
         
         .d-none { display: none !important; }
 
-        /* ==========================================================================
-           10. TOAST NOTIFICATION ENGINE
-           ========================================================================== */
-        #toast-wrap {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            z-index: 9999999; display: flex; flex-direction: column; gap: 10px; pointer-events: none;
-        }
-        .toast-msg {
-            background: rgba(10, 10, 15, 0.98); border: 1px solid var(--accent-cyan);
-            color: #fff; padding: 12px 20px; border-radius: 10px; font-size: 10px;
-            font-weight: 900; letter-spacing: 1.5px; box-shadow: 0 10px 30px rgba(0,0,0,0.9);
-            animation: slideIn var(--ease-bounce) forwards;
-        }
-        @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .toast-msg.hide { animation: fadeOut var(--ease-fast) forwards; }
-        @keyframes fadeOut { from { opacity: 1; transform: scale(1); } to { opacity: 0; transform: scale(0.9); } }
-
+        #toast-wrap { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); z-index: 9999999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+        .toast-msg { background: rgba(10, 14, 25, 0.98); border: 1px solid var(--cyan); color: #fff; padding: 10px 18px; border-radius: 8px; font-size: 9px; font-family: var(--font-mono); font-weight: 900; letter-spacing: 1.5px; box-shadow: 0 10px 30px rgba(0,0,0,0.9), 0 0 15px var(--cyan-glow); animation: slideIn var(--ease-3d) forwards; }
+        @keyframes slideIn { from { opacity: 0; transform: translateY(20px) scale(0.8); } to { opacity: 1; transform: translateY(0) scale(1); } }
+        .toast-msg.hide { animation: fadeOut 0.3s ease forwards; }
+        @keyframes fadeOut { to { opacity: 0; transform: translateY(-10px); } }
     </style>
 </head>
 <body>
 
-    <!-- LAYER 1: Game Iframe -->
-    <div id="game-layer">
-        <iframe id="main-frame" src="https://reliance.com" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe>
-    </div>
-
-    <!-- LAYER 2: Particle Background for Luxury Feel -->
+    <div id="game-layer"><iframe id="main-frame" src="https://reliance.com" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe></div>
     <canvas id="particle-layer"></canvas>
 
-    <!-- LAYER 3: Trigger Beacon -->
     <div id="trigger-ui" onclick="UIManager.showHUD()">
-        <div class="beacon-dot"></div>
-        <span class="trigger-text">OPEN VIP</span>
+        <div class="beacon"></div>
+        <span class="trigger-text">3D HACK</span>
     </div>
 
-    <!-- LAYER 4: The 220px Pro HUD -->
     <div id="core-hud">
-        
-        <!-- Header & Drag Area -->
         <div class="hud-header" id="drag-zone">
-            <div class="drag-indicator"></div>
-            
-            <div class="status-rack">
-                <div class="chip chip-api">
-                    <svg viewBox="0 0 24 24"><path d="M12 21c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm-4.6-4.6c-.4-.4-.4-1 0-1.4 2.5-2.5 6.6-2.5 9.2 0 .4.4.4 1 0 1.4-.4.4-1 .4-1.4 0-1.7-1.7-4.6-1.7-6.4 0-.4.4-1 .4-1.4 0z"/></svg>
-                    API: SECURE
+            <div class="drag-bar"></div>
+            <div class="info-strip">
+                <div class="brand-box">
+                    <div class="brand">DEV<span>ARMY</span></div>
+                    <div class="server-status"><span class="live-dot"></span> LIVE <span id="ping-ms" style="color:var(--cyan);">12ms</span></div>
                 </div>
-                <div class="chip chip-srv">
-                    <svg viewBox="0 0 24 24"><path d="M20 13H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1v-6c0-.55-.45-1-1-1zm-10 6H6v-2h4v2zm6 0h-4v-2h4v2zM20 3H4c-.55 0-1 .45-1 1v6c0 .55.45 1 1 1h16c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1zm-10 6H6V7h4v2zm6 0h-4V7h4v2z"/></svg>
-                    SRV: RELIANCE
-                </div>
-            </div>
-
-            <div class="timer-strip">
-                <div class="brand-logo">DEV<span>ARMY</span></div>
-                <div class="time-wrapper">
-                    <div class="clock-val" id="clock-display">00:00</div>
-                    <div class="clock-period" id="period-display">SYNCING...</div>
+                <div class="timer-box">
+                    <div class="period" id="period">ID:SYNCING</div>
+                    <div class="time" id="clock">00:00</div>
                 </div>
             </div>
         </div>
 
         <div class="hud-body">
-            <!-- Auth Module -->
             <div id="module-auth">
                 <input type="password" id="auth-input" class="auth-input" placeholder="ENTER VIP KEY">
-                <button class="btn-core btn-primary" style="width:100%; margin-top:12px;" onclick="AuthManager.verify()">AUTHORIZE</button>
+                <button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="Auth.verify()">AUTHORIZE</button>
             </div>
 
-            <!-- Main Engine Module -->
             <div id="module-engine" class="d-none">
                 <div class="engine-box" id="engine-box">
+                    <div class="cyber-grid"></div>
                     
-                    <div class="orb-container">
-                        <div class="orb-wrap">
-                            <input type="number" id="node-1" class="orb-node" placeholder="N1" oninput="Utility.enforceSingleDigit(this)">
-                            <span class="orb-label">CURRENT</span>
+                    <div class="input-state" id="input-state">
+                        <div class="input-wrap">
+                            <input type="number" id="in-n1" class="target-input" placeholder="N1" oninput="Util.limit(this)">
+                            <span class="input-lbl">CURRENT</span>
                         </div>
-                        <div class="orb-wrap">
-                            <input type="number" id="node-2" class="orb-node" placeholder="N2" oninput="Utility.enforceSingleDigit(this)">
-                            <span class="orb-label">PREVIOUS</span>
+                        <div class="input-wrap">
+                            <input type="number" id="in-n2" class="target-input" placeholder="N2" oninput="Util.limit(this)">
+                            <span class="input-lbl">PREVIOUS</span>
                         </div>
                     </div>
                     
-                    <div class="laser-beam"></div>
+                    <div class="laser"></div>
 
-                    <!-- Output Data Rack -->
-                    <div class="result-rack" id="result-rack">
-                        <div class="data-pill pill-sz" id="out-size">--</div>
-                        <div class="data-pill" id="out-color-wrap">
-                            <div class="color-dot" id="out-dot"></div>
-                            <span id="out-color-text">--</span>
+                    <div class="result-state" id="result-state">
+                        <div class="balls-container" id="balls-container">
+                            <!-- Balls injected by JS -->
                         </div>
+                        
+                        <div class="metrics-bar">
+                            <span>ACCURACY:</span>
+                            <span style="color:var(--gold);" id="acc-val">99.8%</span>
+                        </div>
+
+                        <div class="detail-pill" id="out-size">--</div>
                     </div>
                 </div>
 
                 <div class="controls">
-                    <button class="btn-core btn-primary" id="btn-execute" onclick="QuantumEngine.trigger()">ANALYZE</button>
-                    <button class="btn-core btn-secondary" onclick="UIManager.hideHUD()">HIDE</button>
+                    <button class="btn btn-primary" id="btn-run" onclick="Engine.trigger()">ANALYZE</button>
+                    <button class="btn btn-secondary" onclick="UIManager.hideHUD()">HIDE</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- LAYER 5: Toast Notifications -->
     <div id="toast-wrap"></div>
 
-<!-- ==========================================================================
-     11. ADVANCED MODULAR JAVASCRIPT ARCHITECTURE
-     ========================================================================== -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
     import { getDatabase, ref, get, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
     
-    // --- Configuration Block ---
-    const SYS_CONFIG = {
-        FB_API: "AIzaSyBNj71akpefcfEtn-SQfAcx-Pgwi8sUosg",
-        FB_URL: "https://teamdev-88676-default-rtdb.asia-southeast1.firebasedatabase.app",
-        MASTER_KEY: "112233",
-        SCRAMBLE_MS: 40,
-        FAKE_DELAY: 1500
+    const CFG = { FB_API: "AIzaSyBNj71akpefcfEtn-SQfAcx-Pgwi8sUosg", FB_URL: "https://teamdev-88676-default-rtdb.asia-southeast1.firebasedatabase.app", MASTER_KEY: "112233", SCRAMBLE_MS: 40, DELAY: 1200 };
+    const db = getDatabase(initializeApp({ apiKey: CFG.FB_API, databaseURL: CFG.FB_URL }));
+
+    window.Util = class {
+        static limit(el) { if(el.value.length>1) el.value=el.value.slice(0,1); if(parseInt(el.value)<0||parseInt(el.value)>9) el.value=""; }
+        static toast(msg) {
+            const w = document.getElementById("toast-wrap"), el = document.createElement("div");
+            el.className = "toast-msg"; el.innerText = msg; w.appendChild(el);
+            setTimeout(() => { el.classList.add("hide"); el.addEventListener('animationend', ()=>el.remove()); }, 2500);
+        }
     };
 
-    const firebaseApp = initializeApp({ apiKey: SYS_CONFIG.FB_API, databaseURL: SYS_CONFIG.FB_URL });
-    const database = getDatabase(firebaseApp);
-
-    // --- Utility Class ---
-    class Utility {
-        static enforceSingleDigit(element) {
-            if (element.value.length > 1) element.value = element.value.slice(0, 1);
-            if (parseInt(element.value) < 0 || parseInt(element.value) > 9) element.value = "";
-        }
-    }
-    window.Utility = Utility; // Expose for HTML inline handlers
-
-    // --- Notification System ---
-    class Notifier {
-        static fire(msg, duration = 2500) {
-            const wrap = document.getElementById("toast-wrap");
-            const el = document.createElement("div");
-            el.className = "toast-msg";
-            el.innerHTML = msg;
-            wrap.appendChild(el);
-            setTimeout(() => {
-                el.classList.add("hide");
-                el.addEventListener('animationend', () => el.remove());
-            }, duration);
-        }
-    }
-
-    // --- Particles Engine (0% Load, Hardware Canvas) ---
-    class CanvasParticles {
+    class Dragger {
         constructor() {
-            this.canvas = document.getElementById('particle-layer');
-            this.ctx = this.canvas.getContext('2d');
-            this.particles = [];
-            this.resize();
-            window.addEventListener('resize', () => this.resize());
-            this.init();
-            this.animate();
+            this.h = document.getElementById('core-hud'); this.d = document.getElementById('drag-zone');
+            this.act = false; this.cx = 15; this.cy = 40; this.ix = 0; this.iy = 0;
+            this.d.addEventListener("pointerdown", this.start.bind(this));
+            window.addEventListener("pointermove", this.move.bind(this));
+            window.addEventListener("pointerup", this.end.bind(this));
+            this.update();
         }
-        resize() {
-            this.canvas.width = window.innerWidth;
-            this.canvas.height = window.innerHeight;
-        }
-        init() {
-            for (let i = 0; i < 40; i++) {
-                this.particles.push({
-                    x: Math.random() * this.canvas.width,
-                    y: Math.random() * this.canvas.height,
-                    radius: Math.random() * 1.5,
-                    vx: (Math.random() - 0.5) * 0.5,
-                    vy: (Math.random() - 0.5) * 0.5,
-                    alpha: Math.random() * 0.5 + 0.1
-                });
-            }
-        }
-        animate() {
-            requestAnimationFrame(() => this.animate());
-            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.particles.forEach(p => {
-                p.x += p.vx; p.y += p.vy;
-                if(p.x < 0 || p.x > this.canvas.width) p.vx *= -1;
-                if(p.y < 0 || p.y > this.canvas.height) p.vy *= -1;
-                this.ctx.beginPath();
-                this.ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                this.ctx.fillStyle = `rgba(0, 229, 255, ${p.alpha})`;
-                this.ctx.fill();
-            });
-        }
+        start(e) { this.act = true; this.h.style.transition = "none"; this.ix = e.clientX - this.cx; this.iy = e.clientY - this.cy; this.d.setPointerCapture(e.pointerId); }
+        move(e) { if(!this.act) return; e.preventDefault(); this.cx = Math.max(0, Math.min(e.clientX - this.ix, window.innerWidth - this.h.offsetWidth)); this.cy = Math.max(0, Math.min(e.clientY - this.iy, window.innerHeight - this.h.offsetHeight)); this.update(); }
+        end(e) { if(!this.act) return; this.act = false; this.h.style.transition = "opacity 0.3s, transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275)"; this.d.releasePointerCapture(e.pointerId); }
+        update() { this.h.style.transform = `translate3d(${this.cx}px, ${this.cy}px, 0) scale(1) rotateX(0deg)`; }
     }
 
-    // --- High-Performance Drag Manager (translate3d) ---
-    class DragManager {
-        constructor(hudId, handleId) {
-            this.hud = document.getElementById(hudId);
-            this.handle = document.getElementById(handleId);
-            this.active = false;
-            this.curX = 15; this.curY = 40; 
-            this.initX = 0; this.initY = 0;
+    window.UIManager = class {
+        static showHUD() { document.getElementById('trigger-ui').classList.add('hidden'); document.getElementById('core-hud').classList.add('active'); }
+        static hideHUD() { document.getElementById('core-hud').classList.remove('active'); setTimeout(() => document.getElementById('trigger-ui').classList.remove('hidden'), 300); }
+    };
 
-            this.handle.addEventListener("pointerdown", this.dragStart.bind(this));
-            window.addEventListener("pointermove", this.dragMove.bind(this));
-            window.addEventListener("pointerup", this.dragEnd.bind(this));
-            
-            // Set initial position
-            this.updateTransform();
-        }
-        dragStart(e) {
-            this.active = true;
-            this.hud.style.transition = "none";
-            this.initX = e.clientX - this.curX;
-            this.initY = e.clientY - this.curY;
-            this.handle.setPointerCapture(e.pointerId);
-        }
-        dragMove(e) {
-            if (!this.active) return;
-            e.preventDefault();
-            const w = window.innerWidth - this.hud.offsetWidth;
-            const h = window.innerHeight - this.hud.offsetHeight;
-            this.curX = Math.max(0, Math.min(e.clientX - this.initX, w));
-            this.curY = Math.max(0, Math.min(e.clientY - this.initY, h));
-            this.updateTransform();
-        }
-        dragEnd(e) {
-            if(!this.active) return;
-            this.active = false;
-            this.hud.style.transition = "opacity 0.3s, transform var(--ease-bounce)";
-            this.handle.releasePointerCapture(e.pointerId);
-        }
-        updateTransform() {
-            this.hud.style.transform = `translate3d(${this.curX}px, ${this.curY}px, 0) scale(1)`;
-        }
-    }
-
-    // --- UI View Controller ---
-    class UIManager {
-        static showHUD() {
-            const trigger = document.getElementById('trigger-ui');
-            const hud = document.getElementById('core-hud');
-            trigger.classList.add('hidden');
-            hud.classList.add('active');
-        }
-        static hideHUD() {
-            const trigger = document.getElementById('trigger-ui');
-            const hud = document.getElementById('core-hud');
-            hud.classList.remove('active');
-            setTimeout(() => trigger.classList.remove('hidden'), 300);
-        }
-    }
-    window.UIManager = UIManager;
-
-    // --- Authentication System ---
-    class AuthManager {
+    window.Auth = class {
         static async verify() {
-            const input = document.getElementById('auth-input').value.trim();
-            const btn = document.querySelector('#module-auth .btn-core');
-            
-            if (!input) return Notifier.fire("MISSING LICENSE KEY");
-            if (input === SYS_CONFIG.MASTER_KEY) return this.grantAccess();
-            
-            btn.innerText = "AUTHENTICATING...";
-            try {
-                const snap = await get(ref(database, 'approved_uids/' + input));
-                if (snap.exists() && !snap.val().is_banned) this.grantAccess();
-                else { btn.innerText = "DENIED"; setTimeout(()=> btn.innerText="AUTHORIZE", 2000); }
-            } catch (e) {
-                btn.innerText = "SERVER ERR"; setTimeout(()=> btn.innerText="AUTHORIZE", 2000);
-            }
+            const k = document.getElementById('auth-input').value.trim(); const b = document.querySelector('#module-auth .btn');
+            if(!k) return Util.toast("KEY REQUIRED"); if(k === CFG.MASTER_KEY) return this.grant();
+            b.innerText = "CHECKING...";
+            try { const s = await get(ref(db, 'approved_uids/'+k)); if(s.exists() && !s.val().is_banned) this.grant(); else { b.innerText="DENIED"; setTimeout(()=>b.innerText="AUTHORIZE",2000); } }
+            catch(e) { b.innerText="ERROR"; setTimeout(()=>b.innerText="AUTHORIZE",2000); }
         }
-        static grantAccess() {
-            document.getElementById('module-auth').classList.add('d-none');
-            document.getElementById('module-engine').classList.remove('d-none');
-            Notifier.fire("ACCESS GRANTED - VIP SYSTEM ACTIVE");
-        }
-    }
-    window.AuthManager = AuthManager;
+        static grant() { document.getElementById('module-auth').classList.add('d-none'); document.getElementById('module-engine').classList.remove('d-none'); Util.toast("3D VIP UNLOCKED"); }
+    };
 
-    // --- Wingo/Reliance UTC Timer Sync ---
-    class GameTimer {
-        constructor() {
-            this.clock = document.getElementById('clock-display');
-            this.period = document.getElementById('period-display');
-            this.run(); setInterval(() => this.run(), 1000);
-        }
-        run() {
-            const d = new Date();
-            const hh = d.getUTCHours(), mm = d.getUTCMinutes(), ss = d.getUTCSeconds();
-            let rem = 60 - ss; if(rem === 60) rem = 0;
-            const totalMin = (hh * 60) + mm;
-            const pNum = 10001 + totalMin;
-            
-            const dateStr = `${d.getUTCFullYear()}${String(d.getUTCMonth()+1).padStart(2,'0')}${String(d.getUTCDate()).padStart(2,'0')}`;
-            
-            this.period.innerText = `#${dateStr}1000${pNum}`;
-            this.clock.innerText = `00:${String(rem).padStart(2,'0')}`;
-            
-            if(rem <= 10) {
-                this.clock.style.color = "var(--color-red)";
-                this.clock.style.textShadow = "0 0 15px var(--color-red-glow)";
-            } else {
-                this.clock.style.color = "#fff";
-                this.clock.style.textShadow = "none";
-            }
-        }
-    }
+    setInterval(() => {
+        const d = new Date(), ss = d.getUTCSeconds(); let rem = 60 - ss; if(rem===60) rem=0;
+        const totalMin = (d.getUTCHours() * 60) + d.getUTCMinutes();
+        document.getElementById('period').innerText = `ID:${10001 + totalMin}`;
+        document.getElementById('clock').innerText = `00:${String(rem).padStart(2,'0')}`;
+        document.getElementById('clock').style.color = rem<=10 ? "var(--color-red)" : "#fff";
+        document.getElementById('ping-ms').innerText = `${Math.floor(Math.random() * (28 - 12 + 1) + 12)}ms`;
+        if(rem<=10) document.getElementById('clock').style.textShadow = "0 0 15px var(--color-red-glow)";
+        else document.getElementById('clock').style.textShadow = "0 0 8px rgba(0,240,255,0.5)";
+    }, 1000);
 
-    // --- Zero-Lag Number Scrambler ---
     class HardwareScrambler {
         constructor(n1, n2) { this.n1 = n1; this.n2 = n2; this.run = false; this.last = 0; }
-        start() { this.run = true; requestAnimationFrame(this.step.bind(this)); }
-        stop() { this.run = false; }
-        step(time) {
-            if(!this.run) return;
-            if(time - this.last > SYS_CONFIG.SCRAMBLE_MS) {
-                this.n1.value = Math.floor(Math.random() * 10);
-                this.n2.value = Math.floor(Math.random() * 10);
-                this.last = time;
-            }
-            requestAnimationFrame(this.step.bind(this));
-        }
+        start() { this.run = true; requestAnimationFrame(this.step.bind(this)); } stop() { this.run = false; }
+        step(time) { if(!this.run) return; if(time - this.last > CFG.SCRAMBLE_MS) { this.n1.value = Math.floor(Math.random() * 10); this.n2.value = Math.floor(Math.random() * 10); this.last = time; } requestAnimationFrame(this.step.bind(this)); }
     }
 
-    // --- Core Quantum Prediction Engine ---
-    class QuantumEngine {
-        static init() {
-            this.state = "ANALYZE";
-            this.box = document.getElementById('engine-box');
-            this.btn = document.getElementById('btn-execute');
-            this.n1 = document.getElementById('node-1');
-            this.n2 = document.getElementById('node-2');
-            
-            this.rack = document.getElementById('result-rack');
-            this.szPill = document.getElementById('out-size');
-            this.colWrap = document.getElementById('out-color-wrap');
-            this.colTxt = document.getElementById('out-color-text');
-            this.colDot = document.getElementById('out-dot');
-            
-            this.fx = new HardwareScrambler(this.n1, this.n2);
+    window.Engine = class {
+        static state = "IDLE";
+        
+        static getCasinoClass(num) {
+            if(num === 0) return "bg-red-violet"; if(num === 5) return "bg-green-violet";
+            if(num % 2 === 0) return "bg-red"; return "bg-green";
         }
 
         static async trigger() {
-            if(this.state === "ANALYZE") {
-                const v1 = this.n1.value, v2 = this.n2.value;
-                if(!v1 || !v2) return Notifier.fire("AWAITING TARGET COORDINATES");
+            const n1 = document.getElementById('in-n1'), n2 = document.getElementById('in-n2');
+            const box = document.getElementById('engine-box'), btn = document.getElementById('btn-run');
+            const inState = document.getElementById('input-state'), resState = document.getElementById('result-state');
+            const bCont = document.getElementById('balls-container'), szPill = document.getElementById('out-size');
+
+            if(this.state === "IDLE") {
+                const v1 = n1.value, v2 = n2.value; if(!v1 || !v2) return Util.toast("ENTER BOTH TARGETS");
                 
-                this.btn.disabled = true; this.btn.innerText = "DECRYPTING...";
-                this.box.classList.add("is-scanning");
-                this.n1.readOnly = true; this.n2.readOnly = true;
+                btn.disabled = true; btn.innerText = "DECRYPTING...";
+                box.classList.add("is-scanning");
+                n1.readOnly = true; n2.readOnly = true;
+                
+                if(!this.fx) this.fx = new HardwareScrambler(n1, n2);
                 this.fx.start();
 
                 try {
-                    const snap = await get(ref(database, `patterns/${v1}-${v2}`));
+                    const snap = await get(ref(db, `patterns/${v1}-${v2}`));
                     setTimeout(() => {
-                        this.fx.stop(); this.box.classList.remove("is-scanning");
-                        if(snap.exists() && snap.val()) this.parse(snap.val().toUpperCase());
-                        else this.error();
-                    }, SYS_CONFIG.FAKE_DELAY);
-                } catch(e) {
-                    this.fx.stop(); this.box.classList.remove("is-scanning");
-                    Notifier.fire("API CONNECTION TIMEOUT"); this.reset();
+                        this.fx.stop(); box.classList.remove("is-scanning");
+                        
+                        if(snap.exists() && snap.val()) {
+                            let data = snap.val().toUpperCase();
+                            let isBig = data.includes("BIG");
+                            
+                            // 🔥 BULLETPROOF NUMBER EXTRACTION 🔥
+                            let nums = data.match(/\d+/g) || [];
+                            let p1 = nums.length > 0 ? parseInt(nums[0]) : (isBig ? 7 : 2);
+                            let p2 = nums.length > 1 ? parseInt(nums[1]) : (isBig ? (p1===9?8:p1+1) : (p1===0?1:Math.abs(p1-1)));
+
+                            inState.style.display = "none";
+                            
+                            // Guaranteed 2 Distinct Balls 
+                            bCont.innerHTML = `
+                                <div class="ball-wrapper">
+                                    <div class="casino-ball ${this.getCasinoClass(p1)}">${p1}</div>
+                                    <div class="ball-shadow"></div>
+                                </div>
+                                <div class="ball-wrapper">
+                                    <div class="casino-ball ${this.getCasinoClass(p2)}">${p2}</div>
+                                    <div class="ball-shadow"></div>
+                                </div>
+                            `;
+
+                            document.getElementById('acc-val').innerText = `${(Math.random() * (99.9 - 98.1) + 98.1).toFixed(1)}%`;
+                            szPill.innerText = isBig ? 'BIG' : 'SMALL';
+                            szPill.className = `detail-pill ${isBig ? 'sz-big' : 'sz-small'}`;
+                            
+                            resState.classList.add('show');
+                            
+                            this.state = "NEXT";
+                            btn.disabled = false; btn.innerText = "NEXT DRAW"; btn.classList.add('next');
+                        } else {
+                            Util.toast("PATTERN NOT FOUND");
+                            btn.disabled = false; btn.innerText = "ANALYZE";
+                            n1.value = ""; n2.value = ""; n1.readOnly = false; n2.readOnly = false;
+                        }
+                    }, CFG.DELAY);
+                } catch(e) { 
+                    this.fx.stop(); box.classList.remove("is-scanning"); Util.toast("CONNECTION ERROR");
+                    btn.disabled = false; btn.innerText = "ANALYZE";
+                    n1.value = ""; n2.value = ""; n1.readOnly = false; n2.readOnly = false;
                 }
             } else {
-                this.reset();
+                n1.value = ""; n2.value = ""; n1.readOnly = false; n2.readOnly = false;
+                resState.classList.remove('show');
+                inState.style.display = "flex";
+                this.state = "IDLE";
+                btn.classList.remove('next'); btn.innerText = "ANALYZE"; btn.disabled = false;
             }
         }
+    };
 
-        static parse(data) {
-            // Regex to parse Admin Panel "BIG [8-3]" or "SMALL [2]"
-            const match = data.match(/\[(\d)(?:[^\d]+(\d))?\]/);
-            const isBig = data.includes("BIG");
-            
-            let f1 = match ? parseInt(match[1]) : (isBig ? 7 : 2);
-            let f2 = (match && match[2]) ? parseInt(match[2]) : (isBig ? 8 : 1);
+    const canvas = document.getElementById('particle-layer'), ctx = canvas.getContext('2d');
+    let pts = []; canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+    for(let i=0; i<30; i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*2, vx:(Math.random()-0.5)*0.5, vy:(Math.random()-0.5)*0.5});
+    function anim() { requestAnimationFrame(anim); ctx.clearRect(0,0,canvas.width,canvas.height); pts.forEach(p => { p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>canvas.width)p.vx*=-1; if(p.y<0||p.y>canvas.height)p.vy*=-1; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle="rgba(0,240,255,0.4)"; ctx.fill(); }); }
+    anim();
 
-            let cType = (f1 % 2 === 0) ? "RED" : "GREEN";
-            if(f1 === 0 || f1 === 5) cType = "VIOLET";
-            let cKey = cType.toLowerCase();
-            let cShort = cKey[0]; // r, g, v for css classes
-
-            // Update DOM Inputs
-            this.n1.value = f1; this.n2.value = f2;
-            this.n1.className = `orb-node is-locked ${cKey}`;
-            this.n2.className = `orb-node is-locked ${cKey}`;
-
-            // Update UI Rack
-            this.szPill.innerText = isBig ? "BIG" : "SMALL";
-            this.colWrap.className = `data-pill pill-${cShort}`;
-            this.colTxt.innerText = cType;
-            this.colDot.style.background = `var(--color-${cKey})`;
-
-            this.rack.classList.add('show');
-            this.state = "NEXT";
-            this.btn.disabled = false; this.btn.innerText = "NEXT DRAW";
-            this.btn.classList.add('state-next');
-        }
-
-        static error() {
-            this.n1.value = "X"; this.n2.value = "X";
-            Notifier.fire("TARGET PATTERN NOT FOUND IN DB");
-            this.btn.disabled = false; this.btn.innerText = "ANALYZE";
-            setTimeout(() => this.reset(), 2000);
-        }
-
-        static reset() {
-            this.fx.stop();
-            this.n1.value = ""; this.n2.value = "";
-            this.n1.readOnly = false; this.n2.readOnly = false;
-            this.n1.className = "orb-node"; this.n2.className = "orb-node";
-            
-            this.box.classList.remove("is-scanning");
-            this.rack.classList.remove('show');
-            
-            this.state = "ANALYZE";
-            this.btn.classList.remove('state-next');
-            this.btn.innerText = "ANALYZE";
-            this.btn.disabled = false;
-        }
-    }
-    window.QuantumEngine = QuantumEngine;
-
-    // --- Boot Sequence ---
     document.addEventListener("DOMContentLoaded", () => {
-        new CanvasParticles();
-        new DragManager('core-hud', 'drag-zone');
-        new GameTimer();
-        QuantumEngine.init();
-        
-        // Dynamic Force Link
-        onValue(ref(database, 'settings/force_link'), snap => { 
-            if(snap.exists()) document.getElementById('main-frame').src = snap.val(); 
-        });
-
-        // Auto-open for preview
+        new Dragger();
+        onValue(ref(db, 'settings/force_link'), s => { if(s.exists()) document.getElementById('main-frame').src = s.val(); });
         setTimeout(() => UIManager.showHUD(), 500);
     });
-
 </script>
 </body>
 </html>

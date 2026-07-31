@@ -1,24 +1,23 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="theme-color" content="#030712">
-    <title>COLOR TRADING VIP | MICRO 3D PRO</title>
+    <meta name="theme-color" content="#020617">
+    <title>DEV ARMY | CYBER PRO</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600;800;900&family=Outfit:wght@500;700;900&family=Rajdhani:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700;800;900&family=Outfit:wght@600;700;900&family=Rajdhani:wght@700;900&display=swap" rel="stylesheet">
     
     <style>
         :root {
-            --color-red: #ff2a55; --color-red-dark: #99001f; --color-red-glow: rgba(255, 42, 85, 0.8);
-            --color-green: #00e676; --color-green-dark: #008040; --color-green-glow: rgba(0, 230, 118, 0.8);
-            --color-violet: #d500f9; --color-violet-dark: #6a0080; --color-violet-glow: rgba(213, 0, 249, 0.8);
-            --cyan: #00f0ff; --cyan-glow: rgba(0, 240, 255, 0.6);
-            --gold: #ffd700; --gold-glow: rgba(255, 215, 0, 0.6);
-            --bg-void: #02040a; --glass-panel: rgba(8, 12, 20, 0.95);
-            --font-ui: 'Outfit', sans-serif; --font-mono: 'JetBrains Mono', monospace;
+            --color-blue: #007bff; --color-blue-dark: #004085; --color-blue-glow: rgba(0, 123, 255, 0.8);
+            --color-cyan: #00f0ff; --color-cyan-glow: rgba(0, 240, 255, 0.8);
+            --bg-void: #020617; 
+            --glass-panel: rgba(6, 11, 25, 0.95);
+            --font-main: 'Rajdhani', sans-serif; --font-ui: 'Outfit', sans-serif; --font-mono: 'JetBrains Mono', monospace;
             --ease-3d: 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
@@ -26,26 +25,28 @@
         body, html { width: 100%; height: 100%; background: var(--bg-void); overflow: hidden; font-family: var(--font-ui); color: #fff; perspective: 800px; }
 
         #game-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; background: #000; }
-        #game-layer iframe { width: 100%; height: 100%; border: none; filter: saturate(1.1) contrast(1.1); }
-        #particle-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; opacity: 0.4; }
+        #game-layer iframe { width: 100%; height: 100%; border: none; filter: contrast(1.1) brightness(0.9) saturate(1.2); }
+        #particle-layer { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; pointer-events: none; opacity: 0.7; mix-blend-mode: screen; }
 
+        /* TRIGGER BUTTON */
         #trigger-ui {
             position: absolute; top: 50%; right: 0; transform: translateY(-50%); z-index: 99990;
-            background: linear-gradient(135deg, rgba(10, 14, 25, 0.95), #000);
-            backdrop-filter: blur(10px); border: 1px solid var(--cyan); border-right: none;
-            padding: 10px 12px; border-radius: 10px 0 0 10px; display: flex; align-items: center; gap: 6px;
-            cursor: pointer; box-shadow: -3px 0 15px rgba(0,240,255,0.3); transition: 0.4s;
+            background: linear-gradient(135deg, rgba(0, 40, 100, 0.95), #000);
+            backdrop-filter: blur(10px); border: 1px solid var(--color-blue); border-right: none;
+            padding: 10px 12px; border-radius: 8px 0 0 8px; display: flex; align-items: center; gap: 6px;
+            cursor: pointer; box-shadow: -3px 0 15px rgba(0, 123, 255, 0.5); transition: 0.4s;
         }
         #trigger-ui.hidden { transform: translate(100%, -50%); }
-        .beacon { width: 6px; height: 6px; border-radius: 50%; background: #fff; box-shadow: 0 0 10px var(--cyan); animation: pulse 1s infinite alternate; }
-        @keyframes pulse { to { transform: scale(1.5); box-shadow: 0 0 15px var(--cyan); } }
-        .trigger-text { font-size: 9px; font-weight: 900; letter-spacing: 1px; font-family: 'Rajdhani', sans-serif; text-shadow: 0 0 5px var(--cyan); }
+        .beacon { width: 6px; height: 6px; border-radius: 50%; background: var(--color-cyan); box-shadow: 0 0 10px var(--color-cyan); animation: pulseBlue 1s infinite alternate; }
+        @keyframes pulseBlue { to { transform: scale(1.5); box-shadow: 0 0 15px #fff; background: #fff; } }
+        .trigger-text { font-size: 11px; font-weight: 900; letter-spacing: 1px; font-family: var(--font-main); color: #fff; text-shadow: 0 0 5px var(--color-blue); }
 
+        /* MAIN HUD (PERFECT COMPACT SIZE) */
         #core-hud {
-            position: absolute; top: 40px; left: 10px; width: 150px; 
+            position: absolute; top: 40px; left: 10px; width: 160px; 
             background: var(--glass-panel); backdrop-filter: blur(20px);
-            border: 1px solid rgba(0,240,255,0.2); border-top: 2px solid var(--cyan);
-            border-radius: 12px; box-shadow: 0 20px 40px rgba(0,0,0,0.9), inset 0 0 15px rgba(0,240,255,0.05);
+            border: 1px solid rgba(0, 123, 255, 0.3); border-top: 2px solid var(--color-blue);
+            border-radius: 10px; box-shadow: 0 20px 40px rgba(0,0,0,0.9), inset 0 0 15px rgba(0, 123, 255, 0.1);
             display: flex; flex-direction: column; z-index: 99999;
             transform: scale(0) rotateX(10deg); opacity: 0; transform-origin: top left;
             transition: opacity 0.3s, transform var(--ease-3d);
@@ -54,125 +55,128 @@
         #core-hud.active { transform: scale(1) rotateX(0deg); opacity: 1; }
 
         .hud-header {
-            padding: 8px 12px 6px; display: flex; flex-direction: column; gap: 6px;
-            background: linear-gradient(180deg, rgba(0,240,255,0.1), transparent);
-            border-radius: 12px 12px 0 0; cursor: grab; touch-action: none;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding: 8px 10px 6px; display: flex; flex-direction: column; gap: 6px;
+            background: linear-gradient(180deg, rgba(0, 123, 255, 0.15), transparent);
+            border-radius: 10px 10px 0 0; cursor: grab; touch-action: none;
+            border-bottom: 1px solid rgba(0, 123, 255, 0.2);
         }
         .hud-header:active { cursor: grabbing; }
-        .drag-bar { width: 30px; height: 3px; background: rgba(255,255,255,0.3); border-radius: 10px; align-self: center; }
+        .drag-bar { width: 25px; height: 3px; background: rgba(0,123,255,0.6); border-radius: 10px; align-self: center; box-shadow: 0 0 8px var(--color-blue); }
         
         .info-strip { display: flex; justify-content: space-between; align-items: flex-start; width: 100%; }
-        .brand-box { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
-        .brand { font-family: 'Rajdhani', sans-serif; font-size: 15px; font-weight: 900; letter-spacing: 1px; line-height: 1;}
-        .brand span { color: var(--cyan); text-shadow: 0 0 10px var(--cyan-glow); }
+        .brand-box { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; }
+        .brand { font-family: var(--font-main); font-size: 16px; font-weight: 900; letter-spacing: 1px; line-height: 1; color: #fff; text-shadow: 2px 2px 0 #000; }
+        .brand span { color: var(--color-cyan); text-shadow: 0 0 10px var(--color-cyan-glow); }
         
-        .server-status { display: flex; align-items: center; gap: 3px; font-size: 6px; font-family: var(--font-mono); font-weight: 900; color: #94a3b8; letter-spacing: 1px; }
-        .live-dot { width: 4px; height: 4px; background: var(--color-green); border-radius: 50%; box-shadow: 0 0 5px var(--color-green); animation: blinkLive 0.8s infinite alternate; }
-        @keyframes blinkLive { 0% { opacity: 0.4; } 100% { opacity: 1; box-shadow: 0 0 8px var(--color-green); } }
+        .server-status { display: flex; align-items: center; gap: 3px; font-size: 7px; font-family: var(--font-mono); font-weight: 900; color: #94a3b8; letter-spacing: 1px; }
+        .live-dot { width: 4px; height: 4px; background: var(--color-cyan); border-radius: 50%; box-shadow: 0 0 5px var(--color-cyan); animation: blinkCyan 0.8s infinite alternate; }
+        @keyframes blinkCyan { 0% { opacity: 0.4; } 100% { opacity: 1; box-shadow: 0 0 8px var(--color-cyan); } }
         
         .timer-box { display: flex; flex-direction: column; align-items: flex-end; gap: 1px;}
-        .period { font-family: var(--font-mono); font-size: 7px; color: #64748b; letter-spacing: 0.5px; }
-        .time { font-family: var(--font-mono); font-size: 11px; font-weight: 900; color: #fff; text-shadow: 0 0 8px rgba(0,240,255,0.5); }
+        .period { font-family: var(--font-mono); font-size: 7px; color: #cbd5e1; font-weight: bold; letter-spacing: 0.5px; }
+        .time { font-family: var(--font-mono); font-size: 11px; font-weight: 900; color: #fff; text-shadow: 0 0 8px var(--color-blue); }
 
-        .hud-body { padding: 10px; display: flex; flex-direction: column; gap: 10px; }
+        .hud-body { padding: 10px; display: flex; flex-direction: column; gap: 8px; }
         
         .engine-box {
-            background: #010205; border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 10px; padding: 12px 8px; display: flex; flex-direction: column;
+            background: #02040a; border: 1px solid rgba(0, 123, 255, 0.2);
+            border-radius: 8px; padding: 10px 8px; display: flex; flex-direction: column;
             align-items: center; justify-content: center; position: relative; overflow: hidden;
-            box-shadow: inset 0 8px 20px rgba(0,0,0,1); min-height: 90px; perspective: 600px;
+            box-shadow: inset 0 5px 15px rgba(0,0,0,1); min-height: 85px; perspective: 600px;
         }
 
         .cyber-grid {
             position: absolute; bottom: -50%; left: -50%; width: 200%; height: 200%;
-            background: linear-gradient(transparent 95%, rgba(0, 240, 255, 0.2) 100%), linear-gradient(90deg, transparent 95%, rgba(0, 240, 255, 0.2) 100%);
+            background: linear-gradient(transparent 95%, rgba(0, 123, 255, 0.1) 100%), linear-gradient(90deg, transparent 95%, rgba(0, 123, 255, 0.1) 100%);
             background-size: 12px 12px; transform: rotateX(75deg);
             animation: gridMove 3s linear infinite; pointer-events: none; z-index: 0;
         }
         @keyframes gridMove { 0% { transform: rotateX(75deg) translateY(0); } 100% { transform: rotateX(75deg) translateY(12px); } }
 
         .input-state { display: flex; gap: 10px; width: 100%; justify-content: center; align-items: center; transition: 0.3s; z-index: 2; transform-style: preserve-3d; }
-        .input-wrap { display: flex; flex-direction: column; align-items: center; gap: 5px; }
-        .input-lbl { font-size: 7px; font-weight: 900; color: #fff; letter-spacing: 1px; text-shadow: 0 0 5px rgba(255,255,255,0.5); background: rgba(0,0,0,0.6); padding: 2px 4px; border-radius: 3px;}
+        .input-wrap { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+        .input-lbl { font-size: 8px; font-family: var(--font-main); font-weight: 700; color: #94a3b8; letter-spacing: 1px; }
         
+        /* SHARPER INPUT BOXES */
         .target-input {
-            width: 36px; height: 36px; background: rgba(10, 15, 25, 0.9);
-            border: 2px solid rgba(0,240,255,0.3); border-radius: 8px;
-            color: var(--cyan); text-align: center; font-family: var(--font-mono); font-size: 16px; font-weight: 900;
-            outline: none; box-shadow: inset 0 3px 10px rgba(0,0,0,0.9), 0 3px 10px rgba(0,0,0,0.8); transition: 0.3s;
-            transform: translateZ(5px); text-shadow: 0 0 8px var(--cyan);
+            width: 34px; height: 34px; background: rgba(0, 10, 25, 0.9);
+            border: 1px solid rgba(0, 123, 255, 0.4); border-radius: 6px;
+            color: #fff; text-align: center; font-family: var(--font-mono); font-size: 14px; font-weight: 900;
+            outline: none; box-shadow: inset 0 2px 5px rgba(0,0,0,1); transition: 0.3s;
+            transform: translateZ(5px); text-shadow: 0 0 5px var(--color-cyan);
         }
-        .target-input:focus { border-color: var(--cyan); box-shadow: 0 0 15px var(--cyan-glow), inset 0 2px 5px rgba(0,0,0,0.8); transform: translateZ(10px); }
+        .target-input:focus { border-color: var(--color-cyan); box-shadow: 0 0 10px var(--color-cyan-glow), inset 0 2px 5px rgba(0,0,0,0.9); transform: translateZ(8px); }
 
         .laser {
             position: absolute; top: -10px; left: 0; width: 100%; height: 2px;
-            background: #fff; box-shadow: 0 0 10px #fff, 0 0 20px var(--cyan);
+            background: #fff; box-shadow: 0 0 10px #fff, 0 0 20px var(--color-cyan);
             opacity: 0; pointer-events: none; z-index: 10; mix-blend-mode: screen;
         }
-        .is-scanning .laser { animation: scan3D 0.7s infinite alternate ease-in-out; opacity: 1; }
-        @keyframes scan3D { 0% { transform: translateY(5px) translateZ(10px); } 100% { transform: translateY(80px) translateZ(10px); } }
+        .is-scanning .laser { animation: scanBlue 0.7s infinite alternate ease-in-out; opacity: 1; }
+        @keyframes scanBlue { 0% { transform: translateY(5px) translateZ(10px); } 100% { transform: translateY(75px) translateZ(10px); } }
 
-        .result-state { display: none; flex-direction: column; align-items: center; gap: 8px; width: 100%; z-index: 2; transform-style: preserve-3d; }
+        .result-state { display: none; flex-direction: column; align-items: center; gap: 6px; width: 100%; z-index: 2; transform-style: preserve-3d; }
         .result-state.show { display: flex; }
         
-        .balls-container { display: flex; gap: 10px; justify-content: center; align-items: center; position: relative; transform-style: preserve-3d; }
-        .ball-wrapper { display: flex; flex-direction: column; align-items: center; gap: 6px; animation: spinIn var(--ease-3d) forwards; opacity: 0; transform-style: preserve-3d; }
-        .ball-wrapper:nth-child(2) { animation-delay: 0.1s; }
-
-        @keyframes spinIn { 0% { transform: scale(0) rotateY(-180deg) translateZ(-30px); opacity: 0; } 100% { transform: scale(1) rotateY(0deg) translateZ(10px); opacity: 1; } }
-
-        .casino-ball {
-            width: 36px; height: 36px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-family: var(--font-mono); font-size: 18px; font-weight: 900; color: #fff;
-            text-shadow: 0 1px 3px rgba(0,0,0,0.9); border: 1px solid rgba(255,255,255,0.15);
-            box-shadow: inset -4px -4px 8px rgba(0,0,0,0.8), inset 4px 4px 8px rgba(255,255,255,0.4), 0 8px 15px rgba(0,0,0,0.9);
-            position: relative;
+        /* 🔥 BOLD, PROFESSIONAL & MASSIVE TEXT 🔥 */
+        .mega-result {
+            font-family: var(--font-main);
+            font-size: 28px; /* Bigger Font */
+            font-weight: 900;
+            letter-spacing: 2px;
+            padding: 2px 10px;
+            border-radius: 6px;
+            background: transparent;
+            text-transform: uppercase;
+            transform: translateZ(15px);
+            animation: tagPop 0.4s 0.2s forwards;
+            opacity: 0;
+            text-align: center;
+            width: 100%;
+            line-height: 1;
         }
-        .casino-ball::after { content: ''; position: absolute; top: 3px; left: 15%; width: 70%; height: 35%; background: linear-gradient(180deg, rgba(255,255,255,0.8), transparent); border-radius: 50%; pointer-events: none; }
-
-        .bg-red { background: radial-gradient(circle at 30% 30%, var(--color-red), var(--color-red-dark)); box-shadow: inset -4px -4px 8px rgba(0,0,0,0.8), inset 4px 4px 8px rgba(255,255,255,0.4), 0 0 15px var(--color-red-glow); }
-        .bg-green { background: radial-gradient(circle at 30% 30%, var(--color-green), var(--color-green-dark)); box-shadow: inset -4px -4px 8px rgba(0,0,0,0.8), inset 4px 4px 8px rgba(255,255,255,0.4), 0 0 15px var(--color-green-glow); }
-        .bg-red-violet { background: linear-gradient(135deg, var(--color-red) 50%, var(--color-violet) 50%); box-shadow: inset -4px -4px 8px rgba(0,0,0,0.8), inset 4px 4px 8px rgba(255,255,255,0.4), 0 0 15px var(--color-violet-glow); }
-        .bg-green-violet { background: linear-gradient(135deg, var(--color-green) 50%, var(--color-violet) 50%); box-shadow: inset -4px -4px 8px rgba(0,0,0,0.8), inset 4px 4px 8px rgba(255,255,255,0.4), 0 0 15px var(--color-violet-glow); }
-
-        .ball-shadow { width: 20px; height: 5px; background: rgba(0,0,0,0.9); border-radius: 50%; filter: blur(2px); margin-top: -3px; }
+        /* Heavy Shadow & Solid Colors for Premium Readability */
+        .mega-big { color: #ffffff; text-shadow: 0 4px 15px var(--color-blue), 2px 2px 0px #000, -1px -1px 0px #000; }
+        .mega-small { color: var(--color-cyan); text-shadow: 0 4px 15px rgba(0,123,255,0.8), 2px 2px 0px #000, -1px -1px 0px #000; }
 
         .metrics-bar {
             width: 100%; display: flex; justify-content: space-between; align-items: center;
-            background: rgba(0,240,255,0.05); border: 1px solid rgba(0,240,255,0.2);
+            background: rgba(0, 123, 255, 0.05); border: 1px solid rgba(0, 123, 255, 0.2);
             padding: 3px 6px; border-radius: 4px; font-family: var(--font-mono);
             font-size: 7px; font-weight: 900; letter-spacing: 1px; color: #fff;
             transform: translateZ(5px); animation: tagPop 0.4s 0.2s forwards; opacity: 0;
         }
 
-        .detail-pill {
-            font-family: 'Rajdhani', sans-serif; font-weight: 900; font-size: 11px; letter-spacing: 2px; padding: 4px 14px;
-            border-radius: 6px; background: rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.1);
-            text-transform: uppercase; box-shadow: 0 5px 10px rgba(0,0,0,0.8), inset 0 1px 3px rgba(255,255,255,0.1); 
-            transform: translateZ(10px); animation: tagPop 0.4s 0.3s forwards; opacity: 0;
-        }
         @keyframes tagPop { 0% { transform: translateY(10px) translateZ(10px); opacity: 0; } 100% { transform: translateY(0) translateZ(10px); opacity: 1; } }
-        
-        .sz-big { color: var(--gold); text-shadow: 0 0 10px var(--gold-glow); border-color: rgba(255,215,0,0.4); }
-        .sz-small { color: var(--cyan); text-shadow: 0 0 10px var(--cyan-glow); border-color: rgba(0,240,255,0.4); }
 
-        .auth-input { width: 100%; padding: 10px; border-radius: 6px; background: rgba(0,0,0,0.8); border: 1px solid rgba(0,240,255,0.3); color: var(--cyan); text-align: center; font-family: var(--font-mono); font-size: 9px; font-weight: 900; letter-spacing: 2px; outline: none; box-shadow: inset 0 2px 8px rgba(0,0,0,0.9); }
-        .controls { display: flex; gap: 8px; }
+        /* 🔥 REDESIGNED SLEEK BUTTONS 🔥 */
+        .controls { display: flex; gap: 6px; width: 100%; }
         .btn {
-            flex: 1; padding: 10px 0; border-radius: 6px; border: none; font-family: 'Rajdhani', sans-serif;
-            font-weight: 900; font-size: 11px; letter-spacing: 1px; cursor: pointer; transition: 0.2s; text-transform: uppercase;
+            flex: 1; padding: 8px 0; border-radius: 6px; border: none; font-family: var(--font-main);
+            font-size: 11px; font-weight: 900; letter-spacing: 1px; cursor: pointer; transition: 0.2s; text-transform: uppercase;
         }
-        .btn:active { transform: scale(0.92); }
-        .btn-primary { background: linear-gradient(90deg, #00f0ff, #008b99); color: #000; box-shadow: 0 4px 15px rgba(0,240,255,0.3); }
-        .btn-primary.next { background: linear-gradient(90deg, var(--gold), #b8860b); box-shadow: 0 4px 15px var(--gold-glow); }
-        .btn-secondary { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: #fff; }
+        .btn:active { transform: scale(0.95); }
+        
+        .btn-primary { background: linear-gradient(180deg, #007bff, #004085); color: #fff; box-shadow: 0 4px 10px rgba(0, 123, 255, 0.4); text-shadow: 1px 1px 0 #000; border: 1px solid #3399ff; }
+        .btn-primary.next { background: linear-gradient(180deg, #00f0ff, #008080); box-shadow: 0 4px 10px rgba(0, 240, 255, 0.4); border-color: #e0ffff; color: #000; text-shadow: none;}
+        
+        .btn-secondary { background: rgba(0, 123, 255, 0.05); border: 1px solid rgba(0, 123, 255, 0.3); color: var(--color-cyan); text-shadow: 0 0 5px rgba(0,240,255,0.5); }
+        
+        /* AUTH UI */
+        .auth-input { width: 100%; padding: 10px; border-radius: 6px; background: rgba(0, 10, 20, 0.9); border: 1px solid rgba(0, 123, 255, 0.5); color: #fff; text-align: center; font-family: var(--font-mono); font-size: 10px; font-weight: 900; letter-spacing: 1px; outline: none; box-shadow: inset 0 2px 8px rgba(0,0,0,1); }
+        .auth-input:focus { border-color: var(--color-cyan); box-shadow: inset 0 2px 8px rgba(0,0,0,1), 0 0 10px rgba(0, 240, 255, 0.6); }
+        
+        .auth-pending { display: none; flex-direction: column; align-items: center; gap: 4px; text-align: center; background: rgba(0, 10, 20, 0.8); border: 1px dashed rgba(0, 123, 255, 0.4); padding: 10px; border-radius: 6px;}
+        .auth-pending.active { display: flex; animation: fadeIn 0.4s; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        .shield-icon { font-size: 20px; filter: drop-shadow(0 0 10px var(--color-blue)); animation: floatZ 2s infinite ease-in-out;}
+        @keyframes floatZ { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+        .wait-text { font-family: var(--font-main); color: var(--color-cyan); font-weight: 900; font-size: 11px; letter-spacing: 1px; text-shadow: 1px 1px 0 #000; line-height: 1.1; }
         
         .d-none { display: none !important; }
 
-        #toast-wrap { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); z-index: 9999999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
-        .toast-msg { background: rgba(10, 14, 25, 0.98); border: 1px solid var(--cyan); color: #fff; padding: 10px 18px; border-radius: 8px; font-size: 9px; font-family: var(--font-mono); font-weight: 900; letter-spacing: 1.5px; box-shadow: 0 10px 30px rgba(0,0,0,0.9), 0 0 15px var(--cyan-glow); animation: slideIn var(--ease-3d) forwards; }
+        #toast-wrap { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 9999999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+        .toast-msg { background: rgba(2, 6, 23, 0.98); border: 1px solid var(--color-cyan); color: #fff; padding: 8px 12px; border-radius: 6px; font-size: 9px; font-family: var(--font-mono); font-weight: 900; letter-spacing: 1px; box-shadow: 0 10px 20px rgba(0,0,0,0.9), 0 0 15px var(--color-blue-glow); animation: slideIn var(--ease-3d) forwards; text-transform: uppercase; }
         @keyframes slideIn { from { opacity: 0; transform: translateY(20px) scale(0.8); } to { opacity: 1; transform: translateY(0) scale(1); } }
         .toast-msg.hide { animation: fadeOut 0.3s ease forwards; }
         @keyframes fadeOut { to { opacity: 0; transform: translateY(-10px); } }
@@ -185,7 +189,7 @@
 
     <div id="trigger-ui" onclick="UIManager.showHUD()">
         <div class="beacon"></div>
-        <span class="trigger-text">3D HACK</span>
+        <span class="trigger-text">DEV ARMY</span>
     </div>
 
     <div id="core-hud">
@@ -194,7 +198,7 @@
             <div class="info-strip">
                 <div class="brand-box">
                     <div class="brand">DEV<span>ARMY</span></div>
-                    <div class="server-status"><span class="live-dot"></span> LIVE <span id="ping-ms" style="color:var(--cyan);">12ms</span></div>
+                    <div class="server-status"><span class="live-dot"></span> SECURE <span id="ping-ms" style="color:var(--color-cyan);">12ms</span></div>
                 </div>
                 <div class="timer-box">
                     <div class="period" id="period">ID:SYNCING</div>
@@ -204,11 +208,21 @@
         </div>
 
         <div class="hud-body">
+            <!-- AUTH MODULE -->
             <div id="module-auth">
-                <input type="password" id="auth-input" class="auth-input" placeholder="ENTER VIP KEY">
-                <button class="btn btn-primary" style="width:100%; margin-top:10px;" onclick="Auth.verify()">AUTHORIZE</button>
+                <div id="auth-form">
+                    <input type="text" id="auth-input" class="auth-input" placeholder="ENTER UID KEY">
+                    <button class="btn btn-primary" id="btn-auth" style="width:100%; margin-top:8px;" onclick="Auth.verify()">CONNECT SERVER</button>
+                </div>
+                
+                <div id="auth-pending" class="auth-pending">
+                    <div class="shield-icon">🛡️</div>
+                    <h3 class="wait-text">WAITING APPROVAL</h3>
+                    <button class="btn btn-secondary" style="margin-top:4px; width:100%;" onclick="location.reload()">REFRESH STATUS</button>
+                </div>
             </div>
 
+            <!-- ENGINE MODULE -->
             <div id="module-engine" class="d-none">
                 <div class="engine-box" id="engine-box">
                     <div class="cyber-grid"></div>
@@ -227,16 +241,11 @@
                     <div class="laser"></div>
 
                     <div class="result-state" id="result-state">
-                        <div class="balls-container" id="balls-container">
-                            <!-- Balls injected by JS -->
-                        </div>
-                        
+                        <div id="out-size" class="mega-result">--</div>
                         <div class="metrics-bar">
                             <span>ACCURACY:</span>
-                            <span style="color:var(--gold);" id="acc-val">99.8%</span>
+                            <span style="color:var(--color-cyan);" id="acc-val">99.8%</span>
                         </div>
-
-                        <div class="detail-pill" id="out-size">--</div>
                     </div>
                 </div>
 
@@ -252,10 +261,13 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getDatabase, ref, get, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+    import { getDatabase, ref, get, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
     
+    // FIREBASE DETAILS
     const CFG = { FB_API: "AIzaSyBNj71akpefcfEtn-SQfAcx-Pgwi8sUosg", FB_URL: "https://teamdev-88676-default-rtdb.asia-southeast1.firebasedatabase.app", MASTER_KEY: "112233", SCRAMBLE_MS: 40, DELAY: 1200 };
     const db = getDatabase(initializeApp({ apiKey: CFG.FB_API, databaseURL: CFG.FB_URL }));
+
+    function getDeviceID() { let d = localStorage.getItem('cyb_did'); if(!d) { d = 'CYB-'+Math.random().toString(36).substr(2, 9); localStorage.setItem('cyb_did', d); } return d; }
 
     window.Util = class {
         static limit(el) { if(el.value.length>1) el.value=el.value.slice(0,1); if(parseInt(el.value)<0||parseInt(el.value)>9) el.value=""; }
@@ -288,13 +300,50 @@
 
     window.Auth = class {
         static async verify() {
-            const k = document.getElementById('auth-input').value.trim(); const b = document.querySelector('#module-auth .btn');
-            if(!k) return Util.toast("KEY REQUIRED"); if(k === CFG.MASTER_KEY) return this.grant();
-            b.innerText = "CHECKING...";
-            try { const s = await get(ref(db, 'approved_uids/'+k)); if(s.exists() && !s.val().is_banned) this.grant(); else { b.innerText="DENIED"; setTimeout(()=>b.innerText="AUTHORIZE",2000); } }
-            catch(e) { b.innerText="ERROR"; setTimeout(()=>b.innerText="AUTHORIZE",2000); }
+            const k = document.getElementById('auth-input').value.trim(); 
+            const b = document.getElementById('btn-auth');
+            if(!k) return Util.toast("UID REQUIRED"); 
+            if(k === CFG.MASTER_KEY) return this.grant();
+            
+            b.innerText = "CONNECTING...";
+            try { 
+                const s = await get(ref(db, 'approved_uids/'+k)); 
+                if(s.exists()) {
+                    let d = s.val();
+                    if(!d.is_banned && (!d.expireAt || d.expireAt > Date.now())) {
+                        return this.grant();
+                    } else {
+                        return Util.toast("ACCESS REVOKED");
+                    }
+                } 
+                
+                const p = await get(ref(db, 'uid_requests/'+k));
+                let reqCount = 1;
+                if(p.exists()) reqCount = (p.val().count || 0) + 1;
+                
+                await set(ref(db, 'uid_requests/'+k), { 
+                    uid: k, 
+                    deviceId: getDeviceID(), 
+                    status: "pending", 
+                    timestamp: Date.now(), 
+                    count: reqCount 
+                });
+                
+                this.showPending();
+
+            } catch(e) { 
+                b.innerText="ERROR"; setTimeout(()=>b.innerText="CONNECT SERVER",2000); 
+            }
         }
-        static grant() { document.getElementById('module-auth').classList.add('d-none'); document.getElementById('module-engine').classList.remove('d-none'); Util.toast("3D VIP UNLOCKED"); }
+        static grant() { 
+            document.getElementById('module-auth').classList.add('d-none'); 
+            document.getElementById('module-engine').classList.remove('d-none'); 
+            Util.toast("DEV ARMY SECURED"); 
+        }
+        static showPending() {
+            document.getElementById('auth-form').style.display = 'none';
+            document.getElementById('auth-pending').classList.add('active');
+        }
     };
 
     setInterval(() => {
@@ -302,10 +351,8 @@
         const totalMin = (d.getUTCHours() * 60) + d.getUTCMinutes();
         document.getElementById('period').innerText = `ID:${10001 + totalMin}`;
         document.getElementById('clock').innerText = `00:${String(rem).padStart(2,'0')}`;
-        document.getElementById('clock').style.color = rem<=10 ? "var(--color-red)" : "#fff";
+        document.getElementById('clock').style.color = rem<=10 ? "#ff0000" : "#fff";
         document.getElementById('ping-ms').innerText = `${Math.floor(Math.random() * (28 - 12 + 1) + 12)}ms`;
-        if(rem<=10) document.getElementById('clock').style.textShadow = "0 0 15px var(--color-red-glow)";
-        else document.getElementById('clock').style.textShadow = "0 0 8px rgba(0,240,255,0.5)";
     }, 1000);
 
     class HardwareScrambler {
@@ -316,22 +363,19 @@
 
     window.Engine = class {
         static state = "IDLE";
-        
-        static getCasinoClass(num) {
-            if(num === 0) return "bg-red-violet"; if(num === 5) return "bg-green-violet";
-            if(num % 2 === 0) return "bg-red"; return "bg-green";
-        }
 
         static async trigger() {
             const n1 = document.getElementById('in-n1'), n2 = document.getElementById('in-n2');
             const box = document.getElementById('engine-box'), btn = document.getElementById('btn-run');
             const inState = document.getElementById('input-state'), resState = document.getElementById('result-state');
-            const bCont = document.getElementById('balls-container'), szPill = document.getElementById('out-size');
+            const szPill = document.getElementById('out-size');
 
             if(this.state === "IDLE") {
-                const v1 = n1.value, v2 = n2.value; if(!v1 || !v2) return Util.toast("ENTER BOTH TARGETS");
+                const v1 = n1.value, v2 = n2.value; 
+                if(!v1 || !v2) return Util.toast("ENTER TARGETS");
                 
-                btn.disabled = true; btn.innerText = "DECRYPTING...";
+                btn.disabled = true; 
+                btn.innerText = "EXTRACTING...";
                 box.classList.add("is-scanning");
                 n1.readOnly = true; n2.readOnly = true;
                 
@@ -340,65 +384,62 @@
 
                 try {
                     const snap = await get(ref(db, `patterns/${v1}-${v2}`));
-                    setTimeout(() => {
-                        this.fx.stop(); box.classList.remove("is-scanning");
+                    
+                    await new Promise(resolve => setTimeout(resolve, CFG.DELAY));
+                    
+                    this.fx.stop(); 
+                    box.classList.remove("is-scanning");
+                    
+                    if(snap.exists() && snap.val()) {
+                        let dataStr = String(snap.val()).toUpperCase();
+                        let isBig = dataStr.includes("BIG");
+
+                        inState.style.display = "none";
+                        document.getElementById('acc-val').innerText = `${(Math.random() * (99.9 - 98.1) + 98.1).toFixed(1)}%`;
                         
-                        if(snap.exists() && snap.val()) {
-                            let data = snap.val().toUpperCase();
-                            let isBig = data.includes("BIG");
-                            
-                            // 🔥 BULLETPROOF NUMBER EXTRACTION 🔥
-                            let nums = data.match(/\d+/g) || [];
-                            let p1 = nums.length > 0 ? parseInt(nums[0]) : (isBig ? 7 : 2);
-                            let p2 = nums.length > 1 ? parseInt(nums[1]) : (isBig ? (p1===9?8:p1+1) : (p1===0?1:Math.abs(p1-1)));
-
-                            inState.style.display = "none";
-                            
-                            // Guaranteed 2 Distinct Balls 
-                            bCont.innerHTML = `
-                                <div class="ball-wrapper">
-                                    <div class="casino-ball ${this.getCasinoClass(p1)}">${p1}</div>
-                                    <div class="ball-shadow"></div>
-                                </div>
-                                <div class="ball-wrapper">
-                                    <div class="casino-ball ${this.getCasinoClass(p2)}">${p2}</div>
-                                    <div class="ball-shadow"></div>
-                                </div>
-                            `;
-
-                            document.getElementById('acc-val').innerText = `${(Math.random() * (99.9 - 98.1) + 98.1).toFixed(1)}%`;
-                            szPill.innerText = isBig ? 'BIG' : 'SMALL';
-                            szPill.className = `detail-pill ${isBig ? 'sz-big' : 'sz-small'}`;
-                            
-                            resState.classList.add('show');
-                            
-                            this.state = "NEXT";
-                            btn.disabled = false; btn.innerText = "NEXT DRAW"; btn.classList.add('next');
-                        } else {
-                            Util.toast("PATTERN NOT FOUND");
-                            btn.disabled = false; btn.innerText = "ANALYZE";
-                            n1.value = ""; n2.value = ""; n1.readOnly = false; n2.readOnly = false;
-                        }
-                    }, CFG.DELAY);
+                        szPill.innerHTML = isBig ? 'BIG' : 'SMALL';
+                        szPill.className = `mega-result ${isBig ? 'mega-big' : 'mega-small'}`;
+                        
+                        resState.classList.add('show');
+                        
+                        this.state = "NEXT";
+                        btn.disabled = false; btn.innerText = "NEXT DRAW"; btn.classList.add('next');
+                    } else {
+                        Util.toast("PATTERN NOT FOUND");
+                        this.resetUI(btn, n1, n2, box);
+                    }
                 } catch(e) { 
-                    this.fx.stop(); box.classList.remove("is-scanning"); Util.toast("CONNECTION ERROR");
-                    btn.disabled = false; btn.innerText = "ANALYZE";
-                    n1.value = ""; n2.value = ""; n1.readOnly = false; n2.readOnly = false;
+                    this.fx.stop(); box.classList.remove("is-scanning"); 
+                    Util.toast("SERVER TIMEOUT");
+                    this.resetUI(btn, n1, n2, box);
                 }
             } else {
-                n1.value = ""; n2.value = ""; n1.readOnly = false; n2.readOnly = false;
+                this.resetUI(btn, n1, n2, box);
                 resState.classList.remove('show');
                 inState.style.display = "flex";
                 this.state = "IDLE";
-                btn.classList.remove('next'); btn.innerText = "ANALYZE"; btn.disabled = false;
+                btn.classList.remove('next'); 
             }
+        }
+        
+        static resetUI(btn, n1, n2, box) {
+            btn.disabled = false; btn.innerText = "ANALYZE";
+            n1.value = ""; n2.value = ""; 
+            n1.readOnly = false; n2.readOnly = false;
         }
     };
 
     const canvas = document.getElementById('particle-layer'), ctx = canvas.getContext('2d');
     let pts = []; canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-    for(let i=0; i<30; i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*2, vx:(Math.random()-0.5)*0.5, vy:(Math.random()-0.5)*0.5});
-    function anim() { requestAnimationFrame(anim); ctx.clearRect(0,0,canvas.width,canvas.height); pts.forEach(p => { p.x+=p.vx; p.y+=p.vy; if(p.x<0||p.x>canvas.width)p.vx*=-1; if(p.y<0||p.y>canvas.height)p.vy*=-1; ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle="rgba(0,240,255,0.4)"; ctx.fill(); }); }
+    for(let i=0; i<30; i++) pts.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, r:Math.random()*2+1, vx:(Math.random()-0.5)*0.3, vy:-(Math.random()*1+0.2)});
+    function anim() { 
+        requestAnimationFrame(anim); ctx.clearRect(0,0,canvas.width,canvas.height); 
+        pts.forEach(p => { 
+            p.x+=p.vx; p.y+=p.vy; 
+            if(p.y<0) { p.y = canvas.height+10; p.x = Math.random()*canvas.width; }
+            ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fillStyle="rgba(0, 150, 255, 0.4)"; ctx.fill(); 
+        }); 
+    }
     anim();
 
     document.addEventListener("DOMContentLoaded", () => {

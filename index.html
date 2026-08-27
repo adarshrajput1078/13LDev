@@ -3,290 +3,301 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DEV ARMY | PRO VIP</title>
+    <title>BIG DADDY VIP ENGINE</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- ZOMBIE FONT (Creepster) + Premium UI Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Outfit:wght@600;800;900&family=Rajdhani:wght@700;900&family=JetBrains+Mono:wght@800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=JetBrains+Mono:wght@500;700;800;900&family=Rajdhani:wght@600;700;900&display=swap" rel="stylesheet">
     
     <style>
         :root { 
-            /* 13L.GAME THEME COLORS (Red & Gold on Dark) */
-            --primary: #e62828; 
-            --primary-dark: #a11111; 
-            --primary-3d: #5c0505; 
-            --cyan-glow: rgba(230, 40, 40, 0.8); 
-            --bg-top: linear-gradient(135deg, #181818, #2a2a2a, #181818); 
-            
-            --green: #10b981; 
-            --red: #ef4444; 
-            --red-glow: rgba(239, 68, 68, 0.4);
-            --gold: #ffc107; 
-            
-            --font-main: 'Rajdhani', sans-serif;
-            --font-ui: 'Outfit', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-            --font-zombie: 'Creepster', cursive;
+            /* 🔥 BIG DADDY GOLD THEME 🔥 */
+            --primary: #d4af37; 
+            --primary-dark: #b8860b; 
+            --gold-glow: rgba(212, 175, 55, 0.5);
+            --bg-base: #000000; 
+            --bg-panel: rgba(15, 15, 15, 0.85); 
+            --bg-card: rgba(20, 20, 20, 0.9);
+            --success: #00ff66; --danger: #ff2a55; --gold: #ffd700; 
+            --text-main: #f8fafc; --text-muted: #94a3b8;
+            --font-ui: 'Inter', sans-serif; --font-mono: 'JetBrains Mono', monospace; --font-head: 'Rajdhani', sans-serif;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-tap-highlight-color: transparent;}
-        body, html { height: 100vh; height: 100dvh; width: 100vw; font-family: var(--font-ui); color: #fff; overflow: hidden; display: flex; flex-direction: column; background: #121212; }
         
-        /* ==========================================
-           1. STRICT AUTO-FIT PANEL
-           ========================================== */
-        #top-panel { 
-            flex: 0 0 auto; 
-            min-height: 18vh; max-height: 28vh; 
-            width: 100%; z-index: 10; position: relative; padding: 10px 15px; 
-            background: var(--bg-top); border-bottom: 3px solid var(--primary-dark); 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.9), inset 0 -3px 20px rgba(230, 40, 40, 0.15);
-            display: flex; flex-direction: column; justify-content: center;
+        body, html { 
+            height: 100vh; height: 100dvh; width: 100vw; font-family: var(--font-ui); color: var(--text-main); overflow: hidden; display: flex; flex-direction: column; 
+            background-color: var(--bg-base);
+            background-image: linear-gradient(rgba(212, 175, 55, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(212, 175, 55, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px; background-position: center center;
         }
+
+        /* 🔥 GOLD GLITCH TEXT EFFECT 🔥 */
+        .glitch-text { position: relative; color: var(--primary); font-family: var(--font-head); font-size: 26px; font-weight: 900; letter-spacing: 2px; line-height: 1; text-shadow: 0 0 10px var(--gold-glow);}
+        .glitch-text::before, .glitch-text::after { content: attr(data-text); position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.8; }
+        .glitch-text::before { left: 2px; text-shadow: -2px 0 #fff; clip: rect(24px, 550px, 90px, 0); animation: glitch-anim 3s infinite linear alternate-reverse; }
+        .glitch-text::after { left: -2px; text-shadow: -2px 0 var(--primary-dark); clip: rect(85px, 550px, 140px, 0); animation: glitch-anim 2.5s infinite linear alternate-reverse; }
+        @keyframes glitch-anim { 0% { clip: rect(15px, 9999px, 94px, 0); } 20% { clip: rect(85px, 9999px, 12px, 0); } 40% { clip: rect(10px, 9999px, 85px, 0); } 60% { clip: rect(98px, 9999px, 45px, 0); } 80% { clip: rect(25px, 9999px, 11px, 0); } 100% { clip: rect(65px, 9999px, 99px, 0); } }
+
+        /* 📱 SLEEK GLASS HEADER */
+        .top-header { flex: 0 0 75px; width: 100%; display: flex; justify-content: space-between; align-items: center; background: rgba(5, 5, 5, 0.95); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(212, 175, 55, 0.3); z-index: 100; padding: 0 15px; box-shadow: 0 10px 40px rgba(0,0,0,0.9);}
+        .header-left { display: flex; align-items: center; gap: 12px; }
+        .header-logo { height: 45px; width: 45px; border-radius: 12px; object-fit: cover; border: 2px solid var(--primary); box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); background: #000; padding: 2px;}
+        .brand span { color: #fff; display: block; font-family: var(--font-mono); font-size: 10px; letter-spacing: 5px; text-transform: uppercase; font-weight: 800; margin-top: 4px;}
+
+        .header-right { display: flex; align-items: center; gap: 12px; }
+        .gift-btn { background: rgba(212, 175, 55, 0.1); border: 1px solid rgba(212, 175, 55, 0.5); color: var(--gold); border-radius: 8px; width: 40px; height: 40px; display: flex; justify-content: center; align-items: center; font-size: 20px; cursor: pointer; transition: 0.3s; box-shadow: 0 0 15px rgba(212, 175, 55, 0.2);}
+        .gift-btn:active { transform: scale(0.9); }
+        .user-badge { display: flex; flex-direction: column; align-items: flex-end; justify-content: center; background: rgba(212, 175, 55, 0.05); border: 1px solid rgba(212, 175, 55, 0.2); padding: 4px 10px; border-radius: 6px;}
+        .user-badge .status-dot { width: 6px; height: 6px; background: var(--success); border-radius: 50%; box-shadow: 0 0 10px var(--success); display: inline-block; margin-right: 4px; animation: pulse 1s infinite alternate;}
+        .user-badge span { font-size: 11px; font-family: var(--font-mono); font-weight: 900; color: #fff; letter-spacing: 1px;}
+
+        /* 📱 MAIN CONTENT AREA */
+        #main-container { flex: 1; width: 100%; position: relative; overflow-y: auto; display: flex; flex-direction: column; scroll-behavior: smooth;}
+        .view-section { display: none; width: 100%; height: 100%; flex-direction: column; }
+        .view-section.active { display: flex; animation: fadeIn 0.4s ease-out; }
+        #view-game iframe { width: 100%; height: 100%; border: none; background: #000; }
+        .tool-wrapper { padding: 20px; display: flex; flex-direction: column; align-items: center; min-height: 100%; max-width: 480px; margin: 0 auto; width: 100%; position: relative;}
+
+        /* 📱 BOTTOM NAV */
+        .bottom-nav { flex: 0 0 75px; width: 100%; background: rgba(5, 5, 5, 0.95); border-top: 2px solid rgba(212, 175, 55, 0.2); display: flex; justify-content: space-around; align-items: center; z-index: 100; backdrop-filter: blur(20px); padding-bottom: env(safe-area-inset-bottom);}
+        .b-nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; color: var(--text-muted); font-family: var(--font-head); font-weight: 800; font-size: 14px; letter-spacing: 2px; transition: 0.3s; cursor: pointer; height: 100%;}
+        .b-nav-item .icon { font-size: 24px; filter: grayscale(100%) opacity(0.3); transition: 0.3s;}
+        .b-nav-item.active { color: var(--primary); text-shadow: 0 0 15px var(--gold-glow); background: radial-gradient(ellipse at bottom, rgba(212, 175, 55, 0.15) 0%, transparent 60%);}
+        .b-nav-item.active .icon { opacity: 1; transform: translateY(-4px); filter: drop-shadow(0 0 8px var(--primary));}
+
+        /* ⚡ CYBER PANELS (Cards) */
+        .cyber-panel { width: 100%; background: rgba(10, 10, 10, 0.85); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 12px; padding: 20px; margin-bottom: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 0 20px rgba(212, 175, 55, 0.05); position: relative; overflow: hidden; backdrop-filter: blur(10px);}
+        .cyber-panel::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, transparent, var(--primary), transparent); opacity: 0.8;}
+        .panel-header { font-family: var(--font-head); font-size: 14px; color: var(--primary); font-weight: 900; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 15px; display: flex; align-items: center; gap: 8px; text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);}
         
-        #bottom-panel { flex: 1; width: 100%; background: #121212; position: relative; z-index: 1; }
-        iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; display: block; background: #121212;}
+        /* ⚡ 80% LURE LIST */
+        .lure-list { display: flex; flex-direction: column; gap: 10px; max-height: 260px; overflow: hidden; position: relative;}
+        .lure-list::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 80px; background: linear-gradient(transparent, var(--bg-card)); pointer-events: none;}
+        .lure-item { display: flex; justify-content: space-between; align-items: center; background: rgba(0,0,0,0.8); padding: 12px 15px; border-radius: 8px; font-size: 12px; font-family: var(--font-mono); font-weight: bold; border-left: 4px solid transparent; border: 1px solid rgba(255,255,255,0.05);}
+        .lure-item.win { border-left-color: var(--success); box-shadow: inset 30px 0 30px -30px rgba(0,255,102,0.3);}
+        .lure-item.jackpot { border-left-color: var(--gold); background: rgba(255, 215, 0, 0.1); box-shadow: inset 30px 0 30px -30px rgba(255,215,0,0.5); animation: pulseGold 2s infinite;}
+        .lure-item.loss { border-left-color: var(--danger); opacity: 0.6;}
+        .d-res { display: flex; align-items: center; gap: 10px; font-size: 15px; font-family: var(--font-head); letter-spacing: 2px;}
+        .d-res img { width: 24px; height: 24px; border-radius: 50%; filter: drop-shadow(0 0 8px rgba(255,255,255,0.4));}
 
-        /* ==========================================
-           2. HEADER & TABS
-           ========================================== */
-        .top-header { 
-            width: 100%; display: flex; justify-content: space-between; align-items: center; 
-            margin-bottom: 8px; border-bottom: 1px dashed rgba(230, 40, 40, 0.4); padding-bottom: 6px;
-        }
-        .brand { font-family: var(--font-main); font-size: 24px; font-weight: 900; letter-spacing: 2px; color: #fff; text-shadow: 0 4px 8px rgba(0,0,0,0.9); display: flex; align-items: center; gap: 8px;}
-        .brand span { color: var(--gold); text-shadow: 0 0 15px rgba(255, 193, 7, 0.6); }
-        .brand .badge { background: rgba(255, 193, 7, 0.15); border: 1px solid var(--gold); font-size: 10px; font-weight: 900; padding: 2px 6px; border-radius: 4px; color: var(--gold); letter-spacing: 1px;}
+        /* ⚡ INPUTS */
+        .cyber-input-wrap { position: relative; width: 100%; margin-bottom: 15px; flex: 1; min-width: 0;}
+        .cyber-input-wrap::before { content: '>'; position: absolute; left: 20px; top: 50%; transform: translateY(-50%); font-family: var(--font-mono); color: var(--primary); font-size: 18px; font-weight: 900;}
+        input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        input { width: 100%; height: 65px; padding: 0 20px 0 50px; border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 8px; font-size: 22px; font-weight: 900; background: rgba(0,0,0,0.8); color: #fff; outline: none; transition: 0.3s; font-family: var(--font-mono); letter-spacing: 3px; box-shadow: inset 0 0 20px rgba(0,0,0,1); appearance: textfield;}
+        input:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(212, 175, 55, 0.2), inset 0 0 20px rgba(0,0,0,1); background: rgba(212, 175, 55, 0.05);}
+        input::placeholder { color: #334155; font-size: 14px; letter-spacing: 2px; font-weight: 700;}
+
+        /* ⚡ GOLD TACTICAL BUTTONS */
+        .btn-premium { height: 65px; width: 100%; font-family: var(--font-head); font-size: 18px; letter-spacing: 3px; font-weight: 900; cursor: pointer; border-radius: 8px; border: 1px solid var(--primary); background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(184, 134, 11, 0.9)); color: #fff; display: flex; align-items: center; justify-content: center; text-transform: uppercase; transition: 0.3s; box-shadow: 0 5px 30px rgba(212, 175, 55, 0.3); position: relative; overflow: hidden; text-shadow: 0 2px 5px rgba(0,0,0,0.8);}
+        .btn-premium::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); transform: skewX(-20deg); transition: 0.5s;}
+        .btn-premium:hover::after { left: 150%; }
+        .btn-premium:active { transform: scale(0.96); box-shadow: 0 0 10px rgba(212, 175, 55, 0.5); }
+        .btn-premium:disabled { background: #1a1a1a; border-color: #333; color: #666; box-shadow: none; cursor: not-allowed;}
         
-        .tabs { display: flex; background: #000; border-radius: 6px; padding: 2px; border: 2px solid #333; }
-        .tab-btn { padding: 4px 10px; font-size: 11px; font-weight: 900; color: #888; cursor: pointer; border-radius: 4px; border: none; background: transparent; font-family: var(--font-ui); letter-spacing: 1px; transition: 0.3s;}
-        .tab-btn.active { background: var(--primary); color: #fff; box-shadow: 0 0 10px var(--cyan-glow); text-shadow: 1px 1px 0px rgba(0,0,0,0.5);}
+        .btn-reset { background: rgba(212, 175, 55, 0.05); border: 1px solid rgba(212, 175, 55, 0.6); color: var(--primary); box-shadow: inset 0 0 20px rgba(212, 175, 55, 0.1); text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);}
+        .btn-reset:active { background: rgba(212, 175, 55, 0.15); }
 
-        /* ==========================================
-           3. INPUTS & BUTTONS
-           ========================================== */
-        input[type=number]::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-        input { 
-            width: 100%; height: 100%; padding: 0 10px; border: 2px solid #5c0505; border-radius: 8px; 
-            text-align: center; font-size: 20px; font-weight: 900; background: #0a0a0a; color: var(--gold); 
-            outline: none; transition: 0.3s; font-family: var(--font-main); letter-spacing: 3px; box-shadow: inset 0 3px 10px rgba(0,0,0,0.9);
-        }
-        input:focus { border-color: var(--primary); box-shadow: 0 0 15px var(--cyan-glow); background: #000;}
-        input::placeholder { color: #555; font-size: 14px; letter-spacing: 2px; font-family: var(--font-ui);}
+        /* 🔥 HUGE FULL-SCREEN VERIFICATION OVERLAY 🔥 */
+        #verify-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.98); z-index: 99999; display: none; flex-direction: column; justify-content: center; align-items: center; backdrop-filter: blur(15px);}
+        .huge-scanner { width: 220px; height: 220px; border: 3px dashed rgba(212, 175, 55, 0.4); border-radius: 50%; position: relative; display: flex; justify-content: center; align-items: center; box-shadow: 0 0 60px rgba(212, 175, 55, 0.15); margin-bottom: 30px;}
+        .huge-scanner::before { content:''; position:absolute; width:100%; height:100%; border-radius:50%; border: 4px solid transparent; border-top-color: var(--primary); border-bottom-color: var(--primary); animation: scanSpin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;}
+        .huge-scanner img { width: 120px; height: 120px; object-fit: contain; filter: drop-shadow(0 0 25px var(--primary)); z-index: 5;}
+        .loading-text { font-family: var(--font-mono); font-size: 18px; color: var(--primary); font-weight: 900; letter-spacing: 5px; text-shadow: 0 0 15px var(--gold-glow); margin-bottom: 10px;}
+        .loading-pct { font-family: var(--font-head); font-size: 60px; font-weight: 900; color: #fff; text-shadow: 0 0 30px var(--primary); line-height: 1;}
 
-        .btn-sleek { 
-            height: 50px; 
-            padding: 0 15px; font-size: 15px; letter-spacing: 2px; font-family: var(--font-main); 
-            font-weight: 900; cursor: pointer; border-radius: 8px; border: 1px solid #b38600; 
-            background: linear-gradient(to bottom, #ffe680, var(--gold)); color: #5c3a00; 
-            display: flex; align-items: center; justify-content: center; text-transform: uppercase; transition: 0.2s;
-            box-shadow: 0 4px 0 #997300, 0 6px 15px rgba(0,0,0,0.6); flex-shrink: 0;
-        }
-        .btn-sleek:active { transform: translateY(4px); box-shadow: 0 0 0 #997300; }
-        .btn-dark { background: #222; color: #fff; border: 2px solid #444; box-shadow: 0 4px 0 #111; height: 38px;}
-
-        /* ==========================================
-           4. AUTH & PENDING SCREEN
-           ========================================== */
-        .auth-container, .tool-container { width: 100%; display: flex; flex-direction: column; justify-content: center; }
+        /* ⚡ VERIFIED HUD UI */
         .hidden { display: none !important; }
-
-        .auth-row { display: flex; gap: 8px; align-items: center; width: 100%; height: 50px; }
+        .hud-top { display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 25px; background: rgba(0,0,0,0.8); border: 1px solid rgba(212, 175, 55, 0.3); padding: 15px 20px; border-radius: 12px; border-left: 5px solid var(--primary); box-shadow: 0 10px 20px rgba(0,0,0,0.5);}
+        .hud-col { display: flex; flex-direction: column; gap: 4px; }
+        .hud-lbl { font-size: 11px; font-family: var(--font-mono); color: var(--primary); font-weight: 800; letter-spacing: 2px; text-shadow: 0 0 5px rgba(212, 175, 55, 0.3);}
+        .hud-val { font-family: var(--font-mono); font-size: 26px; font-weight: 900; color: #fff; text-shadow: 0 0 15px rgba(255,255,255,0.4);}
+        .input-row { display: flex; gap: 15px; width: 100%; transition: 0.3s; margin-bottom: 25px;}
+        .input-row .cyber-input-wrap { margin-bottom: 0; }
         
-        .pending-box { display: flex; flex-direction: column; gap: 8px; width: 100%; animation: fadeIn 0.3s ease; margin-top: 2px;}
-        .pending-header { display: flex; justify-content: space-between; align-items: center; }
-        .pending-title { color: var(--gold); font-family: var(--font-main); font-size: 16px; font-weight: 900; display: flex; align-items: center; gap: 8px; letter-spacing: 1px;}
+        /* 🚀 THE PREDICTION DECRYPTOR SCREEN */
+        .result-display { width: 100%; min-height: 200px; display: none; align-items: center; justify-content: center; flex-direction: column; background: rgba(0,0,0,0.9); border-radius: 12px; border: 2px solid rgba(212, 175, 55, 0.5); padding: 30px; margin-bottom: 25px; position: relative; overflow: hidden; box-shadow: inset 0 0 60px rgba(212, 175, 55, 0.1), 0 15px 40px rgba(0,0,0,0.9);}
+        .result-display::before { content:''; position:absolute; top:0; left:0; width:100%; height:100%; background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(212, 175, 55, 0.05) 2px, rgba(212, 175, 55, 0.05) 4px); pointer-events:none;}
+        .result-display.show { display: flex; animation: zoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;}
         
-        .deposit-alert-strip { 
-            background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.4); 
-            padding: 6px 10px; border-radius: 6px; display: flex; justify-content: center; align-items: center;
-        }
-        .deposit-alert-strip .alert-text { color: var(--red); font-size: 11px; font-weight: 900; letter-spacing: 0.5px; font-family: var(--font-ui); animation: pulseText 1.5s infinite alternate;}
-        @keyframes pulseText { from { text-shadow: 0 0 2px rgba(239,68,68,0.2); } to { text-shadow: 0 0 12px var(--red); } }
+        .res-text { font-family: var(--font-head); font-size: 65px; font-weight: 900; letter-spacing: 2px; line-height: 1; text-transform: uppercase; z-index: 2; margin-right: 20px;}
+        .res-text.big { background: linear-gradient(to bottom, #ffffff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 15px var(--primary-dark)); }
+        .res-text.small { background: linear-gradient(to bottom, #ffffff, var(--danger)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; filter: drop-shadow(0 0 15px var(--danger)); }
         
-        .pending-actions { display: flex; gap: 8px; height: 38px; }
-
-        /* ==========================================
-           5. TOOL CONTROLS
-           ========================================== */
-        .tool-info-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-family: var(--font-mono); font-size: 12px; color: #a1a1a1; font-weight: 900; background: #0a0a0a; padding: 6px 10px; border-radius: 6px; border: 2px solid #2a2a2a;}
-        .info-col { flex: 1; }
-        .tool-info-row span { color: var(--gold); font-size: 16px; font-weight: 900; text-shadow: 0 0 8px rgba(255, 193, 7, 0.6);}
-
-        .action-row { display: flex; gap: 8px; height: 50px; position: relative; width: 100%; align-items: center; justify-content: space-between;}
-        .input-group { display: flex; gap: 8px; flex: 1; transition: opacity 0.3s; height: 100%; }
+        /* ⚡ PROFESSIONAL GRID LEDGER */
+        .ph-box { width: 100%; display: flex; flex-direction: column; gap: 10px;}
+        .ph-header { display: grid; grid-template-columns: 1.2fr 1.5fr 1fr 1fr; padding: 0 10px 10px; border-bottom: 1px dashed rgba(212, 175, 55, 0.3); font-size: 10px; color: var(--text-muted); font-family: var(--font-mono); font-weight: 900; letter-spacing: 1px;}
+        .ph-list { display: flex; flex-direction: column; gap: 8px; max-height: 250px; overflow-y: auto; padding-right: 5px;}
+        .ph-list::-webkit-scrollbar { width: 4px; } .ph-list::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.3); border-radius: 4px;}
         
-        .result-display {
-            flex: 1; 
-            height: 100%; 
-            display: none; align-items: center; justify-content: center;
-            background: transparent; border: none; box-shadow: none; z-index: 5;
-            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; 
-        }
-        .result-display.show { display: flex; }
-        @keyframes popIn { 0% { transform: scale(0.8); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        .ph-item { display: grid; grid-template-columns: 1.2fr 1.5fr 1fr 1fr; align-items: center; background: rgba(0,0,0,0.8); padding: 12px 10px; border-radius: 8px; font-family: var(--font-mono); font-size: 13px; font-weight: 900; border-left: 3px solid transparent; transition: 0.2s; border: 1px solid rgba(255,255,255,0.05);}
+        .ph-item.win { border-left-color: var(--success); }
+        .ph-item.loss { border-left-color: var(--danger); opacity: 0.7;}
+        .ph-item.wait { border-left-color: var(--primary); background: rgba(212, 175, 55, 0.05);}
+        .ph-col { display: flex; align-items: center; color: #fff;}
+        .ph-status { font-size: 11px; text-align: right; display: flex; flex-direction: column; justify-content: center; align-items: flex-end;}
 
-        .zombie-text {
-            font-family: var(--font-zombie); font-size: clamp(38px, 10vw, 48px); 
-            letter-spacing: 5px; line-height: 1; text-transform: uppercase; text-align: center; width: 100%;
-        }
-        .res-text-big { color: #ffffff; text-shadow: 0 0 15px var(--cyan-glow), 0 0 40px var(--primary); }
-        .res-text-small { color: #ffffff; text-shadow: 0 0 15px rgba(255, 193, 7, 0.7), 0 0 40px var(--gold); }
+        /* STATS STRIP */
+        .summary-strip { background: rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 15px; display: flex; justify-content: space-around; width: 100%; font-family: var(--font-mono); font-size: 13px; font-weight: 900; letter-spacing: 1px;}
+        .s-win { color: var(--success); text-shadow: 0 0 15px rgba(0,255,102,0.4);} 
+        .s-loss { color: var(--danger); } 
+        .s-jackpot { color: var(--primary); text-shadow: 0 0 15px var(--gold-glow);}
 
-        /* ==========================================
-           6. BANNED & EXPIRED HARD SCREEN
-           ========================================== */
-        .hard-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999999; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; background: rgba(18, 18, 18, 0.98); backdrop-filter: blur(15px);}
-        .ban-icon { font-size: 60px; margin-bottom: 10px; animation: popIn 0.5s ease;}
-        .ban-title { color: var(--red); font-size: 38px; font-family: var(--font-main); font-weight: 900; line-height: 1; text-shadow: 0 0 20px var(--red-glow);}
-        
-        .ban-box { background: rgba(239, 68, 68, 0.05); border: 2px solid rgba(239, 68, 68, 0.3); padding: 20px; border-radius: 12px; margin-top: 15px; width: 100%; max-width: 350px; margin-bottom: 20px;}
-        
-        .dynamic-deposit { display: none; margin-top: 15px; padding-top: 15px; border-top: 1px dashed rgba(255,255,255,0.2); animation: fadeIn 0.5s ease;}
-        .dynamic-deposit .label { font-size: 13px; color: #94a3b8; margin-bottom: 5px; font-family: var(--font-mono); font-weight: bold;}
-        .dynamic-deposit .amount { font-size: 38px; font-weight: 900; color: var(--gold); font-family: var(--font-main); letter-spacing: 2px; text-shadow: 0 0 15px rgba(245,158,11,0.4);}
-        
-        .contact-btn { display: flex; align-items: center; justify-content: center; width: 100%; max-width: 350px; color: #000; text-decoration: none; padding: 14px; border-radius: 12px; font-weight: 900; font-family: var(--font-main); font-size: 18px; text-transform: uppercase; background: linear-gradient(135deg, #ffca28, #ff8f00); border: 1px solid #cc7a00; box-shadow: 0 10px 20px rgba(0,0,0,0.5); transition: 0.2s; cursor: pointer;}
-        .contact-btn:active { transform: scale(0.95); }
-        .btn-deposit { background: linear-gradient(135deg, #10b981, #059669); border: 2px solid #047857; margin-bottom: 12px; color: #fff;}
+        /* 🎁 GIFT MODAL */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 9999; display: none; justify-content: center; align-items: center; backdrop-filter: blur(10px); padding: 20px;}
+        .modal-box { background: var(--bg-card); border: 1px solid rgba(212, 175, 55, 0.3); border-radius: 20px; width: 100%; max-width: 400px; padding: 30px; animation: zoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 25px 50px rgba(0,0,0,0.8);}
+        .modal-title { font-family: var(--font-head); font-size: 24px; font-weight: 900; color: var(--primary); margin-bottom: 8px; display: flex; align-items: center; gap: 10px; letter-spacing: 1px;}
+        .gift-list-box { background: rgba(0,0,0,0.8); border: 1px solid rgba(255,255,255,0.05); border-radius: 12px; padding: 12px; margin: 20px 0; max-height: 250px; overflow-y: auto;}
+        .gift-item { background: rgba(212, 175, 55, 0.05); border-left: 4px solid var(--primary); border-radius: 8px; padding: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(212, 175, 55, 0.2);}
 
-        /* ==========================================
-           7. WIN / LOSS ANIMATION MODALS
-           ========================================== */
-        #miniAnimScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(18, 18, 18, 0.95); z-index: 9999999; display: none; flex-direction: column; justify-content: center; align-items: center; backdrop-filter: blur(10px); padding: 15px;}
-        .mini-title { font-family: var(--font-main); font-size: 50px; font-weight: 900; margin: 0; letter-spacing: 4px; text-transform: uppercase; text-shadow: 0 5px 15px rgba(0,0,0,0.8);}
-        .real-result-card { background: linear-gradient(145deg, #2a2a2a, #111); border-radius: 16px; padding: 20px; width: 100%; max-width: 350px; border: 3px solid #5c0505; opacity: 0; position: relative;}
-        .theme-win { animation: epic3DWin 0.6s forwards; border-color: #10b981; }
-        .theme-jackpot { animation: epic3DWin 0.6s forwards; border-color: var(--gold); }
-        .theme-loss { animation: lossShake 0.6s forwards; border-color: var(--red); }
-        @keyframes epic3DWin { 0% { transform: scale(0.5) rotateX(20deg); opacity: 0;} 70% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(1) rotateX(0); opacity: 1; box-shadow: 0 10px 40px rgba(255, 193, 7, 0.3); } }
-        @keyframes lossShake { 0% { transform: translateX(0) scale(0.8); opacity: 0;} 20% { transform: translateX(-15px); opacity: 1;} 40% { transform: translateX(15px); } 60% { transform: translateX(-10px); } 80% { transform: translateX(10px); } 100% { transform: translateX(0) scale(1); opacity: 1; box-shadow: 0 10px 40px rgba(239, 68, 68, 0.4);} }
-        
-        .res-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 2px dashed rgba(255,255,255,0.1); }
-        .res-row:last-child { border-bottom: none; }
-        .res-label { font-size: 13px; color: #a1a1a1; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;}
-        .res-val { font-size: 16px; font-weight: 900; font-family: var(--font-main); display: flex; align-items: center; gap: 8px;}
-        .mini-close { font-size: 13px; color: #cbd5e1; margin-top: 25px; cursor: pointer; border: 2px solid rgba(255,255,255,0.2); padding: 12px 30px; border-radius: 20px; background: rgba(0,0,0,0.8); font-weight: 900; font-family: var(--font-main); letter-spacing: 2px; text-transform: uppercase;}
+        @keyframes scanSpin { 100% { transform: rotate(360deg); } }
+        @keyframes zoomIn { 0% { transform: scale(0.9); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px);} to { opacity: 1; transform: translateY(0); } }
+        @keyframes pulseGold { 0% { box-shadow: inset 30px 0 30px -30px rgba(212, 175, 55, 0.5); } 50% { box-shadow: inset 30px 0 30px -30px rgba(212, 175, 55, 0.1); } 100% { box-shadow: inset 30px 0 30px -30px rgba(212, 175, 55, 0.5); } }
 
-        .color-ball { width: 32px; height: 32px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 900; color: #fff; font-size: 16px; box-shadow: inset -3px -3px 8px rgba(0,0,0,0.6), inset 2px 2px 5px rgba(255,255,255,0.5), 0 5px 10px rgba(0,0,0,0.8); border: 2px solid rgba(0,0,0,0.8); }
-        .bg-green { background: radial-gradient(circle at 30% 30%, #34d399, #10b981); }
-        .bg-red { background: radial-gradient(circle at 30% 30%, #f87171, #ef4444); }
-        .bg-red-violet { background: linear-gradient(135deg, #ef4444 50%, #8b5cf6 50%); }
-        .bg-green-violet { background: linear-gradient(135deg, #10b981 50%, #8b5cf6 50%); }
-        .size-badge { padding: 4px 12px; border-radius: 6px; font-size: 14px; font-weight: 900; box-shadow: 0 4px 10px rgba(0,0,0,0.6); border: 2px solid rgba(0,0,0,0.4); font-family: var(--font-ui);}
-        .size-big { background: linear-gradient(180deg, #f59e0b, #b45309); color: #fff; }
-        .size-small { background: linear-gradient(180deg, #e62828, #a11111); color: #fff; }
-
-        #jackpotScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.95); z-index: 99999999; display: none; flex-direction: column; justify-content: center; align-items: center; overflow: hidden;}
-        .jackpot-bg { position: absolute; width: 200vw; height: 200vw; background: conic-gradient(from 0deg, transparent, var(--gold), #ff8f00, transparent 30%); animation: radarSpin 1.5s linear infinite; z-index: -1; }
-        .jackpot-title { font-family: var(--font-main); font-size: 55px; font-weight: 900; color: #fff; text-shadow: 0 0 20px rgba(255, 193, 7, 0.8), 0 0 50px var(--gold); text-align: center; line-height: 1.1; animation: epic3DWin 0.5s forwards;}
-        @keyframes radarSpin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .spinner { display: inline-block; width: 16px; height: 16px; border: 3px solid rgba(255,255,255,0.3); border-top-color: #fff; border-radius: 50%; animation: spin 1s linear infinite; margin-right: 5px; }
-        .spinner-cyan { border: 3px solid rgba(230, 40, 40, 0.3); border-top-color: var(--primary); display: inline-block; width: 18px; height: 18px; border-radius: 50%; animation: spin 1s linear infinite; }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        #toast { position: fixed; top: 30px; left: 50%; transform: translateX(-50%) translateY(-100px); background: #222; color: #fff; padding: 12px 24px; border-radius: 8px; font-weight: 900; font-size: 13px; border: 2px solid var(--primary-dark); z-index: 999999; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); font-family: var(--font-ui); box-shadow: 0 10px 25px rgba(0,0,0,0.9); white-space: nowrap; letter-spacing: 1px;}
-        #toast.show { transform: translateX(-50%) translateY(0); }
+        /* TOAST */
+        #toast { position: fixed; top: 90px; left: 50%; transform: translateX(-50%) translateY(-150px); background: rgba(10, 10, 10, 0.95); color: #fff; padding: 15px 30px; border-radius: 8px; font-weight: 900; font-size: 13px; border: 1px solid var(--primary); z-index: 999999; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); font-family: var(--font-mono); box-shadow: 0 15px 40px rgba(0,0,0,0.9); white-space: nowrap; letter-spacing: 1.5px; text-transform: uppercase;}
+        #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        .hard-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 9999999; display: none; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; background: rgba(0, 0, 0, 0.98); backdrop-filter: blur(20px);}
+        .ban-title { color: var(--danger); font-size: 42px; font-family: var(--font-head); font-weight: 900; line-height: 1; text-shadow: 0 0 30px rgba(255,42,85,0.5); letter-spacing: 2px;}
     </style>
 </head>
 <body>
 
-    <!-- 🛑 EXPIRED / BANNED / TRIALS EXHAUSTED SCREEN -->
+    <!-- 🎁 LIVE VIP GIFT CENTER -->
+    <div class="modal-overlay" id="giftModal">
+        <div class="modal-box">
+            <div class="modal-title">🎁 SECURE DROP</div>
+            <div style="font-size: 12px; color: var(--text-muted); line-height: 1.5; font-family: var(--font-ui);">Active bonuses mapped by the Server. Copy the Hash Code to claim inside the BIG DADDY Application.</div>
+            <div class="gift-list-box" id="liveGiftsList">
+                <div style="text-align:center; color:var(--text-muted); font-size:12px; padding: 15px; font-family: var(--font-mono);">SYNCING SECURE DROPS...</div>
+            </div>
+            <button class="btn-premium" style="background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); color: #fff;" onclick="document.getElementById('giftModal').style.display='none'">CLOSE INTERFACE</button>
+        </div>
+    </div>
+
+    <!-- 🔥 MEGA FULL-SCREEN VERIFICATION OVERLAY 🔥 -->
+    <div id="verify-overlay">
+        <div class="huge-scanner">
+            <img src="center.png" alt="Scanner" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><circle cx=\'50\' cy=\'50\' r=\'40\' fill=\'none\' stroke=\'%23d4af37\' stroke-width=\'4\'/><text x=\'50\' y=\'65\' font-size=\'40\' text-anchor=\'middle\' fill=\'%23d4af37\' font-family=\'sans-serif\' font-weight=\'bold\'>AI</text></svg>'">
+        </div>
+        <div class="loading-text" id="v-text">INJECTING NODE...</div>
+        <div class="loading-pct" id="v-pct">0%</div>
+    </div>
+
     <div id="bannedScreen" class="hard-screen">
-        <div class="ban-icon">🛑</div>
-        <h1 class="ban-title">ACCESS REVOKED</h1>
-        
-        <div class="ban-box">
-            <span style="color:var(--red); font-weight:900; font-size: 14px; font-family: var(--font-ui); letter-spacing: 1px;">SYSTEM ALERT</span><br>
-            <span id="banReasonText" style="color:#fff; font-size: 16px; font-weight:600; display:block; margin-top:10px;">Your 5 Free Trials are exhausted.</span>
-            
-            <div id="dynamicDepositBox" class="dynamic-deposit">
-                <div class="label">VIP ACTIVATION FEE</div>
-                <div id="depositAmountDisplay" class="amount">₹---</div>
-            </div>
-        </div>
-
-        <button id="depositDoneBtn" class="contact-btn btn-deposit" onclick="Auth.submitDeposit()">✅ DEPOSIT DONE</button>
-        <a href="https://t.me/Nse_Dev" class="contact-btn">✈️ MESSAGE ADMIN</a>
+        <div style="font-size: 60px; margin-bottom: 10px;">🛑</div>
+        <h1 class="ban-title">ACCESS DENIED</h1>
+        <p style="color:#94a3b8; font-size: 14px; margin-top:10px; font-family:var(--font-mono);">Your connection was refused by the server.</p>
     </div>
 
-    <!-- 🌟 WIN/LOSS POPUP ANIMATION SCREEN 🌟 -->
-    <div id="miniAnimScreen">
-        <h1 id="miniTitle" class="mini-title">🏆 WIN 🏆</h1>
-        <div id="realCard" class="real-result-card">
-            <div class="res-row"><span class="res-label">PERIOD NO.</span><span class="res-val" id="resPeriod" style="color: #cbd5e1; font-family: var(--font-mono);">----</span></div>
-            <div class="res-row" style="background: rgba(230,40,40,0.1); padding: 12px; border-radius: 8px; margin-top: 5px;"><span class="res-label" style="color:var(--primary);">AI PREDICTION</span><span class="res-val" id="resPred">--</span></div>
-            <div class="res-row" style="background: rgba(0,0,0,0.8); padding: 12px; border-radius: 8px; margin-top: 5px; border: 1px solid rgba(255,255,255,0.05);"><span class="res-label">ACTUAL OUTCOME</span><span class="res-val" id="resActual"><span id="resBalls"></span><span id="resSize"></span></span></div>
-        </div>
-        <div class="mini-close" onclick="document.getElementById('miniAnimScreen').style.display='none'">TAP TO DISMISS</div>
-    </div>
-
-    <div id="jackpotScreen">
-        <div class="jackpot-bg"></div>
-        <h1 class="jackpot-title">💎 MEGA JACKPOT 💎<br><span style="font-size:24px; color:var(--gold); text-shadow: 0 0 15px rgba(255,193,7,0.6); letter-spacing:4px; font-family:var(--font-ui);">VIOLET SECURED</span></h1>
-    </div>
-
-    <!-- 🎛️ TOP PANEL (AUTO-FIT HACK TOOL) -->
-    <div id="top-panel">
-        <div class="top-header">
-            <div class="brand">DEV ARMY <span class="badge">PRO</span></div>
-            <div class="tabs" id="timeframeTabs">
-                <button class="tab-btn" id="btn-30s" onclick="Engine.switchMode('30s')">30 SEC</button>
-                <button class="tab-btn active" id="btn-1m" onclick="Engine.switchMode('1m')">1 MIN</button>
+    <!-- 📱 TOP HEADER -->
+    <header class="top-header">
+        <div class="header-left">
+            <img src="logo.png" alt="Logo" class="header-logo" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><rect width=\'100\' height=\'100\' fill=\'%23000\'/><text x=\'50\' y=\'65\' font-size=\'45\' text-anchor=\'middle\' fill=\'%23d4af37\' font-family=\'sans-serif\' font-weight=\'bold\'>B</text></svg>'">
+            <div class="brand">
+                <div class="glitch-text" data-text="BIG DADDY">BIG DADDY</div>
+                <span>VIP ENGINE</span>
             </div>
         </div>
-
-        <!-- 1. AUTHENTICATION VIEW -->
-        <div id="authScreen" class="auth-container">
-            <div class="auth-row" id="auth-input-area">
-                <!-- 🔥 Removed the numeric restriction here so user can type any characters if needed, changed placeholder 🔥 -->
-                <input type="text" id="uidInput" placeholder="ENTER UID" oninput="this.value = this.value.replace(/[^0-9a-zA-Z]/g, '');">
-                <button id="authBtn" class="btn-sleek" style="width: 105px; height: 50px;" onclick="Auth.verify()">CONNECT</button>
-            </div>
-            
-            <div id="auth-pending" class="pending-box hidden">
-                <div class="pending-header">
-                    <span class="pending-title"><div class="spinner-cyan"></div> VERIFYING</span>
-                    <span style="font-size: 10px; color: #a1a1a1; font-family:var(--font-mono); font-weight:bold;">Awaiting Admin</span>
-                </div>
-                <div class="deposit-alert-strip">
-                    <span class="alert-text">⚠️ ₹200 DEPOSIT REQUIRED FOR ACTIVATION</span>
-                </div>
-                <div class="pending-actions">
-                    <a href="https://t.me/Nse_Dev" class="btn-sleek btn-dark" style="flex:1; text-decoration:none; font-size:12px; height:38px;">✈️ MSG ADMIN</a>
-                    <button class="btn-sleek btn-dark" style="flex:1; font-size:12px; height:38px;" onclick="location.reload()">🔄 REFRESH</button>
-                </div>
+        <div class="header-right">
+            <div class="gift-btn" onclick="document.getElementById('giftModal').style.display='flex'">🎁</div>
+            <div class="user-badge" id="headerUserStatus">
+                <span style="color:var(--text-muted); font-size:9px; letter-spacing:1px; margin-bottom:2px;">UPLINK</span>
+                <div style="display:flex; align-items:center;"><div class="status-dot" style="background:var(--danger); box-shadow: 0 0 10px var(--danger);"></div> <span id="u-role" style="color:var(--danger);">UNAUTH</span></div>
             </div>
         </div>
-        
-        <!-- 2. MAIN TOOL CONTAINER -->
-        <div id="toolScreen" class="tool-container hidden">
-            <div class="tool-info-row">
-                <div class="info-col" style="text-align: left;">ID: <span id="displayPeriod">SYNC...</span></div>
-                <div class="info-col" style="text-align: center;"><span id="trialsDisplay" style="font-size:11px; color:var(--gold); display:none; font-weight:900;">PLAYS: 0/5</span></div>
-                <div class="info-col" style="text-align: right;">TIMER: <span id="displayTimer">00:00</span></div>
-            </div>
-            
-            <div class="action-row">
-                <div class="input-group" id="input-group">
-                    <input type="number" id="in-n1" placeholder="N1" oninput="Util.limit(this)">
-                    <input type="number" id="in-n2" placeholder="N2" oninput="Util.limit(this)">
+    </header>
+
+    <!-- 📱 MAIN CONTAINER -->
+    <div id="main-container">
+        <div id="view-hack" class="view-section active">
+            <div class="tool-wrapper">
+                
+                <!-- UNVERIFIED STATE -->
+                <div id="unverified-state" style="width: 100%;">
+                    <div class="cyber-panel">
+                        <div class="panel-header">● SYSTEM LOGIN</div>
+                        <div class="auth-container">
+                            <div class="cyber-input-wrap">
+                                <!-- 🔥 ADDED MAXLENGTH=8 MINLENGTH=8 TO INPUT 🔥 -->
+                                <input type="text" inputmode="numeric" id="uidInput" placeholder="ENTER 8-DIGIT UID" maxlength="8" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 8);">
+                            </div>
+                            <button id="authBtn" class="btn-premium" onclick="Auth.verify()">INITIALIZE BYPASS</button>
+                        </div>
+                    </div>
+
+                    <div class="cyber-panel">
+                        <div class="panel-header" style="justify-content:center;">LIVE SERVER INTERCEPTS</div>
+                        <div class="lure-list" id="demoHistoryList">
+                            <div style="text-align:center; padding: 30px; font-family: var(--font-mono); font-size: 13px; color: var(--primary);">
+                                DECRYPTING BIG DADDY SERVER...
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 
-                <div id="out-size" class="result-display">--</div>
+                <!-- VERIFIED STATE -->
+                <div id="verified-state" class="hidden" style="width: 100%;">
+                    <div class="hud-top">
+                        <div class="hud-col">
+                            <span class="hud-lbl">SERVER PERIOD</span>
+                            <span class="hud-val" id="displayPeriod">SYNC...</span>
+                        </div>
+                        <div class="hud-col" style="align-items: flex-end;">
+                            <span class="hud-lbl">SYNC TIMER</span>
+                            <span class="hud-val" id="displayTimer" style="color:var(--primary);">00:00</span>
+                        </div>
+                    </div>
+                    
+                    <div class="input-row" id="input-group">
+                        <div class="cyber-input-wrap"><input type="number" id="in-n1" placeholder="N1" oninput="Util.limit(this)"></div>
+                        <div class="cyber-input-wrap"><input type="number" id="in-n2" placeholder="N2" oninput="Util.limit(this)"></div>
+                    </div>
 
-                <button class="btn-sleek" id="btnAnalyze" style="width: 100px; padding: 0;" onclick="Engine.analyze()">EXECUTE</button>
+                    <!-- RESULT HUD -->
+                    <div id="out-size" class="result-display"></div>
+                    
+                    <button class="btn-premium" id="btnAnalyze" onclick="Engine.analyze()" style="margin-bottom: 25px;">INJECT PAYLOAD</button>
+
+                    <!-- GRID LEDGER -->
+                    <div class="cyber-panel" style="padding: 20px 15px;">
+                        <div class="panel-header" style="margin-left: 5px;">SESSION LEDGER</div>
+                        <div class="ph-box" id="predictionHistoryBox">
+                            <div class="ph-header">
+                                <div>PERIOD</div><div>PREDICT</div><div>ACTUAL</div><div style="text-align:right;">STATUS</div>
+                            </div>
+                            <div class="ph-list" id="ph-list-container">
+                                <div style="text-align:center; color:#475569; font-size:12px; padding:20px; font-family:var(--font-mono);">AWAITING PAYLOAD INJECTION...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="summary-strip">
+                        <div class="s-win">WINS: <span id="sum-win">0</span></div>
+                        <div class="s-loss">LOSS: <span id="sum-loss">0</span></div>
+                        <div class="s-jackpot" style="color:var(--primary);">JACKPOT: <span id="sum-jp">0</span></div>
+                    </div>
+                </div>
             </div>
+        </div>
+        <div id="view-game" class="view-section">
+            <iframe id="main-frame" src="about:blank" sandbox="allow-scripts allow-same-origin allow-forms allow-popups" referrerpolicy="no-referrer"></iframe>
         </div>
     </div>
 
-    <!-- 🎮 BOTTOM PANEL (GAME SECTION) -->
-    <div id="bottom-panel">
-        <iframe id="main-frame" src="https://6clubm.com/#/" sandbox="allow-scripts allow-same-origin allow-forms allow-popups" referrerpolicy="no-referrer"></iframe>
-    </div>
+    <!-- 📱 BOTTOM NAVIGATION -->
+    <nav class="bottom-nav">
+        <div class="b-nav-item active" id="nav-hack" onclick="switchMainTab('hack')">
+            <span class="icon">💻</span>
+            <span>TERMINAL</span>
+        </div>
+        <div class="b-nav-item" id="nav-game" onclick="switchMainTab('game')">
+            <span class="icon">🎰</span>
+            <span>SERVER</span>
+        </div>
+    </nav>
 
     <div id="toast">Message</div>
 
@@ -295,7 +306,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
         import { getDatabase, ref, get, set, update, increment, onValue } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-        // 🔥 FIREBASE CONFIGURATIONS UPDATED EXACTLY AS REQUESTED 🔥
         const firebaseConfig = {
             apiKey: "AIzaSyBEFijISin_7JLM7yyb0rs-Nk-O-vDAr3k",
             authDomain: "teamdev-f50e6.firebaseapp.com",
@@ -306,265 +316,303 @@
             appId: "1:215636530446:web:1f9ad68d45eb5c5200735f",
             measurementId: "G-RZTWSGEP3Y"
         };
-        const app = initializeApp(firebaseConfig); 
-        const db = getDatabase(app);
-        const DB_PATHS = { '30s': 'patterns_30s', '1m': 'patterns' };
+        const app = initializeApp(firebaseConfig); const db = getDatabase(app);
+        const DB_PATHS = { '1m': 'patterns' };
 
-        window.AdminSettings = { freeTrials: 5 };
+        window.AdminSettings = { prefixes: ["68", "67"], baselineUid: 0, freeTrials: 5 };
+        let currentUid = ""; let currentPeriod = ""; window.pendingPredictions = [];
+        let stats = { win: 0, loss: 0, jackpot: 0 };
 
-        let currentUid = ""; let currentPrediction = ""; let currentPeriod = ""; let isWaitingAPI = false;
+        window.switchMainTab = function(tab) {
+            document.querySelectorAll('.view-section, .b-nav-item').forEach(el => el.classList.remove('active'));
+            document.getElementById('view-' + tab).classList.add('active'); 
+            document.getElementById('nav-' + tab).classList.add('active');
+        };
 
         window.Util = class {
             static limit(el) { if(el.value.length > 1) el.value = el.value.slice(0,1); if(parseInt(el.value) < 0 || parseInt(el.value) > 9) el.value = ""; }
-            static toast(msg) { 
-                const t = document.getElementById("toast"); 
-                t.innerText = msg; 
-                if(msg.includes("REJECTED") || msg.includes("REQUIRED") || msg.includes("ERROR")) {
-                    t.style.borderColor = "var(--red)"; t.style.color = "var(--red)";
-                    t.style.boxShadow = "0 10px 30px rgba(0,0,0,0.9), 0 0 20px rgba(239, 68, 68, 0.4)";
-                } else {
-                    t.style.borderColor = "var(--primary-dark)"; t.style.color = "#fff";
-                    t.style.boxShadow = "0 10px 30px rgba(0,0,0,0.9), 0 0 20px rgba(230, 40, 40, 0.3)";
-                }
+            static toast(msg, isErr=false) { 
+                const t = document.getElementById("toast"); t.innerText = msg; 
+                t.style.borderLeft = isErr ? "4px solid var(--danger)" : "4px solid var(--primary)";
                 t.classList.add("show"); setTimeout(() => t.classList.remove("show"), 3500); 
+            }
+        };
+
+        window.APICore = class {
+            static async fetchSikkimData() {
+                const targetUrl = "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json";
+                try {
+                    let res = await fetch(targetUrl, { method: 'GET', headers: { 'Accept': 'application/json' } });
+                    return await res.json();
+                } catch (e) {
+                    try {
+                        let proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(targetUrl)}`;
+                        let proxyRes = await fetch(proxyUrl);
+                        let proxyData = await proxyRes.json();
+                        return JSON.parse(proxyData.contents);
+                    } catch (err) { return null; }
+                }
+            }
+        };
+
+        window.GiftCore = class {
+            static initLiveGifts() {
+                onValue(ref(db, 'active_gifts'), snap => {
+                    let list = document.getElementById('liveGiftsList');
+                    if(!snap.exists()) { list.innerHTML = '<div style="text-align:center; color:var(--text-muted); font-size:12px; padding: 15px; font-family:var(--font-mono);">No active drops detected in server.</div>'; return; }
+                    let html = "";
+                    snap.forEach(child => {
+                        let g = child.val(); let code = child.key;
+                        if(g.status === 'active' && g.current_claims < g.max_claims) {
+                            html += `
+                            <div class="gift-item" style="background: rgba(212, 175, 55, 0.05); border-left: 4px solid var(--primary); border-radius: 8px; padding: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid rgba(212, 175, 55, 0.2);">
+                                <div>
+                                    <div style="color:var(--primary); font-weight:900; font-size:16px; font-family:var(--font-head); letter-spacing:1px;">₹${g.reward_amount} SECURE FUND</div>
+                                    <div style="font-size:10px; color:var(--text-muted); margin-top:4px; font-family:var(--font-mono);">Dep Req: ₹${g.min_deposit || 0}</div>
+                                </div>
+                                <div style="text-align:right;">
+                                    <div style="font-family:var(--font-mono); color:#fff; font-size:13px; background:rgba(0,0,0,0.6); padding:4px 8px; border-radius:6px; letter-spacing:2px; border: 1px dashed rgba(255,255,255,0.2);">${code}</div>
+                                    <div style="font-size:9px; color:var(--text-muted); margin-top:6px; font-family:var(--font-mono);">${g.max_claims - g.current_claims} REMAINING</div>
+                                </div>
+                            </div>`;
+                        }
+                    });
+                    list.innerHTML = html || '<div style="text-align:center; color:var(--text-muted); font-size:12px; padding: 15px;">Drops exhausted for current cycle.</div>';
+                });
             }
         };
 
         function getDeviceID() { let d = localStorage.getItem('dev_did'); if(!d) { d = 'DEV-' + Math.random().toString(36).substr(2, 9); localStorage.setItem('dev_did', d); } return d; }
 
-        window.getRealBallHtml = (n) => { if(n == 0) return `<div class="color-ball bg-red-violet">0</div>`; if(n == 5) return `<div class="color-ball bg-green-violet">5</div>`; if(n % 2 == 0) return `<div class="color-ball bg-red">${n}</div>`; return `<div class="color-ball bg-green">${n}</div>`; };
-        window.getSizeBadge = (size) => size.includes("BIG") ? `<span class="size-badge size-big">BIG</span>` : `<span class="size-badge size-small">SMALL</span>`;
-
         window.Auth = class {
             static async verify() {
-                let uid = document.getElementById('uidInput').value.trim(); 
-                let btn = document.getElementById('authBtn'); 
+                let uid = document.getElementById('uidInput').value.trim();
                 
-                if(!uid) return Util.toast("ENTER UID FIRST");
+                // 🔥 STRICT 8-DIGIT VALIDATION ADDED HERE 🔥
+                if(!uid) return Util.toast("TARGET UID REQUIRED", true); 
+                if(uid.length !== 8) return Util.toast("𝐄𝐧𝐭𝐞𝐫 𝐁𝐝𝐠 𝐔𝐈𝐃", true);
                 
-                // 🔥 REMOVED THE 7 DIGIT & PREFIX RESTRICTIONS HERE 🔥
+                const overlay = document.getElementById('verify-overlay');
+                overlay.style.display = 'flex';
+                let textEl = document.getElementById('v-text');
+                let pctEl = document.getElementById('v-pct');
+                
+                let pct = 0;
+                let loaderIntv = setInterval(() => {
+                    pct += Math.floor(Math.random() * 25);
+                    if(pct >= 100) { pct = 100; clearInterval(loaderIntv); }
+                    pctEl.innerText = pct + "%";
+                    
+                    if(pct > 30 && pct < 70) textEl.innerText = "BYPASSING FIREWALL...";
+                    if(pct >= 70) textEl.innerText = "DECRYPTING NODE...";
+                }, 300);
 
-                btn.innerHTML = '<span class="spinner"></span>'; btn.disabled = true;
-                
                 try {
                     let snapshot = await get(ref(db, 'approved_uids/' + uid));
-                    if(snapshot.exists()) {
-                        let data = snapshot.val();
-                        currentUid = uid;
-                        
-                        if(data.is_banned) { btn.innerText = "CONNECT"; btn.disabled = false; return Util.toast("THIS UID IS BANNED."); }
-                        
-                        if(data.expireAt && data.expireAt < Date.now()) {
-                            btn.innerText = "CONNECT"; btn.disabled = false; 
-                            this.showDepositScreen(uid, "Your VIP Subscription has expired. Please renew."); return; 
+                    setTimeout(async () => {
+                        if(snapshot.exists()) {
+                            let data = snapshot.val(); currentUid = uid;
+                            if(data.is_banned || (data.expireAt && data.expireAt < Date.now())) {
+                                overlay.style.display = 'none'; return Util.toast("UPLINK DENIED.", true);
+                            }
+                            this.grant(data.role || (data.is_premium ? 'vip' : 'trial'));
+                        } else {
+                            let isValidPrefix = window.AdminSettings.prefixes.some(prefix => uid.startsWith(prefix));
+                            if(!isValidPrefix) { overlay.style.display = 'none'; return Util.toast("INVALID ACCOUNT PREFIX.", true); }
+                            await set(ref(db, 'uid_requests/' + uid), { uid: uid, deviceId: 'WEB', status: "pending", timestamp: Date.now() });
+                            currentUid = uid; this.grant('trial');
                         }
-
-                        if(!data.is_premium && (data.predictions_used || 0) >= window.AdminSettings.freeTrials) {
-                            btn.innerText = "CONNECT"; btn.disabled = false; 
-                            this.showDepositScreen(uid, `Your ${window.AdminSettings.freeTrials} Free Trials are exhausted.`); return;
-                        }
-
-                        let devID = getDeviceID(); 
-                        let bindSnap = await get(ref(db, 'device_bindings/' + uid));
-                        if(!bindSnap.exists()) await set(ref(db, 'device_bindings/' + uid), devID); 
-                        else if (bindSnap.val() !== devID) { btn.innerText = "CONNECT"; btn.disabled = false; return Util.toast("UID BOUND TO ANOTHER DEVICE."); }
-
-                        this.grant(data.access_type || 'both', data); return;
-                    }
-                    
-                    // 🔥 REMOVED THE INVALID PREFIX CHECKS AND BASELINE REJECTIONS HERE 🔥
-
-                    await set(ref(db, 'uid_requests/' + uid), { uid: uid, deviceId: getDeviceID(), status: "pending", timestamp: Date.now() });
-                    document.getElementById('auth-input-area').classList.add('hidden');
-                    document.getElementById('auth-pending').classList.remove('hidden');
-                    
-                } catch (error) { btn.innerText = "CONNECT"; btn.disabled = false; Util.toast("NETWORK ERROR"); }
+                    }, 2500); 
+                } catch (error) { overlay.style.display = 'none'; Util.toast("PROXY ERROR", true); }
             }
 
-            static showDepositScreen(uid, msg) {
-                document.getElementById('banReasonText').innerText = msg;
-                document.getElementById('banReasonText').style.color = "var(--red)";
-                const amounts = [200, 300, 500, 1000]; let hash = 0;
-                for (let i = 0; i < uid.length; i++) { hash = uid.charCodeAt(i) + ((hash << 5) - hash); }
-                window.currentDepositAmount = amounts[Math.abs(hash) % amounts.length];
+            static grant(role) { 
+                document.getElementById('verify-overlay').style.display = 'none';
+                document.getElementById('unverified-state').classList.add('hidden'); 
+                document.getElementById('verified-state').classList.remove('hidden');
                 
-                document.getElementById('depositAmountDisplay').innerText = "₹" + window.currentDepositAmount;
-                document.getElementById('dynamicDepositBox').style.display = "block";
-                document.getElementById('bannedScreen').style.display = 'flex';
-            }
-
-            static async submitDeposit() {
-                if(!currentUid) return Util.toast("UID ERROR");
-                const btn = document.getElementById('depositDoneBtn');
-                btn.innerText = "SUBMITTING..."; btn.disabled = true;
-                try {
-                    await set(ref(db, 'deposit_requests/' + currentUid), { uid: currentUid, amount: window.currentDepositAmount || 0, status: "pending", timestamp: Date.now() });
-                    Util.toast("DEPOSIT REQUEST SENT TO ADMIN"); btn.innerText = "✅ REQUEST PENDING"; btn.style.background = "#222"; btn.style.borderColor = "#444";
-                } catch(e) { Util.toast("NETWORK ERROR"); btn.innerText = "✅ DEPOSIT DONE"; btn.disabled = false; }
-            }
-
-            static grant(accessType, userData) { 
-                document.getElementById('authScreen').classList.add('hidden');
-                document.getElementById('toolScreen').classList.remove('hidden');
-                
-                const tabsContainer = document.getElementById('timeframeTabs');
-                if (accessType === '1m') { tabsContainer.classList.add('hidden'); Engine.switchMode('1m'); } 
-                else if (accessType === '30s') { tabsContainer.classList.add('hidden'); Engine.switchMode('30s'); } 
-                else { tabsContainer.classList.remove('hidden'); Engine.switchMode('1m'); }
-
-                const trialDisp = document.getElementById('trialsDisplay');
-                if(!userData.is_premium) {
-                    trialDisp.style.display = 'inline-block';
-                    trialDisp.innerText = `PLAYS: ${userData.predictions_used || 0}/${window.AdminSettings.freeTrials}`;
-                } else {
-                    trialDisp.style.display = 'inline-block';
-                    trialDisp.innerText = `👑 VIP ACTIVE`; trialDisp.style.color = "var(--primary)";
+                let rName = "TRIAL"; let rCol = "#64748b"; 
+                if (role && role !== 'trial') {
+                    if(role === 'vvip1') { rName = 'VVIP 1'; rCol = 'var(--gold)'; }
+                    else if(role === 'vvip2') { rName = 'VVIP 2'; rCol = 'var(--success)'; }
+                    else if(role === 'vvip3' || role === 'vvip') { rName = 'VVIP 3'; rCol = 'var(--primary)'; }
+                    else { rName = 'VIP'; rCol = 'var(--primary-dark)'; }
                 }
 
-                Engine.startTimer();
-                Util.toast("SYSTEM ONLINE"); 
+                document.getElementById('u-role').innerText = rName;
+                document.getElementById('u-role').style.color = rCol;
+                document.querySelector('.status-dot').style.background = rCol;
+                document.querySelector('.status-dot').style.boxShadow = `0 0 10px ${rCol}`;
+
+                Engine.startTimer(); Util.toast("SYSTEM CONNECTED"); 
             }
         };
 
         window.Engine = class {
-            static activeMode = '1m';
-            static state = "IDLE";
-            
-            static switchMode(m) {
-                this.activeMode = m;
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                document.getElementById('btn-'+m).classList.add('active');
-                this.updateTimerUI();
+            static startTimer() { 
+                this.syncAPI(); 
+                setInterval(() => this.updateTimerUI(), 1000); 
+                setInterval(() => this.syncAPI(), 4000);
             }
 
-            static startTimer() { setInterval(() => this.updateTimerUI(), 1000); }
+            static async syncAPI() {
+                let json = await APICore.fetchSikkimData();
+                if(json && json.data && json.data.list) {
+                    let list = json.data.list;
+                    this.updateHistoryLure(list.slice(0, 10)); 
+                    
+                    let lastIssue = String(list[0].IssueNumber || list[0].issueNumber);
+                    currentPeriod = (BigInt(lastIssue) + 1n).toString();
+                    document.getElementById('displayPeriod').innerText = currentPeriod.slice(-6);
+                    
+                    this.verifyPendingResults(list);
+                }
+            }
+
+            static updateHistoryLure(trades) {
+                const histDiv = document.getElementById('demoHistoryList');
+                let html = "";
+                trades.forEach(t => {
+                    let num = parseInt(t.Number || t.number);
+                    let isBig = num >= 5; let resText = isBig ? 'BIG' : 'SMALL';
+                    let period = String(t.IssueNumber || t.issueNumber).slice(-6);
+                    
+                    let type = Math.random() > 0.2 ? 'win' : 'loss';
+                    if (type === 'win' && (num === 0 || num === 5 || Math.random() > 0.7)) type = 'jackpot';
+
+                    let badge = type === 'jackpot' ? '<span style="color:var(--primary);">🔥 JACKPOT</span>' : (type === 'win' ? '<span style="color:var(--success);">✅ WIN</span>' : '<span style="color:var(--danger);">❌ LOSS</span>');
+                    html += `<div class="lure-item ${type}"><div class="d-col">ID<span>${period}</span></div><div class="d-res">${resText} <img src="${num}.png" onerror="this.style.display='none'"></div><div style="font-size:14px;">${badge}</div></div>`;
+                });
+                if(!document.getElementById('unverified-state').classList.contains('hidden')) { histDiv.innerHTML = html; }
+            }
 
             static updateTimerUI() {
-                let now = new Date(); let totalMins = (now.getUTCHours() * 60) + now.getUTCMinutes();
-                let year = now.getUTCFullYear(); let month = String(now.getUTCMonth() + 1).padStart(2, '0'); let day = String(now.getUTCDate()).padStart(2, '0');
-                
-                let remSec = 0;
-                if(this.activeMode === '1m') {
-                    currentPeriod = `${year}${month}${day}1000${10001 + totalMins + 1}`;
-                    remSec = 60 - now.getUTCSeconds(); if(remSec === 60) remSec = 0;
-                } else {
-                    let halfMinBlock = now.getUTCSeconds() >= 30 ? 2 : 1;
-                    currentPeriod = `30001${String((totalMins * 2) + halfMinBlock + 1).padStart(4, '0')}`;
-                    remSec = now.getUTCSeconds() >= 30 ? 60 - now.getUTCSeconds() : 30 - now.getUTCSeconds();
-                }
-                
-                // 🔥 SLICING TO LAST 6 DIGITS ONLY 🔥
-                document.getElementById('displayPeriod').innerText = currentPeriod.slice(-6); 
-                let tDisplay = document.getElementById('displayTimer');
-                tDisplay.innerText = `00:${String(remSec).padStart(2,'0')}`;
-                tDisplay.style.color = remSec <= 5 ? "var(--red)" : "var(--gold)";
-
-                if(remSec === 3) isWaitingAPI = false;
-                if(remSec <= 2 && currentPrediction !== "" && !isWaitingAPI) {
-                    isWaitingAPI = true;
-                    this.triggerWinLossAnimation(currentPeriod, currentPrediction);
-                }
+                let tz = new Date(new Date().toLocaleString("en-US", {timeZone: "Asia/Kolkata"}));
+                let sec = tz.getSeconds();
+                let remSec = 60 - sec; if(remSec === 60) remSec = 0;
+                let tDisplay = document.getElementById('displayTimer'); 
+                tDisplay.innerText = `00:${String(remSec).padStart(2,'0')}`; 
+                tDisplay.style.color = remSec <= 5 ? "var(--danger)" : "var(--primary)";
             }
 
             static async analyze() {
                 let n1 = document.getElementById('in-n1'); let n2 = document.getElementById('in-n2');
                 let btn = document.getElementById('btnAnalyze'); let resultBox = document.getElementById('out-size'); let inputGroup = document.getElementById('input-group');
 
-                if(this.state === "IDLE") {
-                    if(!n1.value || !n2.value) return Util.toast("INPUT N1 AND N2 REQUIRED");
-                    
-                    let userSnap = await get(ref(db, 'approved_uids/' + currentUid));
-                    let uData = userSnap.val();
-                    if(!uData.is_premium && (uData.predictions_used || 0) >= window.AdminSettings.freeTrials) {
-                        Auth.showDepositScreen(currentUid, `Your ${window.AdminSettings.freeTrials} Free Trials are exhausted.`); return;
+                if(!n1.value || !n2.value) return Util.toast("INPUTS REQUIRED", true);
+                if(btn.innerText === "RESET TERMINAL") { this.resetUI(); return; }
+
+                btn.disabled = true; n1.readOnly = true; n2.readOnly = true;
+                inputGroup.style.display = 'none'; resultBox.classList.add('show');
+                
+                let flickerInt = setInterval(() => {
+                    let rTxt = Math.random() > 0.5 ? "BIG" : "SMALL";
+                    resultBox.innerHTML = `
+                        <div style="font-family:var(--font-mono); font-size:12px; color:var(--primary); text-align:center; margin-bottom:10px; opacity:0.7;">INJECTING ALGORITHM...</div>
+                        <div style="display:flex; align-items:center; justify-content:center; width:100%;">
+                            <span class="res-text" style="color:var(--text-muted); text-shadow:none;">${rTxt}</span>
+                        </div>
+                    `;
+                }, 80);
+
+                try {
+                    let snap = await get(ref(db, `${DB_PATHS['1m']}/${n1.value}-${n2.value}`));
+                    setTimeout(async () => {
+                        clearInterval(flickerInt);
+                        if(snap.exists() && !snap.val().includes("UNSET")) {
+                            let rawPrediction = snap.val(); 
+                            let isBig = rawPrediction.toUpperCase().includes("BIG");
+                            let predText = isBig ? 'BIG' : 'SMALL';
+                            let extractedNum = rawPrediction.match(/\[(\d+)\]/); 
+                            let baseNum = extractedNum ? parseInt(extractedNum[1]) : (isBig ? 7 : 2);
+                            
+                            resultBox.innerHTML = `
+                                <div style="font-size:12px; color:var(--success); font-family:var(--font-mono); margin-bottom:15px; font-weight:900; letter-spacing:3px; text-shadow:0 0 10px var(--success);">PAYLOAD DECRYPTED</div>
+                                <div style="display:flex; align-items:center; justify-content:center; width:100%;">
+                                    <span class="res-text ${isBig ? 'big' : 'small'}">${predText}</span>
+                                    <img src="${baseNum}.png" style="height: 80px; filter: drop-shadow(0 0 25px ${isBig ? 'var(--primary)' : 'var(--danger)'}); object-fit:contain;" onerror="this.style.display='none'">
+                                </div>
+                            `;
+                            btn.disabled = false; btn.innerText = "RESET TERMINAL"; 
+                            btn.className = "btn-premium btn-reset"; 
+                            
+                            let targetPeriod = currentPeriod;
+                            window.pendingPredictions.push({ period: targetPeriod, shortPeriod: targetPeriod.slice(-6), predicted: predText, resolved: false });
+                            this.renderPredictionHistory();
+                        } else { Util.toast("ALGORITHM FAILED", true); this.resetUI(); }
+                    }, 1500); 
+                } catch(e) { clearInterval(flickerInt); Util.toast("CONNECTION DROPPED", true); this.resetUI(); }
+            }
+
+            static renderPredictionHistory() {
+                const list = document.getElementById('ph-list-container'); list.innerHTML = "";
+                if(window.pendingPredictions.length === 0) { list.innerHTML = '<div style="text-align:center; color:#475569; font-size:12px; padding:20px; font-family:var(--font-mono);">AWAITING PAYLOAD INJECTION...</div>'; return; }
+
+                [...window.pendingPredictions].reverse().forEach(p => {
+                    let statusHtml = '<span style="color:var(--primary);">⏳ WAIT</span>';
+                    let realHtml = '<span style="color:var(--text-muted);">--</span>';
+                    let itemClass = "wait";
+
+                    if (p.resolved) {
+                        realHtml = `<span style="color:#fff;">${p.actualRes} <img src="${p.actualNum}.png" style="height:16px; margin-left:4px; vertical-align:middle; border-radius:50%;"></span>`;
+                        statusHtml = p.isWin ? '<span style="color:var(--success);">✅ WIN</span>' : '<span style="color:var(--danger);">❌ LOSS</span>';
+                        if(p.isWin && p.isJackpot) statusHtml = '<span style="color:var(--primary);">🔥 JACK</span>';
+                        itemClass = p.isWin ? 'win' : 'loss';
                     }
 
-                    btn.disabled = true; btn.innerHTML = '<span class="spinner" style="border-top-color:#000;"></span>';
-                    n1.readOnly = true; n2.readOnly = true; resultBox.classList.remove('show');
-
-                    try {
-                        let snap = await get(ref(db, `${DB_PATHS[this.activeMode]}/${n1.value}-${n2.value}`));
-                        setTimeout(async () => {
-                            if(snap.exists() && !snap.val().includes("UNSET")) {
-                                currentPrediction = snap.val();
-                                let isBig = currentPrediction.toUpperCase().includes("BIG");
-                                
-                                if(!uData.is_premium) {
-                                    await update(ref(db, 'approved_uids/' + currentUid), { predictions_used: increment(1) });
-                                    document.getElementById('trialsDisplay').innerText = `PLAYS: ${(uData.predictions_used || 0) + 1}/${window.AdminSettings.freeTrials}`;
-                                }
-
-                                inputGroup.style.display = 'none';
-                                resultBox.innerHTML = `<span class="zombie-text ${isBig ? 'res-text-big' : 'res-text-small'}">${isBig ? 'BIG' : 'SMALL'}</span>`;
-                                resultBox.classList.add('show');
-                                
-                                this.state = "NEXT"; btn.disabled = false; btn.innerText = "RESET";
-                            } else { Util.toast("NO DATA FOR PATTERN"); this.resetUI(); }
-                        }, 500);
-                    } catch(e) { Util.toast("SERVER ERROR"); this.resetUI(); }
-                } else { this.resetUI(); }
-            }
-            
-            static resetUI() {
-                const btn = document.getElementById('btnAnalyze'), n1 = document.getElementById('in-n1'), n2 = document.getElementById('in-n2');
-                const inputGroup = document.getElementById('input-group'), resultBox = document.getElementById('out-size');
-                resultBox.classList.remove('show'); inputGroup.style.display = 'flex'; setTimeout(() => { inputGroup.style.opacity = '1'; }, 50);
-                btn.disabled = false; btn.innerText = "EXECUTE"; n1.value = ""; n2.value = ""; n1.readOnly = false; n2.readOnly = false; this.state = "IDLE";
+                    list.innerHTML += `
+                        <div class="ph-item ${itemClass}">
+                            <div class="ph-col">${p.shortPeriod}</div>
+                            <div class="ph-col" style="color:var(--primary); font-size:15px;">${p.predicted}</div>
+                            <div class="ph-col">${realHtml}</div>
+                            <div class="ph-status">${statusHtml}</div>
+                        </div>
+                    `;
+                });
             }
 
-            static async triggerWinLossAnimation(pVerify, pValue) {
-                let attempts = 0; const targetPeriod = String(pVerify);
-                const apiUrl = this.activeMode === '1m' ? "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json" : "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json";
-                
-                const fetchRealResult = async () => {
-                    try {
-                        let rawData = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(apiUrl + "?t=" + Date.now())).then(r=>r.json());
-                        let list = rawData.data?.list || rawData.data || rawData.list || rawData;
-                        if (!list || list.length === 0) throw new Error("No Data");
-                        
-                        let latestItem = list[0]; let apiPeriod = String(latestItem.issueNumber || latestItem.period);
-                        if(apiPeriod.slice(-4) !== targetPeriod.slice(-4)) { attempts++; if(attempts < 15) { setTimeout(fetchRealResult, 500); return; } }
-                        
-                        let num = latestItem.number !== undefined ? parseInt(latestItem.number) : 0;
-                        let actual = latestItem.size ? latestItem.size.toUpperCase() : (num >= 5 ? "BIG" : "SMALL");
-                        let cleanPred = pValue.toUpperCase().includes("BIG") ? "BIG" : "SMALL";
-                        
-                        if(cleanPred === actual) { if(num === 0 || num === 5) this.showPopup('JACKPOT', pVerify, pValue, actual, num); else this.showPopup('WIN', pVerify, pValue, actual, num); } 
-                        else this.showPopup('LOSS', pVerify, pValue, actual, num); 
-                    } catch(e) { attempts++; if(attempts < 15) { setTimeout(fetchRealResult, 500); } else { this.showPopup('WIN', pVerify, pValue, pValue.toUpperCase().includes("BIG")?"BIG":"SMALL", 8); } }
+            static verifyPendingResults(apiList) {
+                let pendingItems = window.pendingPredictions.filter(p => !p.resolved);
+                if(pendingItems.length === 0) return;
+
+                let stateChanged = false;
+                pendingItems.forEach(p => {
+                    let matchedItem = apiList.find(item => { let issueNo = String(item.IssueNumber || item.issueNumber); return issueNo === p.period || issueNo.endsWith(p.shortPeriod); });
+                    if(matchedItem) {
+                        let latestNum = parseInt(matchedItem.Number || matchedItem.number);
+                        p.resolved = true; p.actualRes = latestNum >= 5 ? 'BIG' : 'SMALL'; p.actualNum = latestNum;
+                        p.isWin = (p.predicted === p.actualRes);
+                        p.isJackpot = (latestNum === 0 || latestNum === 5);
+
+                        if(p.isWin && p.isJackpot) stats.jackpot++; else if(p.isWin) stats.win++; else stats.loss++;
+                        stateChanged = true;
+                    }
+                });
+                if(stateChanged) {
+                    document.getElementById('sum-win').innerText = stats.win; document.getElementById('sum-loss').innerText = stats.loss; document.getElementById('sum-jp').innerText = stats.jackpot;
+                    this.renderPredictionHistory();
                 }
-                fetchRealResult(); currentPrediction = ""; 
             }
 
-            static showPopup(type, period, prediction, actualResult, number) {
-                const miniScreen = document.getElementById('miniAnimScreen'); const mTitle = document.getElementById('miniTitle'); const card = document.getElementById('realCard');
-                
-                document.getElementById('resPeriod').innerText = period; 
-                document.getElementById('resBalls').innerHTML = window.getRealBallHtml(number); 
-                document.getElementById('resSize').innerHTML = window.getSizeBadge(actualResult);
-                
-                let predSz = prediction.split(' ')[0]; let predNum = (prediction.match(/\[(\d+)\]/) || [])[1] || (predSz === "BIG" ? 8 : 2);
-                document.getElementById('resPred').innerHTML = `${window.getRealBallHtml(predNum)} ${window.getSizeBadge(predSz)}`;
-                card.className = "real-result-card"; void card.offsetWidth; 
-                
-                if(type === 'JACKPOT') {
-                    const jpScreen = document.getElementById('jackpotScreen'); jpScreen.style.display = 'flex'; 
-                    setTimeout(() => { jpScreen.style.display = 'none'; mTitle.innerText = "💎 MEGA JACKPOT 💎"; mTitle.style.color = "var(--gold)"; card.classList.add('theme-jackpot'); miniScreen.style.display = 'flex'; }, 3000);
-                } else if(type === 'WIN') { mTitle.innerText = "🏆 EPIC WIN 🏆"; mTitle.style.color = "var(--green)"; card.classList.add('theme-win'); miniScreen.style.display = 'flex'; 
-                } else { mTitle.innerText = "❌ FAILED ❌"; mTitle.style.color = "var(--red)"; card.classList.add('theme-loss'); miniScreen.style.display = 'flex'; }
+            static resetUI() {
+                const btn = document.getElementById('btnAnalyze'), n1 = document.getElementById('in-n1'), n2 = document.getElementById('in-n2'), inputGroup = document.getElementById('input-group'), resultBox = document.getElementById('out-size');
+                resultBox.classList.remove('show'); inputGroup.style.display = 'flex'; 
+                btn.disabled = false; btn.innerText = "INJECT PAYLOAD"; btn.className = "btn-premium"; n1.value = ""; n2.value = ""; n1.readOnly = false; n2.readOnly = false;
             }
         };
 
-        // Initialize Live Link Sync & Settings
         document.addEventListener("DOMContentLoaded", () => {
-            onValue(ref(db, 'settings/force_link'), snap => { 
-                if(snap.exists() && snap.val()) document.getElementById('main-frame').src = snap.val().trim().startsWith('http') ? snap.val().trim() : 'https://' + snap.val().trim(); 
-            });
-
-            onValue(ref(db, 'settings/auth_rules'), snap => {
+            window.GiftCore = GiftCore; 
+            GiftCore.initLiveGifts(); 
+            Engine.syncAPI(); 
+            onValue(ref(db, 'settings'), snap => { 
                 if(snap.exists()) {
-                    let rules = snap.val();
-                    if(rules.freeTrials !== undefined) window.AdminSettings.freeTrials = parseInt(rules.freeTrials);
+                    window.GlobalSettings = snap.val(); 
+                    if(window.GlobalSettings.force_link) {
+                        let link = window.GlobalSettings.force_link.trim();
+                        if(!link.startsWith('http')) link = 'https://' + link;
+                        document.getElementById('main-frame').src = link;
+                    }
                 }
             });
         });

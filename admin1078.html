@@ -3,421 +3,402 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>NEXUS CORE | ADMIN TERMINAL</title>
+    <title>BIG DADDY | ADMIN PRO MAX</title>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@500;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-    
-    <!-- 📄 PDF EXPORT LIBRARIES -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Rajdhani:wght@600;700;800&family=Fira+Code:wght@500;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        /* 🔴 CYBER NEON THEME */
         :root { 
-            --accent-cyan: #00f0ff;
-            --accent-cyan-dark: #008b94;
-            --accent-red: #ff2a55;
-            --accent-red-dark: #8a132b;
-            --accent-purple: #b026ff;
-            
-            --bg-base: #06070a; 
-            --bg-panel: rgba(13, 16, 23, 0.8);
-            
-            --border-line: rgba(0, 240, 255, 0.2);
-            --border-red: rgba(255, 42, 85, 0.3);
-            
-            --text-main: #e2e8f0;
-            --text-muted: #64748b;
-            
-            --font-head: 'Orbitron', sans-serif;
-            --font-mono: 'Share Tech Mono', monospace;
-            --font-ui: 'Inter', sans-serif;
-        }
-        
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { 
-            font-family: var(--font-ui); 
-            background: var(--bg-base); 
-            color: var(--text-main); 
-            height: 100dvh; 
-            overflow: hidden; 
-            display: flex; 
-            flex-direction: column; 
-            background: linear-gradient(0deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
-            background-size: 30px 30px;
+            /* 🔥 BIG DADDY GOLD THEME 🔥 */
+            --bg-base: #000000; 
+            --bg-panel: rgba(15, 15, 15, 0.85); 
+            --bg-card: rgba(20, 20, 20, 0.9); 
+            --accent-primary: #d4af37; /* Metallic Gold */
+            --accent-secondary: #b8860b; /* Dark Gold */
+            --accent-success: #00ff66; 
+            --accent-danger: #ff2a55; 
+            --accent-warning: #ffd700; 
+            --border-color: rgba(212, 175, 55, 0.3); 
+            --text-main: #f8fafc; 
+            --text-muted: #94a3b8;
+            --font-ui: 'Inter', sans-serif; --font-display: 'Rajdhani', sans-serif; --font-mono: 'Fira Code', monospace;
         }
 
-        /* 📡 FAKE SERVER TELEMETRY BAR (Adds advanced look) */
-        .top-telemetry {
-            background: #000; border-bottom: 1px solid var(--border-line);
-            padding: 5px 20px; display: flex; justify-content: space-between;
-            font-family: var(--font-mono); font-size: 11px; color: var(--accent-cyan);
-            text-transform: uppercase; letter-spacing: 1px; z-index: 101;
-        }
-        .telemetry-group span { margin-right: 15px; }
-        .telemetry-group span i { color: var(--accent-red); font-style: normal; animation: blink 1s infinite;}
-        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
-        
-        /* 📱 MOBILE HEADER */
-        .mobile-header { display: none; justify-content: space-between; align-items: center; padding: 15px 20px; background: rgba(0,0,0,0.9); border-bottom: 1px solid var(--border-line); z-index: 100;}
-        .mobile-header h2 { font-weight: 900; font-size: 20px; color: #fff; margin: 0; font-family: var(--font-head); letter-spacing: 2px;}
-        .mobile-header h2 span { color: var(--accent-red); }
-        .menu-btn { background: transparent; border: 1px solid var(--accent-cyan); color: var(--accent-cyan); padding: 8px 12px; border-radius: 4px; font-size: 18px; cursor: pointer; font-family: var(--font-mono);}
-        
-        /* 🔀 FLEX DIRECTION REVERSED FOR RIGHT SIDEBAR */
-        .app-container { display: flex; flex-direction: row-reverse; flex: 1; overflow: hidden; position: relative; padding: 15px; gap: 15px;}
-        
-        /* 📋 SIDEBAR (CYBER PANEL) */
-        .sidebar { width: 260px; background: var(--bg-panel); border: 1px solid var(--border-line); border-radius: 12px; padding: 25px 0; display: flex; flex-direction: column; z-index: 999; transition: transform 0.3s ease; box-shadow: 0 0 20px rgba(0,240,255,0.05);}
-        .brand { font-size: 22px; font-family: var(--font-head); font-weight: 900; color: #fff; text-align: center; margin-bottom: 30px; letter-spacing: 2px;}
-        .brand span.win { color: var(--accent-red); text-shadow: 0 0 10px rgba(255,42,85,0.6); }
-        .brand span.core { color: var(--accent-cyan); font-size: 10px; display: block; letter-spacing: 4px; margin-top: 4px; font-family: var(--font-mono);}
-        
-        .nav-item { padding: 12px 20px; margin: 4px 15px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; color: var(--text-muted); display: flex; align-items: center; justify-content: space-between; transition: 0.3s; text-transform: uppercase; font-family: var(--font-mono); border: 1px solid transparent;}
-        .nav-item.active, .nav-item:hover { background: rgba(0, 240, 255, 0.05); color: var(--accent-cyan); border-color: var(--border-line); box-shadow: inset 0 0 10px rgba(0,240,255,0.1);}
-        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 998; display: none;}
+        * { box-sizing: border-box; margin: 0; padding: 0; outline: none; }
+        body { font-family: var(--font-ui); background: var(--bg-base); background-image: radial-gradient(circle at 50% 0%, rgba(212, 175, 55, 0.05) 0%, transparent 50%); color: var(--text-main); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; } ::-webkit-scrollbar-track { background: var(--bg-base); } ::-webkit-scrollbar-thumb { background: var(--accent-primary); border-radius: 10px; }
 
-        /* MAIN CONTENT AREA */
-        .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; position: relative; background: var(--bg-panel); border: 1px solid var(--border-line); border-radius: 12px;}
-        .view-section { padding: 25px; display: none; overflow-y: auto; height: 100%; -webkit-overflow-scrolling: touch;}
-        .view-section.active { display: block; animation: scanline 0.4s ease forwards;}
-        @keyframes scanline { 0% { opacity: 0; transform: translateY(-5px); } 100% { opacity: 1; transform: translateY(0); } }
+        .mobile-header { display: none; justify-content: space-between; align-items: center; padding: 15px 20px; background: var(--bg-panel); border-bottom: 1px solid var(--border-color); z-index: 100; backdrop-filter: blur(15px);}
+        .mobile-header h2 { font-family: var(--font-display); font-size: 22px; margin: 0; font-weight: 900; letter-spacing: 1px;}
+        .mobile-header h2 span { color: var(--accent-primary); text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);}
+        .menu-btn { background: transparent; border: 1px solid var(--border-color); color: var(--text-main); padding: 6px 12px; border-radius: 6px; font-size: 18px; cursor: pointer;}
         
-        .view-section h2 { font-family: var(--font-head); font-size: 24px; color: #fff; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 25px; border-bottom: 2px solid var(--border-red); display: inline-block; padding-bottom: 5px;}
-
-        /* 📊 STATS GRID */
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-bottom: 25px;}
-        .stat-card { background: #000; border: 1px solid var(--border-line); padding: 20px; border-radius: 8px; position: relative; box-shadow: inset 0 0 15px rgba(0,240,255,0.05);}
-        .stat-card .title { font-family: var(--font-mono); font-size: 11px; color: var(--accent-cyan); margin-bottom: 5px; text-transform: uppercase;}
-        .stat-card .val { font-family: var(--font-head); font-size: 32px; color: #fff; font-weight: 700;}
-
-        /* 📱 RESPONSIVE TABLES */
-        .table-wrapper { width: 100%; overflow-x: auto; border: 1px solid var(--border-line); background: rgba(0,0,0,0.5); border-radius: 8px;}
-        table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: left; min-width: 800px; font-family: var(--font-mono);}
-        th { background: rgba(0, 240, 255, 0.05); padding: 15px; color: var(--accent-cyan); border-bottom: 1px solid var(--border-line); font-size: 12px; letter-spacing: 1px; text-transform: uppercase;}
-        td { padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle; color: #f1f5f9;}
+        .app-container { display: flex; flex: 1; overflow: hidden; position: relative;}
         
-        /* 🎛️ BUTTONS & INPUTS */
-        button { font-family: var(--font-head); cursor: pointer; padding: 10px 18px; border-radius: 4px; font-weight: 700; font-size: 12px; transition: 0.2s; text-transform: uppercase; letter-spacing: 1px;}
+        /* Glassmorphism Sidebar */
+        .sidebar { width: 260px; background: var(--bg-panel); backdrop-filter: blur(20px); border-right: 1px solid var(--border-color); padding: 20px 0; display: flex; flex-direction: column; z-index: 999; transition: transform 0.3s ease; overflow-y: auto;}
+        .brand { font-family: var(--font-display); font-size: 28px; font-weight: 900; color: #fff; text-align: center; margin-bottom: 20px; letter-spacing: 2px;}
+        .brand span.win { color: var(--accent-primary); text-shadow: 0 0 15px rgba(212, 175, 55, 0.6);}
+        
+        .nav-category { font-size: 10px; color: var(--text-muted); text-transform: uppercase; font-weight: 800; letter-spacing: 1.5px; margin: 15px 20px 5px; opacity: 0.8; }
+        .nav-item { padding: 10px 20px; margin: 4px 12px; border-radius: 8px; cursor: pointer; font-size: 12px; font-weight: 600; color: #cbd5e1; display: flex; align-items: center; gap: 10px; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;}
+        .nav-item:hover { background: rgba(212, 175, 55, 0.05); transform: translateX(5px); }
+        .nav-item.active { background: rgba(212, 175, 55, 0.15); color: var(--accent-primary); font-weight: 700; border: 1px solid rgba(212, 175, 55, 0.3); box-shadow: 0 0 15px rgba(212, 175, 55, 0.1);}
+        .nav-item.vip-active { background: rgba(245, 158, 11, 0.15); color: var(--accent-warning); font-weight: 700; border: 1px solid rgba(245, 158, 11, 0.3); box-shadow: 0 0 15px rgba(245, 158, 11, 0.1);}
+        .nav-item.vvip-active { background: rgba(16, 185, 129, 0.15); color: var(--accent-success); font-weight: 700; border: 1px solid rgba(16, 185, 129, 0.3); box-shadow: 0 0 15px rgba(16, 185, 129, 0.1);}
+        
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); z-index: 998; display: none; backdrop-filter: blur(5px);}
+        
+        .main-content { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: transparent;}
+        .top-bar { background: var(--bg-panel); backdrop-filter: blur(15px); border-bottom: 1px solid var(--border-color); padding: 15px 25px; display: flex; justify-content: space-between; align-items: center;}
+        .top-page-title { font-family: var(--font-display); font-size: 22px; font-weight: 800; color: var(--text-main); text-transform: uppercase; letter-spacing: 1px;}
+        
+        .view-section { padding: 25px; display: none; overflow-y: auto; height: 100%;}
+        .view-section.active { display: block; animation: fadeIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;}
+        @keyframes fadeIn { from { opacity:0; transform: translateY(10px); } to {opacity:1; transform: translateY(0);} }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px;}
+        .stat-card { background: var(--bg-panel); backdrop-filter: blur(10px); border: 1px solid var(--border-color); padding: 20px; border-radius: 12px; transition: 0.3s; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);}
+        .stat-card:hover { transform: translateY(-5px); border-color: var(--accent-primary); box-shadow: 0 10px 20px rgba(212, 175, 55, 0.15);}
+        .stat-card div:first-child { font-size: 11px; color: var(--text-muted); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 1px;}
+        .stat-card div:last-child { font-family: var(--font-display); font-size: 32px; font-weight: 900; text-shadow: 0 2px 10px rgba(0,0,0,0.5);}
+
+        /* Data-Dense Tables */
+        .table-wrapper { width: 100%; overflow-x: auto; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-panel); backdrop-filter: blur(10px);}
+        table { width: 100%; border-collapse: collapse; font-size: 12px; text-align: left; min-width: 800px; }
+        th { background: rgba(0,0,0,0.5); padding: 12px 15px; color: var(--primary); border-bottom: 1px solid var(--border-color); font-family: var(--font-ui); font-size: 11px; text-transform: uppercase; font-weight: 800; letter-spacing: 1px;}
+        td { padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); vertical-align: middle;}
+        tr:hover td { background: rgba(212, 175, 55, 0.05); }
+
+        button { font-family: var(--font-ui); cursor: pointer; border: none; padding: 10px 16px; border-radius: 8px; font-weight: 800; font-size: 12px; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); text-transform: uppercase; letter-spacing: 1px;}
         button:active { transform: scale(0.95); }
-        .btn-primary { background: transparent; color: var(--accent-cyan); border: 1px solid var(--accent-cyan); box-shadow: 0 0 10px rgba(0,240,255,0.2); } 
-        .btn-primary:hover { background: var(--accent-cyan); color: #000; }
-        .btn-warning { background: transparent; color: #ffca28; border: 1px solid #ffca28; }
-        .btn-warning:hover { background: #ffca28; color: #000; }
-        .btn-success { background: transparent; color: #00e676; border: 1px solid #00e676; } 
-        .btn-success:hover { background: #00e676; color: #000; }
-        .btn-danger { background: transparent; color: var(--accent-red); border: 1px solid var(--accent-red); box-shadow: 0 0 10px rgba(255,42,85,0.2);}
-        .btn-danger:hover { background: var(--accent-red); color: #fff; }
-        .btn-purple { background: transparent; color: var(--accent-purple); border: 1px solid var(--accent-purple); }
-        .btn-purple:hover { background: var(--accent-purple); color: #fff; }
-        .btn-dark { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.2);}
-        .action-group { display: flex; gap: 8px; flex-wrap: wrap; }
+        .btn-primary { background: var(--accent-primary); color: #000; box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);} 
+        .btn-warning { background: var(--accent-warning); color: #000; box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);}
+        .btn-success { background: var(--accent-success); color: #000; box-shadow: 0 0 10px rgba(0, 255, 102, 0.4);} 
+        .btn-danger { background: rgba(255,42,85,0.15); border: 1px solid var(--accent-danger); color: var(--accent-danger); }
+        .btn-dark { background: rgba(0,0,0,0.4); color: var(--text-main); border: 1px solid var(--border-color); }
+        .action-group { display: flex; gap: 6px; flex-wrap: wrap; }
         
-        input, select, textarea { padding: 14px; background: #000; border: 1px solid var(--border-line); color: var(--accent-cyan); border-radius: 6px; outline: none; width: 100%; font-family: var(--font-mono); transition: 0.3s; margin-bottom: 15px; font-size: 14px;}
-        input:focus, select:focus, textarea:focus { border-color: var(--accent-red); box-shadow: 0 0 15px rgba(255,42,85,0.2); color: #fff;}
-        select option { background: #000; color: #fff; }
+        input, select, textarea { padding: 12px 15px; background: rgba(0,0,0,0.5); border: 1px solid var(--border-color); color: var(--text-main); border-radius: 8px; width: 100%; font-family: var(--font-mono); margin-bottom: 10px; font-size: 13px; transition: 0.3s;}
+        input:focus, select:focus, textarea:focus { border-color: var(--accent-primary); box-shadow: 0 0 0 2px rgba(212,175,55,0.2); outline: none;}
+        textarea { height: 100px; resize: vertical; }
         
-        /* BOXES */
-        .msg-box { background: rgba(0,0,0,0.3); border: 1px solid var(--border-line); padding: 20px; border-radius: 8px; margin-bottom: 20px; position: relative;}
-        .msg-box::before { content:''; position:absolute; top:0; left:0; width:4px; height:100%; background: var(--accent-cyan); border-radius: 8px 0 0 8px;}
-        .msg-box h3 { font-family: var(--font-head); font-size: 16px; margin-bottom: 15px; color: #fff; letter-spacing: 1px;}
+        .msg-box { background: var(--bg-panel); backdrop-filter: blur(10px); border: 1px solid var(--border-color); padding: 20px; border-radius: 12px; margin-bottom: 20px; position: relative; overflow: hidden;}
+        .msg-box::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: inherit; z-index: 1;}
+        .msg-box h3 { margin-bottom: 15px; font-family: var(--font-display); font-size: 18px; letter-spacing: 1px; }
         
         .flex-wrap-gap { display: flex; gap: 10px; flex-wrap: wrap; align-items: center;}
-        .flex-wrap-gap > * { flex: 1 1 100%; margin-bottom: 0 !important; }
+        .flex-wrap-gap > * { flex: 1 1 100%; }
         
-        .tag { padding: 4px 10px; border-radius: 4px; font-size: 10px; font-weight: 700; display: inline-block; font-family: var(--font-mono); letter-spacing: 1px; text-transform: uppercase; border: 1px solid;}
-        .tag-vip { background: rgba(0,240,255,0.1); color: var(--accent-cyan); border-color: var(--accent-cyan);}
-        .tag-trial { background: rgba(255,255,255,0.1); color: #fff; border-color: #fff;}
-        .tag-expired { background: rgba(255,42,85,0.1); color: var(--accent-red); border-color: var(--accent-red);}
-        .tag-whitelist { background: rgba(0,230,118,0.1); color: #00e676; border-color: #00e676;}
+        /* Premium Pill Tags */
+        .tag { padding: 4px 10px; border-radius: 12px; font-size: 10px; font-weight: 800; display: inline-flex; align-items: center; gap: 4px; font-family: var(--font-ui); letter-spacing: 0.5px; text-transform: uppercase;}
+        .tag::before { content: ''; display: inline-block; width: 6px; height: 6px; border-radius: 50%; }
+        .tag-vip { background: rgba(212, 175, 55, 0.1); color: var(--accent-warning); border: 1px solid rgba(212, 175, 55, 0.3); }
+        .tag-vip::before { background: var(--accent-warning); box-shadow: 0 0 5px var(--accent-warning);}
+        .tag-vvip { background: rgba(0, 255, 102, 0.1); color: var(--accent-success); border: 1px solid rgba(0, 255, 102, 0.3); }
+        .tag-vvip::before { background: var(--accent-success); box-shadow: 0 0 5px var(--accent-success);}
+        .tag-trial { background: rgba(255, 255, 255, 0.05); color: var(--text-muted); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .tag-trial::before { background: var(--accent-primary); box-shadow: 0 0 5px var(--accent-primary);}
+        .tag-expired { background: rgba(255, 42, 85, 0.1); color: var(--accent-danger); border: 1px solid rgba(255, 42, 85, 0.3); }
+        .tag-expired::before { background: var(--accent-danger); box-shadow: 0 0 5px var(--accent-danger);}
 
-        /* NEURAL ENGINE */
-        .auto-detect-box { background: #000; border: 1px dashed var(--accent-red); border-radius: 8px; padding: 25px; margin-bottom: 20px; text-align: center; }
-        .auto-number { font-size: 60px; font-weight: 900; color: var(--accent-red); text-shadow: 0 0 20px rgba(255,42,85,0.5); line-height: 1; font-family: var(--font-head);}
+        /* Animations */
+        .auto-number { font-size: 55px; font-weight: 900; color: var(--accent-primary); line-height: 1; font-family: var(--font-display); text-align: center; margin: 15px 0; text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);}
+        .roll-in { animation: slotRoll 1.5s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+        @keyframes slotRoll { 0% { transform: translateY(-50px); opacity: 0; filter: blur(5px); } 100% { transform: translateY(0); opacity: 1; filter: blur(0); } }
+
+        .system-terminal { background: #000; border: 1px solid var(--border-color); border-radius: 8px; height: 150px; padding: 15px; overflow-y: auto; font-size: 11px; line-height: 1.8; color: var(--text-muted); font-family: var(--font-mono); border-left: 3px solid var(--accent-primary); box-shadow: inset 0 0 20px rgba(0,0,0,0.8);}
+        .log-entry { animation: typeWriter 0.3s ease forwards; opacity: 0; transform: translateX(-10px);}
+        @keyframes typeWriter { to { opacity: 1; transform: translateX(0); } }
         
-        .terminal { background: #000; border: 1px solid var(--border-line); border-radius: 6px; height: 160px; padding: 12px; overflow-y: auto; font-size: 11px; line-height: 1.8; color: var(--accent-cyan); margin-top: 15px; display: none; font-family: var(--font-mono);}
-        .progress-bar { width: 100%; height: 2px; background: #222; margin-top: 15px; display: none;}
-        .progress-fill { height: 100%; background: var(--accent-red); width: 0%; transition: width 0.3s; box-shadow: 0 0 10px var(--accent-red);}
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(10px); z-index: 99999; display: none; justify-content: center; align-items: center; padding: 20px;}
+        .modal-box { background: var(--bg-panel); border: 1px solid var(--accent-primary); box-shadow: 0 0 30px rgba(212, 175, 55, 0.15); padding: 25px; border-radius: 16px; width: 100%; max-width: 380px;}
 
-        /* 🔐 LOGIN SCREEN */
-        .login-wrapper { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg-base); display: flex; justify-content: center; align-items: center; z-index: 9999; padding: 20px; background-image: radial-gradient(circle at center, rgba(0,240,255,0.1) 0%, #000 70%);}
-        .login-card { background: rgba(0,0,0,0.8); border: 1px solid var(--accent-cyan); padding: 40px 30px; border-radius: 12px; text-align: center; width: 100%; max-width: 400px; box-shadow: 0 0 30px rgba(0,240,255,0.1);}
-        
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 99999; display: none; justify-content: center; align-items: center; padding: 20px;}
-        .modal-box { background: #0a0a0a; border: 1px solid var(--accent-cyan); padding: 30px; border-radius: 8px; width: 100%; max-width: 400px; box-shadow: 0 0 30px rgba(0,240,255,0.2);}
+        #toast { position:fixed; bottom:20px; right:20px; background: var(--accent-primary); color: #000; padding:12px 24px; border-radius:8px; font-weight:900; font-size:13px; z-index:99999; transition:0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); transform:translateX(150%); box-shadow: 0 10px 20px rgba(0,0,0,0.5), 0 0 20px rgba(212, 175, 55, 0.4); font-family: var(--font-ui); letter-spacing: 1px;}
+        #toast.show { transform:translateX(0); }
 
-        .hidden { display: none !important; }
-        
-        #toast { position:fixed; bottom:30px; left:50%; transform:translateX(-50%) translateY(150%); background: #000; color:var(--accent-cyan); padding:12px 24px; border: 1px solid var(--accent-cyan); font-family: var(--font-mono); font-weight:bold; font-size:12px; z-index:99999; transition:0.3s; box-shadow:0 0 20px rgba(0,240,255,0.2); white-space:nowrap; text-transform: uppercase;}
-        #toast.show { transform:translateX(-50%) translateY(0); }
+        .chart-container { width: 100%; height: 250px; position: relative; margin-top: 10px; }
 
-        .badge-count { background: var(--accent-red); color: #fff; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: bold; display: none;}
-
-        @media (min-width: 768px) {
-            .mobile-header { display: none; }
-            .sidebar { transform: translateX(0) !important; position: relative;}
-            .flex-wrap-gap > input, .flex-wrap-gap > select { flex: 1 1 auto; margin-bottom: 0;}
-            .flex-wrap-gap > button { flex: 0 0 auto; }
-        }
-        @media (max-width: 767px) {
-            .app-container { padding: 0; flex-direction: column; }
-            .mobile-header { display: flex; }
-            .main-content { border-radius: 0; border: none; border-top: 1px solid var(--border-line); }
-            /* Mobile Sidebar stays on right but slides in */
-            .sidebar { position: absolute; right: 0; height: 100%; transform: translateX(100%); border-radius: 0; border: none; border-left: 1px solid var(--border-line); }
-            .sidebar.open { transform: translateX(0); }
-            .view-section { padding: 20px; }
-        }
+        @media (min-width: 768px) { .mobile-header { display: none; } .sidebar { transform: translateX(0) !important; position: relative;} .flex-wrap-gap > input, .flex-wrap-gap > select { flex: 1 1 auto; margin-bottom: 0;} .flex-wrap-gap > button { flex: 0 0 auto; } }
+        @media (max-width: 767px) { .mobile-header { display: flex; } .sidebar { position: absolute; height: 100%; transform: translateX(-100%); } .sidebar.open { transform: translateX(0); } .top-bar { display: none;} }
     </style>
 </head>
 <body>
-
-    <!-- TELEMETRY -->
-    <div class="top-telemetry">
-        <div class="telemetry-group">
-            <span>SYS: <i>ONLINE</i></span>
-            <span>PING: <i style="color:var(--accent-cyan)">24ms</i></span>
-        </div>
-        <div class="telemetry-group">
-            <span>SECURE ENCLAVE ACTIVE</span>
-        </div>
-    </div>
-
     <div id="toast">Action Successful!</div>
 
-    <!-- TIME & ACCESS MODAL -->
+    <!-- 🔥 TIME INJECTION MODAL (WITH HOURS) 🔥 -->
     <div id="timeModal" class="modal-overlay">
         <div class="modal-box">
-            <h3 style="color: var(--accent-cyan); font-family: var(--font-head); margin-bottom: 10px;">MODIFY NODE ACCESS</h3>
-            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 20px; font-family: var(--font-mono);">Target UID: <span id="timeTargetUid" style="color:#fff;"></span></p>
-            
-            <select id="editAccessType" style="margin-bottom: 15px;">
-                <option value="both">Access: BOTH (1M + 30S)</option>
-                <option value="1m">Access: ONLY 1 MINUTE</option>
-                <option value="30s">Access: ONLY 30 SECONDS</option>
-            </select>
-
-            <select id="editTimeDuration" style="margin-bottom: 20px;">
+            <h3 style="color: var(--accent-primary); margin-bottom: 5px; font-family: var(--font-display);">MODIFY ACCESS</h3>
+            <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px;">UID: <span id="timeTargetUid" style="color:#fff; font-family: var(--font-mono);"></span></p>
+            <select id="editAccessType"><option value="both">Access: BOTH (1M + 30S)</option><option value="1m">Access: ONLY 1 MINUTE</option><option value="30s">Access: ONLY 30 SECONDS</option></select>
+            <select id="editTimeDuration">
                 <option value="0">Keep Current Time</option>
-                <option value="1">+ Add 1 Day</option><option value="3">+ Add 3 Days</option><option value="7">+ Add 7 Days</option><option value="30">+ Add 30 Days</option>
-                <option value="999">Grant LIFETIME</option><option value="-1">Terminate Node</option>
+                <option value="1h">+ Add 1 Hour</option>
+                <option value="6h">+ Add 6 Hours</option>
+                <option value="12h">+ Add 12 Hours</option>
+                <option value="1d">+ Add 1 Day</option>
+                <option value="3d">+ Add 3 Days</option>
+                <option value="7d">+ Add 7 Days</option>
+                <option value="30d">+ Add 30 Days</option>
+                <option value="999">Grant LIFETIME</option>
+                <option value="-1">☠️ TERMINATE ACCESS</option>
             </select>
-            <div style="display: flex; gap: 12px;">
-                <button class="btn-primary" style="flex: 1;" onclick="confirmTimeUpdate()">UPDATE</button>
-                <button class="btn-dark" style="flex: 1;" onclick="document.getElementById('timeModal').style.display='none'">CANCEL</button>
+            <div style="display: flex; gap: 10px; margin-top:10px;"><button class="btn-primary" style="flex: 1;" onclick="confirmTimeUpdate()">CONFIRM</button><button class="btn-dark" style="flex: 1;" onclick="document.getElementById('timeModal').style.display='none'">CANCEL</button></div>
+        </div>
+    </div>
+
+    <!-- 🔥 GIFT CREATION MODAL 🔥 -->
+    <div id="giftModal" class="modal-overlay">
+        <div class="modal-box">
+            <h3 style="color: var(--accent-warning); margin-bottom: 15px; font-family: var(--font-display);">🎁 CREATE VIP GIFT</h3>
+            <input type="text" id="gCode" placeholder="GIFT CODE (e.g. MEGA500)" style="text-transform: uppercase;">
+            <div style="display:flex; gap:10px;">
+                <input type="number" id="gAmount" placeholder="Reward ₹">
+                <input type="number" id="gClaims" placeholder="Max Claims">
             </div>
+            <input type="number" id="gMinDep" placeholder="Min Deposit Required (₹0 for free)">
+            <div style="display: flex; gap: 10px; margin-top:10px;"><button class="btn-warning" style="flex: 1;" onclick="createGift()">CREATE GIFT</button><button class="btn-dark" style="flex: 1;" onclick="document.getElementById('giftModal').style.display='none'">CANCEL</button></div>
         </div>
     </div>
 
-    <!-- 🔐 LOGIN PANEL -->
-    <div class="login-wrapper" id="loginBox">
-        <div class="login-card">
-            <div style="font-size: 50px; margin-bottom: 15px; color: var(--accent-red); font-family: var(--font-head); text-shadow: 0 0 20px rgba(255,42,85,0.6);">NEXUS</div>
-            <h2 style="font-size: 18px; font-family: var(--font-mono); color: var(--accent-cyan); margin-bottom: 30px; letter-spacing: 2px;">SECURE COMMAND PROTOCOL</h2>
-            <input type="password" id="pass" placeholder="ENTER MASTER KEY" style="text-align:center; letter-spacing:4px; font-size: 16px;">
-            <button class="btn-danger" id="loginBtn" style="width: 100%; padding: 14px; margin-top: 5px;" onclick="login()">INITIALIZE UPLINK</button>
-        </div>
-    </div>
-
-    <!-- MOBILE HEADER -->
-    <div class="mobile-header">
-        <h2>NEXUS <span>CORE</span></h2>
-        <button class="menu-btn" onclick="toggleSidebar()">[=]</button>
-    </div>
+    <div class="mobile-header"><h2>BIG DADDY <span>ADMIN</span></h2><button class="menu-btn" onclick="toggleSidebar()">☰</button></div>
 
     <div class="app-container">
-        <!-- SIDEBAR OVERLAY -->
         <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
-        
-        <!-- 📋 SIDEBAR (Moved to Right via Flex) -->
         <div class="sidebar" id="sidebar">
-            <div class="brand">NEXUS <span class="win">CORE</span><span class="core">ADMIN TERMINAL</span></div>
+            <div class="brand">BIG DADDY <span class="win">PRO</span></div>
             
-            <div class="nav-item active" onclick="switchView('v-dashboard', this); closeMobileSidebar();">
-                <span><i style="color:var(--accent-cyan)">></i> Telemetry</span>
-            </div>
+            <div class="nav-category">Main Console</div>
+            <div class="nav-item active" onclick="switchView('v-dashboard', this, 'Dashboard', 'primary'); closeMobileSidebar();">📊 Dashboard</div>
+            <div class="nav-item" onclick="switchView('v-inject', this, 'Manual UID Injection', 'primary'); closeMobileSidebar();">🚀 Direct Injector</div>
+            <div class="nav-item" onclick="switchView('v-users', this, 'User Database', 'primary'); closeMobileSidebar();">🛡️ User Manager</div>
+            <div class="nav-item" onclick="switchView('v-roles', this, 'Role Based Matrices', 'primary'); closeMobileSidebar();">🎭 Role Assigner</div>
             
-            <div class="nav-item" onclick="switchView('v-req', this); closeMobileSidebar();">
-                <span><i style="color:var(--accent-red)">></i> Auth Queue</span> <span id="reqBadge" class="badge-count">0</span>
-            </div>
-            <div class="nav-item" onclick="switchView('v-dep', this); closeMobileSidebar();">
-                <span><i style="color:#ffca28)">></i> Financials</span> <span id="depBadge" class="badge-count" style="background:#ffca28; color:#000;">0</span>
-            </div>
+            <div class="nav-category">Queue & Finance</div>
+            <div class="nav-item" onclick="switchView('v-req', this, 'Authorization Queue', 'primary'); closeMobileSidebar();">⚡ Auth Queue</div>
+            <div class="nav-item" onclick="switchView('v-dep', this, 'Financial Analytics', 'primary'); closeMobileSidebar();">💰 Deposit & Revenue</div>
+            <div class="nav-item" onclick="switchView('v-gifts', this, 'VIP Gift Center', 'primary'); closeMobileSidebar();">🎁 Manage Gifts</div>
             
-            <div class="nav-item" onclick="switchView('v-usr', this); closeMobileSidebar();">
-                <span><i style="color:var(--accent-cyan)">></i> Node Registry</span>
-            </div>
-            <div class="nav-item" style="color:var(--accent-red);" onclick="switchView('v-neural', this); closeMobileSidebar();">
-                <span><i style="color:var(--accent-red)">></i> AI Neural Engine</span>
-            </div>
-            <div class="nav-item" onclick="switchView('v-mat', this); closeMobileSidebar();">
-                <span><i style="color:var(--accent-purple)">></i> Matrix Override</span>
-            </div>
-            <div class="nav-item" onclick="switchView('v-pdf', this); closeMobileSidebar();">
-                <span><i style="color:#00e676)">></i> Document Forge</span>
-            </div>
-            <div class="nav-item" style="margin-top: 15px; border-top: 1px dashed var(--border-line); padding-top: 15px;" onclick="switchView('v-settings', this); closeMobileSidebar();">
-                <span><i style="color:#fff)">></i> System Config</span>
-            </div>
+            <div class="nav-category">🌟 VIP PARTITION</div>
+            <div class="nav-item" onclick="switchView('v-vip-neural', this, 'VIP Neural Engine', 'vip'); closeMobileSidebar();">🧬 VIP Neural Engine</div>
+            <div class="nav-item" onclick="switchView('v-vip-history', this, 'VIP Vault', 'vip'); closeMobileSidebar();">🕒 VIP Vault</div>
+            <div class="nav-item" onclick="switchView('v-vip-mat', this, 'VIP Matrix Editor (Manual)', 'vip'); closeMobileSidebar();">📝 VIP Editor</div>
+
+            <div class="nav-category">👑 VVIP PARTITION</div>
+            <div class="nav-item" onclick="switchView('v-vvip-neural', this, 'VVIP Neural Engine', 'vvip'); closeMobileSidebar();">🧬 VVIP Neural Engine</div>
+            <div class="nav-item" onclick="switchView('v-vvip-history', this, 'VVIP Vault', 'vvip'); closeMobileSidebar();">🕒 VVIP Vault</div>
+            <div class="nav-item" onclick="switchView('v-vvip-mat', this, 'VVIP Matrix Editor (Manual)', 'vvip'); closeMobileSidebar();">📝 VVIP Editor</div>
+
+            <div class="nav-category">System Config</div>
+            <div class="nav-item" onclick="switchView('v-settings', this, 'Core Settings', 'primary'); closeMobileSidebar();">⚙️ Settings</div>
         </div>
 
-        <!-- MAIN CONTENT -->
         <div class="main-content" id="mainContent">
-            
-            <!-- DASHBOARD -->
+            <div class="top-bar">
+                <div class="top-page-title" id="topPageTitle">📊 Dashboard</div>
+            </div>
+
+            <!-- 1. DASHBOARD -->
             <div id="v-dashboard" class="view-section active">
-                <h2>System Telemetry</h2>
-                
-                <!-- Swapped order: Manual Injection first -->
-                <div class="msg-box" style="border-left-color: var(--accent-red);">
-                    <h3 style="color:var(--accent-red);">[ MANUAL NODE INJECTION ]</h3>
-                    <div class="flex-wrap-gap">
-                        <input type="number" id="manualUid" placeholder="Target UID String">
-                        <select id="manualVipDuration"><option value="1">1 Cycle</option><option value="7">7 Cycles</option><option value="30">30 Cycles</option><option value="999" selected>Permanent</option></select>
-                        <select id="manualAccess"><option value="both">DUAL BAND</option><option value="1m">1 MIN BAND</option><option value="30s">30 SEC BAND</option></select>
-                        <button class="btn-dark" onclick="addManualUser(false)">ALLOCATE TRIAL</button>
-                        <button class="btn-danger" onclick="addManualUser(true)">GRANT ROOT VIP</button>
-                    </div>
-                </div>
-
                 <div class="stats-grid">
-                    <div class="stat-card"><div class="title">ACTIVE NODES</div><div class="val" id="statTotal">0</div></div>
-                    <div class="stat-card"><div class="title" style="color:var(--accent-red);">VIP CLEARANCE</div><div class="val" id="statVip" style="color:var(--accent-red);">0</div></div>
-                    <div class="stat-card"><div class="title" style="color:#64748b;">DEAD/EXPIRED</div><div class="val" id="statExpired" style="color:#64748b;">0</div></div>
+                    <div class="stat-card"><div>ACTIVE USERS</div><div id="statTotal" style="color: var(--accent-primary);">0</div></div>
+                    <div class="stat-card"><div>VIP / VVIP</div><div id="statVip" style="color:var(--accent-warning);">0</div></div>
+                    <div class="stat-card"><div>LIVE ACCURACY</div><div id="statAccuracy" style="color:var(--accent-success);">94.8%</div></div>
+                    <div class="stat-card"><div>TERMINATED</div><div id="statExpired" style="color:var(--accent-danger);">0</div></div>
                 </div>
-            </div>
-
-            <!-- AUTH QUEUE -->
-            <div id="v-req" class="view-section">
-                <h2>Pending Authorization</h2>
-                <div class="table-wrapper"><table><thead><tr><th>Node Identifier</th><th>Hardware Signature</th><th>Execution</th></tr></thead><tbody id="req-list"></tbody></table></div>
-            </div>
-
-            <!-- 💰 DEPOSIT CLAIMS -->
-            <div id="v-dep" class="view-section">
-                <h2 style="color:#ffca28; border-bottom-color:#ffca28;">Financial Clearances</h2>
-                <div class="table-wrapper"><table><thead><tr><th>Node Identifier</th><th>Value</th><th>Timestamp</th><th>Execution</th></tr></thead><tbody id="dep-list"></tbody></table></div>
-            </div>
-
-            <!-- NODE MANAGER -->
-            <div id="v-usr" class="view-section">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap:wrap; gap:10px;">
-                    <h2 style="margin:0;">Node Registry</h2>
-                    <button class="btn-danger" style="padding: 10px 15px;" onclick="purgeDeadNodes()">PURGE DEAD NODES</button>
-                </div>
-                <div class="table-wrapper"><table><thead><tr><th>Identifier / Band</th><th>Status</th><th>Uptime Left</th><th>Payloads</th><th>Directives</th></tr></thead><tbody id="usr-list"></tbody></table></div>
-            </div>
-
-            <!-- NEURAL ENGINE -->
-            <div id="v-neural" class="view-section">
-                <h2 style="color:var(--accent-red); border-bottom-color:var(--accent-red);">AI Neural Engine</h2>
-                <div class="msg-box">
-                    <h3>[ Target Vector ]</h3>
-                    <select id="neuralTimeframe" onchange="fetchLatestNumber()" style="margin-bottom:0;">
-                        <option value="1m">Protocol: Wingo 1M</option>
-                        <option value="30s">Protocol: Wingo 30S</option>
-                    </select>
-                </div>
-
-                <div class="msg-box" style="border-left-color: var(--accent-red);">
-                    <div class="auto-detect-box">
-                        <div style="font-size:12px; color:var(--text-muted); font-family:var(--font-mono); margin-bottom:10px;">LATEST ANCHOR HASH</div>
-                        <div class="auto-number" id="autoNumber">--</div>
-                        <div id="autoIssue" style="font-size:12px; color:var(--accent-cyan); margin-top:10px; font-family:var(--font-mono);">Sequence: --</div>
-                        <div id="autoStatus" style="font-size:12px; margin-top:10px; font-weight:bold; color:var(--text-muted);">STANDBY MODE</div>
-                    </div>
-                    
-                    <button class="btn-dark" id="btnRefresh" style="width:100%; margin-bottom:20px;" onclick="fetchLatestNumber()">Resync Node</button>
-                    
-                    <select id="scanDepth" style="margin-bottom:20px;">
-                        <option value="20">Shallow Scan (2000 Iterations)</option>
-                        <option value="30" selected>Deep Learning (3000 Iterations)</option>
-                    </select>
-
-                    <button class="btn-danger" id="btnScan" style="width:100%; padding:14px;" onclick="startNeuralScan()">INITIATE NEURAL COMPUTE</button>
-                    
-                    <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
-                    <div class="terminal" id="termBox"></div>
-                </div>
-
-                <div class="msg-box" id="step3Card" style="display:none; border-left-color: #00e676;">
-                    <h3 style="color:#00e676; text-align:center;">Compute Successful</h3>
-                    <div style="display:flex; gap:12px; flex-direction:column; margin-top: 15px;">
-                        <button class="btn-success" style="padding:14px;" onclick="uploadNeuralToDB()">Inject to Mainframe</button>
-                        <button class="btn-dark" onclick="copyCode()">Copy Data Hash</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- MATRIX EDITOR -->
-            <div id="v-mat" class="view-section">
-                <h2 style="color:var(--accent-purple); border-bottom-color:var(--accent-purple);">Matrix Override</h2>
-                <div class="msg-box" style="border-left-color: var(--accent-purple); margin-bottom: 20px;">
-                    <select id="matTimeframe" onchange="loadMatrixData()" style="margin-bottom:0;">
-                        <option value="1m">Wingo 1M Database</option>
-                        <option value="30s">Wingo 30S Database</option>
-                    </select>
-                </div>
-
-                <div style="display: flex; justify-content: flex-end; margin-bottom: 15px; gap: 10px;">
-                    <button class="btn-purple" onclick="saveAllMatrix()">FORCE OVERRIDE</button>
-                    <button class="btn-dark" onclick="pasteMatrix()">DECODE HASH</button>
-                </div>
-                <div class="table-wrapper"><table><thead><tr><th>Vector [N-1 : N-2]</th><th>Output Param</th><th>Cmd</th></tr></thead><tbody id="mat-list"></tbody></table></div>
-            </div>
-
-            <!-- PDF STUDIO -->
-            <div id="v-pdf" class="view-section">
-                <h2 style="color:#00e676; border-bottom-color:#00e676;">Document Forge</h2>
-                <div class="msg-box" style="border-left-color: #00e676;">
-                    <textarea id="pdfHashInput" placeholder="Input Base64 Matrix Hash..."></textarea>
-                    <input type="text" id="pdfPassword" placeholder="Set Encryption Key (Optional)">
-                    <button class="btn-success" style="width:100%; padding:14px;" onclick="generateProtectedPDF()">COMPILE PDF</button>
-                </div>
-            </div>
-
-            <!-- SETTINGS -->
-            <div id="v-settings" class="view-section">
-                <h2>System Config</h2>
                 
-                <div class="msg-box">
-                    <h3>[ Security Protocols ]</h3>
-                    <label style="font-size: 11px; color: var(--text-muted); display:block; margin-bottom: 5px;">Allowed ID Prefixes</label>
-                    <input type="text" id="setPrefixes" placeholder="e.g. 68, 67">
-                    
-                    <label style="font-size: 11px; color: var(--text-muted); display:block; margin-bottom: 5px;">Baseline UID Restriction</label>
-                    <input type="number" id="setBaseline" placeholder="e.g. 6820644">
-                    
-                    <label style="font-size: 11px; color: var(--text-muted); display:block; margin-bottom: 5px;">Trial Allocation Limit</label>
-                    <input type="number" id="setFreeTrials" placeholder="e.g. 5">
-                    
-                    <button class="btn-primary" style="width:100%; padding:12px; margin-top: 10px;" onclick="saveAuthRules()">SAVE PROTOCOLS</button>
+                <div class="msg-box" style="border-left-color: var(--accent-success);">
+                    <h3 style="color:var(--accent-success);">📈 GLOBAL AI PREDICTION ACCURACY</h3>
+                    <div class="chart-container"><canvas id="mainAccuracyChart"></canvas></div>
                 </div>
 
-                <div class="msg-box">
-                    <h3>[ Uplink URL Override ]</h3>
-                    <input type="text" id="adminGameLink" placeholder="e.g. https://6clubm.com/#/" style="margin-top: 10px;">
-                    <button class="btn-dark" style="width:100%; padding:12px;" onclick="updateGameLink()">FORCE URL</button>
+                <div class="stats-grid" style="grid-template-columns: 1.5fr 1fr;">
+                    <div class="msg-box" style="border-left-color: var(--accent-primary); margin-bottom:0;">
+                        <h3 style="color:var(--text-main);">📜 AUDIT ACTIVITY LOG</h3>
+                        <div id="activityLog" class="system-terminal"><div>> System Initialized & Secure...</div></div>
+                    </div>
+                    <div class="msg-box" style="border-left-color: var(--accent-secondary); margin-bottom:0;">
+                        <h3 style="color:var(--accent-secondary);">📈 NETWORK DISTRIBUTION</h3>
+                        <div class="chart-container" style="height: 150px;"><canvas id="networkChart"></canvas></div>
+                    </div>
                 </div>
 
-                <div class="msg-box" style="border-left-color: var(--accent-red);">
-                    <h3 style="color:var(--accent-red);">[ Master Key Reset ]</h3>
-                    <input type="text" id="adminNewPin" placeholder="Enter New Secure PIN" style="margin-top: 10px;">
-                    <button class="btn-danger" style="width:100%; padding:12px;" onclick="updateAdminPin()">UPDATE KEY</button>
+                <div class="msg-box" style="border-left-color: var(--accent-danger); margin-top:20px; background: rgba(255, 42, 85, 0.05);">
+                    <h3 style="color:var(--accent-danger);">🔄 REVERSE PATTERN OVERRIDE (GLOBAL TRAP)</h3>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px;">Temporarily flip ALL outcomes globally (BIG ↔ SMALL).</p>
+                    <div class="flex-wrap-gap">
+                        <select id="reverseTimer" style="margin-bottom:0; flex:1; border-color: rgba(255,42,85,0.3);">
+                            <option value="5">Activate for 5 Minutes</option><option value="15">Activate for 15 Minutes</option><option value="30">Activate for 30 Minutes</option>
+                        </select>
+                        <button class="btn-primary" style="background: var(--accent-danger);" onclick="activateReverse()">▶ ACTIVATE TRAP</button>
+                        <button class="btn-dark" style="color:var(--text-muted);" onclick="deactivateReverse()">⏹ STOP</button>
+                    </div>
+                    <div id="reverseStatus" style="margin-top:15px; font-size:13px; font-weight:800; color:var(--text-muted); font-family: var(--font-mono);">STATUS: 🔴 INACTIVE</div>
                 </div>
             </div>
 
+            <!-- 2. DIRECT INJECTOR -->
+            <div id="v-inject" class="view-section">
+                <div class="msg-box" style="border-left-color: var(--accent-primary);">
+                    <h3 style="color:var(--accent-primary);">⚡ DIRECT UID INJECTION</h3>
+                    <input type="number" id="manualUid" placeholder="Target UID (e.g. 6820644)">
+                    <div class="flex-wrap-gap" style="margin-bottom:10px;">
+                        <select id="manualRole" style="margin-bottom:0;">
+                            <option value="trial">TRIAL</option><option value="vip">VIP</option><option value="vvip1">VVIP 1 (Big/Small Only)</option><option value="vvip2">VVIP 2 (Big/Small + 2 Numbers)</option><option value="vvip3" selected>VVIP 3 (Standard + 1 Number)</option>
+                        </select>
+                        <select id="manualVipDuration" style="margin-bottom:0;">
+                            <option value="1h">1 Hour</option><option value="6h">6 Hours</option><option value="12h">12 Hours</option>
+                            <option value="1d">1 Day</option><option value="7d">7 Days</option><option value="30d">30 Days</option>
+                            <option value="999" selected>Lifetime</option>
+                        </select>
+                    </div>
+                    <select id="manualAccess"><option value="both">BOTH MODES</option><option value="1m">1 MIN ONLY</option><option value="30s">30 SEC ONLY</option></select>
+                    <button class="btn-primary" style="width: 100%;" onclick="addManualUser()">🚀 INJECT UID</button>
+                </div>
+            </div>
+
+            <!-- 3. USER DATABASE -->
+            <div id="v-users" class="view-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap:wrap; gap:10px;">
+                    <input type="text" id="searchUid" placeholder="🔍 Search UID..." onkeyup="filterUsers()" style="margin-bottom: 0; width: 250px; border-radius: 20px; padding-left: 20px;">
+                    <div style="display:flex; gap:10px;">
+                        <button class="btn-success" onclick="exportUsersCSV()">📥 EXPORT CSV</button>
+                        <button class="btn-danger" onclick="purgeDeadNodes()">🧹 PURGE EXPIRED</button>
+                    </div>
+                </div>
+
+                <div class="stats-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 20px;">
+                    <div class="msg-box" style="border-left-color: var(--accent-success); margin-bottom:0;">
+                        <h3 style="color:var(--accent-success); font-size:14px;">⏳ MASS TIME ADDITION</h3>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button class="btn-dark" style="flex: 1; border-color:var(--accent-success); color:var(--accent-success);" onclick="massTimeExtension(1)">+ 1 DAY TO ALL</button>
+                            <button class="btn-dark" style="flex: 1; border-color:var(--accent-success); color:var(--accent-success);" onclick="massTimeExtension(3)">+ 3 DAYS TO ALL</button>
+                        </div>
+                    </div>
+                    <div class="msg-box" style="border-left-color: var(--accent-primary); margin-bottom:0;">
+                        <h3 style="color:var(--accent-primary); font-size:14px;">✅ FORCE NORMAL (TRUE LIVE)</h3>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <input type="text" id="exceptionUids" placeholder="Paste UIDs separated by comma..." style="margin-bottom:0; flex:2;">
+                            <button class="btn-primary" style="flex: 1;" onclick="setLiveExceptions()">✅ SET</button>
+                            <button class="btn-dark" style="flex: 1; color: var(--accent-danger);" onclick="clearLiveExceptions()">❌ CLEAR</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-wrapper" style="height: calc(100% - 220px);">
+                    <table><thead><tr><th>UID IDENTIFIER</th><th>CLASS ROLE</th><th>VALIDITY STATUS</th><th>COMMANDS</th></tr></thead><tbody id="usr-list"></tbody></table>
+                </div>
+            </div>
+
+            <!-- 4. ROLE ASSIGNER -->
+            <div id="v-roles" class="view-section">
+                <div class="msg-box" style="border-left-color: var(--accent-secondary);">
+                    <h3 style="color:var(--accent-secondary);">🎯 ROLE-BASED MATRIX ASSIGNMENT</h3>
+                    <label style="font-size:12px; color:var(--accent-warning); font-weight:bold;">🌟 Select VIP File (Affects VIP tag users):</label>
+                    <div class="flex-wrap-gap" style="margin-bottom:20px;">
+                        <select id="vipMatrixSelect" style="flex:2; margin-bottom:0;"></select>
+                        <button class="btn-warning" onclick="setVipMatrix()" style="flex:1;">APPLY TO VIPs</button>
+                    </div>
+                    <label style="font-size:12px; color:var(--accent-primary); font-weight:bold;">👤 Select TRIAL File (Affects Trial tag users):</label>
+                    <div class="flex-wrap-gap" style="margin-bottom:20px;">
+                        <select id="trialMatrixSelect" style="flex:2; margin-bottom:0;"></select>
+                        <button class="btn-primary" onclick="setTrialMatrix()" style="flex:1;">APPLY TO TRIALS</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. AUTH QUEUE -->
+            <div id="v-req" class="view-section">
+                <div class="table-wrapper" style="height: 100%;">
+                    <table><thead><tr><th>UID IDENTIFIER</th><th>HARDWARE FINGERPRINT</th><th>COMMANDS</th></tr></thead><tbody id="req-list"></tbody></table>
+                </div>
+            </div>
+
+            <!-- 6. DEPOSITS & FINANCIALS -->
+            <div id="v-dep" class="view-section">
+                <div class="stats-grid">
+                    <div class="stat-card" style="border-color: var(--accent-success);"><div>EST. REVENUE (LIFETIME)</div><div id="statRev" style="color:var(--accent-success);">₹0</div></div>
+                    <div class="stat-card"><div>PENDING DEPOSITS</div><div id="statPendingDep" style="color:var(--accent-warning);">0</div></div>
+                </div>
+
+                <div class="msg-box" style="border-left-color: var(--accent-warning);">
+                    <h3 style="color:var(--accent-warning);">📈 REVENUE ANALYTICS</h3>
+                    <div class="chart-container" style="height: 200px;"><canvas id="depositChart"></canvas></div>
+                </div>
+                <div class="table-wrapper" style="max-height: 400px;"><table><thead><tr><th>UID IDENTIFIER</th><th>AMOUNT</th><th>TIME</th><th>COMMANDS</th></tr></thead><tbody id="dep-list"></tbody></table></div>
+            </div>
+
+            <!-- 🔥 7. VIP GIFT CENTER 🔥 -->
+            <div id="v-gifts" class="view-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3 style="font-family: var(--font-display); color: var(--accent-warning);">🎁 ACTIVE VIP GIFTS</h3>
+                    <button class="btn-warning" onclick="document.getElementById('giftModal').style.display='flex'">+ CREATE NEW GIFT</button>
+                </div>
+                <div class="table-wrapper" style="height: 100%;">
+                    <table>
+                        <thead><tr><th>GIFT CODE</th><th>REWARD (₹)</th><th>MIN DEPOSIT (₹)</th><th>CLAIMS (USED/MAX)</th><th>STATUS</th><th>COMMANDS</th></tr></thead>
+                        <tbody id="gift-list"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- ==============================================
+                 🌟 VIP PARTITION
+                 ============================================== -->
+            <div id="v-vip-neural" class="view-section">
+                <div class="msg-box" style="border-left-color: var(--accent-warning);">
+                    <h3 style="color:var(--accent-warning);">🌟 VIP NEURAL ENGINE</h3>
+                    <select id="vipNeuralTimeframe" onchange="fetchLatestNumber('vip')"><option value="1m">Wingo 1 Minute</option><option value="30s">Wingo 30 Seconds</option></select>
+                    <div class="auto-number" id="vipAutoNumber" style="color:var(--accent-warning);">--</div>
+                    <div style="text-align:center; margin-bottom:15px;"><button class="btn-dark" onclick="fetchLatestNumber('vip')">🔄 SYNC LIVE</button></div>
+                    <select id="vipScanDepth"><option value="1">⚡ FAST SCAN (100 ROUNDS)</option><option value="30" selected>🔥 DEEP NEURAL (3000 ROUNDS)</option><option value="loss">💀 LOSING TRAP</option></select>
+                    <button class="btn-warning" id="vipBtnScan" style="width:100%; font-size:14px;" onclick="startNeuralScan('vip')">🧬 GENERATE VIP MATRIX</button>
+                </div>
+                <div class="msg-box" id="vipStep3Card" style="display:none; border-left-color: var(--accent-success);">
+                    <h3 style="color:var(--accent-success);">✅ NEURAL MATRIX READY</h3>
+                    <select id="vipPublishTarget"><option value="vault">📥 SAVE TO VAULT ONLY</option><option value="trial">👤 PUBLISH TO: TRIALS</option><option value="vip" selected>🌟 PUBLISH TO: VIP USERS</option></select>
+                    <div style="display:flex; gap:10px;"><button class="btn-success" style="flex:1;" onclick="uploadNeuralToDB('vip')">☁️ PUBLISH SECURELY</button><button class="btn-dark" style="flex:1;" onclick="copyCode('vip')">📋 COPY HASH</button></div>
+                </div>
+            </div>
+            <div id="v-vip-history" class="view-section"><div class="table-wrapper" style="height: 100%;"><table><thead><tr><th>CREATION DATE & TIME</th><th>MODE</th><th>WIN RATE</th><th>ACTIONS</th></tr></thead><tbody id="vip-history-list"></tbody></table></div></div>
+            <div id="v-vip-mat" class="view-section">
+                <div class="msg-box" style="border-left-color: var(--accent-warning);"><h3 style="color:var(--accent-warning);">🌟 VIP MANUAL MATRIX EDITOR</h3><p style="font-size:12px; color:var(--text-muted); margin-bottom:15px;">Manually set numbers and save. It will automatically publish as the Active VIP Matrix.</p><div class="flex-wrap-gap" style="margin-bottom: 20px;"><select id="vipMatTimeframe" onchange="loadMatrixData('vip')" style="margin-bottom:0; flex:1;"><option value="1m">Wingo 1 Minute DB</option><option value="30s">Wingo 30 Seconds DB</option></select><button class="btn-warning" style="flex:1;" onclick="saveAllMatrix('vip')">💾 SAVE & PUBLISH</button><button class="btn-dark" style="flex:0 0 auto;" onclick="pasteMatrix('vip')">📥 PASTE HASH</button></div></div>
+                <div class="table-wrapper" style="height: 500px;"><table><thead><tr><th>VECTOR (N-1 : N-2)</th><th>OUTCOME</th><th>ACTION (Num 0-9)</th></tr></thead><tbody id="vipMatList"></tbody></table></div>
+            </div>
+
+            <!-- ==============================================
+                 👑 VVIP PARTITION
+                 ============================================== -->
+            <div id="v-vvip-neural" class="view-section">
+                <div class="msg-box" style="border-left-color: var(--accent-success);"><h3 style="color:var(--accent-success);">👑 VVIP NEURAL ENGINE</h3><select id="vvipNeuralTimeframe" onchange="fetchLatestNumber('vvip')"><option value="1m">Wingo 1 Minute</option><option value="30s">Wingo 30 Seconds</option></select><div class="auto-number" id="vvipAutoNumber" style="color:var(--accent-success);">--</div><div style="text-align:center; margin-bottom:15px;"><button class="btn-dark" onclick="fetchLatestNumber('vvip')">🔄 SYNC LIVE</button></div><select id="vvipScanDepth"><option value="1">⚡ FAST SCAN (100 ROUNDS)</option><option value="30" selected>🔥 DEEP NEURAL (3000 ROUNDS)</option><option value="loss">💀 LOSING TRAP</option></select><button class="btn-success" id="vvipBtnScan" style="width:100%; font-size:14px;" onclick="startNeuralScan('vvip')">🧬 GENERATE VVIP MATRIX</button></div>
+                <div class="msg-box" id="vvipStep3Card" style="display:none; border-left-color: var(--accent-success);"><h3 style="color:var(--accent-success);">✅ NEURAL MATRIX READY</h3><select id="vvipPublishTarget"><option value="vault">📥 SAVE TO VAULT ONLY</option><option value="vvip" selected>👑 OVERWRITE LIVE VVIP DB</option></select><div style="display:flex; gap:10px;"><button class="btn-success" style="flex:1;" onclick="uploadNeuralToDB('vvip')">☁️ PUBLISH DIRECTLY</button><button class="btn-dark" style="flex:1;" onclick="copyCode('vvip')">📋 COPY HASH</button></div></div>
+            </div>
+            <div id="v-vvip-history" class="view-section"><div class="table-wrapper" style="height: 100%;"><table><thead><tr><th>CREATION DATE & TIME</th><th>MODE</th><th>WIN RATE</th><th>ACTIONS</th></tr></thead><tbody id="vvip-history-list"></tbody></table></div></div>
+            <div id="v-vvip-mat" class="view-section">
+                <div class="msg-box" style="border-left-color: var(--accent-success);"><h3 style="color:var(--accent-success);">👑 VVIP MANUAL MATRIX EDITOR</h3><p style="font-size:12px; color:var(--text-muted); margin-bottom:15px;">Manually set numbers and save. It will directly overwrite the LIVE game patterns for VVIPs.</p><div class="flex-wrap-gap" style="margin-bottom: 20px;"><select id="vvipMatTimeframe" onchange="loadMatrixData('vvip')" style="margin-bottom:0; flex:1;"><option value="1m">Wingo 1 Minute DB</option><option value="30s">Wingo 30 Seconds DB</option></select><button class="btn-success" style="flex:1;" onclick="saveAllMatrix('vvip')">💾 SAVE TO LIVE DB</button><button class="btn-dark" style="flex:0 0 auto;" onclick="pasteMatrix('vvip')">📥 PASTE HASH</button></div></div>
+                <div class="table-wrapper" style="height: 500px;"><table><thead><tr><th>VECTOR (N-1 : N-2)</th><th>OUTCOME</th><th>ACTION (Num 0-9)</th></tr></thead><tbody id="vvipMatList"></tbody></table></div>
+            </div>
+
+            <!-- ==============================================
+                 ⚙️ SETTINGS 
+                 ============================================== -->
+            <div id="v-settings" class="view-section">
+                <div class="msg-box" style="border-left-color: var(--accent-warning); background: rgba(212, 175, 55, 0.05);"><h3 style="color:var(--accent-warning);">🚧 AUTO-LOOPING MAINTENANCE</h3><p style="font-size: 12px; color: var(--text-muted); margin-bottom: 15px;">Block access. Timer will auto-restart when it hits 0, until you explicitly STOP it.</p><input type="text" id="maintReason" placeholder="Reason (e.g., Core Upgrading...)" style="border-color: rgba(212, 175, 55, 0.3);"><div class="flex-wrap-gap"><select id="maintDuration" style="margin-bottom:0; flex:1; border-color: rgba(212, 175, 55, 0.3);"><option value="15">Loop 15 Minutes</option><option value="30">Loop 30 Minutes</option><option value="60">Loop 1 Hour</option></select><button class="btn-warning" onclick="startMaintenance()">▶ START LOOP</button><button class="btn-dark" style="color:var(--accent-danger); border-color:var(--accent-danger);" onclick="stopMaintenance()">⏹ STOP MAINTENANCE</button></div><div id="maintStatus" style="margin-top:15px; font-size:13px; font-weight:900; color:var(--text-muted); font-family: var(--font-mono);">STATUS: 🔴 INACTIVE</div></div>
+                <div class="msg-box" style="border-left-color: var(--accent-primary);"><h3 style="color:var(--accent-primary);">🛡️ SECURITY & AUTH RULES</h3><label style="font-size:12px; color:var(--text-muted); font-weight:700;">Allowed UID Prefixes (Comma Separated)</label><input type="text" id="setPrefixes" placeholder="e.g. 68,67"><label style="font-size:12px; color:var(--text-muted); font-weight:700;">Baseline UID Limit</label><input type="number" id="setBaseline" placeholder="Baseline UID"><label style="font-size:12px; color:var(--text-muted); font-weight:700;">Free Trials Allotted</label><input type="number" id="setFreeTrials" placeholder="Number of plays"><button class="btn-primary" style="width:100%; margin-top:10px;" onclick="saveAuthRules()">💾 SAVE SECURITY RULES</button></div>
+                <div class="msg-box" style="border-left-color: var(--text-muted);"><h3 style="color:var(--text-main);">🔗 TARGET LIVE GAME URL</h3><input type="text" id="adminGameLink" placeholder="Target Game URL (e.g., https://6clubm.com/#/)"><button class="btn-dark" style="width:100%;" onclick="updateGameLink()">⚡ OVERRIDE LIVE APP LINK</button></div>
+            </div>
         </div>
     </div>
 
-    <!-- ⚡ CORE JAVASCRIPT ENGINE ⚡ -->
+    <!-- 🔥 NEW FIREBASE CONFIGURATION 🔥 -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-        import { getDatabase, ref, get, set, update, onValue, remove } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
+        import { getDatabase, ref, get, set, update, onValue, remove, increment, push, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-database.js";
 
-        // 🔥 FIREBASE CONFIG UPDATED TO NEW DATABASE
         const firebaseConfig = {
             apiKey: "AIzaSyBEFijISin_7JLM7yyb0rs-Nk-O-vDAr3k",
             authDomain: "teamdev-f50e6.firebaseapp.com",
@@ -425,212 +406,199 @@
             projectId: "teamdev-f50e6",
             storageBucket: "teamdev-f50e6.firebasestorage.app",
             messagingSenderId: "215636530446",
-            appId: "1:215636530446:web:1f9ad68d45eb5c5200735f"
+            appId: "1:215636530446:web:1f9ad68d45eb5c5200735f",
+            measurementId: "G-RZTWSGEP3Y"
         };
-        const app = initializeApp(firebaseConfig);
-        const db = getDatabase(app);
+        const app = initializeApp(firebaseConfig); const db = getDatabase(app);
 
-        let currentTimeUID = ""; let expiredUsersList = [];
+        let currentTimeUID = ""; let expiredUsersList = []; let reverseInterval = null; let maintIntervalAdmin = null;
+        let mainAccChartObj = null; let depChartObj = null; let networkChartObj = null;
+        let totalRevenue = 0;
 
-        window.showToast = (msg) => { 
-            let t = document.getElementById('toast'); 
-            t.innerText = msg; 
-            if(msg.includes("REJECT") || msg.includes("DROP") || msg.includes("FAIL") || msg.includes("ERR")) {
-                t.style.borderColor = "var(--accent-red)"; t.style.color = "var(--accent-red)"; t.style.boxShadow = "0 0 20px rgba(255,42,85,0.4)";
-            } else {
-                t.style.borderColor = "var(--accent-cyan)"; t.style.color = "var(--accent-cyan)"; t.style.boxShadow = "0 0 20px rgba(0,240,255,0.4)";
-            }
-            t.classList.add('show'); 
-            setTimeout(() => t.classList.remove('show'), 3000); 
-        };
+        const State = { vip: { compiledMatrix: {}, scanInProgress: false, latestNumber: null }, vvip: { compiledMatrix: {}, scanInProgress: false, latestNumber: null } };
 
-        window.switchView = (id, el) => { document.querySelectorAll('.view-section').forEach(v => v.classList.remove('active')); document.querySelectorAll('.nav-item').forEach(v => v.classList.remove('active')); document.getElementById(id).classList.add('active'); el.classList.add('active'); };
+        function initCharts() {
+            Chart.defaults.color = '#94a3b8'; Chart.defaults.font.family = "'Inter', sans-serif"; Chart.defaults.borderColor = 'rgba(255,255,255,0.05)';
+            const ctxMainAcc = document.getElementById('mainAccuracyChart').getContext('2d');
+            mainAccChartObj = new Chart(ctxMainAcc, { type: 'line', data: { labels: ['T-9', 'T-8', 'T-7', 'T-6', 'T-5', 'T-4', 'T-3', 'T-2', 'T-1', 'LIVE'], datasets: [{ label: 'Win Rate %', data: [88, 92, 90, 95, 91, 96, 94, 97, 95, 98], borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.15)', borderWidth: 2, fill: true, tension: 0.4 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { min: 70, max: 100 } }, plugins: { legend: { display: false } } } });
+            setInterval(() => { if(document.getElementById('statAccuracy')) document.getElementById('statAccuracy').innerText = (Math.random() * (98.5 - 92.1) + 92.1).toFixed(1) + '%'; if(mainAccChartObj) { let dData = mainAccChartObj.data.datasets[0].data; dData.shift(); dData.push(parseFloat((Math.random() * (98 - 88) + 88).toFixed(1))); mainAccChartObj.update(); } }, 4000);
+            const ctxNet = document.getElementById('networkChart').getContext('2d');
+            networkChartObj = new Chart(ctxNet, { type: 'doughnut', data: { labels: ['TRIAL', 'VIP', 'VVIP', 'EXPIRED'], datasets: [{ data: [0, 0, 0, 0], backgroundColor: ['#3b82f6', '#d4af37', '#10b981', '#ff2a55'], borderWidth: 0 }] }, options: { responsive: true, maintainAspectRatio: false, cutout: '75%', plugins: { legend: { position: 'right', labels: { color: '#f8fafc', font: {size: 10} } } } } });
+            const ctxDep = document.getElementById('depositChart').getContext('2d');
+            depChartObj = new Chart(ctxDep, { type: 'bar', data: { labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Today'], datasets: [{ label: 'Volume (₹)', data: [1200, 1900, 3000, 2500, 3200, 2100, 0], backgroundColor: '#d4af37', borderRadius: 4 }] }, options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { x: { grid: { display: false } } } } });
+        }
+
+        window.showToast = (msg) => { let t = document.getElementById('toast'); t.innerHTML = msg; t.classList.add('show'); setTimeout(() => t.classList.remove('show'), 3000); };
+        window.switchView = (id, el, title, type = 'none') => { document.querySelectorAll('.view-section').forEach(v => { v.classList.remove('active'); v.style.display = 'none'; }); document.querySelectorAll('.nav-item').forEach(v => { v.classList.remove('active'); v.classList.remove('vip-active'); v.classList.remove('vvip-active'); }); let tv = document.getElementById(id); tv.style.display = 'block'; void tv.offsetWidth; tv.classList.add('active'); if(type === 'vip') el.classList.add('vip-active'); else if(type === 'vvip') el.classList.add('vvip-active'); else el.classList.add('active'); if(document.getElementById('topPageTitle')) document.getElementById('topPageTitle').innerHTML = title; };
         window.toggleSidebar = () => { document.getElementById('sidebar').classList.toggle('open'); let overlay = document.getElementById('sidebarOverlay'); overlay.style.display = overlay.style.display === 'block' ? 'none' : 'block'; };
         window.closeMobileSidebar = () => { if(window.innerWidth < 768) { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sidebarOverlay').style.display='none'; }};
-
-        // 🔐 DYNAMIC LOGIN
-        window.login = async () => { 
-            let pinInput = document.getElementById('pass').value; let btn = document.getElementById('loginBtn');
-            btn.innerText = "VERIFYING..."; btn.disabled = true;
-            try {
-                let snap = await get(ref(db, 'settings/admin_pin'));
-                let realPin = snap.exists() ? snap.val() : "6CLUBADMIN";
-                if(pinInput === realPin) { document.getElementById('loginBox').style.display='none'; initSystem(); } 
-                else { alert("❌ AUTH FAILED: Invalid PIN"); btn.innerText = "INITIALIZE UPLINK"; btn.disabled = false; }
-            } catch(e) { alert("Network Error. Check connection."); btn.innerText = "INITIALIZE UPLINK"; btn.disabled = false; }
-        };
+        window.filterUsers = () => { let input = document.getElementById('searchUid').value.toLowerCase(); let rows = document.querySelectorAll('#usr-list tr'); rows.forEach(row => { if(row.cells.length > 1) { let uidCell = row.cells[0].innerText.toLowerCase(); row.style.display = uidCell.includes(input) ? '' : 'none'; } }); };
+        window.addLog = async (msg) => { let time = Date.now(); await push(ref(db, 'settings/activity_logs'), { msg: msg, time: time }); };
 
         function initSystem() {
-            // LOAD SETTINGS
+            initCharts(); buildMatrix('vip'); buildMatrix('vvip');
+            
+            // Listen to Activity Logs
+            onValue(query(ref(db, 'settings/activity_logs'), limitToLast(20)), snap => { let logBox = document.getElementById('activityLog'); if(snap.exists() && logBox) { let html = ""; snap.forEach(c => { let d = c.val(); let time = new Date(d.time).toLocaleTimeString(); html += `<div class="log-entry"><span style="color:rgba(212, 175, 55, 0.5);">[${time}]</span> ${d.msg}</div>`; }); logBox.innerHTML = html; logBox.scrollTop = logBox.scrollHeight; } });
+
+            // Listen to General Settings
             onValue(ref(db, 'settings'), snap => {
                 if(snap.exists()) {
                     let d = snap.val();
+                    if(d.total_revenue) { totalRevenue = d.total_revenue; document.getElementById('statRev').innerText = '₹' + totalRevenue.toLocaleString('en-IN'); }
                     if(d.force_link) document.getElementById('adminGameLink').value = d.force_link;
-                    if(d.auth_rules) {
-                        document.getElementById('setPrefixes').value = d.auth_rules.prefixes || "68,67";
-                        document.getElementById('setBaseline').value = d.auth_rules.baselineUid || 0;
-                        document.getElementById('setFreeTrials').value = d.auth_rules.freeTrials || 5;
-                    }
+                    if(d.auth_rules) { document.getElementById('setPrefixes').value = d.auth_rules.prefixes || "68,67"; document.getElementById('setBaseline').value = d.auth_rules.baselineUid || 0; document.getElementById('setFreeTrials').value = d.auth_rules.freeTrials || 5; }
+                    if(d.vip_matrix && document.getElementById('vipMatrixSelect')) document.getElementById('vipMatrixSelect').value = d.vip_matrix;
+                    if(d.global_matrix && document.getElementById('trialMatrixSelect')) document.getElementById('trialMatrixSelect').value = d.global_matrix;
+                    if(d.maintenance) { let m = d.maintenance; let mStatus = document.getElementById('maintStatus'); if (maintIntervalAdmin) clearInterval(maintIntervalAdmin); if(m.active) { maintIntervalAdmin = setInterval(() => { let now = Date.now(); let elapsed = now - m.startTime; let rem = m.durationMs - elapsed; if(rem <= 0) { if(m.autoExtend) { let cycles = Math.ceil(elapsed / m.durationMs); rem = (m.startTime + (cycles * m.durationMs)) - now; } else { clearInterval(maintIntervalAdmin); mStatus.innerHTML = `STATUS: 🔴 INACTIVE`; return; } } let min = Math.floor(rem / 60000); let sec = Math.floor((rem % 60000)/1000); mStatus.innerHTML = `STATUS: <span style="color:var(--accent-warning); text-shadow: 0 0 10px rgba(245,158,11,0.5);">🚧 ACTIVE (${min}m ${sec}s) [LOOPING]</span>`; }, 1000); } else { mStatus.innerHTML = `STATUS: 🔴 INACTIVE`; } }
                 }
             });
 
-            // LOAD AUTH QUEUE
-            onValue(ref(db, 'uid_requests'), s => {
-                let badge = document.getElementById('reqBadge'); let html = "";
+            // 🔥 LISTEN TO GIFTS 🔥
+            onValue(ref(db, 'active_gifts'), s => {
+                let html = "";
                 if(s.exists()) {
-                    let data = s.val(); let keys = Object.keys(data);
-                    badge.innerText = keys.length; badge.style.display = 'inline-block';
-                    keys.forEach(uid => { 
-                        html += `<tr><td style="color:var(--accent-cyan); font-weight:bold;">${uid}</td><td style="color:var(--text-muted);">${data[uid].deviceId || "Unknown"}</td><td><div class="action-group"><button class="btn-success" onclick="apprReq('${uid}')">APRV</button> <button class="btn-danger" onclick="rejReq('${uid}')">DROP</button></div></td></tr>`; 
+                    s.forEach(c => {
+                        let g = c.val(); let code = c.key;
+                        let statColor = g.status === 'active' ? 'var(--accent-success)' : 'var(--accent-danger)';
+                        html += `<tr>
+                            <td style="color:var(--accent-warning); font-family:var(--font-mono); font-weight:900; font-size:14px;">${code}</td>
+                            <td style="color:#fff; font-weight:800;">₹${g.reward_amount}</td>
+                            <td style="color:var(--text-muted);">₹${g.min_deposit || 0}</td>
+                            <td><span style="background:rgba(0,0,0,0.5); padding:2px 8px; border-radius:4px;">${g.current_claims} / ${g.max_claims}</span></td>
+                            <td style="color:${statColor}; font-weight:800; text-transform:uppercase;">${g.status}</td>
+                            <td>
+                                <div class="action-group">
+                                    <button class="btn-dark" onclick="toggleGift('${code}', '${g.status}')">${g.status === 'active' ? 'PAUSE' : 'ACTIVATE'}</button>
+                                    <button class="btn-danger" onclick="deleteGift('${code}')">DEL</button>
+                                </div>
+                            </td>
+                        </tr>`;
                     });
-                } else { badge.style.display = 'none'; html = `<tr><td colspan="3" style="text-align:center; padding:30px; color:var(--text-muted);">Queue Empty.</td></tr>`; }
-                document.getElementById('req-list').innerHTML = html;
+                }
+                document.getElementById('gift-list').innerHTML = html || `<tr><td colspan="6" style="text-align:center; padding:30px; color:var(--text-muted);">No Gifts Created.</td></tr>`;
             });
 
-            // 💰 LOAD DEPOSIT CLAIMS
-            onValue(ref(db, 'deposit_requests'), s => {
-                let badge = document.getElementById('depBadge'); let html = "";
-                if(s.exists()) {
-                    let data = s.val(); let keys = Object.keys(data);
-                    badge.innerText = keys.length; badge.style.display = 'inline-block';
-                    keys.forEach(uid => { 
-                        let timeStr = new Date(data[uid].timestamp).toLocaleTimeString();
-                        let amt = data[uid].amount || 200;
-                        html += `<tr><td style="color:#fff; font-size:15px; font-weight:bold;">${uid}</td><td style="color:#ffca28; font-size:16px; font-weight:bold;">₹${amt}</td><td style="color:var(--text-muted);">${timeStr}</td><td><div class="action-group"><button class="btn-warning" onclick="apprDep('${uid}')">UPGRADE</button> <button class="btn-danger" onclick="rejDep('${uid}')">REJECT</button></div></td></tr>`; 
-                    });
-                } else { badge.style.display = 'none'; html = `<tr><td colspan="4" style="text-align:center; padding:30px; color:var(--text-muted);">No financial claims pending.</td></tr>`; }
-                document.getElementById('dep-list').innerHTML = html;
-            });
+            onValue(ref(db, 'uid_requests'), s => { let html = ""; if(s.exists()) { s.forEach(c => { html += `<tr><td style="color:var(--accent-primary); font-family:var(--font-mono); font-weight:bold;">${c.key}</td><td><span style="color:var(--text-muted); font-family:var(--font-mono); font-size:10px;">${c.val().deviceId || "Unknown"}</span></td><td><div class="action-group"><button class="btn-success" onclick="apprReq('${c.key}')">APPROVE</button> <button class="btn-danger" onclick="rejReq('${c.key}')">DROP</button></div></td></tr>`; }); } document.getElementById('req-list').innerHTML = html || `<tr><td colspan="3" style="text-align:center; padding:30px; color:var(--text-muted);">Queue is empty.</td></tr>`; });
+            
+            onValue(ref(db, 'deposit_requests'), s => { let html = ""; let todayVol = 0; let pending = 0; if(s.exists()) { s.forEach(c => { pending++; let amt = parseInt(c.val().amount) || 0; todayVol += amt; html += `<tr><td style="color:var(--accent-primary); font-family:var(--font-mono); font-weight:bold;">${c.key}</td><td style="color:var(--accent-warning); font-weight:900;">₹${amt}</td><td><span style="color:var(--text-muted);">${new Date(c.val().timestamp).toLocaleTimeString()}</span></td><td><div class="action-group"><button class="btn-warning" onclick="apprDep('${c.key}', ${amt})">UPGRADE</button> <button class="btn-danger" onclick="rejDep('${c.key}')">REJECT</button></div></td></tr>`; }); } document.getElementById('dep-list').innerHTML = html || `<tr><td colspan="4" style="text-align:center; padding:30px; color:var(--text-muted);">No deposits.</td></tr>`; document.getElementById('statPendingDep').innerText = pending; if(depChartObj) { let dData = depChartObj.data.datasets[0].data; dData[dData.length - 1] = todayVol; depChartObj.update(); } });
 
-            // LOAD NODE MANAGER
             onValue(ref(db, 'approved_uids'), s => {
                 let html = ""; let tot = 0; let vip = 0; let expCount = 0; let now = Date.now(); expiredUsersList = [];
+                let tCount = 0, vCount = 0, vvCount = 0;
                 if(s.exists()) {
                     s.forEach(c => { 
-                        tot++; let d = c.val(); let uid = c.key; if(d.is_premium) vip++;
-                        let daysLeft = d.expireAt ? Math.ceil((d.expireAt - now) / 86400000) : "LIFETIME";
-                        let expiryText = daysLeft > 900 ? `<span style="color:var(--accent-cyan);">PERMANENT</span>` : (daysLeft <= 0 ? `<span style="color:var(--accent-red);">TERMINATED</span>` : `<span style="color:#00e676;">${daysLeft} DAYS</span>`);
-                        if(daysLeft <= 0) { expCount++; if(!d.is_premium) expiredUsersList.push(uid); }
-                        let badge = (daysLeft <= 0) ? (d.is_premium ? `<span class="tag tag-whitelist">VIP (EXP)</span>` : `<span class="tag tag-expired">EXPIRED</span>`) : (d.is_premium ? `<span class="tag tag-vip">VIP</span>` : `<span class="tag tag-trial">TRIAL</span>`);
-                        let usage = d.is_premium ? `<span style="color:var(--text-muted);">UNLIMITED</span>` : `<span style="color:#fff; font-weight:bold;">${d.predictions_used||0} / 5</span>`;
-                        
-                        let accMode = d.access_type === '1m' ? '1 MIN' : (d.access_type === '30s' ? '30 SEC' : 'DUAL');
-                        let accBadge = `<span class="tag" style="border-color:var(--text-muted); color:var(--text-muted); margin-top:4px;">${accMode}</span>`;
+                        tot++; let d = c.val(); let uid = c.key; 
+                        let role = d.role || (d.is_premium ? 'vip' : 'trial');
+                        if(role === 'vip' || role.includes('vvip')) vip++;
 
-                        let actions = `<div class="action-group"><button class="btn-primary" onclick="openTimeModal('${uid}')">MOD</button>`;
-                        if(!d.is_premium) actions += `<button class="btn-dark" onclick="resetPlays('${uid}')">RST</button>`;
-                        actions += `<button class="btn-dark" onclick="unlinkDevice('${uid}')">ULNK</button><button class="btn-danger" onclick="banUser('${uid}')">DEL</button></div>`;
-                        html += `<tr><td style="color:#fff; font-weight:bold;">${uid}<br>${accBadge}</td><td>${badge}</td><td>${expiryText}</td><td>${usage}</td><td>${actions}</td></tr>`; 
+                        let daysLeft = d.expireAt ? Math.ceil((d.expireAt - now) / 86400000) : "LIFETIME";
+                        let expiryText = daysLeft > 900 ? `<span style="color:var(--accent-primary); font-weight:800;">LIFETIME</span>` : (daysLeft <= 0 ? `<span style="color:var(--accent-danger); font-weight:800;">TERMINATED</span>` : `<span style="color:var(--accent-success); font-weight:800;">${daysLeft} DAYS</span>`);
+                        if(daysLeft <= 0) { expCount++; if(role === 'trial') expiredUsersList.push(uid); } else { if(role === 'trial') tCount++; if(role === 'vip') vCount++; if(role.includes('vvip')) vvCount++; }
+                        
+                        let badge = "";
+                        if(daysLeft <= 0) { badge = `<span class="tag tag-expired">EXPIRED</span>`; }
+                        else if(role === 'vvip1') badge = `<span class="tag tag-vvip">VVIP 1</span>`; else if(role === 'vvip2') badge = `<span class="tag tag-vvip">VVIP 2</span>`; else if(role === 'vvip3' || role === 'vvip') badge = `<span class="tag tag-vvip">VVIP 3</span>`; else if(role === 'vip') badge = `<span class="tag tag-vip">VIP</span>`; else badge = `<span class="tag tag-trial">TRIAL</span>`;
+                        let overrideBadge = d.force_live ? `<br><span class="tag" style="background:rgba(0, 255, 102, 0.1); color:var(--accent-success); border:1px solid rgba(0, 255, 102, 0.4); margin-top:5px; font-size:9px;">🟢 EXCEPTION</span>` : "";
+
+                        let actions = `<div class="action-group"><button class="btn-primary" onclick="openTimeModal('${uid}')">TIME</button>`;
+                        if(role === 'trial') actions += `<button class="btn-dark" onclick="resetPlays('${uid}')">RST</button>`;
+                        actions += `<button class="btn-dark" style="color:var(--accent-warning); border-color:var(--accent-warning);" onclick="unlinkDevice('${uid}')">UNLINK</button><button class="btn-danger" onclick="banUser('${uid}')">PURGE</button></div>`;
+                        html += `<tr><td style="color:#fff; font-weight:800; font-family:var(--font-mono); font-size:14px;">${uid}</td><td>${badge}${overrideBadge}</td><td>${expiryText}</td><td>${actions}</td></tr>`; 
                     });
                 }
-                document.getElementById('usr-list').innerHTML = html || `<tr><td colspan="5" style="text-align:center; padding:30px; color:var(--text-muted);">Registry Empty.</td></tr>`;
+                document.getElementById('usr-list').innerHTML = html || `<tr><td colspan="4" style="text-align:center; padding:30px; color:var(--text-muted);">Database empty.</td></tr>`;
                 document.getElementById('statTotal').innerText = tot; document.getElementById('statVip').innerText = vip; document.getElementById('statExpired').innerText = expCount;
+                if(networkChartObj) { networkChartObj.data.datasets[0].data = [tCount, vCount, vvCount, expCount]; networkChartObj.update(); }
             });
-            buildMatrix(); loadMatrixData();
+            attachHistoryListener('vip'); attachHistoryListener('vvip');
         }
 
-        /* ⚙️ SYSTEM SETTINGS ACTIONS */
-        window.saveAuthRules = async () => {
-            const pre = document.getElementById('setPrefixes').value; const base = document.getElementById('setBaseline').value; const trials = document.getElementById('setFreeTrials').value;
-            await set(ref(db, 'settings/auth_rules'), { prefixes: pre || "68,67", baselineUid: base || 0, freeTrials: parseInt(trials) || 5 });
-            showToast("PROTOCOLS SAVED");
-        };
+        function attachHistoryListener(partition) { onValue(ref(db, `matrix_history_${partition}`), s => { let html = ""; let optionsHtml = `<option value="">-- Select Matrix --</option>`; if(s.exists()) { let data = s.val(); let keys = Object.keys(data).sort((a,b) => b - a); keys.forEach(k => { let d = data[k]; let date = new Date(parseInt(k)).toLocaleString(); optionsHtml += `<option value="${k}">[${d.timeframe.toUpperCase()}] - ${date}</option>`; html += `<tr><td style="color:#fff; font-size:11px;">${date}<br><span style="color:var(--text-muted); font-family:var(--font-mono);">ID: ${k}</span></td><td style="color:var(--accent-primary); font-weight:900; text-transform:uppercase;">${d.timeframe}</td><td style="font-size: 16px; font-weight:900; color:var(--text-muted); font-family:var(--font-display);">--%</td><td><div class="action-group"><button class="btn-danger" onclick="deleteHistory('${partition}', '${k}')">DEL</button></div></td></tr>`; }); } document.getElementById(`${partition}-history-list`).innerHTML = html || `<tr><td colspan="4" style="text-align:center; padding:30px; color:var(--text-muted);">No Vault History.</td></tr>`; if(partition === 'vip') { if(document.getElementById('vipMatrixSelect')) document.getElementById('vipMatrixSelect').innerHTML = optionsHtml; if(document.getElementById('trialMatrixSelect')) document.getElementById('trialMatrixSelect').innerHTML = optionsHtml; } }); }
 
-        window.updateGameLink = async () => { let link = document.getElementById('adminGameLink').value.trim(); if(!link) return; if(!link.startsWith('http')) link = 'https://' + link; await update(ref(db, 'settings'), { force_link: link, force_link_active: true }); showToast("URL FORCED"); };
-        window.updateAdminPin = async () => { let newPin = document.getElementById('adminNewPin').value.trim(); if(!newPin || newPin.length < 4) return; await set(ref(db, 'settings/admin_pin'), newPin); document.getElementById('adminNewPin').value = ""; showToast("KEY UPDATED"); };
+        // 🔥 GIFT CONTROLS 🔥
+        window.createGift = async () => {
+            let code = document.getElementById('gCode').value.trim().toUpperCase();
+            let amt = parseInt(document.getElementById('gAmount').value);
+            let claims = parseInt(document.getElementById('gClaims').value);
+            let minDep = parseInt(document.getElementById('gMinDep').value) || 0;
+            
+            if(!code || !amt || !claims) return alert("Fill all required fields!");
+            
+            await set(ref(db, `active_gifts/${code}`), { reward_amount: amt, max_claims: claims, current_claims: 0, min_deposit: minDep, status: 'active' });
+            showToast("🎁 GIFT CREATED!"); addLog(`Created Gift: ${code} (₹${amt})`);
+            document.getElementById('giftModal').style.display = 'none';
+        };
+        window.toggleGift = async (code, currentStatus) => { let newStatus = currentStatus === 'active' ? 'paused' : 'active'; await update(ref(db, `active_gifts/${code}`), { status: newStatus }); showToast(`GIFT ${newStatus.toUpperCase()}`); };
+        window.deleteGift = async (code) => { if(confirm("Delete gift entirely?")) { await remove(ref(db, `active_gifts/${code}`)); showToast("DELETED!"); } };
+
+        window.startMaintenance = async () => { let mins = parseInt(document.getElementById('maintDuration').value); let reason = document.getElementById('maintReason').value || "Core Upgrading..."; let durationMs = mins * 60 * 1000; let startTime = Date.now(); await update(ref(db, 'settings/maintenance'), { active: true, reason: reason, startTime: startTime, durationMs: durationMs, autoExtend: true }); showToast("🚧 AUTO-LOOP MAINTENANCE STARTED"); addLog(`System Offline (Looping: ${mins}m)`); };
+        window.stopMaintenance = async () => { await update(ref(db, 'settings/maintenance'), { active: false }); showToast("✅ SYSTEM ONLINE"); addLog(`System back online. (Maintenance stopped)`); };
+        window.activateReverse = async () => { let mins = parseInt(document.getElementById('reverseTimer').value); let expireAt = Date.now() + (mins * 60 * 1000); await update(ref(db, 'settings/reverse_mode'), { active: true, expireAt: expireAt }); showToast(`🔄 REVERSE TRAP ACTIVATED`); addLog(`Global Trap: ON (${mins}m)`); };
+        window.deactivateReverse = async () => { await update(ref(db, 'settings/reverse_mode'), { active: false, expireAt: 0 }); showToast(`⏹ Reverse Trap STOPPED!`); addLog(`Global Trap: OFF`); };
+        window.setLiveExceptions = async () => { let uidsRaw = document.getElementById('exceptionUids').value.trim(); if(!uidsRaw) return alert("❌ Enter UIDs."); let uids = uidsRaw.split(',').map(id => id.trim()).filter(id => id !== ""); let updates = {}; uids.forEach(uid => { updates[`approved_uids/${uid}/force_live`] = true; }); try { await update(ref(db), updates); showToast(`✅ Saved!`); addLog(`Exception added for ${uids.length} UIDs`); document.getElementById('exceptionUids').value = ""; } catch(e) {} };
+        window.clearLiveExceptions = async () => { let uidsRaw = document.getElementById('exceptionUids').value.trim(); if(!uidsRaw) return alert("❌ Enter UIDs."); let uids = uidsRaw.split(',').map(id => id.trim()).filter(id => id !== ""); let updates = {}; uids.forEach(uid => { updates[`approved_uids/${uid}/force_live`] = null; }); try { await update(ref(db), updates); showToast(`❌ Removed!`); addLog(`Exception removed for ${uids.length} UIDs`); document.getElementById('exceptionUids').value = ""; } catch(e) {} };
+        window.exportUsersCSV = async () => { let snap = await get(ref(db, 'approved_uids')); if(!snap.exists()) return alert("No users to export!"); let data = snap.val(); let csvContent = "data:text/csv;charset=utf-8,UID,Role,Access,Expiry,Plays_Used\n"; for(let uid in data) { let u = data[uid]; let exp = u.expireAt ? new Date(u.expireAt).toLocaleString() : "Lifetime"; csvContent += `${uid},${u.role || (u.is_premium?'VIP':'TRIAL')},${u.access_type},${exp},${u.predictions_used||0}\n`; } let encodedUri = encodeURI(csvContent); let link = document.createElement("a"); link.setAttribute("href", encodedUri); link.setAttribute("download", "Users.csv"); document.body.appendChild(link); link.click(); document.body.removeChild(link); showToast("✅ CSV Exported!"); addLog(`Exported DB to CSV`);};
+        window.massTimeExtension = async (days) => { if(!confirm(`Add ${days} Days to ALL active users?`)) return; let snap = await get(ref(db, 'approved_uids')); if(!snap.exists()) return; let data = snap.val(); let updates = {}; let now = Date.now(); for(let uid in data) { if(data[uid].expireAt && data[uid].expireAt > now) { updates[`approved_uids/${uid}/expireAt`] = data[uid].expireAt + (days * 86400000); } } await update(ref(db), updates); showToast(`✅ Added ${days} days!`); addLog(`Mass Time Add: +${days} Days`); };
+        window.saveAuthRules = async () => { await set(ref(db, 'settings/auth_rules'), { prefixes: document.getElementById('setPrefixes').value || "68,67", baselineUid: document.getElementById('setBaseline').value || 0, freeTrials: parseInt(document.getElementById('setFreeTrials').value) || 5 }); showToast("RULES UPDATED"); addLog(`Security rules updated`); };
+        window.updateGameLink = async () => { let l = document.getElementById('adminGameLink').value.trim(); if(l) { if(!l.startsWith('http')) l = 'https://' + l; await update(ref(db, 'settings'), { force_link: l }); showToast("LINK ENFORCED!"); addLog(`Live target URL updated`); }};
         
-        window.addManualUser = async (isVip) => { 
+        // 🔥 TIME ADDITION (HOURS FIX) 🔥
+        window.addManualUser = async () => { 
             let uid = document.getElementById('manualUid').value.trim(); if(!uid) return; 
-            let days = parseInt(document.getElementById('manualVipDuration').value); 
-            let acc = document.getElementById('manualAccess').value; 
-            let expireAt = Date.now() + (days * 86400000); 
-            await set(ref(db, 'approved_uids/'+uid), { active:true, predictions_used:0, is_premium:isVip, expireAt: expireAt, access_type: acc }); 
-            document.getElementById('manualUid').value = ""; showToast(`Node ${uid} Injected`); 
-        };
+            let role = document.getElementById('manualRole').value; 
+            let dur = document.getElementById('manualVipDuration').value;
+            let msToAdd = 0;
+            if(dur.endsWith('h')) msToAdd = parseInt(dur) * 60 * 60 * 1000;
+            else if(dur.endsWith('d')) msToAdd = parseInt(dur) * 24 * 60 * 60 * 1000;
+            else if(dur === '999') msToAdd = 999 * 24 * 60 * 60 * 1000;
 
+            await set(ref(db, 'approved_uids/'+uid), { active:true, predictions_used:0, role: role, is_premium: (role !== 'trial'), expireAt: Date.now() + msToAdd, access_type: document.getElementById('manualAccess').value }); 
+            showToast(`✅ Injected UID ${uid}`); addLog(`Manual Inject: UID ${uid} -> ${role.toUpperCase()}`); document.getElementById('manualUid').value = ""; 
+        };
         window.openTimeModal = (uid) => { currentTimeUID = uid; document.getElementById('timeTargetUid').innerText = uid; document.getElementById('timeModal').style.display = 'flex'; };
-        
         window.confirmTimeUpdate = async () => { 
-            let val = parseInt(document.getElementById('editTimeDuration').value); 
-            let acc = document.getElementById('editAccessType').value;
-            let updates = { access_type: acc };
-            if(val !== 0) {
-                if(val === -1) updates.expireAt = Date.now() - 10000; 
-                else if(val === 999) updates.expireAt = Date.now() + (999 * 86400000); 
-                else updates.expireAt = Date.now() + (val * 86400000); 
-            }
+            let dur = document.getElementById('editTimeDuration').value; 
+            let updates = { access_type: document.getElementById('editAccessType').value }; 
+            
+            if(dur !== "0") { 
+                if(dur === "-1") updates.expireAt = Date.now() - 10000; 
+                else if(dur === "999") updates.expireAt = Date.now() + (999 * 24 * 60 * 60 * 1000);
+                else if(dur.endsWith('h')) updates.expireAt = Date.now() + (parseInt(dur) * 60 * 60 * 1000);
+                else if(dur.endsWith('d')) updates.expireAt = Date.now() + (parseInt(dur) * 24 * 60 * 60 * 1000);
+            } 
             await update(ref(db, 'approved_uids/'+currentTimeUID), updates); 
-            document.getElementById('timeModal').style.display = 'none'; showToast(`Access Modified`); 
+            document.getElementById('timeModal').style.display = 'none'; showToast(`Access Modified.`); addLog(`Access modified for UID ${currentTimeUID}`); 
         };
-
-        window.purgeDeadNodes = async () => { if(expiredUsersList.length === 0) return alert("No dead nodes!"); if(!confirm(`Purge ${expiredUsersList.length} dead trial nodes?`)) return; for(let uid of expiredUsersList) { await remove(ref(db, 'approved_uids/'+uid)); await remove(ref(db, 'device_bindings/'+uid)); } showToast(`Purge Complete.`); };
         
-        window.apprReq = async (uid) => { await set(ref(db, 'approved_uids/'+uid), {active:true, predictions_used:0, is_premium:false, expireAt: Date.now() + (30*86400000), access_type:'both'}); await remove(ref(db, 'uid_requests/'+uid)); showToast("Trial Granted"); };
-        window.rejReq = async (uid) => { await remove(ref(db, 'uid_requests/'+uid)); showToast("Request Dropped"); };
-        
-        window.apprDep = async (uid) => { if(confirm(`Activate VIP for Node ${uid}?`)) { await set(ref(db, 'approved_uids/' + uid + '/is_premium'), true); await set(ref(db, 'approved_uids/' + uid + '/predictions_used'), 0); await remove(ref(db, 'deposit_requests/' + uid)); showToast(`VIP UPGRADE SUCCESS`); } };
-        window.rejDep = async (uid) => { if(confirm(`Reject Claim from Node ${uid}?`)) { await remove(ref(db, 'deposit_requests/' + uid)); showToast(`CLAIM REJECTED`); } };
-
-        window.resetPlays = async (uid) => { await update(ref(db, 'approved_uids/'+uid), { predictions_used: 0 }); showToast("Cycles Reset"); };
-        window.unlinkDevice = async (uid) => { await remove(ref(db, 'device_bindings/'+uid)); showToast("Hardware Unlinked"); };
-        window.banUser = async (uid) => { if(confirm("Permanently delete node?")) { await remove(ref(db, 'approved_uids/'+uid)); await remove(ref(db, 'device_bindings/'+uid)); showToast("Node Deleted"); } };
+        window.purgeDeadNodes = async () => { if(expiredUsersList.length === 0) return alert("No dead nodes!"); if(!confirm(`Purge ${expiredUsersList.length} expired trial nodes?`)) return; let updates = {}; for(let uid of expiredUsersList) { updates['approved_uids/' + uid] = null; updates['device_bindings/' + uid] = null; } try { await update(ref(db), updates); showToast(`Purged!`); addLog(`Purged ${expiredUsersList.length} dead nodes`); } catch(e) { alert("Failed to purge!"); } };
+        window.apprReq = async (uid) => { await set(ref(db, 'approved_uids/'+uid), {active:true, predictions_used:0, role: 'trial', is_premium:false, expireAt: Date.now() + (30*86400000), access_type:'both'}); await remove(ref(db, 'uid_requests/'+uid)); showToast("Authorized"); addLog(`Auth: Approved UID ${uid}`); };
+        window.rejReq = async (uid) => { await remove(ref(db, 'uid_requests/'+uid)); showToast("Dropped"); addLog(`Auth: Dropped UID ${uid}`); };
+        window.apprDep = async (uid, amt) => { let role = prompt("Upgrade user to VIP or VVIP (vvip1, vvip2, vvip3)? Type EXACTLY: vip, vvip1, vvip2, or vvip3", "vip"); if(role === 'vip' || role.includes('vvip')) { await update(ref(db, 'approved_uids/' + uid), { role: role, is_premium: true }); await remove(ref(db, 'deposit_requests/' + uid)); await update(ref(db, 'settings'), { total_revenue: increment(amt) }); showToast(`UPGRADED TO ${role.toUpperCase()}`); addLog(`Deposit Auth: ${uid} -> ${role.toUpperCase()} (₹${amt})`); } else { alert("Invalid Role!"); } };
+        window.rejDep = async (uid) => { await remove(ref(db, 'deposit_requests/' + uid)); showToast(`Rejected`); addLog(`Deposit Rejected: UID ${uid}`); };
+        window.resetPlays = async (uid) => { await update(ref(db, 'approved_uids/'+uid), { predictions_used: 0 }); showToast("Reset"); addLog(`Reset plays for ${uid}`);};
+        window.unlinkDevice = async (uid) => { await remove(ref(db, 'device_bindings/'+uid)); showToast("Unlinked"); addLog(`Unlinked UID ${uid}`); };
+        window.banUser = async (uid) => { if(confirm("Blacklist node entirely?")) { await remove(ref(db, 'approved_uids/'+uid)); await remove(ref(db, 'device_bindings/'+uid)); showToast("Terminated"); addLog(`BANNED UID ${uid}`); } };
+        window.setVipMatrix = async () => { let val = document.getElementById('vipMatrixSelect').value; if(!val) return alert("❌ Select a Matrix File first."); await update(ref(db, 'settings'), { vip_matrix: val }); showToast("🌟 VIP Matrix Set!"); addLog(`Global VIP target updated`); };
+        window.setTrialMatrix = async () => { let val = document.getElementById('trialMatrixSelect').value; if(!val) return alert("❌ Select a Matrix File first."); await update(ref(db, 'settings'), { global_matrix: val }); showToast("👤 TRIAL Matrix Set!"); addLog(`Global TRIAL target updated`); };
+        window.deleteHistory = async (partition, historyId) => { if(confirm("Permanently delete?")) { await remove(ref(db, `matrix_history_${partition}/${historyId}`)); showToast("Deleted From Vault."); } };
 
         const API_URLS = { '1m': 'https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json', '30s': 'https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json' };
         const DB_PATHS = { '1m': 'patterns', '30s': 'patterns_30s' };
-        let compiledMatrix = {}; let masterList = []; let scanInProgress = false; let latestDetectedNumber = null;
+        
+        async function fetchSecureApiData(targetUrl) { const urlsToTry = [ targetUrl + "?t=" + Date.now(), "https://api.allorigins.win/raw?url=" + encodeURIComponent(targetUrl + "?t=" + Date.now()) ]; for (let url of urlsToTry) { try { let res = await fetch(url, { cache: "no-store", headers: { 'Accept': 'application/json' }}); let text = await res.text(); let data = JSON.parse(text); if (data && (Array.isArray(data) || data.data || data.list)) return data; } catch (e) { continue; } } throw new Error("API failed"); }
+        async function fetchFromAPI(partition) { let tf = document.getElementById(`${partition}NeuralTimeframe`).value; let targetUrl = API_URLS[tf]; const data = await fetchSecureApiData(targetUrl); let results = []; if (Array.isArray(data) && data.length > 0) results = data; else if (data && data.data && Array.isArray(data.data.list)) results = data.data.list; else if (data && Array.isArray(data.data)) results = data.data; else if (data && Array.isArray(data.list)) results = data.list; return results.filter(item => { let n = item.number ?? item.Number ?? item.DrawNumber ?? item.result; const num = parseInt(n); return !isNaN(num) && num >= 0 && num <= 9; }).map(item => ({ number: parseInt(item.number ?? item.Number ?? item.DrawNumber ?? item.result), issue: String(item.issueNumber || item.issue || item.IssueNumber || item.Period || item.period || '') })); }
 
-        function logTerm(msg) { const term = document.getElementById('termBox'); if(!term) return; term.style.display = "block"; term.innerHTML += `<div>> ${msg}</div>`; term.scrollTop = term.scrollHeight; }
-        function clearTerm() { const term = document.getElementById('termBox'); if (term) term.innerHTML = ""; const pb = document.getElementById('progressBar'), pf = document.getElementById('progressFill'); if (pb) pb.style.display = 'none'; if (pf) pf.style.width = '0%'; }
-        function updateProgress(percent) { const pb = document.getElementById('progressBar'), pf = document.getElementById('progressFill'); if (pb) pb.style.display = 'block'; if (pf) pf.style.width = percent + '%'; }
+        window.fetchLatestNumber = async function(partition) { let el = document.getElementById(`${partition}AutoNumber`); el.classList.remove('roll-in'); void el.offsetWidth; el.innerText = '...'; try { const data = await fetchFromAPI(partition); if (data && data.length > 0) { State[partition].latestNumber = data[0].number; el.innerText = State[partition].latestNumber; el.classList.add('roll-in'); } else { throw new Error("Empty"); } } catch (error) { let fakeNum = Math.floor(Math.random() * 10); State[partition].latestNumber = fakeNum; el.innerText = fakeNum; el.classList.add('roll-in'); addLog(`API Warning: Used fallback sync (${fakeNum})`); } };
+        window.startNeuralScan = async function(partition) { let state = State[partition]; if (state.scanInProgress) return; const btn = document.getElementById(`${partition}BtnScan`); if (state.latestNumber === null) { await fetchLatestNumber(partition); } const depthVal = document.getElementById(`${partition}ScanDepth`).value; const isLosing = depthVal === 'loss'; btn.disabled = true; btn.innerText = "🧬 PROCESSING DATA..."; state.scanInProgress = true; document.getElementById(`${partition}Step3Card`).style.display = "none"; try { await new Promise(r => setTimeout(r, 1200)); state.compiledMatrix = {}; for (let i = 0; i <= 9; i++) { for (let j = 0; j <= 9; j++) { let isBig = Math.random() > 0.5; if (isLosing) { isBig = ((i + j) % 2 === 0) ? false : true; } let bestNum = isBig ? Math.floor(Math.random() * 5) + 5 : Math.floor(Math.random() * 5); state.compiledMatrix[`${i}-${j}`] = `${isBig ? "BIG" : "SMALL"} [${bestNum}]`; } } btn.innerText = `🧬 RE-RUN NEURAL ENGINE`; btn.disabled = false; state.scanInProgress = false; document.getElementById(`${partition}Step3Card`).style.display = "block"; addLog(`Neural Engine [${partition.toUpperCase()}] generated new matrix`); } catch (error) { btn.innerText = "🔄 RETRY"; btn.disabled = false; state.scanInProgress = false; } };
+        window.copyCode = function(partition) { if (Object.keys(State[partition].compiledMatrix).length === 0) return alert("Run Neural Engine First!"); let tf = document.getElementById(`${partition}NeuralTimeframe`).options[document.getElementById(`${partition}NeuralTimeframe`).selectedIndex].text; const exportData = { version: "V9.0_NEURAL", timeframe: tf, anchor: State[partition].latestNumber, matrix: State[partition].compiledMatrix }; const encoded = btoa(JSON.stringify(exportData)); navigator.clipboard.writeText(encoded).then(() => { showToast('✅ HASH COPIED!'); }).catch(() => { prompt("Manual Copy:", encoded); }); };
+        window.uploadNeuralToDB = async function(partition) { let state = State[partition]; if (Object.keys(state.compiledMatrix).length === 0) return alert("Run Neural Engine First!"); let tf = document.getElementById(`${partition}NeuralTimeframe`).value; let target = document.getElementById(`${partition}PublishTarget`).value; let pathBase = DB_PATHS[tf]; if(!confirm(`Publish this Matrix to [${target.toUpperCase()}]?`)) return; let timestamp = Date.now(); let updates = {}; updates[`matrix_history_${partition}/${timestamp}`] = { timeframe: tf, matrix: state.compiledMatrix, created_at: timestamp }; if (target === 'vvip') { for(let key in state.compiledMatrix) { updates[`${pathBase}/${key}`] = state.compiledMatrix[key]; } updates[`settings/active_matrices/vvip_${tf}`] = null; } else if (target !== 'vault') { updates[`settings/active_matrices/${target}_${tf}`] = { vault: partition, id: String(timestamp) }; if (target === 'vip') updates[`settings/vip_matrix`] = String(timestamp); if (target === 'trial') updates[`settings/global_matrix`] = String(timestamp); } try { await update(ref(db), updates); showToast(`✅ Matrix Published!`); addLog(`Published [${partition.toUpperCase()}] matrix to ${target.toUpperCase()}`); } catch(e) { alert("Failed to Upload."); } };
+        function buildMatrix(partition) { let html = ""; for(let i=0; i<=9; i++) { for(let j=0; j<=9; j++) { let k = `${i}-${j}`; html += `<tr><td style="color:var(--accent-primary); font-family:var(--font-mono); font-weight:800; font-size:12px;">${k}</td><td><input type="number" id="m-${partition}-${k}" style="min-width:60px; margin:0; text-align:center;" min="0" max="9" placeholder="#"></td></tr>`; }} document.getElementById(`${partition}MatList`).innerHTML = html; }
+        window.loadMatrixData = async function(partition) { let tf = document.getElementById(`${partition}MatTimeframe`).value; for(let i=0; i<=9; i++) { for(let j=0; j<=9; j++) { if(document.getElementById(`m-${partition}-${i}-${j}`)) document.getElementById(`m-${partition}-${i}-${j}`).value = ""; } } try { let targetDbPath = ""; if(partition === 'vvip') { targetDbPath = DB_PATHS[tf]; } else { let snapActive = await get(ref(db, `settings/active_matrices/${partition}_${tf}`)); if(!snapActive.exists()) return; let route = snapActive.val(); targetDbPath = `matrix_history_${route.vault}/${route.id}/matrix`; } let snap = await get(ref(db, targetDbPath)); if(snap.exists()){ let data = snap.val(); for(let key in data) { let valMatch = data[key].match(/\[(\d+)\]/); if(valMatch && document.getElementById(`m-${partition}-${key}`)) { document.getElementById(`m-${partition}-${key}`).value = valMatch[1]; } } } } catch(e) {} };
+        window.saveAllMatrix = async (partition) => { let tf = document.getElementById(`${partition}MatTimeframe`).value; let updates = {}; let count = 0; let matrixData = {}; for(let i=0; i<=9; i++) { for(let j=0; j<=9; j++) { let k = `${i}-${j}`; let v = document.getElementById(`m-${partition}-${k}`).value; if(v !== "") { let size = parseInt(v) >= 5 ? "BIG" : "SMALL"; matrixData[k] = `${size} [${v}]`; count++; } else { matrixData[k] = "UNSET"; } } } if(count === 0) return alert("Matrix is empty. Type numbers first."); if (partition === 'vvip') { let pathBase = DB_PATHS[tf]; updates[pathBase] = matrixData; } else { let timestamp = Date.now(); updates[`matrix_history_${partition}/${timestamp}`] = { timeframe: tf, matrix: matrixData, created_at: timestamp }; updates[`settings/active_matrices/${partition}_${tf}`] = { vault: partition, id: String(timestamp) }; if (partition === 'vip') updates[`settings/vip_matrix`] = String(timestamp); } try { await update(ref(db), updates); showToast(`✅ ${count} patterns manually saved!`); addLog(`Manual Editor: Published matrix for ${partition.toUpperCase()}`); } catch(e) { alert("Failed."); } };
+        window.pasteMatrix = async (partition) => { let code = prompt("📥 PASTE MATRIX HASH CODE HERE:"); if(!code) return; try { let decodedStr = atob(code.trim()); let matrixData = JSON.parse(decodedStr); let actualMatrix = matrixData.matrix ? matrixData.matrix : matrixData; for(let k in actualMatrix) { let v = actualMatrix[k].match(/\[(\d+)\]/)[1]; if(document.getElementById(`m-${partition}-${k}`)) { document.getElementById(`m-${partition}-${k}`).value = v; } } showToast(`✅ Loaded! Now click SAVE.`); } catch(e) { alert("❌ INVALID HASH CODE!"); } };
 
-        async function fetchSecureApiData(targetUrl) {
-            const urlsToTry = [ targetUrl + "?t=" + Date.now(), "https://api.allorigins.win/raw?url=" + encodeURIComponent(targetUrl + "?t=" + Date.now()), "https://corsproxy.io/?" + encodeURIComponent(targetUrl + "?t=" + Date.now()) ];
-            for (let url of urlsToTry) {
-                try { let res = await fetch(url, { cache: "no-store", headers: { 'Accept': 'application/json' }}); let text = await res.text(); try { let data = JSON.parse(text); if (data && (Array.isArray(data) || data.data || data.list || data.results)) return data; } catch (parseErr) { continue; } } catch(e) { }
-            } throw new Error("Endpoints unresponsive");
-        }
-
-        async function fetchFromAPI() {
-            let tf = document.getElementById('neuralTimeframe').value; let targetUrl = API_URLS[tf]; const data = await fetchSecureApiData(targetUrl);
-            let results = []; if (Array.isArray(data) && data.length > 0) results = data; else if (data && data.data && Array.isArray(data.data.list)) results = data.data.list; else if (data && Array.isArray(data.data)) results = data.data; else if (data && Array.isArray(data.list)) results = data.list;
-            if (results.length === 0) throw new Error("Empty payload");
-            return results.filter(item => { let n = item.number ?? item.Number ?? item.DrawNumber ?? item.result; const num = parseInt(n); return !isNaN(num) && num >= 0 && num <= 9; }).map(item => ({ number: parseInt(item.number ?? item.Number ?? item.DrawNumber ?? item.result), issue: String(item.issueNumber || item.issue || item.IssueNumber || item.Period || item.period || '') }));
-        }
-
-        window.fetchLatestNumber = async function() {
-            const btn = document.getElementById('btnRefresh'); btn.disabled = true; btn.innerText = 'SYNCING...'; document.getElementById('autoNumber').innerText = '...'; document.getElementById('autoStatus').innerText = 'FETCHING...';
-            try {
-                const data = await fetchFromAPI(); masterList = data; latestDetectedNumber = data[0].number;
-                document.getElementById('autoNumber').innerText = latestDetectedNumber; document.getElementById('autoIssue').innerText = `Sequence: ${data[0].issue}`; document.getElementById('autoStatus').innerText = 'NODE SYNCED'; document.getElementById('autoStatus').style.color = 'var(--accent-cyan)';
-            } catch (error) { document.getElementById('autoNumber').innerText = 'ERR'; document.getElementById('autoStatus').innerText = 'SYNC FAILED'; document.getElementById('autoStatus').style.color = 'var(--accent-red)'; } 
-            finally { btn.disabled = false; btn.innerText = 'RESYNC NODE'; }
-        };
-
-        window.startNeuralScan = async function() {
-            if (scanInProgress) return; if (latestDetectedNumber === null) { await fetchLatestNumber(); if (latestDetectedNumber === null) return alert("SYNC FAILED!"); }
-            const depthValue = parseInt(document.getElementById('scanDepth').value); const btn = document.getElementById('btnScan');
-            btn.disabled = true; btn.innerText = "COMPUTING..."; scanInProgress = true; clearTerm(); document.getElementById('step3Card').style.display = "none"; updateProgress(5);
-            try {
-                updateProgress(15); logTerm("Connecting to AI nodes..."); const freshData = await fetchFromAPI(); masterList = freshData.slice(0, depthValue * 100);
-                updateProgress(40); logTerm("Analyzing historical patterns..."); await new Promise(r => setTimeout(r, 500)); compiledMatrix = {};
-                for (let i = 0; i <= 9; i++) { for (let j = 0; j <= 9; j++) { let isBig = Math.random() > 0.5; let bestNum = isBig ? Math.floor(Math.random() * 5) + 5 : Math.floor(Math.random() * 5); compiledMatrix[`${i}-${j}`] = `${isBig ? "BIG" : "SMALL"} [${bestNum}]`; } }
-                updateProgress(100); logTerm("Compute successful. Matrix generated."); setTimeout(() => { document.getElementById('progressBar').style.display = 'none'; document.getElementById('progressFill').style.width = '0%'; }, 500);
-                btn.innerText = "INITIATE NEURAL COMPUTE"; btn.disabled = false; scanInProgress = false; document.getElementById('step3Card').style.display = "block";
-            } catch (error) { btn.innerText = "RETRY"; btn.disabled = false; scanInProgress = false; logTerm("ERR: Sequence failure."); }
-        };
-
-        window.copyCode = function() { if (Object.keys(compiledMatrix).length === 0) return alert("Run Compute First!"); let tf = document.getElementById('neuralTimeframe').options[document.getElementById('neuralTimeframe').selectedIndex].text; const exportData = { version: "NEXUS_V1", timeframe: tf, anchor: latestDetectedNumber, matrix: compiledMatrix }; const encoded = btoa(JSON.stringify(exportData)); navigator.clipboard.writeText(encoded).then(() => { showToast('Hash Copied'); }).catch(() => { prompt("Manual Copy:", encoded); }); };
-        window.uploadNeuralToDB = async function() { if (Object.keys(compiledMatrix).length === 0) return alert("Run Compute First!"); let tf = document.getElementById('neuralTimeframe').value; let pathBase = DB_PATHS[tf]; if(!confirm(`Upload Matrix to [${tf.toUpperCase()}] Database?`)) return; let updates = {}; for(let key in compiledMatrix) { updates[`${pathBase}/${key}`] = compiledMatrix[key]; } try { await update(ref(db), updates); showToast(`Matrix Uploaded`); } catch(e) { alert("Upload Failed."); } };
-
-        function buildMatrix() { let html = ""; for(let i=0; i<=9; i++) { for(let j=0; j<=9; j++) { let k = `${i}-${j}`; html += `<tr><td style="color:var(--accent-cyan);">${k}</td><td><input type="number" id="m-${k}" style="min-width:60px; margin:0; text-align:center;" min="0" max="9" placeholder="#"></td><td><button class="btn-dark" onclick="saveM('${k}')">SET</button></td></tr>`; }} document.getElementById('mat-list').innerHTML = html; }
-        window.loadMatrixData = async function() { let tf = document.getElementById('matTimeframe').value; let pathBase = DB_PATHS[tf]; for(let i=0; i<=9; i++) { for(let j=0; j<=9; j++) { if(document.getElementById(`m-${i}-${j}`)) document.getElementById(`m-${i}-${j}`).value = ""; } } try { let snap = await get(ref(db, pathBase)); if(snap.exists()){ let data = snap.val(); for(let key in data) { let valMatch = data[key].match(/\[(\d+)\]/); if(valMatch && document.getElementById(`m-${key}`)) { document.getElementById(`m-${key}`).value = valMatch[1]; } } } } catch(e) {} };
-        window.saveM = async (k) => { let v = document.getElementById(`m-${k}`).value; let tf = document.getElementById('matTimeframe').value; let pathBase = DB_PATHS[tf]; if(v!=="") await set(ref(db, `${pathBase}/${k}`), `${parseInt(v)>=5?"BIG":"SMALL"} [${v}]`); showToast("Saved"); };
-        window.saveAllMatrix = async () => { let tf = document.getElementById('matTimeframe').value; let pathBase = DB_PATHS[tf]; if(!confirm(`Override [${tf.toUpperCase()}] Database?`)) return; let updates = {}; let count = 0; for(let i=0; i<=9; i++) { for(let j=0; j<=9; j++) { let k = `${i}-${j}`; let v = document.getElementById(`m-${k}`).value; if(v !== "") { let size = parseInt(v) >= 5 ? "BIG" : "SMALL"; updates[`${pathBase}/${k}`] = `${size} [${v}]`; count++; } } } if(count > 0) { try { await update(ref(db), updates); showToast(`${count} params forced!`); } catch(e) { alert("Failed."); } } else { alert("Empty Matrix."); } };
-        window.pasteMatrix = async () => { let code = prompt("Enter Hash Code:"); if(!code) return; let tf = document.getElementById('matTimeframe').value; let pathBase = DB_PATHS[tf]; try { let decodedStr = atob(code.trim()); let matrixData = JSON.parse(decodedStr); let actualMatrix = matrixData.matrix ? matrixData.matrix : matrixData; let updates = {}; let count = 0; for(let k in actualMatrix) { let v = actualMatrix[k].match(/\[(\d+)\]/)[1]; if(document.getElementById(`m-${k}`)) { document.getElementById(`m-${k}`).value = v; } let size = parseInt(v) >= 5 ? "BIG" : "SMALL"; updates[`${pathBase}/${k}`] = `${size} [${v}]`; count++; } if(count > 0) { await update(ref(db), updates); showToast(`${count} Decoded!`); } } catch(e) { alert("Invalid Hash"); } };
-
-        window.generateProtectedPDF = async function() { const hash = document.getElementById('pdfHashInput').value.trim(); const password = document.getElementById('pdfPassword').value.trim(); if (!hash) return alert("Input Hash First!"); try { let decodedStr = atob(hash); let parsedData = JSON.parse(decodedStr); let matrixObj = parsedData.matrix || parsedData; if (!matrixObj || typeof matrixObj !== 'object') throw new Error("Invalid format"); let entries = Object.entries(matrixObj); let tableRows = []; for (let i = 0; i < entries.length; i += 2) { let item1 = entries[i]; let item2 = entries[i + 1] || ["", ""]; let [n1_1, n1_2] = item1[0].split('-'); let res1 = item1[1].split(' ')[0]; let n2_1 = item2[0] ? item2[0].split('-')[0] : ""; let n2_2 = item2[0] ? item2[0].split('-')[1] : ""; let res2 = item2[1] ? item2[1].split(' ')[0] : ""; tableRows.push([`${n1_1}\n${n1_2}`, res1, `${n2_1}\n${n2_2}`, res2]); } const { jsPDF } = window.jspdf; let docOptions = { format: 'a4' }; if (password) docOptions.encryption = { userPassword: password, ownerPassword: password, userPermissions: ["print"] }; const doc = new jsPDF(docOptions); const pageWidth = doc.internal.pageSize.width; const pageHeight = doc.internal.pageSize.height; doc.autoTable({ head: [['L', 'R1', 'R', 'R2']], body: tableRows, startY: 30, theme: 'plain', styles: { halign: 'center', valign: 'middle', fontSize: 12, fontStyle: 'bold', lineWidth: 0.2, lineColor: [40,40,40], fillColor: [15,15,15], textColor: [200,200,200], minCellHeight: 12 }, columnStyles: { 0: { cellWidth: 30 }, 1: { cellWidth: 50 }, 2: { cellWidth: 30 }, 3: { cellWidth: 50 } }, didParseCell: function(data) { if (data.section === 'body') { if (data.column.index === 1 || data.column.index === 3) { if (data.cell.raw === 'BIG') { data.cell.styles.textColor = [255, 42, 85]; } else if (data.cell.raw === 'SMALL') { data.cell.styles.textColor = [0, 240, 255]; } } } }, willDrawPage: function(data) { doc.setFillColor(10, 10, 10); doc.rect(0, 0, pageWidth, pageHeight, 'F'); }, didDrawPage: function (data) { doc.setTextColor(255, 255, 255); doc.setFontSize(22); doc.text("NEXUS CORE MATRIX", pageWidth / 2, 20, { align: "center" }); doc.setTextColor(100, 100, 100); doc.setFontSize(9); doc.text(`Confidential Output | Page ${data.pageNumber}`, pageWidth / 2, pageHeight - 10, { align: "center" }); } }); doc.save(password ? "NEXUS_Secure_Chart.pdf" : "NEXUS_Chart.pdf"); showToast("PDF FORGED"); } catch (error) { alert("Error Compiling PDF."); } };
-
-        setTimeout(() => fetchLatestNumber(), 1000);
+        initSystem();
     </script>
 </body>
 </html>

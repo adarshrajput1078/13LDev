@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>GOD x AMIR SYSTEM</title>
+    <title>DEV ARMY SYSTEM</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -203,8 +203,8 @@
             
             <div class="action-row">
                 <div class="input-group" id="input-group">
-                    <input type="number" id="in-n1" placeholder="N1" oninput="Util.limit(this)">
-                    <input type="number" id="in-n2" placeholder="N2" oninput="Util.limit(this)">
+                    <input type="number" id="in-n1" placeholder="WAIT" readonly style="background: rgba(10, 10, 15, 0.9);">
+                    <input type="number" id="in-n2" placeholder="SYNC" readonly style="background: rgba(10, 10, 15, 0.9);">
                 </div>
                 <div id="out-size" class="result-display">--</div>
                 <button class="btn-sleek" id="btnAnalyze" style="width: 100px; padding: 0;" onclick="Engine.analyze()">EXECUTE</button>
@@ -369,9 +369,15 @@
                 try {
                     let res = await fetch(url);
                     let json = await res.json();
-                    if(json && json.data && json.data.list && json.data.list.length > 0) {
+                    if(json && json.data && json.data.list && json.data.list.length > 1) { 
                         let lastIssue = json.data.list[0].IssueNumber || json.data.list[0].issueNumber;
                         let lastNumber = json.data.list[0].Number || json.data.list[0].number;
+
+                        // ⚡ N1 = LATEST RESULT (list[0]), N2 = OLD RESULT (list[1]) ⚡
+                        let num1 = json.data.list[0].Number !== undefined ? json.data.list[0].Number : json.data.list[0].number; 
+                        let num2 = json.data.list[1].Number !== undefined ? json.data.list[1].Number : json.data.list[1].number; 
+                        document.getElementById('in-n1').value = num1;
+                        document.getElementById('in-n2').value = num2;
 
                         if (this.isVvipUser && this.lastPredictedPeriod === String(lastIssue)) {
                             let num = parseInt(lastNumber);
@@ -471,7 +477,30 @@
                 let btn = document.getElementById('btnAnalyze'); let resultBox = document.getElementById('out-size'); let inputGroup = document.getElementById('input-group');
 
                 if(this.state === "IDLE") {
-                    if(!n1.value || !n2.value) return Util.toast("INPUT REQUIRED");
+                    
+                    // ⚡ FORCE API FETCH ON CLICK (In case auto-fetch missed it) ⚡
+                    if(!n1.value || !n2.value) {
+                        btn.innerHTML = '<span class="spinner" style="border-top-color:#fff;"></span>'; 
+                        let url = this.activeMode === '1m' 
+                            ? "https://draw.ar-lottery01.com/WinGo/WinGo_1M/GetHistoryIssuePage.json" 
+                            : "https://draw.ar-lottery01.com/WinGo/WinGo_30S/GetHistoryIssuePage.json";
+                        try {
+                            let res = await fetch(url);
+                            let json = await res.json();
+                            if(json && json.data && json.data.list && json.data.list.length > 1) {
+                                // N1 = LATEST (list[0]), N2 = OLD (list[1])
+                                n1.value = json.data.list[0].Number !== undefined ? json.data.list[0].Number : json.data.list[0].number;
+                                n2.value = json.data.list[1].Number !== undefined ? json.data.list[1].Number : json.data.list[1].number;
+                            }
+                        } catch(e) {
+                            Util.toast("API ERROR");
+                            this.resetUI();
+                            return;
+                        }
+                    }
+
+                    if(!n1.value || !n2.value) return Util.toast("WAITING FOR SYNC...");
+
                     let userSnap = await get(ref(db, 'approved_uids/' + currentUid)); let uData = userSnap.val();
                     let role = uData.role || (uData.is_premium ? 'vip' : 'trial');
                     
@@ -481,7 +510,7 @@
 
                     btn.disabled = true; 
                     btn.innerHTML = '<span class="spinner" style="border-top-color:#fff; width:12px; height:12px; margin-right:4px;"></span> <span style="font-size:11px; letter-spacing:0px;">DECRYPT</span>'; 
-                    n1.readOnly = true; n2.readOnly = true; resultBox.classList.remove('show');
+                    resultBox.classList.remove('show');
                     
                     inputGroup.style.opacity = '0';
                     inputGroup.style.transform = 'translateY(-10px) scale(0.95)';
@@ -563,7 +592,7 @@
             }
             
             static resetUI() {
-                const btn = document.getElementById('btnAnalyze'), n1 = document.getElementById('in-n1'), n2 = document.getElementById('in-n2'), inputGroup = document.getElementById('input-group'), resultBox = document.getElementById('out-size');
+                const btn = document.getElementById('btnAnalyze'), inputGroup = document.getElementById('input-group'), resultBox = document.getElementById('out-size');
                 resultBox.classList.remove('show'); 
                 inputGroup.style.display = 'flex'; 
                 setTimeout(() => { 
@@ -571,7 +600,8 @@
                     inputGroup.style.transform = 'translateY(0) scale(1)'; 
                 }, 50);
                 
-                btn.disabled = false; btn.innerText = "EXECUTE"; btn.style.background = ""; btn.style.color = "#fff"; n1.value = ""; n2.value = ""; n1.readOnly = false; n2.readOnly = false; this.state = "IDLE";
+                // ⚡ Modified: Value empty nahi hoga ⚡
+                btn.disabled = false; btn.innerText = "EXECUTE"; btn.style.background = ""; btn.style.color = "#fff"; this.state = "IDLE";
                 currentPrediction = "";
             }
         };
